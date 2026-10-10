@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<nidocument>
+<nicomment>
+Zuehlke MCP custom error codes (5000-5999). Catalogue with cause and fix: docs/error-codes.md.
+Install: copy this file to the user.lib\errors folder of LabVIEW 2026 and restart LabVIEW.
+</nicomment>
+<nierror code="5000">
+Zuehlke MCP: a parent placeholder method was called; the child class must override it. Inject the intended child class or add the missing override.
+</nierror>
+</nidocument>

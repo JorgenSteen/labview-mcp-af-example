@@ -1,9 +1,9 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-10 16:58 by the manager session (phase 01)
-next phase: 01 packages, step d (cleanup, icon rules, preview; launched 16:59); step e (apply icons) needs the user's approval of the preview
-open items: F3 (library count 13 vs 14) still unanswered, not blocking. Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429) and resumed by SendMessage at 16:22; it finished at 16:32 (report-01b-pc-methods-library.md).
+last updated: 2026-10-10 17:05 by the manager session (phase 01)
+next phase: 01 packages, step e (apply icons): WAITING for the user's approval of reports/icon-preview-01d.png
+open items: the icon preview (reports/icon-preview-01d.png) needs the user's approval once (skill ops/icons.md step 2), with the kit TODO differences named in report-01d item 4; F3 (library count 13 vs 14) still unanswered, not blocking. Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429) and resumed by SendMessage at 16:22; it finished at 16:32 (report-01b-pc-methods-library.md).
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
 
@@ -16,7 +16,7 @@ open items: F3 (library count 13 vs 14) still unanswered, not blocking. Items fo
 | # | phase | state | started | ended | commit | result in one line |
 |---|---|---|---|---|---|---|
 | 00 | setup | done | 2026-10-10 14:40 | 2026-10-10 15:45 | d0ef347 (project), 15b56f9 (.labview) | product skeleton, LabVIEW 2026 Q3 32-bit answers, .labview complete (10 decided rules, configuration off), empty project with six folders, save version 26.0; one LabVIEW crash on the way (F2) |
-| 01 | packages | running | 2026-10-10 15:46 | | 63c4179..0148c39 (01a), a2e395f..c42836d (01b) | 01a-01c done: 3 classes, 24 member VIs exactly as 02 §7.1, library under common, overrides with Call Parent + setType hook, ZM-TST-tests.lvlib + T1 Pass (round 1), sweep 25/25, all 26.0; 01d cleanup+icons running |
+| 01 | packages | running | 2026-10-10 15:46 | | 63c4179..0148c39 (01a), a2e395f..c42836d (01b) | 01a-01c done: 3 classes, 24 member VIs exactly as 02 §7.1, library under common, overrides with Call Parent + setType hook, ZM-TST-tests.lvlib + T1 Pass (round 1), Clean Up Diagram on 25 VIs, icon rules on 02 names, preview generated; 01e (apply icons) waits for the preview approval |
 | 02 | common utilities | todo | | | | |
 | 03 | hardware | todo | | | | |
 | 04 | protocol + file logger | todo | | | | |

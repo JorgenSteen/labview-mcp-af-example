@@ -2,6 +2,7 @@
 *.lvlps
 *.lvlps.bak
 *.aliases
+*.UserState/
 LVAutoSave/
 **/LVAutoSave*/
 .lvcache/

@@ -13,14 +13,13 @@
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
 		<Item Name="actors" Type="Folder"/>
-		<Item Name="common" Type="Folder"/>
+		<Item Name="common" Type="Folder">
+			<Item Name="ZM-PC-packages.lvlib" Type="Library" URL="../common/ZM-PC-packages/ZM-PC-packages.lvlib"/>
+		</Item>
 		<Item Name="hardware" Type="Folder"/>
 		<Item Name="protocol" Type="Folder"/>
 		<Item Name="receiver" Type="Folder"/>
 		<Item Name="tests" Type="Folder"/>
-		<Item Name="ZM-PC-EP-error_package.lvclass" Type="LVClass" URL="../common/ZM-PC-packages/ZM-PC-EP-error_package/ZM-PC-EP-error_package.lvclass"/>
-		<Item Name="ZM-PC-package.lvclass" Type="LVClass" URL="../common/ZM-PC-packages/ZM-PC-package/ZM-PC-package.lvclass"/>
-		<Item Name="ZM-PC-TP-test_package.lvclass" Type="LVClass" URL="../common/ZM-PC-packages/ZM-PC-TP-test_package/ZM-PC-TP-test_package.lvclass"/>
 		<Item Name="Dependencies" Type="Dependencies"/>
 		<Item Name="Build Specifications" Type="Build"/>
 	</Item>

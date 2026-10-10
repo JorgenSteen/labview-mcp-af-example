@@ -1,9 +1,9 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-10 16:05 by the manager session (phase 01)
+last updated: 2026-10-10 16:23 by the manager session (phase 01)
 next phase: 01 packages, step b (launched 16:06)
-open items: F3 (library count 13 vs 14) still unanswered, not blocking. Items for the user in the IDE accumulate in the section below.
+open items: F3 (library count 13 vs 14) still unanswered, not blocking. Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429, reset 16:20) with the EP setType re-add half done (two files modified, uncommitted); the same agent was resumed by SendMessage at 16:22 with the git state.
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
 

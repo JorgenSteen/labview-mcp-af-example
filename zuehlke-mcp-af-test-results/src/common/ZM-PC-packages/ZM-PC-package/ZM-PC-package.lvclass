@@ -74,6 +74,14 @@
 			<Property Name="NI.LibItem.Scope" Type="Int">3</Property>
 		</Item>
 	</Item>
+	<Item Name="ZM-PC-getDataAsJson.vi" Type="VI" URL="../ZM-PC-getDataAsJson.vi">
+		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">4</Property>
+		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+		<Property Name="NI.ClassItem.State" Type="Int">1350574592</Property>
+	</Item>
 	<Item Name="ZM-PC-getDestinationName.vi" Type="VI" URL="../ZM-PC-getDestinationName.vi">
 		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
 		<Property Name="NI.ClassItem.Flags" Type="Int">1</Property>

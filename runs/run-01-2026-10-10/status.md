@@ -1,8 +1,8 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-10 22:47 by the manager session (phase 04)
-next phase: 04 protocol + file logger, step c (cleanup, icons, sweep; launched 22:48)
+last updated: 2026-10-10 23:00 by the manager session (phase 05)
+next phase: 05 UDP + multi protocol, step a (the UDP sender and receiver; launched 23:01)
 open items: F3 (library count 13 vs 14) still unanswered, not blocking. 03b was cut off by the user's usage limit at about 18:45 (HTTP 429) and resumed at 21:55; it finished at 22:02 (report-03b-hw-sim-test.md). Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429) and resumed by SendMessage at 16:22; it finished at 16:32 (report-01b-pc-methods-library.md).
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
@@ -19,8 +19,8 @@ open items: F3 (library count 13 vs 14) still unanswered, not blocking. 03b was 
 | 01 | packages | done | 2026-10-10 15:46 | 2026-10-10 17:58 | 63c4179..e8790ac (five steps, 50 commits) | 3 classes, 5 typedefs, 24 member VIs exactly as 02 §7.1, ZM-PC-packages.lvlib under common, ZM-TST-tests.lvlib + T1 Pass, Clean Up Diagram, icons applied and read back 0 px, sweep 25/25, no AF or ZM link, all 26.0; left for the user in the IDE: class descriptions, .ctl membership, Methods/TypeDefs folders (D38) |
 | 02 | common utilities | done | 2026-10-10 18:03 | 2026-10-10 18:19 | e2ef456..146b6cd (two steps, 7 commits) | ZM-CU-log.vi in ZM-CU-common_utilities.lvlib under common, ZM-TST-log.vi, T2 Pass, cleanup, icons read back 0 px, sweep 3/3, no ZM/AF link, all 26.0; nothing left for the IDE (no class) |
 | 03 | hardware | done | 2026-10-10 18:25 | 2026-10-10 22:13 | de2f81c..8b596f2 (three steps, 17 commits) | parent + SIM in two libraries under hardware, do placeholder 5000 with FreeLabel, SIM do override, T3 Pass, cleanup, icons read back 0 px, sweep 9/9, no AF/CU/CP link, all 26.0; for the IDE: 2 class descriptions, Methods folders (D38) |
-| 04 | protocol + file logger | running | 2026-10-10 22:17 | | 72828e3..6a0bf68 (04a), ae2e59a..09a4fc9 (04b) | 04a, 04b done: parent + FL in two libraries under protocol, init override hooks createFolder after Call Parent (parent-typed hook with an internal cast: measured), publish override, T4 Pass with six checks (mx_placeholder_ok deferred to phase 05), sweep 15/15; 04c running |
-| 05 | UDP + multi protocol | todo | | | | |
+| 04 | protocol + file logger | done | 2026-10-10 22:17 | 2026-10-10 22:56 | 72828e3..6936679 (three steps, 23 commits) | parent + FL in two libraries under protocol, publish placeholder 5000 with FreeLabel, init override + createFolder hook, publish override, T4 Pass (six checks; the MX check comes in 05), cleanup, icons read back 0 px, sweep 15/15, no AF/CU/HW link, all 26.0; for the IDE: 2 class descriptions, Methods folders |
+| 05 | UDP + multi protocol | running | 2026-10-10 23:01 | | | step a (UDP sender + receiver classes, hooks, overrides, receive, one library) running |
 | 06 | pipeline test | todo | | | | |
 | 07 | interface + message | todo | | | | |
 | 08 | CM actor | todo | | | | |

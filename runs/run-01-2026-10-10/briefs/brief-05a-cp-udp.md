@@ -5,7 +5,18 @@ Type: build (LabVIEW calls). Phase 05 step a of 4 (b: the MX class and library; 
 - Reports to read first: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-04b-cp-fl-test.md`
   (a CP child with an `init` override + hook after Call Parent, a `publish` override with its own body, the library
   route), `report-04c-cp-cleanup-icons-sweep.md` (the state of the tree), `report-01b-pc-methods-library.md` (trap T1).
-  <<MANAGER: traps from reports 04b/04c go here before launch>>
+- Phase 04 closed 22:56 (reports 04a-04c). Facts that carry over: the hook typing (below, measured); the override
+  creation route (`lvai_create_override`, project active, `viNameInMemory` library-qualified; commit the bare
+  override; then `pa_insert_series2`, `pa_save_member` in a separate call; export to confirm); a pure function
+  member with no class terminal goes through `lvai_generate_vi` + `lvproj_add_toplevel.py` (URL relative to
+  `src\`) + the cached `lvai_add_one_to_library.vi` on the `.lvclass` + `set_scope.py` (not needed here: every UDP
+  member has class terminals); `lvai_add_class_method` converts with the project closed (stubs for the parent's
+  accessors and for `getDataAsJson`, swapped afterwards; `validateFirst: false` when a cast sits on a path
+  stand-in); the library helper `zm_create_class_library.vi` is cached (one class per run: run it for the sender,
+  then add the receiver class to the existing library with `lvai_add_to_library`, or derive a two-class helper;
+  report which); after the close always `lvproj_drop.py` then `lvproj_move.py`; `lvai_create_class` strips the
+  `.lvproj` BOM (restored by the next close). Field defaults: `lvai_create_class` takes plain types; whether it
+  takes a default value is for its description to say; if not, the route in step A applies.
 - Save version **26.0**. User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself
   when it crashes or stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported.
   Never answer a dialog. D38: class descriptions, `.ctl` membership and `Methods` placement are the user's (list

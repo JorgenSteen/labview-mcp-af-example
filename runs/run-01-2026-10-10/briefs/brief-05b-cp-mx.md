@@ -57,7 +57,8 @@ back with `Replace Array Subset`, so stopping on an error never shortens it. No 
    `feat(cp): class ZM-CP-MX-multi_protocol with field protocols bound to ZM-CP-MX-PROTOCOLS`.
 3. **Accessors** (static): `Read protocols` private, `Write protocols` PUBLIC (`set_scope.py`, project closed);
    the value terminal is named after the `.ctl` (`ZM-CP-MX-PROTOCOLS`). Commit.
-4. **Hooks** (static, private, class terminals typed per 05a's measurement for hooks that use CHILD accessors):
+4. **Hooks** (static, private; class terminals typed as the PARENT with an internal `To More Specific Class` to the
+   MX class before `Read protocols`/`Write protocols`, the parent wire returned: measured in 04b, see report-04b item 3):
    | VI | body |
    |---|---|
    | `ZM-CP-MX-initAll.vi` | `Read protocols` → For loop over the array with a shift register on the array and one on the error: at index i, `Index Array` → `ZM-CP-init` (dynamic call on the element's `ZM-CP-communication_protocol` wire) → `Replace Array Subset` back at i; the loop stops on error (conditional terminal from the error status); after the loop `Write protocols` (the array from the shift register, never shortened) → `error out` |

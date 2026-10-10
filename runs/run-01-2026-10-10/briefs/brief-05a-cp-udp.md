@@ -53,19 +53,20 @@ adapted to a value change; never by hand). Accessors (static): `Read remoteAddre
 `Read connection`, `Write connection`, all private; NO `Write remoteAddress`/`Write remotePort` (D34).
 | VI | kind, scope | body |
 |---|---|---|
-| `ZM-CP-UDP-openSender.vi` | HOOK, priv; class terminals typed PARENT (T1) | `UDP Open` (local port 0) → `Write connection` (the class wire is the parent type on the pane; cast To More Specific Class is NOT allowed per T1, so the hook writes through... NOTE: `Write connection` is a SENDER accessor and needs the sender type: see the T1 note below) |
+| `ZM-CP-UDP-openSender.vi` | HOOK, priv; class terminals typed PARENT, cast inside (see "Hook typing" below) | `UDP Open` (local port 0) → `Write connection` on the cast wire; the parent wire goes straight to the output |
 | `ZM-CP-init.vi` | OVR, pub | `lvai_create_override` (Call Parent) → hook `openSender` after Call Parent, shape B-after |
 | `ZM-CP-publish.vi` | OVR, pub, own body (parent's pane) | `getDataAsJson(package)` → `String To IP(Read remoteAddress)`, `Read remotePort` → `UDP Write(Read connection, address, port, data)` → clear codes 66 and 56 (Unbundle code → Equal? 66 OR Equal? 56 → Select no-error) → `error out`; any other error passes |
 | `ZM-CP-UDP-closeConnection.vi` | HOOK, priv | `Read connection` → `UDP Close` |
 | `ZM-CP-close.vi` | OVR, pub | hook `closeConnection` BEFORE Call Parent, shape B (`pa_insert_series2`, class block A on `<C> in`, error block B on `error in`) |
-**T1 note for the hooks (unmeasured here, measured in 01b for a CHILD accessor call):** a hook after Call Parent
-must carry the parent type on its pane, but `Write connection`/`Read connection` are sender members that take the
-sender type. 01b's `setType` hooks called `Write type`, a PARENT accessor, so it did not face this. Route to try
-first: make `openSender` with the parent type on its pane and inside it `To More Specific Class` (target: a
-sender constant) before `Write connection`, then back to the parent wire for the output; prove cold state 1 of the
-override and of a caller after hooking. If the override reads 0, try the hook with the sender type in/out (the
-01b failure mode was the child type on the hook pane; measure it again here since the body differs) and report
-which worked, with exec states, as the measured answer for `closeConnection` and for 05b's MX hooks.
+**Hook typing, MEASURED in 04b (`createFolder`):** a hook placed after or before Call Parent keeps the PARENT type
+on its pane (`ZM-CP-communication_protocol in`/`out`, the class wire straight through) and casts INSIDE with
+`To More Specific Class` (target: a constant of the child class) before the child's private accessors; the cast
+result is not returned (the parent wire is). Cold state 1 for the hook, the override and every caller. Do the
+same for `openSender`, `closeConnection`, `openReceiver`. `pa_insert_series2` inputs for B-after on a child
+override: `panel name A` = `<Child> out`, `hook in A` = `<Parent> out`, `hook out A` = `<Parent> in`, block B
+`error out` / `error out` / `error in (no error)`; for shape B (before Call Parent): `panel name A` = `<Child> in`,
+`hook in A` = `<Parent> in`, `hook out A` = `<Parent> out`, block B `error in (no error)` / `error in (no error)` /
+`error out` (the hook's own terminal names; read them with `lvai_vi_terminals`).
 **B. `ZM-CP-UDP-receiver.lvclass`** (parent the same). Fields: `localPort` U16 default 61557; `connection` (as above).
 Accessors (static): `Read localPort` priv, `Write localPort` PUBLIC, `Read connection`/`Write connection` priv.
 | VI | kind, scope | body |

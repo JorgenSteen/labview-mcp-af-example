@@ -77,8 +77,9 @@ The full statement is `requirements/01-requirements.md`. The inventory of every 
     assets/                            error-code file, error catalogue, JSONL viewer, reference icons
     ZM-requirements-export.zip         the archive these files came from
   orchestration/                       how the build is run
-    plan.md                            the two zones, the phase list, the rules every phase follows
+    plan.md                            the two zones, the phase list, the rules, models and effort
     phases/NN-<name>.md                one card per phase: goal, what to read, what to build, done when
+    smoke-test.md                      a short run to prove the basics, and how to revert it
     status-template.md                 the per-run status file the manager keeps up to date
   runs/                                one folder per build attempt: status, briefs, reports, cost
     README.md                          the run log and how it is kept
@@ -110,8 +111,15 @@ the paths in it for briefs, status and reports point up into `runs/<run>/`.
 | The `labview` skill | https://github.com/JorgenSteen/labview-mcp-skills, linked as `%USERPROFILE%\.claude\skills\labview` (see its README) |
 | git | needed from phase 00: the skill treats git as the only undo |
 
-Use a strong model as the manager (the setup was made with Fable 5.1). The manager runs many long
-subagents and must keep track of briefs, reports and traps across sessions.
+**Models.** The manager and the agents can run on different models. Run the manager on the
+strongest model available (the setup was made with Fable 5.1); it must keep briefs, reports and
+traps straight across sessions. The agents inherit the manager's model unless you say otherwise
+when the manager asks at the start. The first run should use the strongest model everywhere, so a
+failure points at the toolchain and not at the model. Later runs can put the agents on a cheaper
+model such as Opus and compare the cost log. Details: `orchestration/plan.md`, "Models and effort".
+
+**Before a real run**, do the smoke test in `orchestration/smoke-test.md`: it proves the manager,
+the brief, one agent launch and the revert, in minutes, and leaves nothing behind.
 
 ---
 

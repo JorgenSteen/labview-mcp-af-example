@@ -35,6 +35,13 @@ Fill one row per run when it closes. "Result" is one of: `accepted` (every check
 
 ## Cost
 
-`cost.md` in each run holds a table with one row per phase: start, end, wall-clock minutes, the
-token figure the manager could see, and the figure from `/cost` if the user pasted it. Where a
-number is not known, the cell says `not visible`. Nothing in this folder is an estimate.
+`cost.md` in each run holds a table with one row per agent launch:
+
+| phase | step | agent type | model | effort | start | end | minutes | tokens seen | notes |
+|---|---|---|---|---|---|---|---|---|---|
+
+The manager's own model and effort are stated once at the top. The `/cost` output the user pastes
+goes at the bottom, per session. Where a number is not known, the cell says `not visible`. Nothing
+in this folder is an estimate. The model column is what makes two runs comparable: the first run
+proves the route on the strongest model, later runs measure cheaper ones
+(`orchestration/plan.md`, "Models and effort").

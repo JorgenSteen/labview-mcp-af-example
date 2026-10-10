@@ -101,6 +101,27 @@ The manager chooses. These are the fits:
 | icons, cleanup, sweep, run checks | a general-purpose agent following `ops/icons.md`, `ops/cleanup.md`, `ops/sweep.md`, `ops/run-checks.md` | |
 | the session's end | a general-purpose agent following `session/close.md`, or the manager itself (no LabVIEW call needed for most of it) | |
 
+## Models and effort
+
+The manager and the agents need not run on the same model. Each agent launch takes a `model`
+override, and that is the knob for the cost of a run.
+
+| role | first run (prove the route) | later runs (measure a cheaper model) |
+|---|---|---|
+| manager (this session) | the strongest model available (Fable 5.1 at the time of writing) | the same; the manager is a small share of the tokens |
+| agents, phases 00–07 and 11–13 (classes, plain VIs, tests, sweeps) | inherit the manager's model | `opus` |
+| agents, phases 08–10 (actors, helper loops) | inherit the manager's model | `opus` first; if a phase fails twice, rerun it on the manager's model and record both |
+| effort | high | high; xhigh only for a phase that failed twice, noted in `cost.md` |
+
+Rules:
+- The model and effort of **every** agent launch go into `runs/<run>/cost.md` next to its tokens,
+  so runs can be compared. "Inherited" is written out as the model's name.
+- A run uses one model per role throughout unless a phase is rerun; a rerun on another model is
+  its own row in `cost.md`.
+- labview-mcp's own agents (class-generator, vi-generator, vi-editor, doc-generator) have a model
+  in their definition; a `model` override on the launch still wins. Say which was used.
+- Fast mode is not used for a run.
+
 ## Stop conditions
 
 See `CLAUDE.md`. In short: a question from an agent, a failed done-when after one follow-up, a

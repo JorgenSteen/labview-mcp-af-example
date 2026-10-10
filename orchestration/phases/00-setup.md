@@ -79,6 +79,9 @@ folders opens, and the run folder exists.
 
 ## Notes
 
+- **Untested placement.** The skill expects `.labview/` at the git root; here it sits one level
+  below, inside the product folder. If the skill's setup refuses that, or writes `.labview/` at the
+  repo root instead, stop and report it as the first finding; do not move files by hand.
 - Opening a project writes it (`.lvproj` and `.lvlps`); that is why `.lvlps` is git-ignored.
 - The skill's setup normally asks the user per concern; the brief carries the answers above and
   tells the agent to ask nothing it has an answer for.

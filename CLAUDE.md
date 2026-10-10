@@ -9,7 +9,12 @@ The repository has two zones. The **harness** is everything at the root: this fi
 it does not exist until phase 00 creates it, every agent writes only inside it, and deleting it
 resets the test. The skill's `.labview/` lives inside the product folder.
 
-Read `README.md` once if you have not. Then follow this file.
+Read `README.md` once if you have not. Then follow this file. Everything you need is in this
+repository; do not depend on memory from earlier sessions or on files outside it, other than the
+`labview` skill and the `labview-mcp` plugin named in the README.
+
+If the user asks for a **smoke test** or a **dry run**, follow `orchestration/smoke-test.md`
+instead of starting a real run.
 
 ## On every start
 
@@ -18,7 +23,9 @@ Read `README.md` once if you have not. Then follow this file.
    `status.md`. If there is no run, the next step is to create one and start at phase 00.
 3. Tell the user, in a few lines: which run, which phase is done, which phase is next, anything the
    last session left open (a question, a failed check, a pending go-ahead).
-4. Ask **once** whether to go on. Do not start a phase before the user says yes.
+4. Ask **once** whether to go on, and in the same question which model the agents should run on
+   (`orchestration/plan.md`, "Models and effort"; the default is to inherit yours). Do not start a
+   phase before the user says yes.
 5. Then run phases in order until a stop condition (below), without asking again between phases.
 
 ## Running one phase
@@ -69,7 +76,10 @@ Read `README.md` once if you have not. Then follow this file.
   absolute path. The manager checks `git status` after each phase for anything outside it.
 - **Do not rename or invent anything.** `02-specification.md` is the source of truth for every name.
   Where `01` and `02` disagree, `02` wins. Where something is ambiguous, ask.
-- **Commit before every structural step.** Git is the only undo. Commit by explicit paths.
+- **Commit before every structural step.** Git is the only undo. Commit by explicit paths, with
+  Conventional Commits messages and **no AI attribution trailer** of any kind.
+- **Never push.** The user pushes. Do not offer to.
+- **Record the model and effort of every agent launch** in `runs/<run>/cost.md`.
 - **Record cost.** Note the start and end time of every phase in `status.md`. For tokens, record
   what the harness shows you; if you cannot see a figure, write "not visible" rather than a guess,
   and ask the user to run `/cost` at the end of the session and paste it.
@@ -91,3 +101,5 @@ Read `README.md` once if you have not. Then follow this file.
 | End of session | `<skill>/session/close.md` |
 | Project facts once phase 00 has run | `zuehlke-mcp-af-test-results/.labview/project.json` |
 | Resetting the test | `README.md`, "Resetting" |
+| Smoke test before a real run, and how to revert it | `orchestration/smoke-test.md` |
+| Which model and effort the agents run on | `orchestration/plan.md`, "Models and effort" |

@@ -1,9 +1,9 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-10 15:45 by the manager session (phase 01)
-next phase: 01 packages (step a launched 15:46)
-open items: none blocking. Two things for the user when convenient: (1) finding F3, the library count in 02 §10 / README (14) vs the spec tables (13); (2) virtual folders inside classes (`Accessors` is made by the accessor tool; `Methods`, `TypeDefs`, `Helpers` have no tool: an agent will report what it could not place, and the user may drag items in the Project Explorer)
+last updated: 2026-10-10 15:55 by the manager session (phase 01)
+next phase: 01 packages, step b (01a done; waiting for the user's answer on things no tool does)
+open items: a question for the user (relayed 15:55): 01a returned NEEDS CLARIFICATION on the three class descriptions (no tool sets NI.Lib.Description); the same kind of gap: `.ctl` typedefs are not class members (no tool adds a .ctl to a class), and `Methods`/`TypeDefs` virtual folders have no tool. Options: the user does them in the IDE, or allows a byte-exact script outside the kit, or accepts them as deviations. Also F3 (library count 13 vs 14).
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
 
@@ -16,7 +16,7 @@ open items: none blocking. Two things for the user when convenient: (1) finding 
 | # | phase | state | started | ended | commit | result in one line |
 |---|---|---|---|---|---|---|
 | 00 | setup | done | 2026-10-10 14:40 | 2026-10-10 15:45 | d0ef347 (project), 15b56f9 (.labview) | product skeleton, LabVIEW 2026 Q3 32-bit answers, .labview complete (10 decided rules, configuration off), empty project with six folders, save version 26.0; one LabVIEW crash on the way (F2) |
-| 01 | packages | todo | | | | |
+| 01 | packages | running | 2026-10-10 15:46 | | 63c4179..0148c39 (01a) | 01a done: 3 classes, 5 typedefs bound, 10 static accessors with scopes, sweep 10/10, all 26.0; class descriptions and .ctl membership open (no tool) |
 | 02 | common utilities | todo | | | | |
 | 03 | hardware | todo | | | | |
 | 04 | protocol + file logger | todo | | | | |
@@ -57,6 +57,11 @@ state: todo | running | done | failed | skipped (say why in the result column)
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
 
+- No labview-mcp tool sets a class description (`NI.Lib.Description`); no tool adds a `.ctl` to a class; no tool
+  places a member in a `Methods`/`TypeDefs` virtual folder. The accessor tool's `virtualFolderName` does create
+  `Accessors`. `lvai_create_class` with `typedefFieldsJson` and `projectPath` binds at creation (`boundInFile` true) and
+  closes the project itself; a child created with `parentClassPath` did NOT add a duplicate parent entry to the
+  `.lvproj` on labview-mcp 1.9.5 (report-01a-pc-classes.md, items 2, 6, 8).
 - `icon-spec.json` (`.labview/conventions/`) carries the pilot's `rules` patterns in snake_case (`get_data_as_json`,
   ...) and an empty `planned`; the icons step of each phase must revisit the patterns for the camelCase names of `02`
   before generating (report-00a-conventions.md, item 6).

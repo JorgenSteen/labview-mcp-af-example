@@ -21,12 +21,13 @@
 			<Item Name="ZM-HW-hardware.lvlib" Type="Library" URL="../hardware/ZM-HW-hardware/ZM-HW-hardware.lvlib"/>
 			<Item Name="ZM-HW-SIM-simulated_hardware.lvlib" Type="Library" URL="../hardware/ZM-HW-SIM-simulated_hardware/ZM-HW-SIM-simulated_hardware.lvlib"/>
 		</Item>
-		<Item Name="protocol" Type="Folder"/>
+		<Item Name="protocol" Type="Folder">
+			<Item Name="ZM-CP-communication_protocol.lvlib" Type="Library" URL="../protocol/ZM-CP-communication_protocol/ZM-CP-communication_protocol.lvlib"/>
+		</Item>
 		<Item Name="receiver" Type="Folder"/>
 		<Item Name="tests" Type="Folder">
 			<Item Name="ZM-TST-tests.lvlib" Type="Library" URL="../tests/ZM-TST-tests.lvlib"/>
 		</Item>
-		<Item Name="ZM-CP-communication_protocol.lvclass" Type="LVClass" URL="../protocol/ZM-CP-communication_protocol/ZM-CP-communication_protocol/ZM-CP-communication_protocol.lvclass"/>
 		<Item Name="Dependencies" Type="Dependencies"/>
 		<Item Name="Build Specifications" Type="Build"/>
 	</Item>

@@ -125,17 +125,35 @@ the brief, one agent launch and the revert, in minutes, and leaves nothing behin
 
 ## How to run it
 
-1. Open a terminal in this folder and start `claude`.
-2. The manager reads `CLAUDE.md`, `orchestration/plan.md` and `runs/`. It tells you which run is
-   current, which phase is next, and asks you once whether to go on.
-3. Say yes. The manager writes a brief for the phase, saves it under `runs/<run>/briefs/`, launches
-   one subagent, and waits. You can watch, or leave it.
-4. When the agent reports, the manager verifies the result from the files (no LabVIEW call),
+1. Tag the clean state first, so a failed start can be put back with one command:
+   `git tag pre-run-01`.
+2. Open a terminal in this folder and start `claude` on the strongest model, effort high.
+3. Paste this as the first message:
+
+   ```
+   Start run-01. Agents inherit your model. Effort is high. I push myself.
+   Answer no for me to the user.lib go-ahead in phase 00.
+   ```
+
+   The first line answers the questions the manager would otherwise ask. The second keeps the
+   run inside the repository; drop it if you want *Explain Error* to know code 5000.
+
+   To only prove the basics first, use instead:
+
+   ```
+   Smoke test, level 2. Follow orchestration/smoke-test.md. I tagged pre-smoke.
+   Agents inherit your model. Effort is high. Report what you did and stop.
+   ```
+
+4. The manager reads `CLAUDE.md`, `orchestration/plan.md` and `runs/`. It tells you which run is
+   current and which phase is next, then writes a brief for the phase, saves it under
+   `runs/<run>/briefs/`, launches one subagent, and waits. You can watch, or leave it.
+5. When the agent reports, the manager verifies the result from the files (no LabVIEW call),
    commits, updates `runs/<run>/status.md`, and starts the next phase.
-5. It stops for: a question from an agent, a failed phase, a go-ahead it needs from you (restarting
+6. It stops for: a question from an agent, a failed phase, a go-ahead it needs from you (restarting
    LabVIEW, writing outside this folder), or the end of the plan.
-6. To pause, stop the session. To resume, start `claude` again: the status file says where to
-   continue.
+7. To pause, stop the session. To resume, start `claude` again and say `Continue run-01.` The
+   status file says where to pick up.
 
 The phases, in order (details in `orchestration/plan.md`):
 

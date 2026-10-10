@@ -1,9 +1,9 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-10 18:32 by the manager session (phase 03)
+last updated: 2026-10-10 21:55 by the manager session (phase 03)
 next phase: 03 hardware, step b (the SIM child and T3; launched 18:33)
-open items: F3 (library count 13 vs 14) still unanswered, not blocking. Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429) and resumed by SendMessage at 16:22; it finished at 16:32 (report-01b-pc-methods-library.md).
+open items: F3 (library count 13 vs 14) still unanswered, not blocking. 03b was cut off by the user's usage limit at about 18:45 (HTTP 429, reset 21:20) with the project open in LabVIEW, three commits in (class, randomData, membership), before the library helper; the same agent was resumed by SendMessage at 21:55 with the git state. Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429) and resumed by SendMessage at 16:22; it finished at 16:32 (report-01b-pc-methods-library.md).
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
 

@@ -1,0 +1,23 @@
+# Line endings: LF in the repository and in the working tree, for every text file.
+* text=auto eol=lf
+
+# LabVIEW binary formats: never diff, merge or convert line endings.
+*.vi      binary
+*.vim     binary
+*.vit     binary
+*.ctl     binary
+*.ctt     binary
+*.llb     binary
+*.lvlibp  binary
+*.rtm     binary
+*.lvbitx  binary
+
+# LabVIEW XML formats are text. LabVIEW reads LF and CRLF alike.
+*.lvproj  text
+*.lvlib   text
+*.lvclass text
+*.xml     text
+
+# Other binaries in this repository.
+*.png     binary
+*.zip     binary

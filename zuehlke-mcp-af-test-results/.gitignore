@@ -1,0 +1,23 @@
+# LabVIEW per-user and per-machine files
+*.lvlps
+*.lvlps.bak
+*.aliases
+LVAutoSave/
+**/LVAutoSave*/
+.lvcache/
+
+# LabVIEW build output and packed libraries
+builds/
+*.lvlibp
+*.exe
+*.dll
+
+# OS noise
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Run-time output (JSONL files, error log) and throwaway measurements
+output/*
+!output/.gitkeep
+proof/

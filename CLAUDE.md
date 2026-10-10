@@ -52,6 +52,14 @@ by saying so in the start message; record such a change in `status.md` with the 
   manager collects them in `status.md` under "For the user in the IDE"; the user does them at the end of a
   phase or before phase 12. No agent asks about it and no agent edits a `.lvclass` by hand for it. Decided by
   the user in run-01 (2026-10-10, option 1 of three), recorded in the product's `decisions.md` as D38.
+- **The icon preview is approved in advance, as the skill's generator draws it today.** The skill's
+  `ops/icons.md` asks the user to approve `preview.png` once per project. The user approved it for this
+  harness on 2026-10-10 with the generator's known differences from the convention (white 3x5 banner text
+  instead of black Small Fonts; the library glyph at the left of the body instead of a class glyph at the
+  right). The manager does not ask; it records the approval with the date in `status.md`, the icon agent
+  applies the icons, and the deviation from `icons.banner`/`icons.class-glyph` is listed once in the run's
+  deviations. A later spec change (colours, glyphs) still needs no prompt. Recorded in the product's
+  `decisions.md` as D39.
 
 ## Running one phase
 

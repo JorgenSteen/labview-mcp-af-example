@@ -54,7 +54,8 @@ side by side. The phase's **done when** applies to the whole phase.
 4. Clean Up Diagram on every VI the phase generated, as the last thing done to that VI
    (`hygiene.cleanup-diagram`; a later regeneration discards it).
 5. Icons for the phase's classes, VIs and library (`icons.*`; the skill's `ops/icons.md`). The look
-   follows the skill's reference, not `requirements/assets/icons/preview.png`.
+   follows the skill's reference, not `requirements/assets/icons/preview.png`. The preview approval the
+   op asks for is given in advance (`CLAUDE.md`, "The icon preview is approved in advance"); no prompt.
    Virtual folders `Methods`, `Helpers`, `TypeDefs` and `.ctl` membership in a class: the same rule, the user
    places them in the IDE; the agent lists what it could not place.
 6. A cold check: every VI of the phase runnable with the project closed (`ops/sweep.md`, scoped to

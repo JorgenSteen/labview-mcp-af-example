@@ -5,7 +5,16 @@ Type: build (LabVIEW calls). Phase 04 step c of 3 (last step of the phase).
 - Reports to read: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-04a-cp-parent.md`,
   `report-04b-cp-fl-test.md` (what exists, the sweep baseline), `report-03c-hw-cleanup-icons-sweep.md` (the measured
   cleanup and icon routes on this station for a parent + child pair; your report blocks follow its).
-  <<MANAGER: the file list and traps from reports 04a/04b go here before launch>>
+- The phase's VIs (12): `src\protocol\ZM-CP-communication_protocol\ZM-CP-communication_protocol\` `Write opened.vi`,
+  `ZM-CP-init.vi`, `ZM-CP-publish.vi`, `ZM-CP-close.vi`; `src\protocol\ZM-CP-FL-file_logger\ZM-CP-FL-file_logger\`
+  `Read outputFolder.vi`, `Write outputFolder.vi`, `ZM-CP-FL-createFolder.vi`, `ZM-CP-FL-buildPath.vi`,
+  `ZM-CP-FL-appendLine.vi`, `ZM-CP-init.vi`, `ZM-CP-publish.vi`; `src\tests\ZM-TST-protocol.vi` (diagram 4144x837, a
+  38-stage chain: clean it, report its size before and after). Sweep baseline 15/15
+  (`proof\ZMP-04b\ZMP-04b-sweep-final.txt`). AIXML sources with descriptions: `proof\ZMP-04a\`, `proof\ZMP-04b\`. The
+  parent's `ZM-CP-publish.vi` carries the `FreeLabel` `#customerror 5000` (export `proof\ZMP-04a\export-ZM-CP-publish.xml`):
+  export again after the cleanup and confirm. Items for the user in the IDE from 04a/04b: both class descriptions
+  (texts in report-04a item 7 and report-04b item 8), the `Methods` folders (init/publish/close in the parent; init,
+  publish, createFolder, buildPath, appendLine in the FL).
 - Save version **26.0**; LabVIEW 2026 Q3 32-bit, so a save with no project open writes the same version.
 - User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself when it crashes or
   stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported. Never answer a dialog.

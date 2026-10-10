@@ -1,0 +1,41 @@
+run-checks evidence, session 04b (brief-04b-cp-fl-test), 2026-10-10 22:41 local
+LabVIEW 2026 Q3 32-bit (PID 14040, port 59552, up ~26200 s at the run), labview-mcp 1.9.5-local.20261010-1430 (f9ee41d9)
+project state: closed (no active project)
+git before the run: clean at 09a4fc9 (test(cp): ZM-TST-protocol.vi (T4 without mx_placeholder_ok) in ZM-TST-tests.lvlib)
+entries run: ZM-TST-protocol only (the entry of this step)
+
+checks named  tests 1/1 pass  runs 0/0  project closed  calls 1 (run)  <1 min
+
+[ZM-TST-protocol]  kind vi  path src/tests/ZM-TST-protocol.vi  inputs {}  timeout 120 s  includeRawXml false
+  step 2 loadability: lv_loadability.py --vilib "LabVIEW 2026\vi.lib": targets 1: loadable 1, unresolved 0 (55 files read)
+  step 2 returns: vi_nets.py: no Loop/Structure/Event/Sequence -> returns true
+  cold lvai_exec_state before the run (after library membership): 1 (eIdle), code 0
+  run: lvai_run_vi_and_read_values errorCode 0, helperErrorCode 0, helperFailed false, elapsed 113 ms, valueCount 8
+  readings:
+    init_ok         1 (true)
+    files_ok        1 (true)
+    lines_ok        1 (true)
+    append_ok       1 (true)
+    placeholder_ok  1 (true)
+    close_ok        1 (true)
+    Pass            1 (true)
+    error out       status 0, code 0, source ""
+  verdict: ZM-TST-protocol  PASS  Pass=T  error 0   (round 1, no fix; no FL, parent (04a) or ZM-PC VI at fault)
+  T4 built WITHOUT mx_placeholder_ok (phase 05 adds it): Pass = AND of the six above.
+
+temp folder used: output/test_fl_49249178 (git-ignored), files after the run:
+  TestPackage.jsonl   549 bytes, 3 LF (2 publishes + 1 appended), every line type TestPackage
+  Undefined.jsonl      84 bytes, 1 LF, type Undefined (bare ZM-PC-package after ZM-PC-init)
+  ErrorPackage.jsonl  133 bytes, 1 LF, type ErrorPackage, data {sender HWM, code 5000, source x}
+  TestPackage.jsonl line 1: {"timestamp":"2026-10-10T20:41:24.555Z","type":"TestPackage","destination":"Unknown","data":{"temperature_c":23.5,"sample_index":42,"duty_percent":50,"sensor_ok":true,"status":"ok"}}
+  Undefined.jsonl line 1:   {"timestamp":"2026-10-10T20:41:24.562Z","type":"Undefined","destination":"Unknown"}
+  ErrorPackage.jsonl line 1: {"timestamp":"2026-10-10T20:41:24.563Z","type":"ErrorPackage","destination":"Root","data":{"sender":"HWM","code":5000,"source":"x"}}
+
+notes:
+  - init_ok = init no error AND a second Create Folder on the temp folder answers code 10 (own error chain)
+  - files_ok/append_ok: file read whole, LF counted by Search and Replace String (replace all); lines_ok: Read from Text File in
+    read-lines mode (count -1) -> Index Array -> Unflatten From JSON (TP type / header type / EP type) -> type key = file name
+  - placeholder_ok = bare ZM-CP-communication_protocol publish code 5000 (own chain, not wired to error out)
+  - panel: 6 informational Booleans + Pass + error out; read_only in checks.json is Pass, error out
+failures: none
+evidence: this file (proof/ is git-ignored by the product .gitignore; readings repeated in report-04b)

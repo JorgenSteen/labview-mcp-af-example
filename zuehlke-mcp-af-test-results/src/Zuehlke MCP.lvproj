@@ -26,6 +26,7 @@
 			<Item Name="ZM-TST-tests.lvlib" Type="Library" URL="../tests/ZM-TST-tests.lvlib"/>
 		</Item>
 		<Item Name="ZM-HW-SIM-simulated_hardware.lvclass" Type="LVClass" URL="../hardware/ZM-HW-SIM-simulated_hardware/ZM-HW-SIM-simulated_hardware/ZM-HW-SIM-simulated_hardware.lvclass"/>
+		<Item Name="ZM-HW-SIM-randomData.vi" Type="VI" URL="../hardware/ZM-HW-SIM-simulated_hardware/ZM-HW-SIM-simulated_hardware/ZM-HW-SIM-randomData.vi"/>
 		<Item Name="Dependencies" Type="Dependencies"/>
 		<Item Name="Build Specifications" Type="Build"/>
 	</Item>

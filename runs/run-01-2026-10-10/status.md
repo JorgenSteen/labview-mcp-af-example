@@ -1,8 +1,8 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-10 22:06 by the manager session (phase 03)
-next phase: 03 hardware, step c (cleanup, icons, sweep; launched 22:07)
+last updated: 2026-10-10 22:16 by the manager session (phase 04)
+next phase: 04 protocol + file logger, step a (the parent; launched 22:17)
 open items: F3 (library count 13 vs 14) still unanswered, not blocking. 03b was cut off by the user's usage limit at about 18:45 (HTTP 429) and resumed at 21:55; it finished at 22:02 (report-03b-hw-sim-test.md). Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429) and resumed by SendMessage at 16:22; it finished at 16:32 (report-01b-pc-methods-library.md).
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
@@ -18,8 +18,8 @@ open items: F3 (library count 13 vs 14) still unanswered, not blocking. 03b was 
 | 00 | setup | done | 2026-10-10 14:40 | 2026-10-10 15:45 | d0ef347 (project), 15b56f9 (.labview) | product skeleton, LabVIEW 2026 Q3 32-bit answers, .labview complete (10 decided rules, configuration off), empty project with six folders, save version 26.0; one LabVIEW crash on the way (F2) |
 | 01 | packages | done | 2026-10-10 15:46 | 2026-10-10 17:58 | 63c4179..e8790ac (five steps, 50 commits) | 3 classes, 5 typedefs, 24 member VIs exactly as 02 §7.1, ZM-PC-packages.lvlib under common, ZM-TST-tests.lvlib + T1 Pass, Clean Up Diagram, icons applied and read back 0 px, sweep 25/25, no AF or ZM link, all 26.0; left for the user in the IDE: class descriptions, .ctl membership, Methods/TypeDefs folders (D38) |
 | 02 | common utilities | done | 2026-10-10 18:03 | 2026-10-10 18:19 | e2ef456..146b6cd (two steps, 7 commits) | ZM-CU-log.vi in ZM-CU-common_utilities.lvlib under common, ZM-TST-log.vi, T2 Pass, cleanup, icons read back 0 px, sweep 3/3, no ZM/AF link, all 26.0; nothing left for the IDE (no class) |
-| 03 | hardware | running | 2026-10-10 18:25 | | de2f81c..f58d5dd (03a), a3b47dc..3009b81 (03b) | 03a, 03b done: parent + SIM in two libraries under hardware, do override, randomData bound to ZM-PC-TP-DATA, T3 Pass (round 1), sweep 9/9, links only into hardware and packages; 03c running |
-| 04 | protocol + file logger | todo | | | | |
+| 03 | hardware | done | 2026-10-10 18:25 | 2026-10-10 22:13 | de2f81c..8b596f2 (three steps, 17 commits) | parent + SIM in two libraries under hardware, do placeholder 5000 with FreeLabel, SIM do override, T3 Pass, cleanup, icons read back 0 px, sweep 9/9, no AF/CU/CP link, all 26.0; for the IDE: 2 class descriptions, Methods folders (D38) |
+| 04 | protocol + file logger | running | 2026-10-10 22:17 | | | step a (parent class, Write opened, init/publish(5000)/close, library) running |
 | 05 | UDP + multi protocol | todo | | | | |
 | 06 | pipeline test | todo | | | | |
 | 07 | interface + message | todo | | | | |

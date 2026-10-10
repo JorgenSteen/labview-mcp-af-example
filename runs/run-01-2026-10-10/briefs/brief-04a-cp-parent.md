@@ -6,7 +6,19 @@ Type: build (LabVIEW calls). Phase 04 step a of 3 (b: the file logger child, its
   `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-03a-hw-parent.md` FIRST and repeat its
   measured route (class, accessor, three dynamic methods, the 5000 placeholder with its label, the library helper,
   `lvproj_drop.py`/`lvproj_move.py`), then `report-03c-hw-cleanup-icons-sweep.md` for the state of the tree.
-  <<MANAGER: traps from reports 03a-03c go here before launch>>
+- Phase 03 closed 22:13 (reports 03a-03c). Facts that carry over: the free label is `<FreeLabel comment="#customerror
+  5000" .../>` in AIXML (element `FreeLabel`, attribute `comment`; it survives cleanup and reads back in the export);
+  `lvai_add_class_method` converts with the project closed, so a class constant or a member of another library goes in
+  as a path stand-in / stub and is swapped afterwards with `lvai_swap_subvis` (`editsJson` for stubs, `constantsJson`
+  for class constants); the retype of a class-typed pane terminal uses the tool's object form (03a, `package` →
+  `ZM-PC-package.lvclass`); the library helper `zm_create_class_library.vi` is cached in the helpers folder (inputs
+  library path, class path 1, class item name 1); after its close the library sits at top level AND a stray class
+  item remains: `lvproj_drop.py` then `lvproj_move.py`, project closed; `lvai_create_class` strips the `.lvproj` BOM
+  (LabVIEW's next close restores it); a pure function member with no class terminal (not needed here) goes through
+  the cached `lvai_add_one_to_library.vi` helper on the `.lvclass`. The parent's pane as measured on `ZM-HW-do.vi`:
+  class in 11, error in 8, class out 3, error out 0, the extra terminal on 2; use the same layout for `publish`'s
+  `package` input (slot 2 is an INPUT slot? no: on 4815 slot 2 is on the output side; put `package` on an input
+  slot such as 10 and report the conIdx you used; the children copy the pane with `lvai_connector_pane`).
 - Save version **26.0**. User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself
   when it crashes or stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported.
   Never answer a dialog. D38: class descriptions, `.ctl` membership and `Methods` placement are the user's job in

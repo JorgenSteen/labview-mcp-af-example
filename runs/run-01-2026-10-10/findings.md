@@ -67,3 +67,12 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
 - **Decision:** User decision (2026-10-10 17:10): "Approve as is, option 1, continue, but note this down so any clean start also does the same, without this prompt" Recorded in `CLAUDE.md`, `orchestration/plan.md`, `status.md` (deviations)
   and the product's `decisions.md` (D39).
 - **Owner:** the skill (kit TODO KT-4).
+
+## F6 (2026-10-10): phase card 03 says the SIM child's init/close call the parent; 02 §3.1 says the SIM does not override them (requirement inconsistency)
+
+- **What:** `orchestration/phases/03-hardware.md`, Notes: "The child's init/close call the parent, because the parent
+  does real work there (D16)." `02-specification.md` §3.1: `ZM-HW-init`, `ZM-HW-close` "real: write initialized;
+  SIM does not override"; §7.5 lists only `ZM-HW-do.vi` and `ZM-HW-SIM-randomData.vi` for the SIM.
+- **Decision:** `02` wins (CLAUDE.md, "Where 01 and 02 disagree, 02 wins"; the card is derived). The SIM gets no
+  `init`/`close` override. Briefs 03a and 03b say so. The card is not patched (harness read-only).
+- **Owner:** the user (fix the card note for the next run).

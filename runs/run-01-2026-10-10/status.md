@@ -3,7 +3,7 @@
 state: open            # open | closed
 last updated: 2026-10-10 15:20 by the manager session (phase 00)
 next phase: 00 setup, steps 4 to 8 (steps 1 to 3 done)
-open items: 00b returned CANNOT PROCEED (LabVIEW crashed 15:13:55 in lvai_validate_aixml; report-00b-project.md). Waiting for the user: (1) go-ahead to start LabVIEW again, (2) whether VI Server names may be probed at all, or the helper is generated straight from the lvserver.rsc spellings
+open items: none; 00b continued at 15:26 with the user's standing go-ahead (below) on the agent's proposed route (helper from lvserver.rsc spellings, no validate probes)
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
 
@@ -77,20 +77,21 @@ Where the build differs from `02-specification.md`, with why, and whether the us
   (conventions), because `lvai_status` reports no save version and the card wants it measured, not from memory.
   Two commits instead of one. Not asked; a harness detail, not a product deviation.
 
+## Go-aheads from the user
+
+- User go-ahead (2026-10-10 15:22): "You may restart LabVIEW when needed. close anything you are using labview all by yourself for the whole session, not restrictions" - scope: the whole session; restarting, closing and starting LabVIEW, and closing projects this run opened, need no further question. The manager relayed it into brief 00b's continuation and sets `restart_go_ahead` to `always` in `project.json` (brief 00a) with this quote as the note.
+
 ## Side effects outside src/
 
 Files written outside `zuehlke-mcp-af-test-results/src/` and this run's folder (error-code file into user.lib, LabVIEW
 restarts, projects closed), one line each with the user's go-ahead quoted and dated.
 
 - 2026-10-10 15:06: LabVIEW 2026 32-bit started by the manager (`lvai_ensure_labview`, PID 2428); the skill's
-  start routine allows it with no go-ahead (no LabVIEW was running, LVAutoSave empty). This session may close it.
+  start routine allows it with no go-ahead (no LabVIEW was running, LVAutoSave empty). Crashed 15:13:55 (F2).
+- 2026-10-10 15:24: LabVIEW 2026 32-bit started again by the manager (`lvai_ensure_labview`, PID 14040, port 59552,
+  21.8 s, LVAutoSave already empty), under the user's standing go-ahead above.
 
 ## Where the next session starts
-
-Phase 00 is blocked on the user's answer to the CANNOT PROCEED of 00b (see open items). Once answered: start
-LabVIEW per `session/start.md` (if the user allows), `lvai_status`, then continue the SAME 00b agent with
-SendMessage (not a re-spawn) with the user's words, or a fresh agent on brief 00b with UPDATES if the old one
-is gone. Everything below is the state before 00b.
 
 Last commit: `chore: product folder skeleton` (phase 00 step 3). Nothing is half done in LabVIEW: no
 LabVIEW call has been made in this run. First check that the labview-mcp plugin is connected (the

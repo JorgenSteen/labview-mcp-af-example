@@ -33,7 +33,7 @@ Section 1 state: no `.labview/`, no LabVIEW code, repo under git. First-contact 
 folder, forward slashes): `$schema_version` 2, `project_name` "Zuehlke MCP", `prefix` "ZM", `source_root` "src",
 `project_file` "src/Zuehlke MCP.lvproj" (it does not exist yet; 00b creates it), `labview_version` and
 `save_version` = the machine facts above, `git` true, `conventions_mode` "full", `analysis_depth` "none",
-`restart_go_ahead` "ask", `proof_folder` "proof", `proof_prefix` "ZMP-",
+`restart_go_ahead` "always" with `restart_go_ahead_note` = exactly this text: `User go-ahead (2026-10-10 15:22): "You may restart LabVIEW when needed. close anything you are using labview all by yourself for the whole session, not restrictions"`, `proof_folder` "proof", `proof_prefix` "ZMP-",
 `briefs_folder` "../runs/run-01-2026-10-10/briefs", `status_file` "../runs/run-01-2026-10-10/status.md",
 `mcp_reports_folder` "../runs/run-01-2026-10-10/mcp-reports", `knowledge_files` []. No `commit_attribution`.
 

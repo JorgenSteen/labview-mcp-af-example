@@ -4,5 +4,6 @@
 	<Property Name="NI.Lib.SourceVersion" Type="Int">637566976</Property>
 	<Property Name="NI.Lib.Version" Type="Str">1.0.0.0</Property>
 	<Property Name="NI.LV.All.SourceOnly" Type="Bool">true</Property>
+	<Item Name="ZM-TST-log.vi" Type="VI" URL="../ZM-TST-log.vi"/>
 	<Item Name="ZM-TST-packages.vi" Type="VI" URL="../ZM-TST-packages.vi"/>
 </Library>

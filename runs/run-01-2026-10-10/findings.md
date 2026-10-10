@@ -56,3 +56,14 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
   `decisions.md` (D38).
 - **Owner:** labview-mcp (tool gap; skill MCP-candidates `add-to-class`, `library-virtual-folder`, and a class
   description setter).
+
+## F5 (2026-10-10): the skill's icon generator does not implement its own icon convention yet (skill gap, decided)
+
+- **What:** `<skill>/kit/make_icons.py` draws a white 3x5 banner and a 10x10 library glyph at the left, while
+  `conventions/defaults/icons.md` asks for black Small Fonts banner text and one class glyph at the right
+  (`icons.banner`, `icons.class-glyph`); `lib_glyph: null` is refused (stand-in: a transparent glyph);
+  `libraries`/`messages` keys are ignored. The skill names this itself (`ops/icons.md`, "Kit TODO", KT-4).
+- **Evidence:** report-01d-pc-cleanup-icons-preview.md, item 4; `reports/icon-preview-01d.png`.
+- **Decision:** User decision (2026-10-10 17:10): "Approve as is, option 1, continue, but note this down so any clean start also does the same, without this prompt" Recorded in `CLAUDE.md`, `orchestration/plan.md`, `status.md` (deviations)
+  and the product's `decisions.md` (D39).
+- **Owner:** the skill (kit TODO KT-4).

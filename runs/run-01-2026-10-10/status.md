@@ -1,9 +1,9 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-10 17:05 by the manager session (phase 01)
-next phase: 01 packages, step e (apply icons): WAITING for the user's approval of reports/icon-preview-01d.png
-open items: the icon preview (reports/icon-preview-01d.png) needs the user's approval once (skill ops/icons.md step 2), with the kit TODO differences named in report-01d item 4; F3 (library count 13 vs 14) still unanswered, not blocking. Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429) and resumed by SendMessage at 16:22; it finished at 16:32 (report-01b-pc-methods-library.md).
+last updated: 2026-10-10 17:12 by the manager session (phase 01)
+next phase: 01 packages, step e (apply icons; launched 17:13)
+open items: F3 (library count 13 vs 14) still unanswered, not blocking. Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429) and resumed by SendMessage at 16:22; it finished at 16:32 (report-01b-pc-methods-library.md).
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
 
@@ -111,6 +111,9 @@ Facts the next brief must repeat, each by its content with its source (report fi
 
 Where the build differs from `02-specification.md`, with why, and whether the user agreed.
 
+- 2026-10-10, phase 01 (icons): the icons follow the skill's generator as it is today, not the letter of
+  `icons.banner` (black Small Fonts text) and `icons.class-glyph` (class glyph at the right): the banner text is
+  white 3x5 and the library glyph sits at the left. Approved by the user (go-ahead above). Applies to every phase.
 - 2026-10-10, phase 00: the card's step order 6 (conventions) then 7 (project) is swapped to 00b (project) then 00a
   (conventions), because `lvai_status` reports no save version and the card wants it measured, not from memory.
   Two commits instead of one. Not asked; a harness detail, not a product deviation.
@@ -123,6 +126,10 @@ Where the build differs from `02-specification.md`, with why, and whether the us
   folder placement are done by the user in the IDE; agents list them; written into `CLAUDE.md` ("Defaults that
   need no question") and `orchestration/plan.md` on the user's instruction (commit fcac3e0), and into the product's
   `decisions.md` as D38 by the 01b agent.
+
+- User decision (2026-10-10 17:10): "Approve as is, option 1, continue, but note this down so any clean start also does the same, without this prompt" - the icon preview `reports/icon-preview-01d.png` is approved as the kit draws it; written into
+  `CLAUDE.md` ("The icon preview is approved in advance") and `orchestration/plan.md` on the user's instruction, and
+  into the product's `decisions.md` as D39 by the 01e agent.
 
 ## For the user in the IDE (decided 2026-10-10: things no tool does)
 

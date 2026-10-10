@@ -1,9 +1,9 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-10 14:50 by the manager session (phase 00)
+last updated: 2026-10-10 15:20 by the manager session (phase 00)
 next phase: 00 setup, steps 4 to 8 (steps 1 to 3 done)
-open items: none; phase 00 step 4 done; 00b (project) runs before 00a (conventions) so the save version is measured from the file LabVIEW writes
+open items: 00b returned CANNOT PROCEED (LabVIEW crashed 15:13:55 in lvai_validate_aixml; report-00b-project.md). Waiting for the user: (1) go-ahead to start LabVIEW again, (2) whether VI Server names may be probed at all, or the helper is generated straight from the lvserver.rsc spellings
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
 
@@ -15,7 +15,7 @@ open items: none; phase 00 step 4 done; 00b (project) runs before 00a (conventio
 
 | # | phase | state | started | ended | commit | result in one line |
 |---|---|---|---|---|---|---|
-| 00 | setup | running | 2026-10-10 14:40 | | | steps 1 to 3 done (run folder, product skeleton); stopped before step 4: labview-mcp server not connected, LabVIEW not running |
+| 00 | setup | running | 2026-10-10 14:40 | | | steps 1 to 4 done; 00b failed: LabVIEW crashed during a validate_aixml probe, no .lvproj created; 00a not launched; waiting for the user |
 | 01 | packages | todo | | | | |
 | 02 | common utilities | todo | | | | |
 | 03 | hardware | todo | | | | |
@@ -57,6 +57,14 @@ state: todo | running | done | failed | skipped (say why in the result column)
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
 
+- Never probe a VI Server name with `lvai_validate_aixml`: an invented method on {LV.Application} crashed LabVIEW
+  2026 Q3 (DWarn 0x762E6013 in invoke.cpp, minidump fd529ccf-601a-49a4-d740-28409e75b42d). Take spellings from
+  `resource\lvserver.rsc` and NI's shipped helpers, commit first, generate the real helper directly, and expect a
+  possible crash on the convert too (report-00b-project.md, item 6).
+- The project-creation vocabulary found offline in `lvserver.rsc`: {LV.Application} Invoke `Project.New` (no inputs),
+  `Project.Open` (Path); {LV.Project} property `My Computer`, Invoke `Save` (optional Path), `Close`;
+  {LV.ProjectItem} Invoke `AddItem` (Name, Path, Type; Type "Folder" for a virtual folder, as in the plugin's
+  lvai_add_one_to_library.xml). The output terminal name of `Project.New` is unmeasured (report-00b-project.md, item 2).
 - No labview-mcp tool creates a `.lvproj` or an empty virtual folder; `lvproj_move.py --create` needs an item to
   move (skill `knowledge/labview-mcp.md`, "lvai_add_to_library"; `kit/lvproj_move.py` header). Brief 00b marks the
   project creation as unmeasured.
@@ -78,6 +86,11 @@ restarts, projects closed), one line each with the user's go-ahead quoted and da
   start routine allows it with no go-ahead (no LabVIEW was running, LVAutoSave empty). This session may close it.
 
 ## Where the next session starts
+
+Phase 00 is blocked on the user's answer to the CANNOT PROCEED of 00b (see open items). Once answered: start
+LabVIEW per `session/start.md` (if the user allows), `lvai_status`, then continue the SAME 00b agent with
+SendMessage (not a re-spawn) with the user's words, or a fresh agent on brief 00b with UPDATES if the old one
+is gone. Everything below is the state before 00b.
 
 Last commit: `chore: product folder skeleton` (phase 00 step 3). Nothing is half done in LabVIEW: no
 LabVIEW call has been made in this run. First check that the labview-mcp plugin is connected (the

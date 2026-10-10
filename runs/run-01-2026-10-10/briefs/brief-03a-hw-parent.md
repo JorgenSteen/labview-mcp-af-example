@@ -38,7 +38,7 @@ project's `hardware` folder, depending on `ZM-PC-packages.lvlib` only. No child,
   quirks"), `kit\README.md`.
 - Conventions: `...\.labview\conventions\naming.md`, `layout.md`, `errors.md` (`custom-error-codes`, decided D18;
   `ignored-errors`), `hygiene.md` (`descriptions`). Spec: `C:\project\claude\LabVIEW-AFAItest\requirements\02-specification.md`
-  §3.1 (lines 118-139, the error-5000 recipe), §7.4 (lines 357-367), §1 (dependency rule); `01-requirements.md` R3,
+  §3.1 (lines 125-140, the error-5000 recipe), §7.4 (lines 357-367), §1 (dependency rule); `01-requirements.md` R3,
   R7; `04-decisions.md` D16, D18; `...\zuehlke-mcp-af-test-results\docs\error-codes.md` (code 5000 is registered
   already; `ZM-HW-do.vi` is listed as a raising VI).
 

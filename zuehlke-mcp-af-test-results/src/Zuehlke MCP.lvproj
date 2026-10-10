@@ -14,6 +14,7 @@
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
 		<Item Name="actors" Type="Folder"/>
 		<Item Name="common" Type="Folder">
+			<Item Name="ZM-CU-common_utilities.lvlib" Type="Library" URL="../common/ZM-CU-common_utilities/ZM-CU-common_utilities.lvlib"/>
 			<Item Name="ZM-PC-packages.lvlib" Type="Library" URL="../common/ZM-PC-packages/ZM-PC-packages.lvlib"/>
 		</Item>
 		<Item Name="hardware" Type="Folder"/>

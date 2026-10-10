@@ -1,8 +1,11 @@
 # Brief 00a: set up `.labview/` for the product folder (conventions, decisions, checks)
 Type: build (files only: NO LabVIEW call in this brief)
 
-> MANAGER, BEFORE LAUNCH: replace the three `<<FILL ...>>` markers under "Paths" with the values read from
-> `lvai_status` this session. Do not launch while a marker is present.
+## UPDATES (read first)
+- Brief 00b ran first (2026-10-10, commit d0ef347): `src/Zuehlke MCP.lvproj` now exists, written by LabVIEW 2026 Q3
+  32-bit, with the six virtual folders. Its measured save version is **26.0** (`NI.LV.All.SaveVersion` 26.0,
+  `LVVersion` 26008000, read with the skill's `kit\lv_save_version.py`). That is the `save_version` to write.
+- Do not open, touch or re-save the `.lvproj`; this brief writes `.labview/` only.
 
 ## Goal
 Run the `labview` skill's conventions setup for a brand-new project, with every answer given here so you ask
@@ -22,8 +25,8 @@ LabVIEW itself (you make no `lvai_*`/`pylv_*` call at all).
 - Requirements (read-only): `C:\project\claude\LabVIEW-AFAItest\requirements\04-decisions.md` (the decided
   rules and their "why" to quote), `02-specification.md` §1, §2, §9 (names, abbreviations, disk layout),
   `03-acceptance.md` §1 and §2 (the checks).
-- Machine facts (read by the manager from `lvai_status`): LabVIEW version `<<FILL labview_version>>`,
-  save version `<<FILL save_version>>`, 32-bit, labview-mcp `<<FILL mcp_version>>`.
+- Machine facts (read by the manager from `lvai_status`): LabVIEW 2026 Q3 32-bit (26.3.1f1), save version `26.0`
+  (measured, see UPDATES), labview-mcp server 1.9.5-local.20261010-1430.
 
 ## Route: `<skill>\conventions\setup.md`, sections 1, 2, 4, 5, with these answers
 Section 1 state: no `.labview/`, no LabVIEW code, repo under git. First-contact question: answered,
@@ -31,8 +34,7 @@ Section 1 state: no `.labview/`, no LabVIEW code, repo under git. First-contact 
 
 **Section 2, `project.json`** (template `conventions\templates\project.json`; paths relative to the product
 folder, forward slashes): `$schema_version` 2, `project_name` "Zuehlke MCP", `prefix` "ZM", `source_root` "src",
-`project_file` "src/Zuehlke MCP.lvproj" (it does not exist yet; 00b creates it), `labview_version` and
-`save_version` = the machine facts above, `git` true, `conventions_mode` "full", `analysis_depth` "none",
+`project_file` "src/Zuehlke MCP.lvproj", `labview_version` "2026 Q3", `save_version` "26.0", `git` true, `conventions_mode` "full", `analysis_depth` "none",
 `restart_go_ahead` "always" with `restart_go_ahead_note` = exactly this text: `User go-ahead (2026-10-10 15:22): "You may restart LabVIEW when needed. close anything you are using labview all by yourself for the whole session, not restrictions"`, `proof_folder` "proof", `proof_prefix` "ZMP-",
 `briefs_folder` "../runs/run-01-2026-10-10/briefs", `status_file` "../runs/run-01-2026-10-10/status.md",
 `mcp_reports_folder` "../runs/run-01-2026-10-10/mcp-reports", `knowledge_files` []. No `commit_attribution`.

@@ -1,9 +1,9 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-10 15:20 by the manager session (phase 00)
+last updated: 2026-10-10 15:35 by the manager session (phase 00)
 next phase: 00 setup, steps 4 to 8 (steps 1 to 3 done)
-open items: none; 00b continued at 15:26 with the user's standing go-ahead (below) on the agent's proposed route (helper from lvserver.rsc spellings, no validate probes)
+open items: none; 00b done (project created, commit d0ef347); 00a (conventions) launched 15:36
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
 
@@ -15,7 +15,7 @@ open items: none; 00b continued at 15:26 with the user's standing go-ahead (belo
 
 | # | phase | state | started | ended | commit | result in one line |
 |---|---|---|---|---|---|---|
-| 00 | setup | running | 2026-10-10 14:40 | | | steps 1 to 4 done; 00b failed: LabVIEW crashed during a validate_aixml probe, no .lvproj created; 00a not launched; waiting for the user |
+| 00 | setup | running | 2026-10-10 14:40 | | d0ef347 (project) | steps 1 to 4, 7, 8 done: project with six folders, save version 26.0; step 6 (conventions, 00a) running |
 | 01 | packages | todo | | | | |
 | 02 | common utilities | todo | | | | |
 | 03 | hardware | todo | | | | |
@@ -57,6 +57,13 @@ state: todo | running | done | failed | skipped (say why in the result column)
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
 
+- Opening and closing a project writes `src/.Zuehlke MCP.UserState/debug.lvprojstate`; now git-ignored by
+  `*.UserState/` in the product `.gitignore` (report-00b-project.md, item 6).
+- `lvai_describe_project` does not list virtual folders; folders are verified from the `.lvproj` XML
+  (report-00b-project.md, item 3). AIXML spellings that create a project and virtual folders are in item 2 of that
+  report (Project.New, My Computer, AddItem with Type "Folder" and a required empty Path, Save with Path, Close).
+- The runner's own helper `lvai_run_and_read_typed.vi` was a 14-byte stub and answered error 1059; pass
+  `regenerateHelper: true` once when that happens (report-00b-project.md, item 2e-f).
 - Never probe a VI Server name with `lvai_validate_aixml`: an invented method on {LV.Application} crashed LabVIEW
   2026 Q3 (DWarn 0x762E6013 in invoke.cpp, minidump fd529ccf-601a-49a4-d740-28409e75b42d). Take spellings from
   `resource\lvserver.rsc` and NI's shipped helpers, commit first, generate the real helper directly, and expect a
@@ -93,8 +100,8 @@ restarts, projects closed), one line each with the user's go-ahead quoted and da
 
 ## Where the next session starts
 
-Last commit: `chore: product folder skeleton` (phase 00 step 3). Nothing is half done in LabVIEW: no
-LabVIEW call has been made in this run. First check that the labview-mcp plugin is connected (the
+Last product commit: `chore: empty project Zuehlke MCP.lvproj with six virtual folders` (d0ef347). Nothing is
+half done in LabVIEW: no project is open. First check that the labview-mcp plugin is connected (the
 `lvai_*` tools are listed) and run `lvai_status`; if it does not answer, follow the skill's
 `session/start.md` (LabVIEW was not running at 14:44 on 2026-10-10). Then write the machine facts
 above, fill the `<<FILL ...>>` markers in `briefs/brief-00a-conventions.md` and `briefs/brief-00b-project.md`

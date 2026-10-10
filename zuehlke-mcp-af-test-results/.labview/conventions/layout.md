@@ -21,6 +21,7 @@ an existing class, stop and ask; never fall back to the class root.
 Addition for this project: overrides of a parent class's or an interface's method go in `Methods` (there is no
 `Overrides` folder).
 Why: "the skill's folder list has no place named for them; they are methods of the class"
+note: placement by the user in the IDE (decisions.md#D38)
 source: decided 2026-10-10 (decisions.md#D35)
 
 ## flat-files
@@ -31,6 +32,7 @@ source: default
 ## typedef-placement
 A typedef that belongs to a class is a member of that class, in its `TypeDefs` virtual folder, with its file flat in
 the class folder. Typedefs do not go in a library-level `Controls` folder.
+note: placement by the user in the IDE (decisions.md#D38)
 source: default
 
 ## scope

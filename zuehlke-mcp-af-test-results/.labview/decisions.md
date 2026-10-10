@@ -86,3 +86,12 @@ Chosen: the UDP sender and receiver share one library `ZM-CP-UDP-udp_transport.l
 Instead of: the default (each pluggable child in its own library)
 Why: "two ends of one transport, always shipped together"
 Supersedes: nothing
+
+## D38 (2026-10-10): What no tool does, the user does in the IDE
+Rule: layout.class-folders, layout.typedef-placement, hygiene.descriptions (class part)
+Chosen: class descriptions, `.ctl` class membership and `Methods`/`Helpers`/`TypeDefs` placement are done by the
+user in the Project Explorer at the end of a phase; agents build the rest and list these items in their reports
+Instead of: a byte-exact script outside the kit, or accepting them as deviations
+Why: the user's words: "option 1 then and log that answer into the documentation to so if someone wants to try to
+rerun this later, then do not need this clearification"
+Supersedes: nothing

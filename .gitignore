@@ -1,9 +1,23 @@
 # Claude Code local settings (CLAUDE.md at the root is committed; the .claude/ folder is not)
 .claude/
 
+# LabVIEW per-user and per-machine files
+*.lvlps
+*.lvlps.bak
+*.aliases
+LVAutoSave/
+**/LVAutoSave*/
+.lvcache/
+
+# LabVIEW build output and packed libraries
+builds/
+*.lvlibp
+*.exe
+*.dll
+
 # OS noise
 Thumbs.db
 desktop.ini
 .DS_Store
 
-# The product folder keeps its own .gitignore (output/, .lvlps, LVAutoSave, proof/)
+# The product folder adds its own .gitignore for its run-time output/ and proof/ folders

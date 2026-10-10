@@ -45,7 +45,9 @@ side by side. The phase's **done when** applies to the whole phase.
    `hardware`, `protocol`, `actors`, `tests`, `receiver`), and every class with its virtual
    folders (`Accessors`, `AF Overrides`, `Helpers`, `Messages`, `Methods`, `TypeDefs`), only when
    non-empty. Files stay flat in the class folder on disk.
-2. A description on every class and VI (`hygiene.descriptions`). Each actor's description states
+2. A description on every VI (`hygiene.descriptions`), written in the AIXML. A **class** description has no
+   tool: the agent puts the text in its report and the user sets it in the IDE (`CLAUDE.md`, "What no tool
+   does"). Each actor's description states
    its error plan.
 3. The phase's test VI in `ZM-TST-tests.lvlib` with `Pass` and `error out`, listed in
    `zuehlke-mcp-af-test-results/.labview/checks.json`, and run: `Pass` true.
@@ -53,6 +55,8 @@ side by side. The phase's **done when** applies to the whole phase.
    (`hygiene.cleanup-diagram`; a later regeneration discards it).
 5. Icons for the phase's classes, VIs and library (`icons.*`; the skill's `ops/icons.md`). The look
    follows the skill's reference, not `requirements/assets/icons/preview.png`.
+   Virtual folders `Methods`, `Helpers`, `TypeDefs` and `.ctl` membership in a class: the same rule, the user
+   places them in the IDE; the agent lists what it could not place.
 6. A cold check: every VI of the phase runnable with the project closed (`ops/sweep.md`, scoped to
    the phase's files).
 7. The save version of every written file equals `zuehlke-mcp-af-test-results/.labview/project.json` `save_version`.

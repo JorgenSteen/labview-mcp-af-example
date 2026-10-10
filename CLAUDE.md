@@ -45,6 +45,13 @@ by saying so in the start message; record such a change in `status.md` with the 
   in the start message. Then quote it with the date in `status.md` and set `restart_go_ahead`
   to `always` in `project.json` with that quote as the note.
 - **Pushing: never.** The user pushes.
+- **What no tool does, the user does in the IDE.** No labview-mcp tool or kit script sets a class
+  description (`NI.Lib.Description`), adds a `.ctl` to a class (`TypeDefs` folder), or places a member in a
+  `Methods`, `Helpers` or `TypeDefs` virtual folder (only `Accessors` is created, by the accessor tool).
+  Agents build everything else, write the description texts into their report, and list these items; the
+  manager collects them in `status.md` under "For the user in the IDE"; the user does them at the end of a
+  phase or before phase 12. No agent asks about it and no agent edits a `.lvclass` by hand for it. Decided by
+  the user in run-01 (2026-10-10, option 1 of three), recorded in the product's `decisions.md` as D38.
 
 ## Running one phase
 

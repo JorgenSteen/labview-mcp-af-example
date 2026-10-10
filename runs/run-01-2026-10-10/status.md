@@ -1,9 +1,9 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-10 16:23 by the manager session (phase 01)
-next phase: 01 packages, step b (launched 16:06)
-open items: F3 (library count 13 vs 14) still unanswered, not blocking. Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429, reset 16:20) with the EP setType re-add half done (two files modified, uncommitted); the same agent was resumed by SendMessage at 16:22 with the git state.
+last updated: 2026-10-10 16:40 by the manager session (phase 01)
+next phase: 01 packages, step c (test T1; launched 16:41)
+open items: F3 (library count 13 vs 14) still unanswered, not blocking. Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429) and resumed by SendMessage at 16:22; it finished at 16:32 (report-01b-pc-methods-library.md).
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
 
@@ -16,7 +16,7 @@ open items: F3 (library count 13 vs 14) still unanswered, not blocking. Items fo
 | # | phase | state | started | ended | commit | result in one line |
 |---|---|---|---|---|---|---|
 | 00 | setup | done | 2026-10-10 14:40 | 2026-10-10 15:45 | d0ef347 (project), 15b56f9 (.labview) | product skeleton, LabVIEW 2026 Q3 32-bit answers, .labview complete (10 decided rules, configuration off), empty project with six folders, save version 26.0; one LabVIEW crash on the way (F2) |
-| 01 | packages | running | 2026-10-10 15:46 | | 63c4179..0148c39 (01a) | 01a done: 3 classes, 5 typedefs bound, 10 static accessors with scopes, sweep 10/10, all 26.0; class descriptions and .ctl membership open (no tool) |
+| 01 | packages | running | 2026-10-10 15:46 | | 63c4179..0148c39 (01a), a2e395f..c42836d (01b) | 01a, 01b done: 3 classes, 24 member VIs exactly as 02 §7.1, library under common, overrides with Call Parent + setType hook, probe JSON correct, sweep 24/24, all 26.0; 01c test running |
 | 02 | common utilities | todo | | | | |
 | 03 | hardware | todo | | | | |
 | 04 | protocol + file logger | todo | | | | |
@@ -57,6 +57,21 @@ state: todo | running | done | failed | skipped (say why in the result column)
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
 
+- A hook placed after Call Parent (shape B-after) in a DYNAMIC override of a plain class must take and return
+  the PARENT class type (`ZM-PC-package in`/`out`), never the child type and never a To More Specific Class cast:
+  otherwise the override and every caller of the dispatch method read state 0 cold with only "VI is not
+  executable". Cost ~20 calls to find (report-01b-pc-methods-library.md, item 9, T1). Applies to HW and CP child
+  hooks in phases 03-05.
+- A plain `.lvlib` is created by a helper derived from the kit's `lvai_create_actor_library.xml` (Library.Create,
+  AddItem Type LVClass per class, Save All This Library), run with the project OPEN AND ACTIVE (it reads
+  Project:Active Project); the close then lists the library at top level plus a stray class item: `lvproj_drop.py`
+  + `lvproj_move.py` into the right folder, project closed. `lvai_add_to_library` needs an existing `.lvlib`.
+  Source: `proof/ZMP-01b/zm_create_package_library.xml` (report-01b, item 4).
+- `lvai_add_class_method` with the parent's pane and `dispatchTerminals` makes a dynamic-dispatch override of a
+  plain-class method with its own body (no Call Parent); measured (report-01b, item 5).
+- `lvai_placeholder_subvi` writes stub VIs into `<LabVIEW>\user.lib\LV_MCP\` (the tool's own cache, outside the
+  product folder by design; 17 added in 01b). `sweep_paths.py` writes `paths.txt` into the current folder by
+  default: pass `--out` (report-01b, item 9).
 - No labview-mcp tool sets a class description (`NI.Lib.Description`); no tool adds a `.ctl` to a class; no tool
   places a member in a `Methods`/`TypeDefs` virtual folder. The accessor tool's `virtualFolderName` does create
   `Accessors`. `lvai_create_class` with `typedefFieldsJson` and `projectPath` binds at creation (`boundInFile` true) and
@@ -110,7 +125,10 @@ the class, the item and the file that holds the text.
   `ZM-PC-PACKAGE_TYPE.ctl`, `ZM-PC-DESTINATION.ctl`, `ZM-PC-HEADER.ctl` into the class, folder `TypeDefs`.
 - ZM-PC-TP-test_package: class description (same brief); `ZM-PC-TP-DATA.ctl` into the class, folder `TypeDefs`.
 - ZM-PC-EP-error_package: class description (same brief); `ZM-PC-EP-DATA.ctl` into the class, folder `TypeDefs`.
-- (01b will add: members into `Methods` folders, if the tools cannot place them.)
+- All three classes: the 12 non-accessor members (`ZM-PC-init`, `ZM-PC-getDataAsJson`, `ZM-PC-getTypeName`,
+  `ZM-PC-getDestinationName`, `ZM-PC-getTimestampString`, `ZM-PC-getHeader`; TP: `ZM-PC-init`, `ZM-PC-getDataAsJson`,
+  `ZM-PC-TP-setType`, `ZM-PC-TP-create`; EP: the same four with `EP`) into a `Methods` virtual folder of their class
+  (report-01b, item 2).
 
 ## Side effects outside src/
 
@@ -119,6 +137,9 @@ restarts, projects closed), one line each with the user's go-ahead quoted and da
 
 - 2026-10-10 15:06: LabVIEW 2026 32-bit started by the manager (`lvai_ensure_labview`, PID 2428); the skill's
   start routine allows it with no go-ahead (no LabVIEW was running, LVAutoSave empty). Crashed 15:13:55 (F2).
+- 2026-10-10 16:00-16:30 (01b): 17 placeholder stub VIs written by `lvai_placeholder_subvi` into
+  `C:\Program Files (x86)\National Instruments\LabVIEW 2026\user.lib\LV_MCP\` (the plugin's pre-existing cache folder,
+  145 stubs before). The tool's design, not the agent's choice; nothing of the user's touched.
 - 2026-10-10 15:24: LabVIEW 2026 32-bit started again by the manager (`lvai_ensure_labview`, PID 14040, port 59552,
   21.8 s, LVAutoSave already empty), under the user's standing go-ahead above.
 

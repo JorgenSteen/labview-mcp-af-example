@@ -4,7 +4,19 @@ Type: build + test (LabVIEW calls). Phase 01 step c of 4 (a classes, b methods a
 ## UPDATES (read first)
 - Reports to read: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-01a-pc-classes.md` and
   `report-01b-pc-methods-library.md` (member names, terminal names, the library route that worked, open items).
-  <<MANAGER: traps from report 01b go here before launch>>
+- Facts from report 01b: the 24 member VIs exist exactly as `02` §7.1 (12 parent, 6 TP, 6 EP), all state 1 cold,
+  library `ZM-PC-packages.lvlib` under `common`. `ZM-PC-TP-create` takes `data` (bound to `ZM-PC-TP-DATA.ctl`) and
+  returns `package` typed `ZM-PC-TP-test_package`; `ZM-PC-EP-create` takes `sender` and `error_to_report` (an error
+  cluster as data) and returns `package` typed `ZM-PC-EP-error_package`; `getHeader` is protected (do not call it
+  from the test). The library route that worked: a helper derived from the kit's `lvai_create_actor_library.xml`
+  (`Library.Create`, `AddItem` per item, `Save`), source `...\proof\ZMP-01b\zm_create_package_library.xml`, run
+  with the project OPEN AND ACTIVE; afterwards (project closed) `lvproj_drop.py` for a stray top-level item and
+  `lvproj_move.py` into the folder. For a VI item use `Type` = `VI`. Read `lvai_vi_terminals` on every member you
+  call before wiring. The 01b probe VI `...\proof\ZMP-01b\ZMP-01b-probe.vi` and its AIXML are a measured example
+  of calling `create`, `getDataAsJson`, `getTypeName` from a plain VI (stubs + `lvai_swap_subvis`).
+- Trap from 01b: a hook after Call Parent in a dynamic override must keep the parent class type in and out (not
+  relevant to a test VI, but do not "fix" any package VI). `lvai_placeholder_subvi` writes stubs into
+  `<LabVIEW>\user.lib\LV_MCP\` by design; `sweep_paths.py` needs `--out`.
 - Save version **26.0**. Project `src/Zuehlke MCP.lvproj` has the six virtual folders; `ZM-PC-packages.lvlib` sits
   under `common`.
 - User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself when it crashes or stops

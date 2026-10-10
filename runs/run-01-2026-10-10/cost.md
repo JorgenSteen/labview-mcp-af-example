@@ -5,7 +5,7 @@ Agents inherit the manager's model unless a row says otherwise (`CLAUDE.md`, "De
 
 | phase | step | agent type | model | effort | start | end | minutes | tokens seen | notes |
 |---|---|---|---|---|---|---|---|---|---|
-| 00 | 1-3 | manager (no agent) | claude-fable-5-1 | not visible | 2026-10-10 14:40 | 2026-10-10 14:55 | 15 | not visible | run folder and product skeleton; no LabVIEW call |
+| 00 | 1-3 | manager (no agent) | claude-fable-5-1 | not visible | 2026-10-10 14:40 | 2026-10-10 15:05 | 25 | not visible | run folder, product skeleton, briefs 00a and 00b drafted; no LabVIEW call; stopped: labview-mcp server not connected |
 
 ## /cost output per session
 

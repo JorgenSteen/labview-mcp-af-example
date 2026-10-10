@@ -57,7 +57,9 @@ state: todo | running | done | failed | skipped (say why in the result column)
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
 
-- (none yet)
+- No labview-mcp tool creates a `.lvproj` or an empty virtual folder; `lvproj_move.py --create` needs an item to
+  move (skill `knowledge/labview-mcp.md`, "lvai_add_to_library"; `kit/lvproj_move.py` header). Brief 00b marks the
+  project creation as unmeasured.
 
 ## Deviations and fallbacks
 
@@ -78,6 +80,7 @@ Last commit: `chore: product folder skeleton` (phase 00 step 3). Nothing is half
 LabVIEW call has been made in this run. First check that the labview-mcp plugin is connected (the
 `lvai_*` tools are listed) and run `lvai_status`; if it does not answer, follow the skill's
 `session/start.md` (LabVIEW was not running at 14:44 on 2026-10-10). Then write the machine facts
-above, write brief-00-setup and launch the phase 00 agent (steps 6 to 8 of
-`orchestration/phases/00-setup.md`). Defaults in force: agents inherit the manager's model,
+above, fill the `<<FILL ...>>` markers in `briefs/brief-00a-conventions.md` and `briefs/brief-00b-project.md`
+(drafted 2026-10-10, not yet launched), commit them, and launch 00a (docs-only, general-purpose agent), then
+00b (LabVIEW, general-purpose agent), one after the other (steps 6 to 8 of `orchestration/phases/00-setup.md`). Defaults in force: agents inherit the manager's model,
 error-code file stays in the repository, no standing restart go-ahead, never push.

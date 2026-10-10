@@ -7,7 +7,24 @@ Type: build + test (LabVIEW calls). Phase 04 step b of 3 (a: the parent, done; c
   a dynamic override with its own body, a test VI calling two libraries), `report-01b-pc-methods-library.md`
   (item 5: an override WITH Call Parent via `lvai_create_override` + `pa_insert_series2` shape B-after, and trap T1:
   the hook after Call Parent takes and returns the PARENT class type).
-  <<MANAGER: traps from reports 04a go here before launch>>
+- Facts from report 04a: the parent's panes are 4815 with class in 11, `error in` 8, class out 3, `error out` 0;
+  `ZM-CP-publish.vi` has `package` (required input, typed `ZM-PC-package`) on conIdx 10: copy that pane for the FL's
+  `publish` override (`lvai_connector_pane` on the parent's VI). The parent's accessor `Write opened` is PRIVATE: the
+  child never calls it (the parent's `init`/`close` do, through Call Parent). The library helper
+  `zm_create_class_library.vi` is cached (inputs library path, class path 1, class item name 1); after its close
+  always run `lvproj_drop.py` (it may or may not leave a stray class item), then `lvproj_move.py`. `lvai_create_class`
+  strips the `.lvproj` BOM (restored by the next close). `lv_loadability.py --links` wants VI paths. A placeholder with
+  required class/package inputs runs directly in the runner with defaults (no probe VI needed). The 03b route for a
+  pure function member (no class terminal; `buildPath` and `appendLine` here!) is: `lvai_generate_vi` →
+  `lvproj_add_toplevel.py` (project closed) → the tool's cached `lvai_add_one_to_library.vi` helper with `library
+  path` = the `.lvclass`, item type VI, folder index -1, project open and active → `set_scope.py` private
+  (report-03b, item 3). `createFolder` has class terminals (it reads `outputFolder`) and goes through
+  `lvai_add_class_method` like a hook; type its class terminals as the PARENT (T1) since it is hooked after Call
+  Parent, and read `outputFolder` through... NOTE: `Read outputFolder` is an FL accessor taking the FL type; a hook
+  typed as the parent cannot call it without a cast. Measure as 05a's brief describes: parent-typed pane + `To More
+  Specific Class` inside the hook first; if the override reads state 0 cold, try the child type on the hook pane
+  and report which worked with exec states (this is the first child hook that reads a CHILD field; 01b's hooks
+  wrote a PARENT field).
 - Save version **26.0**. User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself
   when it crashes or stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported.
   Never answer a dialog. D38: class descriptions, `.ctl` membership and `Methods` placement are the user's (list

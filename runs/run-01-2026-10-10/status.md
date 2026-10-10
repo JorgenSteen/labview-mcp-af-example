@@ -1,8 +1,8 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-10 22:16 by the manager session (phase 04)
-next phase: 04 protocol + file logger, step a (the parent; launched 22:17)
+last updated: 2026-10-10 22:26 by the manager session (phase 04)
+next phase: 04 protocol + file logger, step b (the file logger and T4 without MX; launched 22:27)
 open items: F3 (library count 13 vs 14) still unanswered, not blocking. 03b was cut off by the user's usage limit at about 18:45 (HTTP 429) and resumed at 21:55; it finished at 22:02 (report-03b-hw-sim-test.md). Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429) and resumed by SendMessage at 16:22; it finished at 16:32 (report-01b-pc-methods-library.md).
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
@@ -19,7 +19,7 @@ open items: F3 (library count 13 vs 14) still unanswered, not blocking. 03b was 
 | 01 | packages | done | 2026-10-10 15:46 | 2026-10-10 17:58 | 63c4179..e8790ac (five steps, 50 commits) | 3 classes, 5 typedefs, 24 member VIs exactly as 02 §7.1, ZM-PC-packages.lvlib under common, ZM-TST-tests.lvlib + T1 Pass, Clean Up Diagram, icons applied and read back 0 px, sweep 25/25, no AF or ZM link, all 26.0; left for the user in the IDE: class descriptions, .ctl membership, Methods/TypeDefs folders (D38) |
 | 02 | common utilities | done | 2026-10-10 18:03 | 2026-10-10 18:19 | e2ef456..146b6cd (two steps, 7 commits) | ZM-CU-log.vi in ZM-CU-common_utilities.lvlib under common, ZM-TST-log.vi, T2 Pass, cleanup, icons read back 0 px, sweep 3/3, no ZM/AF link, all 26.0; nothing left for the IDE (no class) |
 | 03 | hardware | done | 2026-10-10 18:25 | 2026-10-10 22:13 | de2f81c..8b596f2 (three steps, 17 commits) | parent + SIM in two libraries under hardware, do placeholder 5000 with FreeLabel, SIM do override, T3 Pass, cleanup, icons read back 0 px, sweep 9/9, no AF/CU/CP link, all 26.0; for the IDE: 2 class descriptions, Methods folders (D38) |
-| 04 | protocol + file logger | running | 2026-10-10 22:17 | | | step a (parent class, Write opened, init/publish(5000)/close, library) running |
+| 04 | protocol + file logger | running | 2026-10-10 22:17 | | 72828e3..6a0bf68 (04a) | 04a done: ZM-CP-communication_protocol class, Write opened (priv), init/close, publish placeholder 5000 with FreeLabel (package input on conIdx 10), library under protocol, sweep 4/4; 04b running |
 | 05 | UDP + multi protocol | todo | | | | |
 | 06 | pipeline test | todo | | | | |
 | 07 | interface + message | todo | | | | |
@@ -57,6 +57,11 @@ state: todo | running | done | failed | skipped (say why in the result column)
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
 
+- The parent `publish` pane (04a): class in 11, `error in` 8, `package` 10 (required input), class out 3, `error out`
+  0; the runner accepts a required class input and a required package input unwired (defaults), so a placeholder
+  can be run directly. The library close sometimes replaces the top-level class item by the library (04a) and
+  sometimes leaves it (03a, 03b): always run `lvproj_drop.py` (0 lines is fine). `lv_loadability.py --links` on a
+  FOLDER prints only the class's link: pass VI paths (report-04a, items 3, 4, 7).
 - A class member with NO class terminal on its pane (a pure function member such as `randomData`) cannot go
   through `lvai_add_class_method` (refuses: no classTerminals) nor `lvai_add_to_library` (refuses a `.lvclass`):
   generate it with `lvai_generate_vi`, `lvproj_add_toplevel.py` (project closed), then run the tool's cached helper
@@ -157,6 +162,8 @@ Where the build differs from `02-specification.md`, with why, and whether the us
 Do these in LabVIEW's Project Explorer at the end of a phase or before phase 12, then commit. Each line names
 the class, the item and the file that holds the text.
 
+- ZM-CP-communication_protocol: class description (text in briefs/brief-04a-cp-parent.md, "What to build", step 3);
+  `ZM-CP-init.vi`, `ZM-CP-publish.vi`, `ZM-CP-close.vi` into a `Methods` folder (report-04a, item 7).
 - ZM-HW-SIM-simulated_hardware: class description (report-03b, item 8: "Pluggable simulated hardware: do returns a
   random TestPackage addressed to Communication; init/close inherited"); `ZM-HW-do.vi`, `ZM-HW-SIM-randomData.vi` into
   a `Methods` folder.

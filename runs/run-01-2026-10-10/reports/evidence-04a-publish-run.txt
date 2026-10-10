@@ -1,0 +1,5 @@
+ZM-CP-publish.vi run cold (project closed), lvai_run_vi_and_read_values, no inputs (the runner accepted the required class input and the required package input unwired = defaults; no probe VI needed), 46 ms, helperErrorCode 0
+ZM-CP-communication_protocol out: Object ZM-CP-communication_protocol.lvclass
+error out: status 1  code 5000  source "ZM-CP-publish.vi: must be overridden by a child class"
+FreeLabel: export-ZM-CP-publish.xml line 2 <FreeLabel comment="#customerror 5000" uid="5115" uid_parent="root"/>
+package: conIdx 10 (input slot of 4815, same slot the accessor uses for its value), connection required, type ref{UDClassInst} (ZM-PC-package.lvclass), unwired on the diagram

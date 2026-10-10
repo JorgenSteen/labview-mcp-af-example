@@ -6,7 +6,13 @@ Type: build (LabVIEW calls). Phase 03 step a of 3 (b: the SIM child, its library
   `ZM-TST-tests.lvlib` under `tests`. Measured routes on this station, read them: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-01a-pc-classes.md`
   (class + typedef + accessor route), `report-01b-pc-methods-library.md` (methods, pane binding, the library helper
   `proof\ZMP-01b\zm_create_package_library.xml`, trap T1), `report-02a-cu-log-test.md`.
-  <<MANAGER: traps from reports 02a/02b go here before launch>>
+- Phase 02 closed 18:19 (reports 02a, 02b): no new traps for a class step. The direct Call route (project open
+  with one member of the called library opened through it, then `lvai_generate_vi` with
+  `<Call target="<Lib>.lvlib:<VI>.vi">`) works on this station and replaces stubs + swaps (report-02a, item 4):
+  use it for `ZM-HW-do.vi`'s `ZM-PC-package` constant if `lvai_add_class_method` accepts a class constant of
+  another library that way; else the 01c stub route. `Clear Errors.vi` terminal names are not derivable in AIXML;
+  not needed here (Merge Errors only). The library helper VI `zm_create_package_library.vi` is cached in the
+  helpers folder with generic inputs (library path, class path, class item name): reuse it.
 - Save version **26.0**. User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself
   when it crashes or stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported.
   Never answer a dialog. Decided D38: class descriptions, `.ctl` membership and `Methods` folder placement are the

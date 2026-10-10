@@ -1,19 +1,19 @@
 # Brief 00b: create the empty project `Zuehlke MCP.lvproj` with its six virtual folders
 Type: build (LabVIEW calls)
 
-> MANAGER, BEFORE LAUNCH: replace the `<<FILL ...>>` markers with the values read from `lvai_status` this
-> session, and confirm brief 00a's commit is in. Do not launch while a marker is present.
-
-## UPDATES
-- Brief 00a wrote `.labview/` (commit `<<FILL 00a commit>>`). `project.json` says `save_version`
-  `<<FILL save_version>>`. Read first: it overrides nothing below, it is the source of the facts.
+## UPDATES (read first)
+- Order change (2026-10-10): this brief runs BEFORE brief 00a. `.labview/` does not exist yet and `project.json`
+  does not exist yet. `lvai_status` reports no save version, so this step MEASURES it: the `.lvproj` is written by
+  LabVIEW 2026 Q3 32-bit itself, and the value `lv_save_version.py` reads from the saved file is what 00a will put
+  into `project.json`. Report it exactly.
+- LabVIEW was started by the main session at 15:06 (PID 2428). It is still not yours to close or restart.
 - The user gave NO go-ahead for restarting or closing LabVIEW, and NONE for copying `ZM-errors.txt` into
   LabVIEW's `user.lib\errors\`. The error-code file stays in the repository. Do not ask; do not copy.
 
 ## Goal
 Create `src\Zuehlke MCP.lvproj` in the product folder **through LabVIEW** (VI Server scripting or a labview-mcp
 tool; never by hand-writing the XML), with the empty virtual folders `common`, `hardware`, `protocol`, `actors`,
-`tests`, `receiver` directly under `My Computer`, saved in save version `<<FILL save_version>>`, then close it.
+`tests`, `receiver` directly under `My Computer`, saved by LabVIEW in its own version (measured afterwards, see UPDATES), then close it.
 Out of scope: any class, library, VI or typedef; anything under `.labview\`; the harness; the user's other projects.
 
 ## Paths (absolute, long form)
@@ -29,8 +29,9 @@ Out of scope: any class, library, VI or typedef; anything under `.labview\`; the
   (long form; never `%TEMP%`, never an 8.3 name).
 - Proof folder for throwaway files: `C:\project\claude\LabVIEW-AFAItest\zuehlke-mcp-af-test-results\proof\ZMP-00b-project\`
   (git-ignored).
-- Machine facts (from `lvai_status`, read by the manager): LabVIEW `<<FILL labview_version>>` 32-bit, labview-mcp
-  `<<FILL mcp_version>>`, LVAutoSave path `C:\Users\jorgen.steen\OneDrive - Virinco AS\Dokumenter\LabVIEW Data\LVAutoSave`.
+- Machine facts (from `lvai_status`, read by the manager at 15:08): LabVIEW 2026 Q3 32-bit (log name
+  `LabVIEW_32_26.3.1f1`), `C:\Program Files (x86)\National Instruments\LabVIEW 2026\LabVIEW.exe`, port 57742,
+  labview-mcp server 1.9.5-local.20261010-1430, LVAutoSave path `C:\Users\jorgen.steen\OneDrive - Virinco AS\Dokumenter\LabVIEW Data\LVAutoSave`.
 
 ## Route (UNMEASURED: no source of this skill has created a project from scratch; report what worked)
 1. `lvai_status` once (it must answer; note `labviewUpSeconds`). `git status --short` from the repo root: clean.
@@ -49,11 +50,13 @@ Out of scope: any class, library, VI or typedef; anything under `.labview\`; the
    without a dialog (`<skill>\kit\lv_windows.ps1` shows none). `lvai_describe_project` on it: the six folders,
    nothing else under `My Computer` but the default Dependencies and Build Specifications.
 4. `lvai_close_active_project` with `projectPath` = the target (your project must be the active one).
-5. Verify from the file: `python <skill>\kit\lv_save_version.py "<target>"` reads `<<FILL save_version>>`; the six
+5. Verify from the file: `python <skill>\kit\lv_save_version.py "<target>"`: quote its whole output line (this is
+   the measured save version); the six
    `<Item Name="..." Type="Folder">` entries are in the XML; `git status --short` shows only the new `.lvproj`
    (plus nothing else; an `.lvlps` is git-ignored).
 6. Commit from the repo root: `git add "zuehlke-mcp-af-test-results/src/Zuehlke MCP.lvproj"` then
-   `git commit -m "chore: .labview conventions and empty project"` with a one-line body naming the route used.
+   `git commit -m "chore: empty project Zuehlke MCP.lvproj with six virtual folders"` with a one-line body naming
+   the route used.
    NO attribution trailer.
 
 ## Traps
@@ -87,7 +90,8 @@ lines below must not be missed.
 - Touch nothing outside `C:\project\claude\LabVIEW-AFAItest\zuehlke-mcp-af-test-results\` except the helpers
   folder named above. Do not copy anything into LabVIEW's `user.lib`.
 - Commit before every structural step, by explicit paths: Conventional Commits, no AI attribution trailer. Never push.
-- Save version `<<FILL save_version>>`: a file newer after the step = stop and report.
+- Save version: the project is new and written by this IDE, so no file can be upgraded; still report the version
+  `lv_save_version.py` reads, and do not write any other LabVIEW file.
 - Report every side effect: items removed, files re-saved or upgraded, project files rewritten, helper VIs left.
 
 ## Report (max 35 lines), as your final message

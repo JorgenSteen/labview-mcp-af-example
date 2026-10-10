@@ -1,9 +1,9 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-10 21:55 by the manager session (phase 03)
-next phase: 03 hardware, step b (the SIM child and T3; launched 18:33)
-open items: F3 (library count 13 vs 14) still unanswered, not blocking. 03b was cut off by the user's usage limit at about 18:45 (HTTP 429, reset 21:20) with the project open in LabVIEW, three commits in (class, randomData, membership), before the library helper; the same agent was resumed by SendMessage at 21:55 with the git state. Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429) and resumed by SendMessage at 16:22; it finished at 16:32 (report-01b-pc-methods-library.md).
+last updated: 2026-10-10 22:06 by the manager session (phase 03)
+next phase: 03 hardware, step c (cleanup, icons, sweep; launched 22:07)
+open items: F3 (library count 13 vs 14) still unanswered, not blocking. 03b was cut off by the user's usage limit at about 18:45 (HTTP 429) and resumed at 21:55; it finished at 22:02 (report-03b-hw-sim-test.md). Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429) and resumed by SendMessage at 16:22; it finished at 16:32 (report-01b-pc-methods-library.md).
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
 
@@ -18,7 +18,7 @@ open items: F3 (library count 13 vs 14) still unanswered, not blocking. 03b was 
 | 00 | setup | done | 2026-10-10 14:40 | 2026-10-10 15:45 | d0ef347 (project), 15b56f9 (.labview) | product skeleton, LabVIEW 2026 Q3 32-bit answers, .labview complete (10 decided rules, configuration off), empty project with six folders, save version 26.0; one LabVIEW crash on the way (F2) |
 | 01 | packages | done | 2026-10-10 15:46 | 2026-10-10 17:58 | 63c4179..e8790ac (five steps, 50 commits) | 3 classes, 5 typedefs, 24 member VIs exactly as 02 §7.1, ZM-PC-packages.lvlib under common, ZM-TST-tests.lvlib + T1 Pass, Clean Up Diagram, icons applied and read back 0 px, sweep 25/25, no AF or ZM link, all 26.0; left for the user in the IDE: class descriptions, .ctl membership, Methods/TypeDefs folders (D38) |
 | 02 | common utilities | done | 2026-10-10 18:03 | 2026-10-10 18:19 | e2ef456..146b6cd (two steps, 7 commits) | ZM-CU-log.vi in ZM-CU-common_utilities.lvlib under common, ZM-TST-log.vi, T2 Pass, cleanup, icons read back 0 px, sweep 3/3, no ZM/AF link, all 26.0; nothing left for the IDE (no class) |
-| 03 | hardware | running | 2026-10-10 18:25 | | de2f81c..f58d5dd (03a) | 03a done: ZM-HW-hardware class, Write initialized (priv), init/close, do placeholder 5000 with a native #customerror free label, library under hardware, sweep 4/4; 03b running |
+| 03 | hardware | running | 2026-10-10 18:25 | | de2f81c..f58d5dd (03a), a3b47dc..3009b81 (03b) | 03a, 03b done: parent + SIM in two libraries under hardware, do override, randomData bound to ZM-PC-TP-DATA, T3 Pass (round 1), sweep 9/9, links only into hardware and packages; 03c running |
 | 04 | protocol + file logger | todo | | | | |
 | 05 | UDP + multi protocol | todo | | | | |
 | 06 | pipeline test | todo | | | | |
@@ -38,7 +38,7 @@ state: todo | running | done | failed | skipped (say why in the result column)
 |---|---|---|
 | T1 ZM-TST-packages Pass | pass (2026-10-10 16:45, cold, round 1) | reports/evidence-01c-checks.txt: Pass T, error 0, all ten *_ok T; commit 0a55fe6 |
 | T2 ZM-TST-log Pass | pass (2026-10-10 18:08, cold, round 1) | reports/evidence-02a-checks.txt: Pass T, error 0, file_ok/order_ok/timestamp_ok T; commit 7925561 |
-| T3 ZM-TST-hardware Pass | | |
+| T3 ZM-TST-hardware Pass | pass (2026-10-10 22:00, cold, round 1) | reports/evidence-03b-checks.txt: Pass T, error 0, sim_ok/sim_destination_ok/ranges_ok/varies_ok/placeholder_ok T; commit 3009b81 |
 | T4 ZM-TST-protocol Pass | | |
 | T5 ZM-TST-udp Pass | | |
 | T6 ZM-TST-pipeline Pass | | |
@@ -57,6 +57,13 @@ state: todo | running | done | failed | skipped (say why in the result column)
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
 
+- A class member with NO class terminal on its pane (a pure function member such as `randomData`) cannot go
+  through `lvai_add_class_method` (refuses: no classTerminals) nor `lvai_add_to_library` (refuses a `.lvclass`):
+  generate it with `lvai_generate_vi`, `lvproj_add_toplevel.py` (project closed), then run the tool's cached helper
+  `lvai_add_one_to_library.vi` with `library path` = the `.lvclass`, item type VI, folder index -1, project open
+  and active; then `set_scope.py` and the pane binding (report-03b, item 3). `lvai_create_class` strips the
+  `.lvproj` BOM; LabVIEW's next close restores it. A test VI's class constants go in as path seeds and are swapped
+  with `lvai_swap_subvis` `constantsJson` (report-03b, item 5).
 - A free diagram label is authored in AIXML as `<FreeLabel comment="#customerror 5000" .../>` (element `FreeLabel`,
   attribute `comment`, listed in `lvai_aixml_reference` section 4); it survives the convert and reads back in the
   export (report-03a, item 3). `lvai_add_class_method` converts with the project closed, so a class constant of
@@ -150,6 +157,9 @@ Where the build differs from `02-specification.md`, with why, and whether the us
 Do these in LabVIEW's Project Explorer at the end of a phase or before phase 12, then commit. Each line names
 the class, the item and the file that holds the text.
 
+- ZM-HW-SIM-simulated_hardware: class description (report-03b, item 8: "Pluggable simulated hardware: do returns a
+  random TestPackage addressed to Communication; init/close inherited"); `ZM-HW-do.vi`, `ZM-HW-SIM-randomData.vi` into
+  a `Methods` folder.
 - ZM-HW-hardware: class description (text in briefs/brief-03a-hw-parent.md, "Conventions written out");
   `ZM-HW-init.vi`, `ZM-HW-do.vi`, `ZM-HW-close.vi` into a `Methods` folder (report-03a, item 7).
 - ZM-PC-package: class description (text in briefs/brief-01a-pc-classes.md, "Descriptions"); move

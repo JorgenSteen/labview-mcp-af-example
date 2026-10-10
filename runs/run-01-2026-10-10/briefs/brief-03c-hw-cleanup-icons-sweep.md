@@ -6,7 +6,14 @@ Type: build (LabVIEW calls). Phase 03 step c of 3 (last step of the phase).
   `report-03b-hw-sim-test.md` (what exists, the sweep baseline), `report-02b-cu-cleanup-icons-sweep.md` and
   `report-01e-pc-icons-apply-sweep.md` (the measured cleanup and icon routes on this station; your report blocks
   follow theirs).
-  <<MANAGER: the file list and traps from reports 03a/03b go here before launch>>
+- The phase's VIs (7): `src\hardware\ZM-HW-hardware\ZM-HW-hardware\` `Write initialized.vi`, `ZM-HW-init.vi`,
+  `ZM-HW-do.vi`, `ZM-HW-close.vi`; `src\hardware\ZM-HW-SIM-simulated_hardware\ZM-HW-SIM-simulated_hardware\`
+  `ZM-HW-do.vi`, `ZM-HW-SIM-randomData.vi`; `src\tests\ZM-TST-hardware.vi` (diagram 2760x1504, a 24-stage chain:
+  clean it, report its size before and after as 01d did). Sweep baseline 9/9 (`proof\ZMP-03b\ZMP-03b-sweep-final.txt`).
+  AIXML sources with descriptions: `proof\ZMP-03a\`, `proof\ZMP-03b\`. The parent's `ZM-HW-do.vi` carries the
+  `FreeLabel` `#customerror 5000` (export `proof\ZMP-03a\export-ZM-HW-do.xml`): check it is still there after the
+  cleanup (export again) and report. Items for the user in the IDE from 03a/03b: both class descriptions, the
+  `Methods` folders (`ZM-HW-init/do/close` in the parent; `ZM-HW-do`, `ZM-HW-SIM-randomData` in the SIM).
 - Save version **26.0**; LabVIEW 2026 Q3 32-bit, so a save with no project open writes the same version.
 - User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself when it crashes or
   stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported. Never answer a dialog.

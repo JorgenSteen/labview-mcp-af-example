@@ -1,0 +1,31 @@
+run-checks evidence, session 03b (brief-03b-hw-sim-test), 2026-10-10 22:00 local
+LabVIEW 2026 Q3 32-bit (PID 14040, port 59552, up ~23700 s at the run), labview-mcp 1.9.5-local.20261010-1430 (f9ee41d9)
+project state: closed (no active project; lv_windows.ps1: unsaved only the tool's hidden LVMCP Validate.vi pair, possible dialogs 0)
+git before the run: clean at 3009b81 (test(hw): ZM-TST-hardware.vi (T3) in ZM-TST-tests.lvlib)
+entries run: ZM-TST-hardware only (the entry of this step; T1/T2 were run in 01c/02a)
+
+checks named  tests 1/1 pass  runs 0/0  project closed  calls 1 (run)  <1 min
+
+[ZM-TST-hardware]  kind vi  path src/tests/ZM-TST-hardware.vi  inputs {}  timeout 120 s  includeRawXml false
+  step 2 loadability: lv_loadability.py --vilib "LabVIEW 2026\vi.lib": targets 1: loadable 1, unresolved 0 (46 files read)
+  step 2 returns: vi_nets.py: 121 wires, no Loop/Structure/Event/Sequence -> returns true
+  cold lvai_exec_state before the run (after library membership): 1 (eIdle), code 0
+  run: lvai_run_vi_and_read_values errorCode 0, helperErrorCode 0, helperFailed false, elapsed 75 ms, valueCount 7
+  readings:
+    sim_ok              1 (true)
+    sim_destination_ok  1 (true)
+    ranges_ok           1 (true)
+    varies_ok           1 (true)
+    placeholder_ok      1 (true)
+    Pass                1 (true)
+    error out           status 0, code 0, source ""
+  verdict: ZM-TST-hardware  PASS  Pass=T  error 0   (round 1, no fix; no SIM, parent or ZM-PC VI at fault)
+
+notes:
+  - ranges: temperature_c >= 20 and < 30; sample_index >= 0 and <= 999; duty_percent >= 0 and <= 100 (U8); status via
+    Search 1D Array on {ok, warm, cold} -> index >= 0; 21 Booleans -> Build Array -> And Array Elements
+  - varies_ok = NOT (si0 = si1 AND si1 = si2); placeholder_ok = code 5000 AND source "ZM-HW-do.vi: must be overridden by a child class"
+    read from the bare ZM-HW-hardware do's error out (its own chain, not wired into error out)
+  - panel: 5 informational Booleans + Pass + error out, nothing else; read_only in checks.json is Pass, error out
+failures: none
+evidence: this file (proof/ is git-ignored by the product .gitignore; readings repeated in report-03b)

@@ -1,9 +1,9 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-10 15:35 by the manager session (phase 00)
-next phase: 00 setup, steps 4 to 8 (steps 1 to 3 done)
-open items: none; 00b done (project created, commit d0ef347); 00a (conventions) launched 15:36
+last updated: 2026-10-10 15:45 by the manager session (phase 01)
+next phase: 01 packages (step a launched 15:46)
+open items: none blocking. Two things for the user when convenient: (1) finding F3, the library count in 02 §10 / README (14) vs the spec tables (13); (2) virtual folders inside classes (`Accessors` is made by the accessor tool; `Methods`, `TypeDefs`, `Helpers` have no tool: an agent will report what it could not place, and the user may drag items in the Project Explorer)
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
 
@@ -15,7 +15,7 @@ open items: none; 00b done (project created, commit d0ef347); 00a (conventions) 
 
 | # | phase | state | started | ended | commit | result in one line |
 |---|---|---|---|---|---|---|
-| 00 | setup | running | 2026-10-10 14:40 | | d0ef347 (project) | steps 1 to 4, 7, 8 done: project with six folders, save version 26.0; step 6 (conventions, 00a) running |
+| 00 | setup | done | 2026-10-10 14:40 | 2026-10-10 15:45 | d0ef347 (project), 15b56f9 (.labview) | product skeleton, LabVIEW 2026 Q3 32-bit answers, .labview complete (10 decided rules, configuration off), empty project with six folders, save version 26.0; one LabVIEW crash on the way (F2) |
 | 01 | packages | todo | | | | |
 | 02 | common utilities | todo | | | | |
 | 03 | hardware | todo | | | | |
@@ -57,6 +57,9 @@ state: todo | running | done | failed | skipped (say why in the result column)
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
 
+- `icon-spec.json` (`.labview/conventions/`) carries the pilot's `rules` patterns in snake_case (`get_data_as_json`,
+  ...) and an empty `planned`; the icons step of each phase must revisit the patterns for the camelCase names of `02`
+  before generating (report-00a-conventions.md, item 6).
 - Opening and closing a project writes `src/.Zuehlke MCP.UserState/debug.lvprojstate`; now git-ignored by
   `*.UserState/` in the product `.gitignore` (report-00b-project.md, item 6).
 - `lvai_describe_project` does not list virtual folders; folders are verified from the `.lvproj` XML
@@ -99,6 +102,10 @@ restarts, projects closed), one line each with the user's go-ahead quoted and da
   21.8 s, LVAutoSave already empty), under the user's standing go-ahead above.
 
 ## Where the next session starts
+
+Phase 00 is done. Phase 01 (packages) is split into 01a classes, 01b methods and library, 01c test, 01d icons,
+cleanup, sweep. Briefs are written one step ahead; check `briefs/` for the highest step with no matching report in
+`reports/`: that is the running or next step. Each step commits its own product files.
 
 Last product commit: `chore: empty project Zuehlke MCP.lvproj with six virtual folders` (d0ef347). Nothing is
 half done in LabVIEW: no project is open. First check that the labview-mcp plugin is connected (the

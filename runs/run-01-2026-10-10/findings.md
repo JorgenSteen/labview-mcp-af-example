@@ -31,3 +31,16 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
   virtual folder; `lvai_lvproj_reference` says `.lvproj` generation is on NI's unsupported list. The vocabulary
   found offline in `lvserver.rsc` is in `status.md`, "Traps carried forward".
 - **Owner:** labview-mcp (crash); the skill (project-creation route). Report: `reports/report-00b-project.md`.
+
+## F3 (2026-10-10): library count: `02` §10 and the README say 14, the spec's own tables list 13 (requirement inconsistency)
+
+- **What:** `02-specification.md` §1 and §9 name 13 libraries: `ZM-PC-packages`, `ZM-CU-common_utilities`,
+  `ZM-CI-common_interfaces`, `ZM-HW-hardware`, `ZM-HW-SIM-simulated_hardware`, `ZM-CP-communication_protocol`,
+  `ZM-CP-FL-file_logger`, `ZM-CP-UDP-udp_transport`, `ZM-CP-MX-multi_protocol`, `ZM-HWM-hardware_manager`,
+  `ZM-CM-communication_manager`, `ZM-ROOT-root` (12 shipped) and `ZM-TST-tests`. `02` §10 says "14 (13 shipped +
+  `ZM-TST-tests`)"; `05-skill-alignment.md` "Counts" and the root README say 14.
+- **Evidence:** report-00a-conventions.md, item 6 (c); the tables in `02` §1 and §9.
+- **Effect:** none on the build (the tables win; names come from the tables). The count in `02` §10 is what phase 12's
+  structural check "Project tree: 14 libraries" would compare against: the manager will count 13 unless the user says
+  a library is missing from the tables. Not patched (the harness is read-only).
+- **Owner:** the user (confirm 13, or name the 14th library).

@@ -16,11 +16,13 @@ source: default
 ## banner
 Every VI icon of new code has a banner on top: the class abbreviation (unique within the project as far as
 possible), in the class's own colour (unique per class), in black LabVIEW Small Fonts text.
+note: drawn as the kit does today (decisions.md#D39)
 source: default
 
 ## class-glyph
 Every class and actor has ONE glyph of its own, on the right of the icon body. The banner plus the class glyph form
 the class template, the starting point of every VI of the class.
+note: drawn as the kit does today (decisions.md#D39)
 source: default
 
 ## labview-template

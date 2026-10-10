@@ -29,6 +29,8 @@
 			<Item Name="ZM-TST-tests.lvlib" Type="Library" URL="../tests/ZM-TST-tests.lvlib"/>
 		</Item>
 		<Item Name="ZM-CP-FL-file_logger.lvclass" Type="LVClass" URL="../protocol/ZM-CP-FL-file_logger/ZM-CP-FL-file_logger/ZM-CP-FL-file_logger.lvclass"/>
+		<Item Name="ZM-CP-FL-buildPath.vi" Type="VI" URL="../src/protocol/ZM-CP-FL-file_logger/ZM-CP-FL-file_logger/ZM-CP-FL-buildPath.vi"/>
+		<Item Name="ZM-CP-FL-appendLine.vi" Type="VI" URL="../src/protocol/ZM-CP-FL-file_logger/ZM-CP-FL-file_logger/ZM-CP-FL-appendLine.vi"/>
 		<Item Name="Dependencies" Type="Dependencies"/>
 		<Item Name="Build Specifications" Type="Build"/>
 	</Item>

@@ -1,6 +1,6 @@
 {
   "$schema_version": 1,
-  "_doc": "Icon standard of Zuehlke MCP, read by <skill>/kit/make_icons.py (always pass --spec, --src and --out: from .labview/conventions/ the paths do not resolve against the product folder). The rules are in icons.md beside this file; the names are those of requirements/02-specification.md. classes: owner key (the class folder name, a flat folder, the top-level owner or a library owner) -> banner (the 02 abbreviation, max 7), web-safe colour, lib_glyph. libs: .lvlib icons. no_template: classes entries without a .lvclass; library_owners: owners whose .lvlib is the template of their VIs; flat_folders: first-level src folders drawn flat. overrides: owner -> VI file -> lib_glyph + glyph. rules: ordered name rules (match contains|prefix|suffix|equals; first: true runs before the built-in Read/Write/Send/Do rules). palette, lib_glyphs (10x10), glyphs (16x16) and rules are copied unchanged from the pilot's spec (requirements/assets/icons/icon-spec.json); the rule patterns are the pilot's snake_case member names. planned: VIs not built yet (--include-planned).",
+  "_doc": "Icon standard of Zuehlke MCP, read by <skill>/kit/make_icons.py (always pass --spec, --src and --out: from .labview/conventions/ the paths do not resolve against the product folder). The rules are in icons.md beside this file; the names are those of requirements/02-specification.md. classes: owner key (the class folder name, a flat folder, the top-level owner or a library owner) -> banner (the 02 abbreviation, max 7), web-safe colour, lib_glyph. libs: .lvlib icons. no_template: classes entries without a .lvclass; library_owners: owners whose .lvlib is the template of their VIs; flat_folders: first-level src folders drawn flat. overrides: owner -> VI file -> lib_glyph + glyph. rules: ordered name rules (match contains|prefix|suffix|equals; first: true runs before the built-in Read/Write/Send/Do rules). palette, lib_glyphs (10x10) and glyphs (16x16) are copied unchanged from the pilot's spec (requirements/assets/icons/icon-spec.json); the rules were rewritten in phase 01d to the 02 member names (camelCase; specific patterns before short ones, so closeConnection before -close and createEvents/createResources/createFolder before -create), using only glyphs the spec or the engine already has. planned: VIs not built yet (--include-planned).",
   "paths": {
     "src": "src",
     "out": "proof/icons"
@@ -189,7 +189,7 @@
     "ZM-TST-tests": {
       "banner": "TST",
       "colour": "663399",
-      "lib_glyph": null
+      "lib_glyph": "none"
     }
   },
   "no_template": [
@@ -256,11 +256,11 @@
   },
   "rules": [
     {
-      "pattern": "open_sender",
+      "pattern": "openSender",
       "glyph": "init"
     },
     {
-      "pattern": "open_receiver",
+      "pattern": "openReceiver",
       "glyph": "init"
     },
     {
@@ -268,103 +268,161 @@
       "glyph": "inbox"
     },
     {
-      "pattern": "handle_package",
+      "pattern": "handlePackage",
       "glyph": "inbox"
     },
     {
-      "pattern": "pre_launch_init",
+      "match": "equals",
+      "pattern": "Pre Launch Init",
       "glyph": "launch"
     },
     {
-      "pattern": "launch_cm",
-      "glyph": "launch"
+      "match": "equals",
+      "pattern": "Actor Core",
+      "glyph": "core"
     },
     {
-      "pattern": "launch_hwm",
-      "glyph": "launch"
+      "match": "equals",
+      "pattern": "Stop Core",
+      "glyph": "stop"
     },
     {
-      "pattern": "evaluate_error",
+      "match": "equals",
+      "pattern": "Handle Error",
       "glyph": "error"
     },
     {
-      "pattern": "HWM-helper_loop",
+      "pattern": "launchCm",
+      "glyph": "launch"
+    },
+    {
+      "pattern": "launchHwm",
+      "glyph": "launch"
+    },
+    {
+      "pattern": "evaluateError",
+      "glyph": "error"
+    },
+    {
+      "pattern": "HWM-helperAcquisition",
       "glyph": "loop"
     },
     {
-      "pattern": "ROOT-helper_loop",
+      "pattern": "ROOT-helperPanel",
       "glyph": "ui"
     },
     {
-      "pattern": "create_notifier",
-      "glyph": "bell"
-    },
-    {
-      "pattern": "acquisition_loop",
-      "glyph": "loop"
-    },
-    {
-      "pattern": "create_events",
+      "pattern": "createEvents",
       "glyph": "event"
     },
     {
-      "pattern": "ui_loop",
-      "glyph": "ui"
+      "pattern": "createResources",
+      "glyph": "create"
     },
     {
-      "pattern": "show_error",
-      "glyph": "alert"
-    },
-    {
-      "pattern": "note_package_type",
-      "glyph": "note"
-    },
-    {
-      "pattern": "set_destination",
-      "glyph": "settag"
-    },
-    {
-      "pattern": "get_destination_name",
-      "glyph": "tag"
-    },
-    {
-      "pattern": "set_type",
-      "glyph": "settag"
-    },
-    {
-      "pattern": "get_type_name",
-      "glyph": "tag"
-    },
-    {
-      "pattern": "get_data_as_json",
-      "glyph": "json"
-    },
-    {
-      "pattern": "get_timestamp_string",
-      "glyph": "clock"
-    },
-    {
-      "pattern": "get_header",
-      "glyph": "header"
-    },
-    {
-      "pattern": "create_folder",
+      "pattern": "createFolder",
       "glyph": "folder"
     },
     {
-      "pattern": "build_path",
+      "pattern": "writePrelaunchSettings",
+      "glyph": "write"
+    },
+    {
+      "pattern": "releaseProtocol",
+      "glyph": "close"
+    },
+    {
+      "pattern": "closeConnection",
+      "glyph": "close"
+    },
+    {
+      "pattern": "showError",
+      "glyph": "alert"
+    },
+    {
+      "pattern": "notePackageType",
+      "glyph": "note"
+    },
+    {
+      "pattern": "getDestinationName",
+      "glyph": "tag"
+    },
+    {
+      "pattern": "setType",
+      "glyph": "settag"
+    },
+    {
+      "pattern": "getTypeName",
+      "glyph": "tag"
+    },
+    {
+      "pattern": "getDataAsJson",
+      "glyph": "json"
+    },
+    {
+      "pattern": "getTimestampString",
+      "glyph": "clock"
+    },
+    {
+      "pattern": "getHeader",
+      "glyph": "header"
+    },
+    {
+      "pattern": "buildPath",
       "glyph": "path"
     },
     {
-      "pattern": "append_line",
+      "pattern": "appendLine",
       "glyph": "append"
     },
     {
-      "pattern": "random_data",
+      "pattern": "randomData",
       "glyph": "dice"
+    },
+    {
+      "match": "suffix",
+      "pattern": "-create",
+      "glyph": "create"
+    },
+    {
+      "match": "suffix",
+      "pattern": "-init",
+      "glyph": "init"
+    },
+    {
+      "match": "suffix",
+      "pattern": "-publish",
+      "glyph": "publish"
+    },
+    {
+      "match": "suffix",
+      "pattern": "-do",
+      "glyph": "do"
+    },
+    {
+      "match": "suffix",
+      "pattern": "-close",
+      "glyph": "close"
+    },
+    {
+      "match": "suffix",
+      "pattern": "-stop",
+      "glyph": "stop"
     }
   ],
   "lib_glyphs": {
+    "none": [
+      "..........",
+      "..........",
+      "..........",
+      "..........",
+      "..........",
+      "..........",
+      "..........",
+      "..........",
+      "..........",
+      ".........."
+    ],
     "box": [
       "NNNNNNNNNN",
       "NnnnYYnnnN",

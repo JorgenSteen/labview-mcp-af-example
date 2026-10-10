@@ -4,7 +4,10 @@ Type: build (LabVIEW calls for the cleanup only; icon generation is offline). Ph
 ## UPDATES (read first)
 - Reports to read: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-01a-pc-classes.md`,
   `report-01b-pc-methods-library.md`, `report-01c-pc-test.md` (what exists, the sweep baselines, open items).
-  <<MANAGER: traps from report 01c go here before launch>>
+- Facts from report 01c: `src\tests\ZM-TST-tests.lvlib` holds `ZM-TST-packages.vi` (under the project's `tests`
+  folder); T1 passed cold (all ten checks). The test VI's diagram is wide (3306 x 764 px, a 33-stage chain): Clean Up
+  Diagram is wanted on it too; report its size before and after. Sweep baselines: 25/25 state 1 (proof\ZMP-01c).
+  The 01c agent found `Match Regular Expression` not authorable (XNode) and used `Match Pattern`; nothing for you to do.
 - Save version **26.0**; LabVIEW 2026 Q3 32-bit, so a save with no project open writes the same version: no conflict.
 - User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself when it crashes or
   stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported. Never answer a dialog.

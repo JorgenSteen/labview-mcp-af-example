@@ -1,8 +1,8 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-10 16:40 by the manager session (phase 01)
-next phase: 01 packages, step c (test T1; launched 16:41)
+last updated: 2026-10-10 16:58 by the manager session (phase 01)
+next phase: 01 packages, step d (cleanup, icon rules, preview; launched 16:59); step e (apply icons) needs the user's approval of the preview
 open items: F3 (library count 13 vs 14) still unanswered, not blocking. Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429) and resumed by SendMessage at 16:22; it finished at 16:32 (report-01b-pc-methods-library.md).
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
@@ -16,7 +16,7 @@ open items: F3 (library count 13 vs 14) still unanswered, not blocking. Items fo
 | # | phase | state | started | ended | commit | result in one line |
 |---|---|---|---|---|---|---|
 | 00 | setup | done | 2026-10-10 14:40 | 2026-10-10 15:45 | d0ef347 (project), 15b56f9 (.labview) | product skeleton, LabVIEW 2026 Q3 32-bit answers, .labview complete (10 decided rules, configuration off), empty project with six folders, save version 26.0; one LabVIEW crash on the way (F2) |
-| 01 | packages | running | 2026-10-10 15:46 | | 63c4179..0148c39 (01a), a2e395f..c42836d (01b) | 01a, 01b done: 3 classes, 24 member VIs exactly as 02 §7.1, library under common, overrides with Call Parent + setType hook, probe JSON correct, sweep 24/24, all 26.0; 01c test running |
+| 01 | packages | running | 2026-10-10 15:46 | | 63c4179..0148c39 (01a), a2e395f..c42836d (01b) | 01a-01c done: 3 classes, 24 member VIs exactly as 02 §7.1, library under common, overrides with Call Parent + setType hook, ZM-TST-tests.lvlib + T1 Pass (round 1), sweep 25/25, all 26.0; 01d cleanup+icons running |
 | 02 | common utilities | todo | | | | |
 | 03 | hardware | todo | | | | |
 | 04 | protocol + file logger | todo | | | | |
@@ -36,7 +36,7 @@ state: todo | running | done | failed | skipped (say why in the result column)
 
 | check | state | evidence |
 |---|---|---|
-| T1 ZM-TST-packages Pass | | |
+| T1 ZM-TST-packages Pass | pass (2026-10-10 16:45, cold, round 1) | reports/evidence-01c-checks.txt: Pass T, error 0, all ten *_ok T; commit 0a55fe6 |
 | T2 ZM-TST-log Pass | | |
 | T3 ZM-TST-hardware Pass | | |
 | T4 ZM-TST-protocol Pass | | |
@@ -57,6 +57,14 @@ state: todo | running | done | failed | skipped (say why in the result column)
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
 
+- A test VI (or any loose VI) must be a project item BEFORE the library helper runs `Library.Create` + `AddItem`:
+  `lvproj_add_toplevel.py` first, then the helper (project open and active), then `lvproj_move.py` into the folder
+  (project closed). Otherwise the close writes no library and drops a loose VI entry (report-01c, item 2).
+- `Match Regular Expression` is an XNode and cannot be authored in AIXML: use `Match Pattern` with an anchored
+  character-class pattern (report-01c, item 6). `Equal?` on clusters is element-wise: `Cluster To Array` + `And Array
+  Elements` for a scalar.
+- Evidence files under `proof/` are git-ignored by design; the manager copies each test's evidence into
+  `runs/<run>/reports/evidence-<step>-checks.txt` (report-01c, item 6).
 - A hook placed after Call Parent (shape B-after) in a DYNAMIC override of a plain class must take and return
   the PARENT class type (`ZM-PC-package in`/`out`), never the child type and never a To More Specific Class cast:
   otherwise the override and every caller of the dispatch method read state 0 cold with only "VI is not

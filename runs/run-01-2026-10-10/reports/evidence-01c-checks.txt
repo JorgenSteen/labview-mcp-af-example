@@ -1,0 +1,35 @@
+run-checks evidence, session 01c (brief-01c-pc-test), 2026-10-10 ~16:45 local
+LabVIEW 2026 Q3 32-bit (PID 14040, port 59552, up ~4900 s at the run), labview-mcp 1.9.5-local.20261010-1430 (f9ee41d9)
+project state: closed (no active project; lv_windows.ps1: unsaved 0, possible dialogs 0)
+git before the run: clean at 0a55fe6 (test(pc): library ZM-TST-tests.lvlib ...)
+entries run: ZM-TST-packages only (the other checks.json entries have no VI yet)
+
+checks named  tests 1/1 pass  runs 0/0  project closed  calls 1 (run)  <1 min
+
+[ZM-TST-packages]  kind vi  path src/tests/ZM-TST-packages.vi  inputs {}  timeout 120 s  includeRawXml false
+  step 2 loadability: lv_loadability.py --vilib "LabVIEW 2026\vi.lib": targets 1: loadable 1, unresolved 0 (35 files read)
+  step 2 returns: vi_nets.py: 144 wires, no Loop/Structure/Event/Sequence -> returns true
+  cold lvai_exec_state before the run: 1 (eIdle), code 0
+  run: lvai_run_vi_and_read_values errorCode 0, helperErrorCode 0, helperFailed false, elapsed 69 ms, valueCount 12
+  readings:
+    dispatch_ok              1 (true)
+    call_parent_ok           1 (true)
+    tp_json_ok               1 (true)
+    type_name_ok             1 (true)
+    ep_json_ok               1 (true)
+    parent_json_ok           1 (true)
+    timestamp_ok             1 (true)
+    destination_default_ok   1 (true)
+    destination_roundtrip_ok 1 (true)
+    ep_root_ok               1 (true)
+    Pass                     1 (true)
+    error out                status 0, code 0, source ""
+  verdict: ZM-TST-packages  PASS  Pass=T  error 0   (round 1, no fix)
+
+notes:
+  - timestamp pattern checked with Match Pattern (XNode Match Regular Expression is not authorable in AIXML):
+    ^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]\.[0-9][0-9][0-9]Z$  (a decimal comma fails it)
+  - data compared with Equal? on the clusters (Compare Elements) -> Cluster To Array -> And Array Elements
+  - panel: 10 informational Booleans + Pass + error out, nothing else; read_only in checks.json is Pass, error out
+failures: none
+evidence: this file (proof/ is git-ignored by the product .gitignore; readings repeated in report-01c)

@@ -1,0 +1,21 @@
+{
+  "$schema_version": 2,
+  "_doc": "Project facts for the labview skill. Keys and meaning: <skill>/conventions/dot-labview.md. Paths relative to the product folder (the parent of .labview/, the skill's <repo>), forward slashes; the run-folder paths point one level up into the outer git repository.",
+  "project_name": "Zuehlke MCP",
+  "prefix": "ZM",
+  "source_root": "src",
+  "project_file": "src/Zuehlke MCP.lvproj",
+  "labview_version": "2026 Q3",
+  "save_version": "26.0",
+  "git": true,
+  "conventions_mode": "full",
+  "analysis_depth": "none",
+  "restart_go_ahead": "always",
+  "restart_go_ahead_note": "User go-ahead (2026-10-10 15:22): \"You may restart LabVIEW when needed. close anything you are using labview all by yourself for the whole session, not restrictions\"",
+  "proof_folder": "proof",
+  "proof_prefix": "ZMP-",
+  "briefs_folder": "../runs/run-01-2026-10-10/briefs",
+  "status_file": "../runs/run-01-2026-10-10/status.md",
+  "mcp_reports_folder": "../runs/run-01-2026-10-10/mcp-reports",
+  "knowledge_files": []
+}

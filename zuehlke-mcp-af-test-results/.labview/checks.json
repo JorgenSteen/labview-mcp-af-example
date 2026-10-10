@@ -1,0 +1,134 @@
+{
+  "$schema_version": 1,
+  "_doc": "Test VIs and behaviour runs for <skill>/ops/run-checks.md (entry format there). A test VI reports a named Pass Boolean and error out (convention: hygiene.test-convention). Paths relative to the product folder (the parent of .labview/), forward slashes. Optional per test: kind (vi | caraya | lunit), read_only (indicators to read; the rest stay off the read-back), returns (true when checked offline that the VI returns without a panel press). The checks are those of requirements/03-acceptance.md, sections 1 and 2.",
+  "tests": [
+    {
+      "name": "ZM-TST-packages",
+      "path": "src/tests/ZM-TST-packages.vi",
+      "class_under_test": "src/common/ZM-PC-packages/ZM-PC-package/ZM-PC-package.lvclass",
+      "kind": "vi",
+      "project": "closed",
+      "read_only": ["Pass", "error out"],
+      "returns": true,
+      "inputs": {},
+      "expected": { "pass": "Pass", "error out code": 0 },
+      "side_effects": "none",
+      "evidence": "proof/runs/<X>-checks.txt"
+    },
+    {
+      "name": "ZM-TST-log",
+      "path": "src/tests/ZM-TST-log.vi",
+      "class_under_test": "src/common/ZM-CU-common_utilities/ZM-CU-common_utilities.lvlib",
+      "kind": "vi",
+      "project": "closed",
+      "read_only": ["Pass", "error out"],
+      "returns": true,
+      "inputs": {},
+      "expected": { "pass": "Pass", "error out code": 0 },
+      "side_effects": "two marker lines appended to output/ZM-error_log.txt",
+      "evidence": "proof/runs/<X>-checks.txt"
+    },
+    {
+      "name": "ZM-TST-hardware",
+      "path": "src/tests/ZM-TST-hardware.vi",
+      "class_under_test": "src/hardware/ZM-HW-SIM-simulated_hardware/ZM-HW-SIM-simulated_hardware/ZM-HW-SIM-simulated_hardware.lvclass",
+      "kind": "vi",
+      "project": "closed",
+      "read_only": ["Pass", "error out"],
+      "returns": true,
+      "inputs": {},
+      "expected": { "pass": "Pass", "error out code": 0 },
+      "side_effects": "none",
+      "evidence": "proof/runs/<X>-checks.txt"
+    },
+    {
+      "name": "ZM-TST-protocol",
+      "path": "src/tests/ZM-TST-protocol.vi",
+      "class_under_test": "src/protocol/ZM-CP-FL-file_logger/ZM-CP-FL-file_logger/ZM-CP-FL-file_logger.lvclass",
+      "kind": "vi",
+      "project": "closed",
+      "read_only": ["Pass", "error out"],
+      "returns": true,
+      "inputs": {},
+      "expected": { "pass": "Pass", "error out code": 0 },
+      "side_effects": "writes JSONL files in a temp folder",
+      "evidence": "proof/runs/<X>-checks.txt"
+    },
+    {
+      "name": "ZM-TST-udp",
+      "path": "src/tests/ZM-TST-udp.vi",
+      "class_under_test": "src/protocol/ZM-CP-UDP-udp_transport/ZM-CP-UDP-sender/ZM-CP-UDP-sender.lvclass",
+      "kind": "vi",
+      "project": "closed",
+      "read_only": ["Pass", "error out"],
+      "returns": true,
+      "inputs": {},
+      "expected": { "pass": "Pass", "error out code": 0 },
+      "side_effects": "UDP on 127.0.0.1:61557; writes output/test_mx_a and output/test_mx_b",
+      "evidence": "proof/runs/<X>-checks.txt"
+    },
+    {
+      "name": "ZM-TST-pipeline",
+      "path": "src/tests/ZM-TST-pipeline.vi",
+      "class_under_test": "src/hardware/ZM-HW-SIM-simulated_hardware/ZM-HW-SIM-simulated_hardware/ZM-HW-SIM-simulated_hardware.lvclass",
+      "kind": "vi",
+      "project": "closed",
+      "read_only": ["Pass", "error out"],
+      "returns": true,
+      "inputs": {},
+      "expected": { "pass": "Pass", "error out code": 0 },
+      "side_effects": "writes JSONL files in a temp folder",
+      "evidence": "proof/runs/<X>-checks.txt"
+    },
+    {
+      "name": "ZM-TST-routing",
+      "path": "src/tests/ZM-TST-routing.vi",
+      "class_under_test": "src/actors/ZM-ROOT-root/ZM-ROOT-root/ZM-ROOT-root.lvclass",
+      "kind": "vi",
+      "project": "closed",
+      "read_only": ["Pass", "error out"],
+      "returns": true,
+      "inputs": {},
+      "expected": { "pass": "Pass", "error out code": 0 },
+      "side_effects": "lines appended to output/ZM-error_log.txt",
+      "evidence": "proof/runs/<X>-checks.txt"
+    }
+  ],
+  "runs": [
+    {
+      "name": "R-normal",
+      "path": "src/ZM-launcher_test.vi",
+      "project": "closed",
+      "preconditions": "the launcher deletes the output files itself",
+      "steps": [{ "tool": "lvai_run_vi_and_read_values" }],
+      "inputs": { "run_time_ms": "5000", "use_placeholder_hardware": "false" },
+      "expected": {
+        "lines_written": "8-11",
+        "error_lines": 0,
+        "ui_errors": "empty",
+        "last_line": "unflattens to type TestPackage with five data fields and destination Communication (compare after unflattening, never as a string)",
+        "error out code": 0
+      },
+      "timeout_s": 60,
+      "repeat": 3,
+      "evidence": "proof/runs/<X>-runs.txt"
+    },
+    {
+      "name": "R-error",
+      "path": "src/ZM-launcher_test.vi",
+      "project": "closed",
+      "preconditions": "the launcher deletes the output files itself",
+      "steps": [{ "tool": "lvai_run_vi_and_read_values" }],
+      "inputs": { "run_time_ms": "5000", "use_placeholder_hardware": "true" },
+      "expected": {
+        "lines_written": 0,
+        "last_line": "empty",
+        "error_lines": "1; the line holds HWM, 5000 and ZM-HW-do.vi",
+        "ui_errors": "holds the ErrorPackage JSON",
+        "error out code": 0
+      },
+      "timeout_s": 60,
+      "evidence": "proof/runs/<X>-runs.txt"
+    }
+  ]
+}

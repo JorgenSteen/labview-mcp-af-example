@@ -131,18 +131,19 @@ the brief, one agent launch and the revert, in minutes, and leaves nothing behin
 3. Paste this as the first message:
 
    ```
-   Start run-01. Agents inherit your model. Effort is high. I push myself.
-   Answer no for me to the user.lib go-ahead in phase 00.
+   Start run-01.
    ```
 
-   The first line answers the questions the manager would otherwise ask. The second keeps the
-   run inside the repository; drop it if you want *Explain Error* to know code 5000.
+   That is the whole go-ahead. The manager runs every phase through to the end without asking
+   between them. Everything else is a default in `CLAUDE.md` ("Defaults that need no question"):
+   agents inherit the manager's model, the error-code file stays in the repository, LabVIEW is
+   not restarted without asking, nothing is pushed. Change a default by adding it to the message,
+   for example `Start run-01. Agents on opus. You may restart LabVIEW when needed.`
 
-   To only prove the basics first, use instead:
+   To only prove the basics first:
 
    ```
-   Smoke test, level 2. Follow orchestration/smoke-test.md. I tagged pre-smoke.
-   Agents inherit your model. Effort is high. Report what you did and stop.
+   Smoke test, level 2. I tagged pre-smoke.
    ```
 
 4. The manager reads `CLAUDE.md`, `orchestration/plan.md` and `runs/`. It tells you which run is

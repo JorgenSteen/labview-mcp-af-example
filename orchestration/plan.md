@@ -104,7 +104,9 @@ The manager chooses. These are the fits:
 ## Models and effort
 
 The manager and the agents need not run on the same model. Each agent launch takes a `model`
-override, and that is the knob for the cost of a run.
+override, and that is the knob for the cost of a run. The default is set in `CLAUDE.md`
+("Defaults that need no question"): agents inherit the manager's model. The user changes it in
+the start message, for example `Start run-02. Agents on opus.`
 
 | role | first run (prove the route) | later runs (measure a cheaper model) |
 |---|---|---|

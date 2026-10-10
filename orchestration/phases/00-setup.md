@@ -39,10 +39,10 @@ folders opens, and the run folder exists.
 4. **Manager:** `session/start.md`: LabVIEW and the labview-mcp service answer; read `lvai_status`;
    write the machine facts into `status.md`. Note the LabVIEW version and the save version it
    reports; they go into `project.json`.
-5. **Manager, up front:** ask the user for the one go-ahead this phase may need: copying
-   `ZM-errors.txt` into LabVIEW's `user.lib\errors\` (outside the repo) and the restart that makes
-   LabVIEW read it. Quote the answer in the brief. Without it, *Explain Error* will not know
-   code 5000; the tests do not depend on that.
+5. **Manager:** the error-code file is **not** copied into LabVIEW's `user.lib\errors\` unless
+   the user said so in the start message (`CLAUDE.md`, "Defaults that need no question"). Do not
+   ask. If the user did say so, quote it with the date in the brief and in `status.md`; the copy
+   needs a LabVIEW restart to take effect, which needs its own go-ahead.
 6. **Agent:** run the skill's `conventions/setup.md` **with `zuehlke-mcp-af-test-results/` as
    the skill's `<repo>`** (its `.labview/` goes there; git commands run from inside it and reach
    the outer repository), with these answers, so it asks nothing:
@@ -62,8 +62,8 @@ folders opens, and the run folder exists.
    - `checks.json`: the seven test VIs of `03-acceptance.md` §1 by their future paths under
      `src/tests/`, and the runs of §2 that a VI can drive (R-normal ×3, R-error).
 7. **Agent:** create `src/Zuehlke MCP.lvproj` through LabVIEW (never by hand) with the virtual
-   folders `common`, `hardware`, `protocol`, `actors`, `tests`, `receiver`; with the go-ahead, copy
-   `ZM-errors.txt` into `user.lib\errors\`.
+   folders `common`, `hardware`, `protocol`, `actors`, `tests`, `receiver`; only if the user asked
+   for it at the start, copy `ZM-errors.txt` into `user.lib\errors\`.
 8. **Agent:** close the project (`lvai_close_active_project` with the project path), report.
 
 ## Done when

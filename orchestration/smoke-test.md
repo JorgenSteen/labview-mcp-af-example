@@ -16,8 +16,8 @@ or run the smoke test in a **copy of the whole folder** and delete the copy afte
 is simpler and keeps the real repository untouched; tell the manager which you did, so it does
 not go looking for the tag.
 
-The manager cannot read the session's effort setting. State it in the first message, together
-with the model the agents should run on, so `cost.md` can record both.
+The manager cannot read the session's effort setting. State it in the first message if you want
+it in `cost.md`; otherwise it is recorded as "not visible".
 
 ## Level 1: no LabVIEW
 
@@ -26,7 +26,8 @@ git check, product folder skeleton) and stops. No LabVIEW call, no agent launch.
 
 What to look for:
 
-- it reported the state correctly (no run, no product folder, phase 00 next) and asked once;
+- it reported the state correctly (no run, no product folder, phase 00 next) and did not ask
+  anything, since the start message was the go-ahead;
 - `runs/run-01-<date>/` exists with `status.md`, `cost.md`, `findings.md` and the three empty
   folders;
 - `zuehlke-mcp-af-test-results/` exists with `README.md`, `.gitignore`, `.gitattributes`,
@@ -38,9 +39,9 @@ Takes minutes.
 
 ## Level 2: phase 00 complete
 
-Tell the manager: "smoke test, level 2". It runs all of phase 00: the status call, the go-ahead
-question about `user.lib\errors\` (answer **no** for the smoke test, so nothing outside the repo
-is touched), the skill setup by one agent, the empty project, the close.
+Tell the manager: "smoke test, level 2". It runs all of phase 00: the status call, the skill
+setup by one agent, the empty project, the close. Nothing outside the repository is touched: the
+error-code file stays in the repo by default (`CLAUDE.md`, "Defaults that need no question").
 
 What to look for, beyond level 1:
 

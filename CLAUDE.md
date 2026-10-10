@@ -23,12 +23,28 @@ instead of starting a real run.
    `status.md`. If there is no run, the next step is to create one and start at phase 00.
 3. Tell the user, in a few lines: which run, which phase is done, which phase is next, anything the
    last session left open (a question, a failed check, a pending go-ahead).
-4. Ask **once** whether to go on, and in the same question which model the agents should run on
-   (`orchestration/plan.md`, "Models and effort"; the default is to inherit yours) and which
-   effort level the session is set to, since you cannot read it. If the user's first message
-   already answers these, do not ask again; note in `status.md` that the answers came with the
-   start message. Do not start a phase before the user says yes.
-5. Then run phases in order until a stop condition (below), without asking again between phases.
+4. If the user's message says to start or continue a run, that is the go-ahead: begin at once.
+   If the user only opened the session and said nothing, ask once whether to go on.
+5. Then run phases in order, **all the way to phase 13**, stopping only for a stop condition
+   (below). Do not ask between phases. Do not ask the user to confirm a phase, a brief or a
+   commit. The run is meant to go through on its own.
+
+## Defaults that need no question
+
+These are decided here so that the start message can be one line. The user changes any of them
+by saying so in the start message; record such a change in `status.md` with the date.
+
+- **Agent model: the agents inherit your model.** Pass no `model` override unless the user named
+  one. The table in `orchestration/plan.md`, "Models and effort", says what later runs may use.
+- **Effort:** you cannot read the session's effort setting. Record it in `cost.md` as "not
+  visible" unless the user stated it.
+- **The error-code file stays inside the repository.** Phase 00 does not copy `ZM-errors.txt`
+  into LabVIEW's `user.lib\errors\` and does not ask to. The tests do not depend on it; only
+  *Explain Error* would. If the user wants it installed, they say so at the start.
+- **LabVIEW restarts need a go-ahead**, as the skill says, unless the user grants a standing one
+  in the start message. Then quote it with the date in `status.md` and set `restart_go_ahead`
+  to `always` in `project.json` with that quote as the note.
+- **Pushing: never.** The user pushes.
 
 ## Running one phase
 
@@ -55,9 +71,9 @@ instead of starting a real run.
 - An agent returns `NEEDS CLARIFICATION` or `CANNOT PROCEED`. Relay it **word for word**. Never
   answer on the user's behalf. Continue the same agent with the user's answer.
 - A phase's **done when** fails after one follow-up.
-- A go-ahead is needed: restarting or closing a LabVIEW this session did not start, a kill, writing
-  outside this folder (the error-code file into `user.lib\errors\` is the one expected case),
-  unsaved files the session did not create.
+- A go-ahead is needed and the start message did not grant it: restarting or closing a LabVIEW
+  this session did not start, a kill, writing outside this folder, unsaved files the session did
+  not create.
 - LabVIEW or the labview-mcp service stops answering. Do not retry in a loop.
 - A file under `zuehlke-mcp-af-test-results/src/` has a newer save version than the project's
   (`zuehlke-mcp-af-test-results/.labview/project.json`).

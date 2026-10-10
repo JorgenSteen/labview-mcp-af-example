@@ -79,7 +79,7 @@ Where the build differs from `02-specification.md`, with why, and whether the us
 
 ## Go-aheads from the user
 
-- User go-ahead (2026-10-10 15:22): "You may restart LabVIEW when needed. close anything you are using labview all by yourself for the whole session, not restrictions" - scope: the whole session; restarting, closing and starting LabVIEW, and closing projects this run opened, need no further question. The manager relayed it into brief 00b's continuation and sets `restart_go_ahead` to `always` in `project.json` (brief 00a) with this quote as the note.
+- User go-ahead (2026-10-10 15:22): "You may restart LabVIEW when needed. close anything you are using labview all by yourself for the whole session, not restrictions" - scope: the whole session; restarting, closing and starting LabVIEW, and closing projects this run opened, need no further question. Extended by the user (2026-10-10 15:30): "Agents can restart labview themselves too, no need to ask me" - every brief from 00b on carries a hard-rules line letting the agent start or restart LabVIEW itself per the skill's session/start.md, reporting each start. The manager relayed it into brief 00b's continuation and sets `restart_go_ahead` to `always` in `project.json` (brief 00a) with this quote as the note.
 
 ## Side effects outside src/
 

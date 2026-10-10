@@ -6,7 +6,9 @@ Type: build + test (LabVIEW calls). Phase 02 step a of 2 (b: cleanup, icons, swe
   `ZM-TST-packages.vi`) exist. Reports with the measured routes:
   `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-01b-pc-methods-library.md` (item 4, the
   library helper) and `report-01c-pc-test.md` (items 2 and 6: the test VI route, the library trap, Match Pattern).
-  <<MANAGER: traps from reports 01d/01e go here before launch>>
+- Phase 01 closed 17:58 (report-01e): icons applied, sweep 25/25, versions 36/36 at 26. Traps from 01d/01e: no
+  new ones for a build step; `lvai_set_vi_icon` re-saves a VI smaller (fine); `lv_loadability.py --links` wants VI
+  paths, not a `.lvlib`, to print link lists. The runner, sweep and library helpers are cached and current.
 - Save version **26.0**. User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself
   when it crashes or stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported.
   Never answer a dialog. Decided D38: class descriptions, `.ctl` membership and `Methods`/`TypeDefs` placement are the

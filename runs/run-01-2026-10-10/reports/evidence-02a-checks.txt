@@ -1,0 +1,37 @@
+run-checks evidence, session 02a (brief-02a-cu-log-test), 2026-10-10 18:10 local
+LabVIEW 2026 Q3 32-bit (PID 14040, port 59552, up 9418 s at session start), labview-mcp 1.9.5-local.20261010-1430 (f9ee41d9), dwarn 0
+project state: closed (no active project; lv_windows.ps1: unsaved 2 = the tool's hidden LVMCP Validate.vi scratch VI, possible dialogs 0)
+git before the run: clean at 7925561 (test(cu): ZM-TST-log.vi joins ZM-TST-tests.lvlib)
+entries run: ZM-TST-log only (this phase's entry; ZM-TST-packages ran in 01c, the other entries have no VI yet)
+output file read by the run: output/ZM-error_log.txt (1 line before the run: the 02a smoke line; the run appends 2)
+
+checks named  tests 1/1 pass  runs 0/0  project closed  calls 1 (run)  <1 min
+
+[ZM-TST-log]  kind vi  path src/tests/ZM-TST-log.vi  inputs {}  timeout 120 s  includeRawXml false
+  step 2 loadability: lv_loadability.py --vilib "LabVIEW 2026\vi.lib": targets 1: loadable 1, unresolved 0 (8 files read)
+  step 2 returns: vi_nets.py: no Loop/Structure/Event/Sequence in ZM-TST-log.vi (51 lines) nor in ZM-CU-log.vi (48 lines) -> returns true
+  cold lvai_exec_state before the run (after library membership): 1 (eIdle), code 0
+  run: lvai_run_vi_and_read_values errorCode 0, helperErrorCode 0, helperFailed false, elapsed 30 ms, valueCount 5
+  readings:
+    file_ok       1 (true)
+    order_ok      1 (true)
+    timestamp_ok  1 (true)
+    Pass          1 (true)
+    error out     status 0, code 0, source ""
+  output/ZM-error_log.txt after the run (3 lines), last two:
+    2026-10-10T16:10:47.532Z<TAB>T2-marker-A-33012157
+    2026-10-10T16:10:47.533Z<TAB>T2-marker-B-33012157
+  verdict: ZM-TST-log  PASS  Pass=T  error 0   (round 1, no fix)
+
+notes:
+  - file_ok = Open/Create/Replace File (operation open) on <project folder>\output\ZM-error_log.txt reports no error
+  - lines: Read from Text File (whole file) -> Spreadsheet String To Array (%s, tab, 2D string) -> last two rows; order_ok = column 1 of the
+    two rows equals marker A then marker B; timestamp_ok = Match Pattern (anchored pattern of 01c) on column 0 answers offset past match >= 0
+  - the smoke run of ZM-CU-log.vi (message "02a smoke", project closed) wrote: 2026-10-10T16:07:39.872Z<TAB>02a smoke<LF>  (35 bytes, LF only)
+  - panel: 3 informational Booleans + Pass + error out; read_only in checks.json is Pass, error out
+failures: none
+evidence: this file (proof/ is git-ignored by the product .gitignore; readings repeated in report-02a)
+
+cold sweep (after, project closed): src\common\ZM-CU-common_utilities + src\tests  batch 0  3 VIs  3/3 state 1  control 0 7  0.108 s  not state 1: none
+membership: checked 3 (1+2)  not a member 0  plain 0  (exit 0 per folder)
+save versions: 6 files at 26 (ZMP-02a-save-versions.txt)   links: ZM-CU-log.vi -> its own .lvlib only (ZMP-02a-links.txt)

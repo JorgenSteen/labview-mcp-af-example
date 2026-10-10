@@ -5,7 +5,14 @@ Type: build (LabVIEW calls). Phase 02 step b of 2 (last step of the phase).
 - Reports to read: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-02a-cu-log-test.md`
   (what 02a built, its sweep baseline), `report-01d-pc-cleanup-icons-preview.md` and `report-01e-pc-icons-apply-sweep.md`
   (the measured cleanup and icon routes on this station, their report blocks are your models).
-  <<MANAGER: traps from reports 01e and 02a go here before launch>>
+- Facts from report 02a: `ZM-CU-log.vi` (diagram 1493x331, a 16-stage chain) and `ZM-TST-log.vi` (1543x517,
+  18 stages) exist and pass cold; `ZM-CU-common_utilities.lvlib` holds the one VI, listed once under `common`;
+  `ZM-TST-tests.lvlib` holds `ZM-TST-log.vi` and `ZM-TST-packages.vi`. Sweep baseline 3/3
+  (`proof\ZMP-02a\ZMP-02a-sweep-after-0.txt`). AIXML sources with descriptions in `proof\ZMP-02a\`.
+  The validator's hidden scratch VI `LVMCP Validate.vi` may sit in memory unsaved (tool design, no dialog):
+  not yours, ignore it; `lv_windows.ps1` may flag it as unsaved.
+- From 01e: `lvai_set_vi_icon` re-saves a VI smaller (fine, commit it); the icon helpers are cached and current;
+  `lv_loadability.py --links` wants VI paths, not a `.lvlib`.
 - Save version **26.0**; LabVIEW 2026 Q3 32-bit, so a save with no project open writes the same version.
 - User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself when it crashes or
   stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported. Never answer a dialog.

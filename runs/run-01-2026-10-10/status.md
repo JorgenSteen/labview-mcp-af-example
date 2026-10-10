@@ -1,9 +1,9 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-10 15:55 by the manager session (phase 01)
-next phase: 01 packages, step b (01a done; waiting for the user's answer on things no tool does)
-open items: a question for the user (relayed 15:55): 01a returned NEEDS CLARIFICATION on the three class descriptions (no tool sets NI.Lib.Description); the same kind of gap: `.ctl` typedefs are not class members (no tool adds a .ctl to a class), and `Methods`/`TypeDefs` virtual folders have no tool. Options: the user does them in the IDE, or allows a byte-exact script outside the kit, or accepts them as deviations. Also F3 (library count 13 vs 14).
+last updated: 2026-10-10 16:05 by the manager session (phase 01)
+next phase: 01 packages, step b (launched 16:06)
+open items: F3 (library count 13 vs 14) still unanswered, not blocking. Items for the user in the IDE accumulate in the section below.
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
 
@@ -95,6 +95,22 @@ Where the build differs from `02-specification.md`, with why, and whether the us
 ## Go-aheads from the user
 
 - User go-ahead (2026-10-10 15:22): "You may restart LabVIEW when needed. close anything you are using labview all by yourself for the whole session, not restrictions" - scope: the whole session; restarting, closing and starting LabVIEW, and closing projects this run opened, need no further question. Extended by the user (2026-10-10 15:30): "Agents can restart labview themselves too, no need to ask me" - every brief from 00b on carries a hard-rules line letting the agent start or restart LabVIEW itself per the skill's session/start.md, reporting each start. The manager relayed it into brief 00b's continuation and sets `restart_go_ahead` to `always` in `project.json` (brief 00a) with this quote as the note.
+
+- User decision (2026-10-10 16:00): "option 1 then and log that answer into the documentation to so if someone wants to try to rerun this later, then do not need this clearification" - the manager's option 1: class descriptions, `.ctl` membership and `Methods`/`TypeDefs`/`Helpers`
+  folder placement are done by the user in the IDE; agents list them; written into `CLAUDE.md` ("Defaults that
+  need no question") and `orchestration/plan.md` on the user's instruction (commit fcac3e0), and into the product's
+  `decisions.md` as D38 by the 01b agent.
+
+## For the user in the IDE (decided 2026-10-10: things no tool does)
+
+Do these in LabVIEW's Project Explorer at the end of a phase or before phase 12, then commit. Each line names
+the class, the item and the file that holds the text.
+
+- ZM-PC-package: class description (text in briefs/brief-01a-pc-classes.md, "Descriptions"); move
+  `ZM-PC-PACKAGE_TYPE.ctl`, `ZM-PC-DESTINATION.ctl`, `ZM-PC-HEADER.ctl` into the class, folder `TypeDefs`.
+- ZM-PC-TP-test_package: class description (same brief); `ZM-PC-TP-DATA.ctl` into the class, folder `TypeDefs`.
+- ZM-PC-EP-error_package: class description (same brief); `ZM-PC-EP-DATA.ctl` into the class, folder `TypeDefs`.
+- (01b will add: members into `Methods` folders, if the tools cannot place them.)
 
 ## Side effects outside src/
 

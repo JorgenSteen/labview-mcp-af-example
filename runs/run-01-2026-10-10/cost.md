@@ -10,6 +10,7 @@ Agents inherit the manager's model unless a row says otherwise (`CLAUDE.md`, "De
 | 00 | 00b project (continued) | same agent, SendMessage | claude-fable-5-1 (inherited) | not visible (inherited) | 2026-10-10 15:26 | 2026-10-10 15:29 | 3 | 189,116 subagent tokens, 22 tool uses (harness notification at the second hand-back; unclear whether cumulative with the 155,725 of the first) | continued after the user go-ahead; helper from lvserver.rsc spellings, no probes; DONE, commit d0ef347 |
 | 00 | 00a conventions | general-purpose (docs only, no LabVIEW call) | claude-fable-5-1 (inherited, no override) | not visible (inherited) | 2026-10-10 15:36 | 2026-10-10 15:42 | 6 | 143,758 subagent tokens, 22 tool uses (harness notification) | .labview/ setup from the skill defaults plus the ten decided rules; DONE, commit 15b56f9 |
 | 01 | 01a classes | general-purpose (following the labview skill) | claude-fable-5-1 (inherited, no override) | not visible (inherited) | 2026-10-10 15:46 | 2026-10-10 15:54 | 8 | 239,706 subagent tokens, 78 tool uses (harness notification) | three package classes, five typedefs, listed accessors; DONE except class descriptions (NEEDS CLARIFICATION); commits 63c4179..0148c39 |
+| 01 | 01b methods + library | general-purpose (following the labview skill) | claude-fable-5-1 (inherited, no override) | not visible (inherited) | 2026-10-10 16:06 | | | not visible | methods, pane bindings, ZM-PC-packages.lvlib, child overrides; D38 into decisions.md |
 
 ## /cost output per session
 

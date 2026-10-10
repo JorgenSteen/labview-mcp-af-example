@@ -5,7 +5,25 @@ Type: build (LabVIEW calls). Phase 01 step b of 4 (a classes done, b this, c tes
 - Brief 01a built the three classes, five typedefs, bound fields and the listed accessors (report:
   `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-01a-pc-classes.md`; read its items 2, 3, 6
   and 8 for the exact accessor VI names, value-terminal names and anything it left open).
-  <<MANAGER: traps from report 01a go here before launch>>
+- Facts from report 01a: the accessors are `Read timestamp`, `Write timestamp`, `Read type`, `Write type`,
+  `Read destination`, `Write destination` (parent) and `Read data`, `Write data` (TP, EP), all static; the value
+  terminals of the typedef accessors are named after the `.ctl` (`ZM-PC-PACKAGE_TYPE`, `ZM-PC-DESTINATION`,
+  `ZM-PC-TP-DATA`, `ZM-PC-EP-DATA`): read them with `lvai_vi_terminals` before wiring. `lvai_create_class` closed the
+  project itself; `lvai_describe_class` reads the three classes correctly. The three classes are top-level `.lvproj`
+  items (lines 21-23); the library step must leave the library once under `common` and no class at top level.
+- **Decided by the user (2026-10-10 16:00, option 1):** things no tool does are done by the user in the IDE: class
+  descriptions, `.ctl` membership in a class, and placing members in `Methods`/`TypeDefs`/`Helpers` virtual folders.
+  Do NOT ask about them, do NOT hand-edit a `.lvclass` for them, do NOT try unmeasured VI Server names for them.
+  Build everything else; list in your report every member you could not place in its folder. ADD this to
+  `...\zuehlke-mcp-af-test-results\.labview\decisions.md` as a new entry (commit it alone, `docs(labview): D38 ...`):
+  `## D38 (2026-10-10): What no tool does, the user does in the IDE` / Rule: `layout.class-folders`,
+  `layout.typedef-placement`, `hygiene.descriptions` (class part) / Chosen: class descriptions, `.ctl` class
+  membership and `Methods`/`Helpers`/`TypeDefs` placement are done by the user in the Project Explorer at the end
+  of a phase; agents build the rest and list these items in their reports / Instead of: a byte-exact script
+  outside the kit, or accepting them as deviations / Why: the user's words: "option 1 then and log that answer into
+  the documentation to so if someone wants to try to rerun this later, then do not need this clearification".
+  Also annotate `layout.md` rules `class-folders` and `typedef-placement` with one line each: `note: placement by
+  the user in the IDE (decisions.md#D38)`; leave their `source` unchanged.
 - Save version **26.0**. Project `src/Zuehlke MCP.lvproj` exists with the six virtual folders.
 - User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself when it crashes or stops
   answering, per `<skill>\session\start.md` (`lv_windows.ps1`, `lvai_ensure_labview`, `lvai_status`), at most two

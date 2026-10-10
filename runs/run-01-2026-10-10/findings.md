@@ -44,3 +44,15 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
   structural check "Project tree: 14 libraries" would compare against: the manager will count 13 unless the user says
   a library is missing from the tables. Not patched (the harness is read-only).
 - **Owner:** the user (confirm 13, or name the 14th library).
+
+## F4 (2026-10-10): no tool for class descriptions, `.ctl` class membership, or `Methods`/`TypeDefs` folders (tool gap, decided)
+
+- **What:** labview-mcp 1.9.5 and the skill's kit have no route to set `NI.Lib.Description` on a class, to add a
+  `.ctl` to a class (`layout.typedef-placement`), or to place a member in a `Methods`, `Helpers` or `TypeDefs`
+  virtual folder (`layout.class-folders`). Only `Accessors` is created, by `lvai_create_accessors`
+  (`virtualFolderName`). The 01a agent returned NEEDS CLARIFICATION (report-01a-pc-classes.md, items 3 and 8).
+- **Decision:** User decision (2026-10-10 16:00): "option 1 then and log that answer into the documentation to so if someone wants to try to rerun this later, then do not need this clearification" The user does these in the IDE; agents list them; recorded in
+  `CLAUDE.md`, `orchestration/plan.md` (commit fcac3e0), `status.md` ("For the user in the IDE") and the product's
+  `decisions.md` (D38).
+- **Owner:** labview-mcp (tool gap; skill MCP-candidates `add-to-class`, `library-virtual-folder`, and a class
+  description setter).

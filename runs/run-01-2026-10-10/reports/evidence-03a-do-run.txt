@@ -1,0 +1,4 @@
+ZM-HW-do.vi run cold (project closed), lvai_run_vi_and_read_values, no inputs, 43 ms, helperErrorCode 0
+ZM-HW-hardware out: Object ZM-HW-hardware.lvclass
+package: Object ZM-PC-packages.lvlib:ZM-PC-package.lvclass
+error out: status 1  code 5000  source "ZM-HW-do.vi: must be overridden by a child class"

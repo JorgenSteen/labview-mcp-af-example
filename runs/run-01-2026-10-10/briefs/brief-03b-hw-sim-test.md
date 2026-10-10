@@ -7,7 +7,16 @@ Type: build + test (LabVIEW calls). Phase 03 step b of 3 (a: the parent, done; c
   Also `report-01b-pc-methods-library.md` (item 5: a dynamic override with its own body via `lvai_add_class_method`
   with the parent's pane and `dispatchTerminals`; item 3: pane typedef binding) and `report-02a-cu-log-test.md`
   (item 4: the direct Call route for a VI that calls library members).
-  <<MANAGER: traps from reports 02b/03a go here before launch>>
+- Facts from report 03a: the parent's pane: `ZM-HW-hardware in` 11, `error in (no error)` 8, `ZM-HW-hardware out` 3,
+  `error out` 0, and on `ZM-HW-do.vi` `package` on conIdx 2 (typed `ZM-PC-package`); all three methods are dynamic
+  (`connection="dynamic"` on the class terminals). The library helper `zm_create_class_library.vi` is cached in the
+  helpers folder (inputs: library path, class path, class item name). `lvai_add_class_method` converts with the
+  project CLOSED: a class constant or a member of another library inside a method goes in as a stub / path
+  stand-in and is swapped afterwards with `lvai_swap_subvis` (`editsJson`, `constantsSwapped`), as 03a and 01c did;
+  the direct-Call route is for `lvai_generate_vi` (the test VI) only. A class created with a parent that sits in a
+  library leaves a stray top-level class item after the library close: `lvproj_drop.py`. `lv_loadability.py`
+  needs `--vilib "C:\Program Files (x86)\National Instruments\LabVIEW 2026\vi.lib"` on this station.
+  A free label is `<FreeLabel comment="..."/>` in AIXML (not needed in this step).
 - Save version **26.0**. User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself
   when it crashes or stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported.
   Never answer a dialog. D38: class descriptions, `.ctl` membership and `Methods`/`TypeDefs` placement are the

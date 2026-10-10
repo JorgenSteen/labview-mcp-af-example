@@ -1,8 +1,8 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-10 18:24 by the manager session (phase 03)
-next phase: 03 hardware, step a (the parent; launched 18:25)
+last updated: 2026-10-10 18:32 by the manager session (phase 03)
+next phase: 03 hardware, step b (the SIM child and T3; launched 18:33)
 open items: F3 (library count 13 vs 14) still unanswered, not blocking. Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429) and resumed by SendMessage at 16:22; it finished at 16:32 (report-01b-pc-methods-library.md).
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
@@ -18,7 +18,7 @@ open items: F3 (library count 13 vs 14) still unanswered, not blocking. Items fo
 | 00 | setup | done | 2026-10-10 14:40 | 2026-10-10 15:45 | d0ef347 (project), 15b56f9 (.labview) | product skeleton, LabVIEW 2026 Q3 32-bit answers, .labview complete (10 decided rules, configuration off), empty project with six folders, save version 26.0; one LabVIEW crash on the way (F2) |
 | 01 | packages | done | 2026-10-10 15:46 | 2026-10-10 17:58 | 63c4179..e8790ac (five steps, 50 commits) | 3 classes, 5 typedefs, 24 member VIs exactly as 02 §7.1, ZM-PC-packages.lvlib under common, ZM-TST-tests.lvlib + T1 Pass, Clean Up Diagram, icons applied and read back 0 px, sweep 25/25, no AF or ZM link, all 26.0; left for the user in the IDE: class descriptions, .ctl membership, Methods/TypeDefs folders (D38) |
 | 02 | common utilities | done | 2026-10-10 18:03 | 2026-10-10 18:19 | e2ef456..146b6cd (two steps, 7 commits) | ZM-CU-log.vi in ZM-CU-common_utilities.lvlib under common, ZM-TST-log.vi, T2 Pass, cleanup, icons read back 0 px, sweep 3/3, no ZM/AF link, all 26.0; nothing left for the IDE (no class) |
-| 03 | hardware | running | 2026-10-10 18:25 | | | step a (parent class, accessor, init/do/close, library) running |
+| 03 | hardware | running | 2026-10-10 18:25 | | de2f81c..f58d5dd (03a) | 03a done: ZM-HW-hardware class, Write initialized (priv), init/close, do placeholder 5000 with a native #customerror free label, library under hardware, sweep 4/4; 03b running |
 | 04 | protocol + file logger | todo | | | | |
 | 05 | UDP + multi protocol | todo | | | | |
 | 06 | pipeline test | todo | | | | |
@@ -57,6 +57,13 @@ state: todo | running | done | failed | skipped (say why in the result column)
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
 
+- A free diagram label is authored in AIXML as `<FreeLabel comment="#customerror 5000" .../>` (element `FreeLabel`,
+  attribute `comment`, listed in `lvai_aixml_reference` section 4); it survives the convert and reads back in the
+  export (report-03a, item 3). `lvai_add_class_method` converts with the project closed, so a class constant of
+  another library inside a method goes in as a path stand-in and is swapped afterwards with `lvai_swap_subvis`
+  (`constantsSwapped`); the direct-Call route is for `lvai_generate_vi` only. `lv_loadability.py` needs `--vilib`
+  on this station (four LabVIEW installs). A class created with a parent in a LIBRARY leaves a stray top-level
+  class item after the library close: `lvproj_drop.py` (report-03a, items 3, 4, 7).
 - A VI that calls library members converts DIRECTLY (no stubs, no swaps) when the project is open with one
   member of that library opened through it: `lvai_generate_vi` with `<Call target="<Lib>.lvlib:<VI>.vi">`
   (report-02a, item 4). LabVIEW's own close drops the loose project entry of a VI that joined a library, so
@@ -143,6 +150,8 @@ Where the build differs from `02-specification.md`, with why, and whether the us
 Do these in LabVIEW's Project Explorer at the end of a phase or before phase 12, then commit. Each line names
 the class, the item and the file that holds the text.
 
+- ZM-HW-hardware: class description (text in briefs/brief-03a-hw-parent.md, "Conventions written out");
+  `ZM-HW-init.vi`, `ZM-HW-do.vi`, `ZM-HW-close.vi` into a `Methods` folder (report-03a, item 7).
 - ZM-PC-package: class description (text in briefs/brief-01a-pc-classes.md, "Descriptions"); move
   `ZM-PC-PACKAGE_TYPE.ctl`, `ZM-PC-DESTINATION.ctl`, `ZM-PC-HEADER.ctl` into the class, folder `TypeDefs`.
 - ZM-PC-TP-test_package: class description (same brief); `ZM-PC-TP-DATA.ctl` into the class, folder `TypeDefs`.

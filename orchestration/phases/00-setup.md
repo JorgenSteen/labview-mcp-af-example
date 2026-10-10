@@ -19,7 +19,8 @@ folders opens, and the run folder exists.
 ## Steps
 
 1. **Manager:** create `runs/run-NN-<date>/` with `status.md` from `orchestration/status-template.md`,
-   empty `briefs/`, `reports/`, `mcp-reports/`, `cost.md`, `findings.md`.
+   `cost.md`, `findings.md`, and `briefs/`, `reports/`, `mcp-reports/` each holding a `.gitkeep`
+   so the folders exist in the commit too.
 2. **Manager:** `git init` at the repo root if it is not a repository; commit everything present.
 3. **Manager:** create the product folder skeleton (no LabVIEW needed):
    - `zuehlke-mcp-af-test-results/README.md`: what the application is (three paragraphs from

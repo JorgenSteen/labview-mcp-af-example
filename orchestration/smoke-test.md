@@ -6,11 +6,18 @@ everything can be put back. Two levels; do the first, then the second.
 
 ## Before either level
 
-Tag the clean state so the revert is one command:
+Either tag the clean state so the revert is one command:
 
 ```
 git tag pre-smoke
 ```
+
+or run the smoke test in a **copy of the whole folder** and delete the copy afterwards. The copy
+is simpler and keeps the real repository untouched; tell the manager which you did, so it does
+not go looking for the tag.
+
+The manager cannot read the session's effort setting. State it in the first message, together
+with the model the agents should run on, so `cost.md` can record both.
 
 ## Level 1: no LabVIEW
 
@@ -52,6 +59,8 @@ Takes longer: the skill's setup reads its defaults and writes seven convention f
 agent. Expect tens of minutes and a noticeable token spend; that spend is itself useful data.
 
 ## Revert
+
+In a copy: delete the copy. In the real repository:
 
 ```
 git reset --hard pre-smoke

@@ -24,8 +24,10 @@ instead of starting a real run.
 3. Tell the user, in a few lines: which run, which phase is done, which phase is next, anything the
    last session left open (a question, a failed check, a pending go-ahead).
 4. Ask **once** whether to go on, and in the same question which model the agents should run on
-   (`orchestration/plan.md`, "Models and effort"; the default is to inherit yours). Do not start a
-   phase before the user says yes.
+   (`orchestration/plan.md`, "Models and effort"; the default is to inherit yours) and which
+   effort level the session is set to, since you cannot read it. If the user's first message
+   already answers these, do not ask again; note in `status.md` that the answers came with the
+   start message. Do not start a phase before the user says yes.
 5. Then run phases in order until a stop condition (below), without asking again between phases.
 
 ## Running one phase

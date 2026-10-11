@@ -2,7 +2,7 @@
 
 state: open            # open | closed
 last updated: 2026-10-11 11:04 by the manager session (session 3 start)
-next phase: 10 ROOT actor, step b - running again: the user allowed one kill of LabVIEW (~15:40); the 10b agent kills, restarts and re-checks `launchHwm`
+next phase: 10 ROOT actor, step b - STOPPED on CANNOT PROCEED again (2026-10-11 18:56): `ZM-ROOT-launchHwm.vi` still cold state 0 after the kill and a fresh LabVIEW (PID 26148, port 52603); waiting for the user to read its Error List in the IDE
 open items: see "Open items" below.
 
 # Session 3 started 2026-10-11 10:58

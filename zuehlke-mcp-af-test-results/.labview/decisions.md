@@ -106,3 +106,22 @@ icons
 Why: the user's words: "Approve as is, option 1, continue, but note this down so any clean start also does the
 same, without this prompt"
 Supersedes: nothing
+
+## D40 (2026-10-11): Errors are not handled yet: evaluateError is a pass-through, helper loops stop each other
+Rule: errors.plan-required, errors.loop-errors, af-shapes.stop-mechanism
+Chosen: every `ZM-<A>-evaluateError.vi` (CM, HWM, ROOT) keeps its name, pane, scope and static dispatch but only
+forwards class in -> out, `error in` -> `error out` and `stop actor? in` -> `out` (no log, no error package, no
+clearing). In a helper-loop VI every loop stops the others when it ends, for any reason: a non-event loop calls the
+`stop` hook (stop user event) with its error into `Clear Errors.vi`; the event loop writes the local `stop` = T
+(only where the VI has another loop) and also calls the `stop` hook, error into `Clear Errors.vi`. After the loops:
+Merge Errors -> `evaluateError` -> on an error `Read Self Enqueuer` -> `Send Normal Stop`; `error out` = the raw
+merged error, so the Last Ack carries it and the caller stops by the AF default
+Instead of: D14's plan (log, error package to the caller, clear after the parent so the Last Ack is clean) and a
+producer loop that ends alone while the event loop keeps waiting
+Why: the user's words: "have all loops close the others on error, add a send stop event after the user event loop
+to, just add ignore error. and then if any other helper loop than the user event stops it sends the stop event";
+"the local stop is only needed in cases where you have an additional loop"; "after the error handler run it should,
+but just let it forward everything, so the stop and the error without doing anything with it. I just want the
+shutdown or error to be contrpolled by the normals stops. So the evaluateError is just basicallyt empty"; "all
+evaluate error should be similar for now, can add stuff later"
+Supersedes: D14 (for now)

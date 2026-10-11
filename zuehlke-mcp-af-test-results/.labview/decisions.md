@@ -124,4 +124,9 @@ to, just add ignore error. and then if any other helper loop than the user event
 but just let it forward everything, so the stop and the error without doing anything with it. I just want the
 shutdown or error to be contrpolled by the normals stops. So the evaluateError is just basicallyt empty"; "all
 evaluate error should be similar for now, can add stuff later"
+Cascade (the user, 2026-10-11, session 3): "if any actor stops it should cascade and stop all"; then "if the child
+stops cleany then its fine that it does not cascade, but for now the ponly clean stop case should be stop from actor
+core". So an error stop of the CM or HWM carries its error in the Last Ack, AF's default Handle Last Ack Core in the
+caller returns it, the caller stops with it and its Stop Core stops the rest. No Handle Last Ack Core override is
+built. The only clean stop is the normal shutdown sent down from the root's Actor Core/Stop Core
 Supersedes: D14 (for now)

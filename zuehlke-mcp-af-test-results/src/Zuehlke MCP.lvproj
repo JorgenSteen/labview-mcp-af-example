@@ -15,6 +15,7 @@
 		<Item Name="actors" Type="Folder">
 			<Item Name="ZM-CM-communication_manager.lvlib" Type="Library" URL="../actors/ZM-CM-communication_manager/ZM-CM-communication_manager.lvlib"/>
 			<Item Name="ZM-HWM-hardware_manager.lvlib" Type="Library" URL="../actors/ZM-HWM-hardware_manager/ZM-HWM-hardware_manager.lvlib"/>
+			<Item Name="ZM-ROOT-root.lvlib" Type="Library" URL="../actors/ZM-ROOT-root/ZM-ROOT-root.lvlib"/>
 		</Item>
 		<Item Name="common" Type="Folder">
 			<Item Name="ZM-CI-common_interfaces.lvlib" Type="Library" URL="../common/ZM-CI-common_interfaces/ZM-CI-common_interfaces.lvlib"/>
@@ -35,7 +36,6 @@
 		<Item Name="tests" Type="Folder">
 			<Item Name="ZM-TST-tests.lvlib" Type="Library" URL="../tests/ZM-TST-tests.lvlib"/>
 		</Item>
-		<Item Name="ZM-ROOT-root.lvlib" Type="Library" URL="../actors/ZM-ROOT-root/ZM-ROOT-root.lvlib"/>
 		<Item Name="Dependencies" Type="Dependencies"/>
 		<Item Name="Build Specifications" Type="Build"/>
 	</Item>

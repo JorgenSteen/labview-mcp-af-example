@@ -2,7 +2,7 @@
 
 state: open            # open | closed
 last updated: 2026-10-11 11:04 by the manager session (session 3 start)
-next phase: 08 CM actor, step a - running (session 3); 08b, 08c drafted
+next phase: 08 CM actor, step b - running (session 3); 08a done; 08c drafted
 open items: see "Open items" below.
 
 # Session 3 started 2026-10-11 10:58
@@ -188,7 +188,7 @@ PID 14040 (started by this session 2026-10-10 15:24), `Zuehlke MCP.lvproj - Proj
 | 05 | UDP + multi protocol | done | 2026-10-10 23:01 | 2026-10-11 10:27 | 208e74b..29e2187 (05a), d7b5cf8..ab14b57 (05a2) | 05a done in two sessions: sender and receiver in ZM-CP-UDP-udp_transport.lvlib under protocol, four overrides hooked (open hooks end in Preserve Run-Time Class), sweep 18/18, probe error 0; 05b done (576b7a0..36c7a06): MX class with PROTOCOLS typedef (array of the CP parent), reentrant initAll/closeAll, three overrides, library under protocol, sweep 36/36, probe [parent] 5000 and [] clean; 05c done (53627a4, a1e87f0): T5 PASS, T4 PASS with seven checks, sweep 41/41; 05d done (45a2646..bbe3273): cleanup 27 VIs, 3 class + 2 library icons, read back 0 px, sweep 41/41, no AF/CU/HW/FL link, all 26.0. Phase ended 2026-10-11 10:27 |
 | 06 | pipeline test | done | 2026-10-11 10:32 | 2026-10-11 10:39 | 558726e..f6f5260 (3 commits) | ZM-TST-pipeline.vi (T6) PASS in round 2 (a test-only fix), T1-T6 all PASS on the rerun, cleanup, icon 0 px, sweep 6/6, no production VI touched |
 | 07 | interface + message | done | 2026-10-11 10:44 | 2026-10-11 10:50 | 6ea3457..254038b (11 commits) | ZM-CI-common_interfaces.lvlib under common: interface ZM-CI-package_handler, method ZM-CI-handlePackage (pane 4815, package on 10), message class ZM-CI-handlePackage Msg by Message Maker + repair_r1 in the Messages folder; Do.vi casts to the interface; sweep 3/3, icons 0 px; links only to ZM-PC and vi.lib |
-| 08 | CM actor | running | 2026-10-11 11:05 | | | 08a launched (session 3) |
+| 08 | CM actor | running | 2026-10-11 11:05 | | 88f9417..572b81b (08a) | 08a done: typedef ZM-CM-PRELAUNCH_SETTINGS (cluster{protocol: CP class}, derived cluster-element helper), class (Actor, implements ZM-CI-package_handler), bound fields, 5 private static accessors, public writePrelaunchSettings, all 26; members state 0 (error of type 8) until 08b overrides the interface method; 08b launched |
 | 09 | HWM actor | todo | | | | |
 | 10 | ROOT actor | todo | | | | |
 | 11 | launchers + receiver | todo | | | | |
@@ -221,6 +221,15 @@ state: todo | running | done | failed | skipped (say why in the result column)
 ## Traps carried forward
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
+
+- A cluster typedef with a CLASS element: `lvai_create_typedef` `cluster{path.<name>}`, then the derived helper
+  `helpers\zm_cluster_element_replace.vi` (from `kit\pa_array_element_replace.xml`, cluster lookup by
+  `{LV.Cluster} Controls[]` index 0), project open and active (report-08a, item 2). `lvai_add_class_method` answers
+  `ok: false` / `pathStandInsLeft` for a path stand-in INSIDE a cluster terminal: `lvai_bind_pane_typedef` resolves it
+  (report-08a, item 4). An accessor's value terminal for a class field is named by the escaped qualified class name
+  (`ZM-CP-communication_protocol.lvlib\3AZM-CP-communication_protocol.lvclass`), read it with `lvai_vi_terminals`.
+  A class implementing an interface without its override reads cold "VI has an error of type 8" on every member
+  (report-08a, item 5).
 
 - The kit's Message Maker helper (`lvai_create_message_class.xml`) writes the message class FLAT into its
   `destination directory`: create the empty `<Msg class name>\` folder first and pass it as the destination; then
@@ -315,6 +324,10 @@ Facts the next brief must repeat, each by its content with its source (report fi
 
 Where the build differs from `02-specification.md`, with why, and whether the user agreed.
 
+- 2026-10-11, phase 08a: `ZM-CM-writePrelaunchSettings` passes `error in` through and always bundles (no error
+  case); `02` §7.10 says only "writes prelaunchSettings". The typedef was made by a newly derived helper (route b of
+  the brief), measured once. Not asked; no spec conflict (report-08a, item 7).
+
 - 2026-10-11, phase 07: the agent sent three read-only icon reads in one message (report-07, item 8b): four of the
   six Opus 5.5 steps broke the one-call rule (05a2, 05b, 05d, 07; 05c and 06 kept it). F9 updated.
 - 2026-10-11, phase 05d: the agent sent two `lvai_set_vi_icon` calls in one message; the third break of the one-call
@@ -349,6 +362,9 @@ Where the build differs from `02-specification.md`, with why, and whether the us
 
 Do these in LabVIEW's Project Explorer at the end of a phase or before phase 12, then commit. Each line names
 the class, the item and the file that holds the text.
+
+- ZM-CM-communication_manager: class description with the error plan (report-08a, item 7); `ZM-CM-PRELAUNCH_SETTINGS.ctl`
+  into `TypeDefs`; whether `ZM-CM-writePrelaunchSettings.vi` goes into `Methods` is the user's call (08b adds more).
 
 - ZM-CI-package_handler (interface) and ZM-CI-handlePackage Msg: descriptions (report-07, item 8: "Interface: one
   method, ZM-CI-handlePackage; every actor that receives packages implements it"); whether `ZM-CI-handlePackage.vi`

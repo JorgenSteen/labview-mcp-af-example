@@ -6,8 +6,8 @@ Type: test + build (LabVIEW calls, Actor Framework runs). Phase 08 step c of 3 (
   (what exists, the shapes, the releaseProtocol code, the sweep baseline), `report-08a-cm-class.md`,
   `report-05d-cp-cleanup-icons-sweep.md` (the measured cleanup and icon route; your report blocks follow it).
   <<MANAGER: traps from report 08b go here before launch>>
-- Save version **26.0**. Session 2 runs on Opus 5.5; the standing LabVIEW go-ahead of 2026-10-10 is kept in force
-  (max two starts, each reported; never answer a dialog). D38, D39 as before.
+- Save version **26.0**. Session 3 (2026-10-11) user go-ahead: "Continue run-01. You may restart LabVIEW when needed;
+  agents may too." (max two starts, each reported; never answer a dialog). D38, D39 as before.
 - Traps: every `lvai_*`/`pylv_*` call ALONE in its message; never probe with `lvai_validate_aixml`; read a `.lvproj`
   diff before restoring it; `lvai_run_vi_as_top_level` blocks on a VI that never returns, so every proof VI here
   RETURNS by itself (it launches, waits, stops, waits, reads, returns); a proof VI run while a project is open is

@@ -9,10 +9,21 @@ Type: build (LabVIEW calls, Actor Framework). Phase 08 step b of 3 (a: the class
 - From report 07: `Send ZM-CI-handlePackage.vi` (in `...\ZM-CI-common_interfaces\ZM-CI-handlePackage Msg\`) has the
   inputs `Message Enqueuer` (conIdx 11) and `package` (10, required); `Do.vi` casts the actor to the interface and
   calls `ZM-CI-handlePackage`. The interface method's pane is 4815 with `package` on 10.
-  <<MANAGER: traps from report 08a go here before launch>>
-- Save version **26.0**. Session 2 runs on Opus 5.5; the standing LabVIEW go-ahead of 2026-10-10 is kept in force:
-  you may start or restart LabVIEW yourself when it crashes or stops answering, per `<skill>\session\start.md`, at
-  most twice, each reported. Never answer a dialog. D38: class description, `Methods`/`AF Overrides` placement by the
+- From report 08a (2026-10-11 11:10): LabVIEW PID 14516 (port 59983) is running, project CLOSED, no dialog. The class
+  is at the project's TOP LEVEL (`.lvproj` item `ZM-CM-communication_manager.lvclass`): step 5 puts it into the library
+  and the library into `actors`. All six existing members read **state 0** cold with "VI has an error of type 8" (not
+  the literal 1003): read as the class-level break of the missing interface override, NOT proven; after step 4 every
+  member must read state 1, and if one still reads 0, find its own cause before going on.
+- The typedef `ZM-CM-PRELAUNCH_SETTINGS.ctl` is `cluster{protocol: ZM-CP-communication_protocol}` (made by the derived
+  helper `helpers\zm_cluster_element_replace.vi`); `Read prelaunchSettings` returns it; Unbundle By Name `protocol`.
+  The value terminal of `Write protocol` is named `ZM-CP-communication_protocol.lvlib\3AZM-CP-communication_protocol.lvclass`
+  (conIdx 10, required): take terminal names from `lvai_vi_terminals`, never assume `protocol`.
+- `lvai_add_class_method` answers `ok: false` with `pathStandInsLeft` when a path stand-in sits INSIDE a cluster
+  terminal; bind that terminal with `lvai_bind_pane_typedef` and prove it from the export (report-08a, item 4c).
+- Session 3 (2026-10-11): user go-ahead in the start message: "Continue run-01. You may restart LabVIEW when needed;
+  agents may too."
+- Save version **26.0**. You may start or restart LabVIEW yourself when it crashes or stops answering, per
+  `<skill>\session\start.md`, at most twice, each reported. Never answer a dialog. D38: class description, `Methods`/`AF Overrides` placement by the
   user (list them). D39: icons without a prompt (step c).
 - Traps: every `lvai_*`/`pylv_*` call ALONE in its message, offline ones included; never probe a VI Server name with
   `lvai_validate_aixml`; read a `.lvproj` diff before restoring it from git; `lvai_add_class_method` converts with the

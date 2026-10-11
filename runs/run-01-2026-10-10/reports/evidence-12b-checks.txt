@@ -1,0 +1,57 @@
+12b: structural checks of 03 section 3 and the final cold sweep over src (2026-10-11, ~21:32-22:20). Read-only on src.
+Work folder: proof\ZMP-12b (sweep lists and results, inventory.json, nets\, x\ extracts, scripts\, dep_full.txt,
+accessors.txt, unwired.txt, cleanup_order.txt, icons_cmp.txt, versions.txt, d38_pending.txt, loadability.txt, membership.txt).
+
+lvai_status start: PID 26716, port 56779, 1.9.5-local, up 3008 s, dwarn 0, not degraded; project closed, 0 dialogs, LVAutoSave 0.
+cold sweep src (137 VIs + control): loadability 42/42 targets resolve (169 files read)
+  batch 0: 30 VIs, 30/30 state 1, control 0 7, 7063 ms
+  batch 1: 107 VIs, 107/107 state 1, control 0 7, 16149 ms
+  not state 1: none.  baseline: none (build checks; every VI must read 1)
+membership: check_membership src: members 134, not a member 0, plain 3 (ZM-launcher, ZM-launcher_test, ZM-receiver), exit 0;
+  15/15 classes in their library (ContainingLibPath and lvlib item agree); ZM-TST-tests.lvlib holds 7 test VIs
+save versions: 177/177 files at 26 (137 vi, 11 ctl, 15 lvclass, 13 lvlib, 1 lvproj)
+
+03 section 3 rows
+ 1 runnable                 PASS  137/137 state 1 cold, controls 0 7
+ 2 membership               PASS  134/0/3, 15 classes in their libraries
+ 3 dependency rule          PASS  dep_full.py, every link incl. vi.lib, 176 files: 0 violations. AF referenced only by CI, CM, HWM,
+                                  ROOT (+ the two launchers). HWM -> AF,CI,HW,PC; CM -> AF,CI,CP,CU,PC; PC, CU -> none; HW,CP -> PC;
+                                  SIM -> HW,PC; FL,UDP,MX -> CP,PC; receiver -> UDP,PC; only ROOT and tests reference SIM/FL/UDP/MX
+ 4 naming                   PASS  names.py: 177 file names, 0 deviations; field names per describe_class in 01a/03a/04a/05a/05b/08a/09a/10a
+ 5 scope + accessors        PASS  45 accessors, each with >=1 caller (links), only the 02 section 7 directions; all static (no 0x8000
+                                  dispatch flag on any accessor pane); MethodScope matches 02 section 7 for every member
+ 6 AF overrides             PASS  9 overrides MethodScope 3; nets: each calls Call Parent; Handle Error x3 and CM Stop Core feed the
+                                  hook from Call Parent's outputs. Do.vi scope 1 = AF Message:Do scope 1 (vi.lib)
+ 7 Pre Launch Init          PASS  links of the 3 PLI: own class + createResources only; createResources: no launch
+ 8 Actor Core (D41)         PASS  nets 015/032: init in series before Call Parent (class+error); loop beside with init's refnum and <C> in;
+                                  stop in a frame fed by Call Parent's error, stop's error in unwired (fresh); Merge(loop,stop)->close;
+                                  Merge(Call Parent, close)->error out (ROOT and HWM)
+ 9 no Stop Core ROOT/HWM    PASS  no file, no lvclass item
+10 helper loops (D41)       PASS + PENDING(D38 Helpers folder)  refnum control -> loop tunnel -> error case -> dynamic terminal; right
+                                  side -> Unregister; no Register and no Destroy in either loop VI; init's Register on "fresh no error"
+11 user events              PASS  HWM-EVENTS{stop}, ROOT-EVENTS{stop,error}; one events field, one Read/Write events pair each; the CM
+                                  has no user events in 02 section 7.10 (02 wins over the row's "per actor")
+12 pre-launch settings      PASS  3 PRELAUNCH_SETTINGS.ctl + 3 public writePrelaunchSettings; launchCm/launchHwm called in ZM-ROOT-init
+13 messages                 PASS  one class with parent Message.lvclass: ZM-CI-handlePackage Msg
+14 ignored errors           FAIL (test VI only) ZM-TST-routing.vi: 6 Search and Replace String nodes with error out (and error in)
+                                  unwired. All other error outs in 137 VIs wired (83 node kinds checked); D40 stop-hook errors into
+                                  Clear Errors in both loop VIs
+15 error code 5000          PASS  docs/error-codes.md row 5000; src/errors/ZM-errors.txt nierror 5000; #customerror 5000 label in the
+                                  two raising VIs (ZM-HW-do parent, ZM-CP-publish parent)
+16 virtual folders          PENDING (D38)  only Accessors (13 classes) and the lvlib Messages folder exist; 11 .ctl are not class members
+17 descriptions             PASS (VIs) + PENDING (D38 classes) + defect: 137/137 VI descriptions; D40 stated in Handle Error,
+                                  evaluateError (CM, HWM, ROOT) and Actor Core/init (HWM, ROOT); 0/15 class descriptions; the pending
+                                  CM and HWM texts (report-08a item 7, brief-09a) state D14, ROOT's (report-10a item 7) states D40
+18 icons                    PASS  137/137 stored icons (icl8) = make_icons composites (pixcmp --tol 14 --ignore-alpha; control: another
+                                  VI's icon differs 126/381 px); NI.Lib.Icon on 28/28 classes and libraries; layers read back 0 px in
+                                  01e..12d; D39 deviation (white banner, library glyph left)
+19 Clean Up Diagram         PASS with notes  135/137 VIs have a cleanup commit; every later commit is icon/description only, except
+                                  CM Handle Error.vi (hook swap f8ec2b1, D40, after cleanup 3a71740, not cleaned since). Do.vi and Send
+                                  (Message Maker products) have no cleanup commit
+20 project tree             PASS except the count (F3)  folders common/hardware/protocol/actors/tests/receiver; 13 libraries (12 shipped
+                                  + ZM-TST-tests) against "14" in 03 and 02 section 10; 2 launchers; receiver; 7 tests; 13+1+1 classes;
+                                  11 typedefs; 9 AF overrides
+21 clean stop               PASS  12a R-normal x3 error_lines 0; 12d R-normal error_lines 0
+
+extra: MX initAll/closeAll IsReentrant 1, PooledReentrancy 1 (shared clone) in the saved files (settles the 05b IDE check)
+lvai_status end: PID 26716, port 56779, up 3846 s, dwarn 0, not degraded; project closed; 0 dialogs; LabVIEW calls 4 (2 status, 2 sweep), each alone

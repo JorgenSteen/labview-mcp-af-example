@@ -2,7 +2,7 @@
 
 state: closed          # open | closed
 last updated: 2026-10-11 ~22:05 by the manager session (session 3, phase 13)
-next phase: none - run closed; result: partial (phases 00-12 done and verified; open for the user: the D38 IDE rows of `03` §3, F3)
+next phase: none - run closed; result: partial (phases 00-12 done and verified; open for the user: the D38 IDE rows of `03` §3; F3 decided 13)
 open items: see "Open items" below.
 
 # RUN CLOSED 2026-10-11 ~22:05 - result: partial
@@ -10,10 +10,10 @@ open items: see "Open items" below.
 Phases 00-13 done. Every row of `03` §1 (T1-T7) and §2 (the runs) passes on a cold LabVIEW, R-error judged against
 D40 and R-close-order on the dataflow proof; R-pli-failure passes after the D41 fix (F14). `03` §3: 18 rows pass;
 the rows that need the user in the IDE (D38: class descriptions, virtual folders, `.ctl` membership) are pending, and
-the library count (13, where `02` §10 says 14) is F3, undecided. "partial" because those rows are not yet pass;
-after the user's IDE work and an F3 decision, a re-check of those rows would make it "accepted".
+the library count (13, where `02` §10 says 14) is F3, decided by the user after the run: 13 is right (D42). "partial" because those rows are not yet pass;
+after the user's IDE work, a re-check of those rows would make it "accepted".
 
-- **For the user:** the IDE list below (use the D40 class texts in it); F3; confirm the `error out` on `ZM-launcher.vi`
+- **For the user:** the IDE list below (use the D40 class texts in it); F3 (decided 13, D42); confirm the `error out` on `ZM-launcher.vi`
   (deviation 11a); review the agent-written override and loop descriptions; `/cost` for sessions 1-3 into `cost.md`;
   open `output\TestPackage.jsonl` in `tools\jsonl_viewer.html` (R-viewer, checked offline). Not pushed.
 - **Left running:** LabVIEW PID 26716 (port 56779, started by the 12c agent 20:42), project closed, no dialog; only
@@ -235,7 +235,7 @@ state: todo | running | done | failed | skipped (say why in the result column)
 | R-close-order | pass on the dataflow proof, order not timed | Actor Core exports (09d, 10d): close fed only by Merge(loop, stop); timing needs log writes in `src` |
 | R-stop-reset | pass (09d and 2026-10-11 ~20:27) | reports/evidence-12a-checks.txt: 6 + 6 lines, all codes 0 |
 | R-pli-failure | pass after the D41 fix (2026-10-11 21:24); FAIL in 12a (F14, hang) | reports/evidence-12d-checks.txt: Last Ack at 70 ms with code 1 (CM PLI Create Folder), root queue gone, no panel, no hang |
-| structural checks (03 §3) | 18 pass (Ignored errors after the 12e fix), Virtual folders + class descriptions + `.ctl` membership PENDING (D38, the user), project tree count 13 vs 14 (F3, the user) | reports/report-12b-structural-sweep.md, reports/evidence-12b-checks.txt |
+| structural checks (03 §3) | 19 pass (Ignored errors after the 12e fix; project tree 13 libraries after the user's F3 decision, D42), Virtual folders + class descriptions + `.ctl` membership PENDING (D38, the user) | reports/report-12b-structural-sweep.md, reports/evidence-12b-checks.txt |
 | cold sweep (all of src) | pass (2026-10-11 ~22:15): 137/137 state 1, control 0 7, membership 134/0 + 3 plain, 177 files at 26 | reports/evidence-12b-checks.txt |
 
 ## Traps carried forward

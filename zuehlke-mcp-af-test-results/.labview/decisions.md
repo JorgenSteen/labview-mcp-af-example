@@ -147,3 +147,10 @@ there. basically what you are suggestion, just collecting it in an init, not pre
 subvis in it"
 Supersedes: the `registration` convention's "Register For Events sits right before the loop" for actors with an
 `init` (the HWM and the ROOT); `02` §6/§7.11/§7.12 where they differ
+
+## D42 (2026-10-11): The project has 13 libraries
+Rule: hygiene.test-library, library-per-actor (load units)
+Chosen: 13 libraries, as the tables of `02` §1 and §7 list them (12 shipped + `ZM-TST-tests`); the "14" in `02` §10,
+`03` §3 "Project tree" and `05` "Counts" is a counting slip, and no 14th library exists
+Why: the user's words (2026-10-11, after run-01's phase 13, finding F3): "13 is right"
+Supersedes: the count in `02` §10 and `03` §3

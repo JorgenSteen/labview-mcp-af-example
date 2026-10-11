@@ -81,6 +81,10 @@ by saying so in the start message; record such a change in `status.md` with the 
   actor core". So an error stop of the CM or HWM carries its error in the Last Ack, and AF's default Handle Last
   Ack Core stops the root, whose Stop Core stops the rest; no Handle Last Ack Core override is built. The only
   clean stop is the normal shutdown sent down from the root's Actor Core/Stop Core.
+- **The project has 13 libraries, not 14 (F3).** `02` §1/§7 list 13 (12 shipped + `ZM-TST-tests`); the "14" in `02`
+  §10, `03` §3 "Project tree", `05` "Counts" and the README is a counting slip. Phase 12 checks the project tree
+  against the 13 of the tables. Decided by the user in run-01 (2026-10-11, after the run: "13 is right"); recorded in
+  the product's `decisions.md` as D42.
 - **Each actor with a helper loop has an `init` method in Actor Core (D41).** Decided by the user in run-01
   (2026-10-11, phase 12, finding F14: a stop generated before the loop VI registered was lost and the ROOT tree
   hung): "Make a init method and call it in actor core before the core and add all init things there. basically

@@ -44,6 +44,9 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
   structural check "Project tree: 14 libraries" would compare against: the manager will count 13 unless the user says
   a library is missing from the tables. Not patched (the harness is read-only).
 - **Owner:** the user (confirm 13, or name the 14th library).
+- **Decided (the user, 2026-10-11, after phase 13):** "13 is right". The 14 is a counting slip in `02` §10, `03` §3,
+  `05` and the README; the structural row passes with 13. Logged in `CLAUDE.md` and as D42 in the product's
+  `decisions.md`; the requirement texts stay as they are (fix them before the next run).
 
 ## F4 (2026-10-10): no tool for class descriptions, `.ctl` class membership, or `Methods`/`TypeDefs` folders (tool gap, decided)
 

@@ -1,0 +1,47 @@
+run-checks evidence, session 05c (brief-05c-cp-tests), 2026-10-11 10:13-10:15 local
+LabVIEW 2026 Q3 32-bit (PID 14040, port 59552, up ~67500 s at the runs), labview-mcp 1.9.5-local.20261010-1430 (f9ee41d9)
+project state: closed (no active project)
+git before the runs: clean at a1e87f0 (test(cp): ZM-TST-protocol.vi with mx_placeholder_ok (T4 complete))
+port check before each T5 run: Get-NetUDPEndpoint -LocalPort 61557 -> no endpoint (free)
+entries run: ZM-TST-udp, ZM-TST-protocol
+
+checks named  tests 2/2 pass  runs 0/0  project closed  calls 3 (T5 twice, T4 once)  <1 min
+
+[ZM-TST-udp]  kind vi  path src/tests/ZM-TST-udp.vi  inputs {}  timeout 120 s  includeRawXml false
+  step 2 loadability: lv_loadability.py --vilib "LabVIEW 2026\vi.lib": loadable, unresolved 0
+  step 2 returns: vi_nets.py: 155 wire lines, no loop or structure -> returns true
+  cold lvai_exec_state after membership: 1 (eIdle), code 0
+  run 1 (output/test_mx_a, _b did not exist: Delete code 7 cleared): errorCode 0, helperErrorCode 0, 358 ms
+  run 2 (both TestPackage.jsonl existed, deleted first):               errorCode 0, helperErrorCode 0, 851 ms
+  readings (identical in both runs):
+    rx_init_ok          1
+    roundtrip_ok        1
+    timeout_ok          1
+    no_listener_ok      1
+    mx_ok               1
+    rx_publish_5000_ok  1
+    Pass                1
+    error out           status 0, code 0, source ""
+  verdict: ZM-TST-udp  PASS  Pass=T  error 0   (round 1, no fix; no phase-05 VI at fault)
+  files after run 2: output/test_mx_a/TestPackage.jsonl 1 LF, output/test_mx_b/TestPackage.jsonl 1 LF, same line:
+    {"timestamp":"2026-10-11T08:13:46.582Z","type":"TestPackage","destination":"Communication","data":{"temperature_c":23.5,"sample_index":42,"duty_percent":50,"sensor_ok":true,"status":"ok"}}
+
+[ZM-TST-protocol]  kind vi  path src/tests/ZM-TST-protocol.vi  inputs {}  timeout 120 s  includeRawXml false
+  step 2 loadability: loadable, unresolved 0; returns: no loop -> true; cold exec state 1, code 0
+  run: errorCode 0, helperErrorCode 0, 141 ms
+  readings:
+    init_ok            1
+    files_ok           1
+    lines_ok           1
+    append_ok          1
+    placeholder_ok     1
+    close_ok           1
+    mx_placeholder_ok  1
+    Pass               1
+    error out          status 0, code 0, source ""
+  verdict: ZM-TST-protocol  PASS  Pass=T  error 0   (round 1, no fix)
+  temp folder: output/test_fl_90776108: TestPackage.jsonl 3 LF, Undefined.jsonl 1, ErrorPackage.jsonl 1
+
+cold sweep src/tests + src/protocol (project closed): 41 VIs, 41/41 state 1, control 0 7, 2.5 s
+membership (check_membership.py): 5+7+7+9+9+4 = 41 checked, not a member 0, exit 0 each
+failures: none

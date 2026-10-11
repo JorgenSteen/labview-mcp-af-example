@@ -1,8 +1,8 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-11 10:06 by the manager session (session 2, phase 05)
-next phase: 05 UDP + multi protocol, step c (T5 and T4 complete; launched 10:07 on 2026-10-11)
+last updated: 2026-10-11 10:18 by the manager session (session 2, phase 05)
+next phase: 05 UDP + multi protocol, step d (cleanup, icons, sweep; launched 10:19 on 2026-10-11)
 open items: see "Open items" below.
 
 # Session 2 started 2026-10-11 09:34
@@ -146,7 +146,7 @@ PID 14040 (started by this session 2026-10-10 15:24), `Zuehlke MCP.lvproj - Proj
 | 02 | common utilities | done | 2026-10-10 18:03 | 2026-10-10 18:19 | e2ef456..146b6cd (two steps, 7 commits) | ZM-CU-log.vi in ZM-CU-common_utilities.lvlib under common, ZM-TST-log.vi, T2 Pass, cleanup, icons read back 0 px, sweep 3/3, no ZM/AF link, all 26.0; nothing left for the IDE (no class) |
 | 03 | hardware | done | 2026-10-10 18:25 | 2026-10-10 22:13 | de2f81c..8b596f2 (three steps, 17 commits) | parent + SIM in two libraries under hardware, do placeholder 5000 with FreeLabel, SIM do override, T3 Pass, cleanup, icons read back 0 px, sweep 9/9, no AF/CU/CP link, all 26.0; for the IDE: 2 class descriptions, Methods folders (D38) |
 | 04 | protocol + file logger | done | 2026-10-10 22:17 | 2026-10-10 22:56 | 72828e3..6936679 (three steps, 23 commits) | parent + FL in two libraries under protocol, publish placeholder 5000 with FreeLabel, init override + createFolder hook, publish override, T4 Pass (six checks; the MX check comes in 05), cleanup, icons read back 0 px, sweep 15/15, no AF/CU/HW link, all 26.0; for the IDE: 2 class descriptions, Methods folders |
-| 05 | UDP + multi protocol | running | 2026-10-10 23:01 | | 208e74b..29e2187 (05a), d7b5cf8..ab14b57 (05a2) | 05a done in two sessions: sender and receiver in ZM-CP-UDP-udp_transport.lvlib under protocol, four overrides hooked (open hooks end in Preserve Run-Time Class), sweep 18/18, probe error 0; 05b done (576b7a0..36c7a06): MX class with PROTOCOLS typedef (array of the CP parent), reentrant initAll/closeAll, three overrides, library under protocol, sweep 36/36, probe [parent] 5000 and [] clean; 05c running |
+| 05 | UDP + multi protocol | running | 2026-10-10 23:01 | | 208e74b..29e2187 (05a), d7b5cf8..ab14b57 (05a2) | 05a done in two sessions: sender and receiver in ZM-CP-UDP-udp_transport.lvlib under protocol, four overrides hooked (open hooks end in Preserve Run-Time Class), sweep 18/18, probe error 0; 05b done (576b7a0..36c7a06): MX class with PROTOCOLS typedef (array of the CP parent), reentrant initAll/closeAll, three overrides, library under protocol, sweep 36/36, probe [parent] 5000 and [] clean; 05c done (53627a4, a1e87f0): T5 PASS, T4 PASS with seven checks, sweep 41/41; 05d running |
 | 06 | pipeline test | todo | | | | |
 | 07 | interface + message | todo | | | | |
 | 08 | CM actor | todo | | | | |
@@ -165,8 +165,8 @@ state: todo | running | done | failed | skipped (say why in the result column)
 | T1 ZM-TST-packages Pass | pass (2026-10-10 16:45, cold, round 1) | reports/evidence-01c-checks.txt: Pass T, error 0, all ten *_ok T; commit 0a55fe6 |
 | T2 ZM-TST-log Pass | pass (2026-10-10 18:08, cold, round 1) | reports/evidence-02a-checks.txt: Pass T, error 0, file_ok/order_ok/timestamp_ok T; commit 7925561 |
 | T3 ZM-TST-hardware Pass | pass (2026-10-10 22:00, cold, round 1) | reports/evidence-03b-checks.txt: Pass T, error 0, sim_ok/sim_destination_ok/ranges_ok/varies_ok/placeholder_ok T; commit 3009b81 |
-| T4 ZM-TST-protocol Pass | pass without mx_placeholder_ok (2026-10-10 22:40, cold, round 1); the seventh check comes in phase 05 | reports/evidence-04b-checks.txt: Pass T, error 0, init_ok/files_ok/lines_ok/append_ok/placeholder_ok/close_ok T; commit 09a4fc9 |
-| T5 ZM-TST-udp Pass | | |
+| T4 ZM-TST-protocol Pass | pass, all seven checks (2026-10-11 ~10:14, cold, round 1); six-check pass of 2026-10-10 22:40 before it | reports/evidence-05c-checks.txt: Pass T, error 0, init_ok/files_ok/lines_ok/append_ok/placeholder_ok/close_ok/mx_placeholder_ok T; commit a1e87f0 |
+| T5 ZM-TST-udp Pass | pass (2026-10-11 ~10:13, cold, round 1; run twice, same readings) | reports/evidence-05c-checks.txt: Pass T, error 0, rx_init_ok/roundtrip_ok/timeout_ok/no_listener_ok/mx_ok/rx_publish_5000_ok T; port 61557 free; commit 53627a4 |
 | T6 ZM-TST-pipeline Pass | | |
 | T7 ZM-TST-routing Pass | | |
 | R-normal ×3 | | |
@@ -183,6 +183,10 @@ state: todo | running | done | failed | skipped (say why in the result column)
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
 
+- A VI that is already a member of a LOADED library cannot be regenerated over its path (`lvai_generate_vi` answers
+  1357): with the project closed, `remove_members.py <.lvlib> "<vi>"` (no `--delete-files`), then open, generate,
+  swaps, `lvai_add_to_library` again (report-05c, item 6a). A project close may drop the `.lvproj` BOM or change
+  its line endings only: `git checkout` it with the project closed (report-05c, item 6b).
 - A child hook placed after Call Parent that WRITES a child field (casts inside, then `Write <field>`) must end with
   `Preserve Run-Time Class` (object in = the written object, target = the hook's input) on its parent-typed output.
   Returning the written object without it reads state 0 code 0 on the override (16/18 sweep); passing the input

@@ -5,7 +5,25 @@ Type: build (LabVIEW calls). Phase 05 step d of 4 (last step of the phase).
 - Reports to read: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-05a-cp-udp.md`,
   `report-05b-cp-mx.md`, `report-05c-cp-tests.md` (what exists, the sweep baseline), `report-04c-cp-cleanup-icons-sweep.md`
   (the measured cleanup and icon routes for CP owners; your report blocks follow its).
-  <<MANAGER: the file list and traps from reports 05a-05c go here before launch>>
+- The phase's VIs (27): sender `src\protocol\ZM-CP-UDP-udp_transport\ZM-CP-UDP-sender\` (9: `Read connection`,
+  `Read remoteAddress`, `Read remotePort`, `Write connection`, `ZM-CP-close`, `ZM-CP-init`, `ZM-CP-publish`,
+  `ZM-CP-UDP-closeConnection`, `ZM-CP-UDP-openSender`); receiver `...\ZM-CP-UDP-receiver\` (9: `Read connection`,
+  `Read localPort`, `Write connection`, `Write localPort`, `ZM-CP-close`, `ZM-CP-init`, `ZM-CP-UDP-closeConnection`,
+  `ZM-CP-UDP-openReceiver`, `ZM-CP-UDP-receive`); MX `src\protocol\ZM-CP-MX-multi_protocol\ZM-CP-MX-multi_protocol\`
+  (7: `Read protocols`, `Write protocols`, `ZM-CP-close`, `ZM-CP-init`, `ZM-CP-publish`, `ZM-CP-MX-closeAll`,
+  `ZM-CP-MX-initAll`); tests `src\tests\ZM-TST-udp.vi` (5498x630, 54 stages) and `src\tests\ZM-TST-protocol.vi`
+  (REGENERATED in 05c: its 04c cleanup and icon are gone; redo both). Sweep baseline 41/41
+  (`proof\ZMP-05c\`). AIXML sources: `proof\ZMP-05a\`, `proof\ZMP-05b\`, `proof\ZMP-05c\`.
+- Owners for icons: classes `ZM-CP-UDP-sender`, `ZM-CP-UDP-receiver`, `ZM-CP-MX-multi_protocol`; libraries
+  `ZM-CP-UDP-udp_transport` (the spec's sender row colour) and `ZM-CP-MX-multi_protocol`; tests are no-template owners
+  (composite only). `make_icons.py` takes the owner from the folder name: the UDP class folders are named after the
+  classes, so the owners resolve; if `--check` says otherwise, run per class with `--src` = the class folder.
+- Reentrancy (report-05b, item 8b): after LabVIEW re-saved `initAll`/`closeAll` their flags read `IsReentrant=0
+  PooledReentrancy=1 SaveParallel=1`. Record what `pylv_extract` reads before and after your saves; do not re-apply
+  `set_reentrant_flags.py` unless a VI reads state 0 (then it is the fix, project closed, and say so).
+- If a cleanup or icon save would regenerate nothing but changes the `.lvproj` (BOM, line endings), restore the
+  `.lvproj` from git with the project closed (report-05c, item 6b).
+- Every `lvai_*` and `pylv_*` call goes ALONE in its message, offline ones included (broken twice in 05a2/05b).
 - Save version **26.0**; LabVIEW 2026 Q3 32-bit, so a save with no project open writes the same version.
 - User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself when it crashes or
   stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported. Never answer a dialog.

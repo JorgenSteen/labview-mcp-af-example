@@ -52,6 +52,11 @@ by saying so in the start message; record such a change in `status.md` with the 
   manager collects them in `status.md` under "For the user in the IDE"; the user does them at the end of a
   phase or before phase 12. No agent asks about it and no agent edits a `.lvclass` by hand for it. Decided by
   the user in run-01 (2026-10-10, option 1 of three), recorded in the product's `decisions.md` as D38.
+  Phase 12 marks the structural-check rows these items affect (class descriptions, virtual folders, `.ctl`
+  membership) as "pending: user in the IDE (D38)" and finishes everything else (the user, run-01, 2026-10-11).
+- **Phase 12's Stop presses are done headlessly.** R-interactive and R-receiver press the Stop buttons of the
+  root panel and `ZM-receiver.vi` by a signalling write (the kit's `pa_press_control_signal` route); no question
+  (the user, run-01, 2026-10-11: "Agent presses").
 - **The icon preview is approved in advance, as the skill's generator draws it today.** The skill's
   `ops/icons.md` asks the user to approve `preview.png` once per project. The user approved it for this
   harness on 2026-10-10 with the generator's known differences from the convention (white 3x5 banner text

@@ -1,8 +1,8 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-11 10:31 by the manager session (session 2, phase 06)
-next phase: 06 pipeline test (launched 10:32 on 2026-10-11)
+last updated: 2026-10-11 10:43 by the manager session (session 2, phase 07)
+next phase: 07 interface + message (launched 10:44 on 2026-10-11)
 open items: see "Open items" below.
 
 # Session 2 started 2026-10-11 09:34
@@ -147,8 +147,8 @@ PID 14040 (started by this session 2026-10-10 15:24), `Zuehlke MCP.lvproj - Proj
 | 03 | hardware | done | 2026-10-10 18:25 | 2026-10-10 22:13 | de2f81c..8b596f2 (three steps, 17 commits) | parent + SIM in two libraries under hardware, do placeholder 5000 with FreeLabel, SIM do override, T3 Pass, cleanup, icons read back 0 px, sweep 9/9, no AF/CU/CP link, all 26.0; for the IDE: 2 class descriptions, Methods folders (D38) |
 | 04 | protocol + file logger | done | 2026-10-10 22:17 | 2026-10-10 22:56 | 72828e3..6936679 (three steps, 23 commits) | parent + FL in two libraries under protocol, publish placeholder 5000 with FreeLabel, init override + createFolder hook, publish override, T4 Pass (six checks; the MX check comes in 05), cleanup, icons read back 0 px, sweep 15/15, no AF/CU/HW link, all 26.0; for the IDE: 2 class descriptions, Methods folders |
 | 05 | UDP + multi protocol | done | 2026-10-10 23:01 | | 208e74b..29e2187 (05a), d7b5cf8..ab14b57 (05a2) | 05a done in two sessions: sender and receiver in ZM-CP-UDP-udp_transport.lvlib under protocol, four overrides hooked (open hooks end in Preserve Run-Time Class), sweep 18/18, probe error 0; 05b done (576b7a0..36c7a06): MX class with PROTOCOLS typedef (array of the CP parent), reentrant initAll/closeAll, three overrides, library under protocol, sweep 36/36, probe [parent] 5000 and [] clean; 05c done (53627a4, a1e87f0): T5 PASS, T4 PASS with seven checks, sweep 41/41; 05d done (45a2646..bbe3273): cleanup 27 VIs, 3 class + 2 library icons, read back 0 px, sweep 41/41, no AF/CU/HW/FL link, all 26.0. Phase ended 2026-10-11 10:27 |
-| 06 | pipeline test | running | 2026-10-11 10:32 | | | T6 + rerun of T1-T5, cleanup, icon |
-| 07 | interface + message | todo | | | | |
+| 06 | pipeline test | done | 2026-10-11 10:32 | 2026-10-11 10:39 | 558726e..f6f5260 (3 commits) | ZM-TST-pipeline.vi (T6) PASS in round 2 (a test-only fix), T1-T6 all PASS on the rerun, cleanup, icon 0 px, sweep 6/6, no production VI touched |
+| 07 | interface + message | running | 2026-10-11 10:44 | | | interface, method, library with Messages folder, Message Maker route, repair, cleanup, icons |
 | 08 | CM actor | todo | | | | |
 | 09 | HWM actor | todo | | | | |
 | 10 | ROOT actor | todo | | | | |
@@ -167,7 +167,7 @@ state: todo | running | done | failed | skipped (say why in the result column)
 | T3 ZM-TST-hardware Pass | pass (2026-10-10 22:00, cold, round 1) | reports/evidence-03b-checks.txt: Pass T, error 0, sim_ok/sim_destination_ok/ranges_ok/varies_ok/placeholder_ok T; commit 3009b81 |
 | T4 ZM-TST-protocol Pass | pass, all seven checks (2026-10-11 ~10:14, cold, round 1); six-check pass of 2026-10-10 22:40 before it | reports/evidence-05c-checks.txt: Pass T, error 0, init_ok/files_ok/lines_ok/append_ok/placeholder_ok/close_ok/mx_placeholder_ok T; commit a1e87f0 |
 | T5 ZM-TST-udp Pass | pass (2026-10-11 ~10:13, cold, round 1; run twice, same readings) | reports/evidence-05c-checks.txt: Pass T, error 0, rx_init_ok/roundtrip_ok/timeout_ok/no_listener_ok/mx_ok/rx_publish_5000_ok T; port 61557 free; commit 53627a4 |
-| T6 ZM-TST-pipeline Pass | | |
+| T6 ZM-TST-pipeline Pass | pass (2026-10-11 ~10:36, cold, round 2 after a test-only fix); T1-T5 rerun PASS in the same session | reports/evidence-06-checks.txt: Pass T, error 0, pipeline_ok/error_stops_ok T; commit 558726e |
 | T7 ZM-TST-routing Pass | | |
 | R-normal ×3 | | |
 | R-error | | |
@@ -183,6 +183,9 @@ state: todo | running | done | failed | skipped (say why in the result column)
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
 
+- `Equal?` on two clusters in AIXML comes out in Compare Elements mode (a cluster of Booleans): always follow it with
+  `Cluster To Array` → `And Array Elements` before a Boolean array or indicator; `vi_nets.py` shows the fault offline
+  when a VI reads eBad (report-06, item 2). `lvai_convert_vi_to_aixml` needs its target folder to exist (Error 7).
 - A VI that is already a member of a LOADED library cannot be regenerated over its path (`lvai_generate_vi` answers
   1357): with the project closed, `remove_members.py <.lvlib> "<vi>"` (no `--delete-files`), then open, generate,
   swaps, `lvai_add_to_library` again (report-05c, item 6a). A project close may drop the `.lvproj` BOM or change

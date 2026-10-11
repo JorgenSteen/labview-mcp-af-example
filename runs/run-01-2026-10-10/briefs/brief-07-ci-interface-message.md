@@ -6,7 +6,20 @@ Type: build (LabVIEW calls). Phase 07, one step (no test VI; structural proof).
   (the state of the tree, every test green), `report-01b-pc-methods-library.md` (item 4: the library helper derived
   from the kit's actor-library XML), `report-03a-hw-parent.md` (a dynamic method with a class-typed input of another
   library, stub + constant swap).
-  <<MANAGER: traps from report 06 go here before launch>>
+- Phase 06 closed 2026-10-11 10:39: T1-T6 all PASS, every plain class proven; from here a failure is an actor-side
+  problem (`01` §4). Session 2 runs on Opus 5.5; the standing LabVIEW go-ahead of 2026-10-10 is kept in force
+  (status.md, "Session 2 started"): you may start or restart LabVIEW yourself when it crashes or stops answering,
+  per `<skill>\session\start.md`, at most twice, each reported.
+- Traps from 05a2-06 that apply here: a project close may drop the `.lvproj` BOM or change only its line endings, or
+  add a loose entry: READ the diff (`git diff`) before `git checkout` of the `.lvproj` with the project closed, and
+  quote it; `lvai_convert_vi_to_aixml` needs its target folder to exist; a VI already in a LOADED library cannot be
+  regenerated over its path (1357: remove the member with the project closed, regenerate, re-add); the library
+  helper `zm_create_class_library.vi` is cached, but THIS step needs the `Messages` folder, so use the kit's
+  `lvai_create_actor_library.xml` as written (it creates the folder); every `lvai_*`/`pylv_*` call ALONE in its
+  message, offline ones included.
+- The interface method's pane: copy the parent-method layout used throughout (class in 11, error in 8, class out 3,
+  error out 0, `package` on input slot 10 typed `ZM-PC-package`, as `ZM-CP-publish.vi` in 04a): the actors' overrides
+  in phases 08-10 copy it.
 - Save version **26.0**. User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself
   when it crashes or stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported.
   Never answer a dialog. D38: class descriptions and `Methods` placement are the user's (list them). D39: icons

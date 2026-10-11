@@ -1,0 +1,20 @@
+Phase 06 run-checks evidence, 2026-10-11 (ops/run-checks.md, entries with a VI: T1-T6)
+LabVIEW 2026 Q3 32-bit (26.3.1f1), PID 14040, port 59552; labview-mcp 1.9.5-local (f9ee41d9); dwarn 0
+Project state: closed for every run (cold). git before the runs: clean at 558726e.
+Port 61557 (T5): free at 10:30 and again directly before the T5 run (Get-NetUDPEndpoint, no LabVIEW call).
+
+ZM-TST-pipeline (T6), new: loadability 1 / unresolved 0 (lv_loadability.py --vilib); returns true (two For loops of N=10 plus one N=10 read loop, no While loop); cold execState 1.
+  round 1: generated + seeds swapped -> cold execState 0 (eBad). Cause read offline from vi_nets.py: Equal? on the two data clusters came out in Compare Elements mode (output Cluster), feeding a Boolean Build Array. Fix in the test only: Equal? -> Cluster To Array -> And Array Elements (the T5 shape). No class VI involved.
+  round 2: regenerated, swapped (4 seeds), cold execState 1, run:
+  ZM-TST-pipeline  PASS  Pass=T  error 0  pipeline_ok T  error_stops_ok T   (160 ms, helperErrorCode 0)
+  offline read-back: output\test_pipeline_92206171\TestPackage.jsonl 2077 bytes, 10 LF, 0 CR, 10 lines each json-parsed: type TestPackage, destination Communication, data keys {duty_percent, sample_index, sensor_ok, status, temperature_c}; output\test_pipeline_92206172\ empty (no .jsonl).
+
+Reruns, list order, one call each, project closed:
+  ZM-TST-packages  PASS  Pass=T  error 0  dispatch_ok T  call_parent_ok T  tp_json_ok T  type_name_ok T  ep_json_ok T  parent_json_ok T  timestamp_ok T  destination_default_ok T  destination_roundtrip_ok T  ep_root_ok T   (69 ms)
+  ZM-TST-log       PASS  Pass=T  error 0  file_ok T  order_ok T  timestamp_ok T   (31 ms; appends two marker lines to output\ZM-error_log.txt)
+  ZM-TST-hardware  PASS  Pass=T  error 0  sim_ok T  sim_destination_ok T  ranges_ok T  varies_ok T  placeholder_ok T   (70 ms)
+  ZM-TST-protocol  PASS  Pass=T  error 0  init_ok T  files_ok T  lines_ok T  append_ok T  placeholder_ok T  close_ok T  mx_placeholder_ok T   (131 ms; new output\test_fl_<tick>\)
+  ZM-TST-udp       PASS  Pass=T  error 0  rx_init_ok T  roundtrip_ok T  timeout_ok T  no_listener_ok T  mx_ok T  rx_publish_5000_ok T   (349 ms; rewrites output\test_mx_a\, output\test_mx_b\)
+
+checks named  tests 6/6 pass  runs 0/0 (not in scope)  project closed  calls 6
+failures: none

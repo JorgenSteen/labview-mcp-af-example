@@ -163,3 +163,17 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
 - **Evidence:** report-10e item 4 and 6a; reports/evidence-10e-checks.txt; output folders `test_fl_125501706` (fail),
   `test_fl_125517645` (pass).
 - **Owner:** phase 12 (run T4 at least three times, read the folder state of a failing run); the user if it recurs.
+
+## F14 (2026-10-11): the ROOT tree hangs when a nested launch fails (design defect, phases 09/10)
+
+- **What:** `03` R-pli-failure, run as a CM Pre Launch Init failure under the ROOT (invalid `outputFolder`): the
+  launch error goes into the ROOT's Call Parent, Call Parent returns at once, `ZM-ROOT-stop` generates the stop user
+  event - and `helperPanel` never receives it, so it never exits, `close` never runs, Actor Core never returns, no Last
+  Ack reaches the caller. Normal Stop answers 0 (the queue still exists) and the panel's Stop button has no effect
+  (it sends Normal Stop to a message loop that has already ended). The tree stays in memory until LabVIEW restarts.
+- **Probable cause (not proven):** the stop is generated before `helperPanel` has registered (it opens its panel
+  first). User events are not latched: a stop generated before Register For Events is lost. The skill lists exactly
+  this as unmeasured (`knowledge/actor-framework.md`, "Not yet measured": "A stop that comes before the loop has
+  registered ... is lost"). The HWM has the same shape (not seen there).
+- **Evidence:** report-12a item 2.8 and 4; reports/evidence-12a-checks.txt.
+- **Owner:** the user (the fix is a design choice); then phases 09/10 (rebuild) and the skill's maintainer (the race).

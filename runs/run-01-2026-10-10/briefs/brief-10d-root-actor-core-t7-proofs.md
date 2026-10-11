@@ -6,7 +6,22 @@ Type: build + test (LabVIEW calls, Actor Framework runs). Phase 10 step d of 5 (
   `report-10b-root-hooks-routing-overrides.md`, `report-09d-hwm-actor-core-proof-close.md` (Actor Core shapes A, D and
   D-close with the derived `...\proof\ZMP-09d\zmp09d_close_join.xml`; the launch-proof route), `report-06-pipeline-test.md`
   (how a test VI joins `ZM-TST-tests.lvlib` and `checks.json`).
-  <<MANAGER: traps from reports 10b and 10c go here before launch>>
+- State (report 10c, 2026-10-11 ~19:26): LabVIEW **PID 26148, port 52603**, dwarn 4, project CLOSED, 0 unsaved, no
+  dialog. ROOT 25 VIs, all cold state 1. `helperPanel` (private, static, panel shown on call): frames `<error>` (append
+  to `errors`), `"Stop"` Value Change (Stop = F by local → Send Normal Stop to self, keep looping), `<stop>` (exit);
+  `Stop` is Switch When Released (action 1) and visible; D40 tail after the loop. `launchCm`/`launchHwm` exist (10b);
+  Actor Core runs them in series BEFORE Call Parent on class and error (an error goes into Call Parent).
+- **Broken wire first** (the user's rule, `orchestration\plan.md`): a VI at cold state 0 with a broken-wire text after a
+  generate, swap or bind gets the kit's `pa_clean_member` (Remove Bad Wires + save; project open and active) BEFORE any
+  rebuild. 10b lost five rebuilds and a LabVIEW kill to one leftover wire segment.
+- **No kill:** the user's one kill go-ahead is used up. The validator's hidden `LVMCP Validate*` VIs make any LabVIEW
+  close raise a save dialog; if a restart becomes necessary (a hung proof), stop and report.
+- `lvai_bind_typedef_constants` needs the QUALIFIED subVI name (bare name: misleading 1055). 08c/09d proof VIs: build
+  with the project open, swap, bind the settings seeds, run with the project closed; a proof that launches the ROOT
+  also opens the HWM live panel and the ROOT panel (both close after; check with `lv_windows.ps1`).
+- The Stop-button run: the root panel's `Stop` is Switch When Released; a SIGNALLING value write fires the Value
+  Change event (`01` R8). Read the VI Server spellings for `Open VI Reference`, `Front Panel` → `Controls[]` / `Get
+  Control by label` and `Value (Signaling)` from `resource\lvserver.rsc` or an NI shipped VI, never by a probe.
 - Session 3 (2026-10-11) user go-ahead: "Continue run-01. You may restart LabVIEW when needed; agents may too." Max
   two starts, each reported. Never answer a dialog. Save version **26.0**.
 - **D40**: errors cascade through the Last Ack; no Handle Last Ack Core override. Every `lvai_*`/`pylv_*` call ALONE in

@@ -110,6 +110,8 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
   `lvai_set_vi_icon` calls, 07 three read-only icon reads (05c and 06 kept the rule), although each brief and launch message stated the rule, the last two in bold. None of the
   15 Fable 5.1 agents of session 1 reported a break. All three breaks were harmless (offline calls or fast calls).
 - **Evidence:** report-05a2 item 9b, report-05b item 8a, report-05d item 6a, report-07 item 8b.
+- **Update (session 3, 2026-10-11):** 08a and 08c kept the rule; 08b sent two read-only exports in one message
+  (report-08b item 8a). Count now five of nine Opus 5.5 steps.
 - **Why it matters:** the skill (`session/brief.md`) records the same break in four pilot sessions; a parallel call on
   a slow LabVIEW operation can block the service. It is also data for the model comparison the plan asks for.
 - **Owner:** the skill's maintainer (MCP-candidate `call-lock`), the user (model choice).

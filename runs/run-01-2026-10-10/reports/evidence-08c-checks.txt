@@ -1,0 +1,11 @@
+08c behaviour runs, 2026-10-11, LabVIEW 2026 Q3 PID 14516, labview-mcp 1.9.5-local (f9ee41d9), project CLOSED for every run
+error log before: 5 lines (copy proof/ZMP-08c/error_log_before.txt)
+
+run 1 ZMP-08c-launch_cm.vi 11:34:51  1788 ms  lines 3  launch 0  send 0  stop 0  read 0  error out 0  file output/test_cm_95656555/TestPackage.jsonl (3 lines TestPackage/Communication)  error log 5 (unchanged)
+run 2 ZMP-08c-launch_cm.vi 11:35:08  1830 ms  lines 3  launch 0  send 0  stop 0  read 0  error out 0  file output/test_cm_95669199/TestPackage.jsonl (3 lines)  error log 5 (unchanged)
+stop proof: both runs returned by themselves; lv_windows.ps1 after each: no CM / Actor Core window, 0 dialogs (unsaved = tool's hidden LVMCP Validate pairs only); run 2 = run 1
+
+PLI failure ZMP-08c-pli_failure.vi 11:39:2x  1793 ms (incl. 500+1000 ms waits)
+  launch_error 1, source: Create Folder in ZM-CP-FL-createFolder.vi -> FL ZM-CP-init -> ZM-CP-MX-initAll -> MX ZM-CP-init -> ZM-CM-createResources -> CM Pre Launch Init -> Actor.vi  <APPEND> ...\output\test_cm_bad<>|_95929397
+  send_error 1 (same, chained), stop_error 1556 (Priority Enqueue: no actor queue), read_error 7, error out 1
+  error log 5 (unchanged); no new output folder

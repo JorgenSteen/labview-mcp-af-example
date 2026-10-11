@@ -6,15 +6,31 @@ Type: build (LabVIEW calls). Phase 09 step a of 4 (b: hooks, interface override,
   (the MEASURED route for a pre-launch-settings typedef holding a class, the actor class with `parentInterfaces`,
   the class-typed field binding, the custom accessor and the 1003 state until the interface override exists),
   `report-08c-cm-launch-cleanup-icons.md` (the state of the tree), `report-01a-pc-classes.md`.
-  <<MANAGER: traps from reports 08a-08c go here before launch>>
-- Save version **26.0**. User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself
-  when it crashes or stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported.
+- State (2026-10-11 11:47, report 08c): LabVIEW PID 14516 (port 59983) running, dwarn 4, project CLOSED, no dialog.
+  Phase 08 is done: the CM is in `ZM-CM-communication_manager.lvlib` under `actors`; nothing of it may change here.
+- From report 08a: there is NO AIXML spelling for a class-typed cluster element. The measured route: `lvai_create_typedef`
+  `cluster{path.hardware,uint32.intervalMs}`, then the derived helper `helpers\zm_cluster_element_replace.vi` (source
+  `...\proof\ZMP-08a\zm_cluster_element_replace.xml`; it takes `{LV.Cluster} Controls[]` at index **0**, so keep
+  `hardware` FIRST; for another index derive a copy in `...\proof\ZMP-09a\` and report it), project open and active;
+  `lvai_describe_ctl` must show the class element. A class-typed field binds with `ctlPath` = the `.lvclass`, `force:
+  true`, `ok: false` expected (08a item 3). `accessUi: "Read"` makes one VI only.
+- From report 08a/08b: a class implementing the interface without its override reads cold **"VI has an error of type
+  8"** on EVERY member (not the literal 1003); 08b proved it is the missing interface override. Report it, do not fix it.
+  `lvai_add_class_method` answers `ok: false` / `pathStandInsLeft` for a path stand-in INSIDE a cluster terminal: bind
+  the terminal with `lvai_bind_pane_typedef` and prove it from the export (08a item 4). The CM's custom accessor
+  (`...\proof\ZMP-08a\ZM-CM-writePrelaunchSettings.xml`) is the template for the HWM's.
+- `lvai_create_class` dropped the stray `Actor.lvclass` top-level item (`lvproj_drop.py`, 1 line); the interface was
+  not added as an item (08a item 3).
+- Session 3 (2026-10-11) user go-ahead in the start message: "Continue run-01. You may restart LabVIEW when needed;
+  agents may too."
+- Save version **26.0**. You may start or restart LabVIEW yourself when it crashes or stops answering, per
+  `<skill>\session\start.md`, at most two starts in this step, each reported.
   Never answer a dialog. D38: class descriptions, `.ctl` membership (`TypeDefs`) and `Methods`/`Accessors`/`Helpers`
   placement by the user (list them). D39: icons without a prompt (step d).
 - Traps: never probe a VI Server name with `lvai_validate_aixml`; `regenerateHelper: true` once on runner error
   1059; `sweep_paths.py` needs `--out`; `lv_loadability.py` needs `--vilib`; `lvproj_drop.py` strays after
   `lvai_create_class`; bind BEFORE any accessor exists; `parentInterfaces` links the interface at creation only; a
-  class implementing an interface reads error 1003 until step b overrides the method (expected, say so); the
+  class implementing an interface reads "error of type 8" until step b overrides the method (expected, say so); the
   user-event typedef spelling measured in the pilot: `cluster{ref{UserEvent}{bool.stop}.stop}` (the suffix labels
   the element, which the event frames select).
 

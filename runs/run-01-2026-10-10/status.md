@@ -2,7 +2,7 @@
 
 state: open            # open | closed
 last updated: 2026-10-11 11:04 by the manager session (session 3 start)
-next phase: 08 CM actor, step c - running (session 3); 08a, 08b done
+next phase: 09 HWM actor, step a - running (session 3); phase 08 done
 open items: see "Open items" below.
 
 # Session 3 started 2026-10-11 10:58
@@ -188,7 +188,7 @@ PID 14040 (started by this session 2026-10-10 15:24), `Zuehlke MCP.lvproj - Proj
 | 05 | UDP + multi protocol | done | 2026-10-10 23:01 | 2026-10-11 10:27 | 208e74b..29e2187 (05a), d7b5cf8..ab14b57 (05a2) | 05a done in two sessions: sender and receiver in ZM-CP-UDP-udp_transport.lvlib under protocol, four overrides hooked (open hooks end in Preserve Run-Time Class), sweep 18/18, probe error 0; 05b done (576b7a0..36c7a06): MX class with PROTOCOLS typedef (array of the CP parent), reentrant initAll/closeAll, three overrides, library under protocol, sweep 36/36, probe [parent] 5000 and [] clean; 05c done (53627a4, a1e87f0): T5 PASS, T4 PASS with seven checks, sweep 41/41; 05d done (45a2646..bbe3273): cleanup 27 VIs, 3 class + 2 library icons, read back 0 px, sweep 41/41, no AF/CU/HW/FL link, all 26.0. Phase ended 2026-10-11 10:27 |
 | 06 | pipeline test | done | 2026-10-11 10:32 | 2026-10-11 10:39 | 558726e..f6f5260 (3 commits) | ZM-TST-pipeline.vi (T6) PASS in round 2 (a test-only fix), T1-T6 all PASS on the rerun, cleanup, icon 0 px, sweep 6/6, no production VI touched |
 | 07 | interface + message | done | 2026-10-11 10:44 | 2026-10-11 10:50 | 6ea3457..254038b (11 commits) | ZM-CI-common_interfaces.lvlib under common: interface ZM-CI-package_handler, method ZM-CI-handlePackage (pane 4815, package on 10), message class ZM-CI-handlePackage Msg by Message Maker + repair_r1 in the Messages folder; Do.vi casts to the interface; sweep 3/3, icons 0 px; links only to ZM-PC and vi.lib |
-| 08 | CM actor | running | 2026-10-11 11:05 | | 88f9417..572b81b (08a), a4c3ee7..17ce3f9 (08b) | 08a done: typedef ZM-CM-PRELAUNCH_SETTINGS (cluster{protocol: CP class}, derived cluster-element helper), class (Actor, implements ZM-CI-package_handler), bound fields, 5 private static accessors, public writePrelaunchSettings, all 26; members state 0 (error of type 8) until 08b overrides the interface method; 08b done: evaluateError, releaseProtocol (clears code 1 of a never-opened UDP close unlogged), createResources (shape F), ZM-CI-handlePackage override (type-8 break gone), library under actors, PLI/Stop Core/Handle Error hooked after Call Parent, sweep 13/13, no forbidden link, all 26; 08c launched |
+| 08 | CM actor | done | 2026-10-11 11:05 | 2026-10-11 11:47 | 88f9417..572b81b (08a), a4c3ee7..17ce3f9 (08b), 3a71740..e3efe7a (08c) | 08a done: typedef ZM-CM-PRELAUNCH_SETTINGS (cluster{protocol: CP class}, derived cluster-element helper), class (Actor, implements ZM-CI-package_handler), bound fields, 5 private static accessors, public writePrelaunchSettings, all 26; members state 0 (error of type 8) until 08b overrides the interface method; 08b done: evaluateError, releaseProtocol (clears code 1 of a never-opened UDP close unlogged), createResources (shape F), ZM-CI-handlePackage override (type-8 break gone), library under actors, PLI/Stop Core/Handle Error hooked after Call Parent, sweep 13/13, no forbidden link, all 26; 08c done: launch proof (MX of one FL, 3 packages, Normal Stop) 3 lines twice, error log unchanged, no CM window left; forced PLI failure returned code 1 in 1.8 s, no hang, log unchanged; cleanup 13, icons 13 VIs + class + library at 0 px, override descriptions set by `pa_replace_description`; sweep 13/13, 16 files at 26, links only CM/CI/CU/PC/CP parent. No separate `feat(cm): communication manager actor` commit (the feat(cm) commits carry the build) |
 | 09 | HWM actor | todo | | | | |
 | 10 | ROOT actor | todo | | | | |
 | 11 | launchers + receiver | todo | | | | |
@@ -207,6 +207,7 @@ state: todo | running | done | failed | skipped (say why in the result column)
 | T4 ZM-TST-protocol Pass | pass, all seven checks (2026-10-11 ~10:14, cold, round 1); six-check pass of 2026-10-10 22:40 before it | reports/evidence-05c-checks.txt: Pass T, error 0, init_ok/files_ok/lines_ok/append_ok/placeholder_ok/close_ok/mx_placeholder_ok T; commit a1e87f0 |
 | T5 ZM-TST-udp Pass | pass (2026-10-11 ~10:13, cold, round 1; run twice, same readings) | reports/evidence-05c-checks.txt: Pass T, error 0, rx_init_ok/roundtrip_ok/timeout_ok/no_listener_ok/mx_ok/rx_publish_5000_ok T; port 61557 free; commit 53627a4 |
 | T6 ZM-TST-pipeline Pass | pass (2026-10-11 ~10:36, cold, round 2 after a test-only fix); T1-T5 rerun PASS in the same session | reports/evidence-06-checks.txt: Pass T, error 0, pipeline_ok/error_stops_ok T; commit 558726e |
+| CM throwaway launch (phase 08 proof) | pass (2026-10-11 11:35, cold, two runs) | reports/evidence-08c-checks.txt: lines 3, every error 0, error log 5 → 5; PLI failure: launch error 1, no hang |
 | T7 ZM-TST-routing Pass | | |
 | R-normal ×3 | | |
 | R-error | | |
@@ -221,6 +222,14 @@ state: todo | running | done | failed | skipped (say why in the result column)
 ## Traps carried forward
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
+
+- An actor proof VI: build it by the direct route with the project open, then `lvai_swap_subvis`, then
+  `lvai_bind_typedef_constants` to turn a settings-cluster seed into the PRELAUNCH_SETTINGS typedef; run it with the
+  project CLOSED. A variant with `String To Path` into the bundled settings stayed eBad three times (cause not found):
+  copy the working proof VI and change a constant with `lvai_set_constant` instead (report-08c, item 3).
+  `pa_replace_description` (project closed) sets a VI description without regenerating: the route for AF overrides,
+  which keep NI's help text after `lvai_create_override` (report-08c, item 5). A failed PLI makes Launch Root Actor
+  return the PLI error; a later Send Normal Stop to the returned enqueuer answers 1556 (report-08c, item 3).
 
 - `lvai_placeholder_subvi` types a stub's CLUSTER output as a scalar path when the source is a typedef cluster with a
   class element; a hand-made stub `cluster{path.<name>}` in `user.lib\LV_MCP` validates (report-08b, item 8c).
@@ -329,6 +338,12 @@ Facts the next brief must repeat, each by its content with its source (report fi
 ## Deviations and fallbacks
 
 Where the build differs from `02-specification.md`, with why, and whether the user agreed.
+
+- 2026-10-11, phase 08c: the forced PLI failure used an invalid folder NAME (`test_cm_bad<>|_`) instead of a missing
+  drive (the brief's VI stayed eBad); the unchanged error log cannot show Stop Core skipped (FL close is 0 anyway).
+  The AF overrides' descriptions were written by the agent (review in e3efe7a). No separate phase commit named
+  `feat(cm): communication manager actor` (the card's wording); the build is in the feat(cm) commits. Handle Error on a
+  real message error is not run in phase 08 (phase 09d run 2 and phase 12 R-error cover it). Not asked.
 
 - 2026-10-11, phase 08b: two read-only exports in one message (F9: five of eight Opus steps now). `createResources`
   writes the protocol back after a failed init so the release closes the partly opened object; `releaseProtocol`

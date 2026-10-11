@@ -14,6 +14,7 @@
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
 		<Item Name="actors" Type="Folder"/>
 		<Item Name="common" Type="Folder">
+			<Item Name="ZM-CI-common_interfaces.lvlib" Type="Library" URL="../common/ZM-CI-common_interfaces/ZM-CI-common_interfaces.lvlib"/>
 			<Item Name="ZM-CU-common_utilities.lvlib" Type="Library" URL="../common/ZM-CU-common_utilities/ZM-CU-common_utilities.lvlib"/>
 			<Item Name="ZM-PC-packages.lvlib" Type="Library" URL="../common/ZM-PC-packages/ZM-PC-packages.lvlib"/>
 		</Item>
@@ -31,7 +32,6 @@
 		<Item Name="tests" Type="Folder">
 			<Item Name="ZM-TST-tests.lvlib" Type="Library" URL="../tests/ZM-TST-tests.lvlib"/>
 		</Item>
-		<Item Name="ZM-CI-package_handler.lvclass" Type="LVClass" URL="../common/ZM-CI-common_interfaces/ZM-CI-package_handler/ZM-CI-package_handler.lvclass"/>
 		<Item Name="Dependencies" Type="Dependencies"/>
 		<Item Name="Build Specifications" Type="Build"/>
 	</Item>

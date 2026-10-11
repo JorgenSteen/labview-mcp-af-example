@@ -5,6 +5,16 @@ last updated: 2026-10-11 23:50 by the manager session (session 3, after the run:
 next phase: post-run steps 12h (D38 items by scripting), 12g (D44), 12i (re-check); see the HAND-OVER block
 open items: see "Open items" below.
 
+# Session 4 started 2026-10-11 23:52
+
+- New Claude Code session (after `/clear`), manager on Opus 5.5; agents inherit it.
+- User go-ahead (start message): "Continue run-01's post-run steps (12h, 12g, 12i). You may restart and kill LabVIEW
+  at will for this session; agents may too." Standing for this session: start, restart, close, kill.
+- `lv_windows.ps1` 23:54: PID 26716, project closed, no dialog, LVAutoSave 0, unsaved 2 (`LVMCP Validate*` only).
+- 12h split in two: 12h1 (PC children, HW, SIM, CP, FL, UDP sender/receiver, MX), 12h2 (CM, HWM, ROOT, CI interface
+  and message class). Folder placement follows `02` §2 (writePrelaunchSettings and the interface method are methods:
+  `Methods`); the CI message class description is manager-written (in brief 12h2), for the user's review.
+
 # HAND-OVER 2026-10-11 23:50 (session 3, after the run): next session starts HERE
 
 **Start message for the next session (one line):** "Continue run-01's post-run steps (12h, 12g, 12i). You may

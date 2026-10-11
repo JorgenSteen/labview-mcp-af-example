@@ -61,9 +61,59 @@ from `date` are authoritative; agent-clock minutes are kept as reported.
 
 ## /cost output per session
 
-- session 3 (2026-10-11 10:58 to ~22:05, Opus 5.5): not yet pasted; the user runs `/cost` and pastes it here. Seen by
-  the manager: 25 agent launches/resumes; the harness notifications in this file sum per row (not totalled here, as
-  resumed agents report cumulative counts). The manager's own tokens: not visible.
+- session 3 (2026-10-11 10:58 to ~22:05, Opus 5.5; `/cost` taken by the user at 23:15): **$280.58 total**, API time
+  5h 13m, wall 12h 15m, manager and all 25 agent launches/resumes together. Opus 5.5: 1.2m input, 1.8m output,
+  931.4m cache read, 10.1m cache write; Haiku 5.5 negligible. Of the usage: 85% general-purpose subagents, 36%
+  labview-mcp tool results, 92% at >150k context. The user's paste, verbatim (its first line reads "1026" for 2026):
+
+```text
+1026-10-11 2315 Cost
+Session
+
+Total cost:            $280.58
+Total duration (API):  5h 13m 9s
+Total duration (wall): 12h 15m 16s
+Total code changes:    8176 lines added, 61 lines removed
+Usage by model:
+    claude-haiku-5-5:  1.2k input, 17 output, 0 cache read, 0 cache write ($0.0001)
+     claude-opus-5-5:  1.2m input, 1.8m output, 931.4m cache read, 10.1m cache write ($280.58)
+Prompt cache (main):   216 requests · 99% of input tokens from cache · 1 miss (last 4h 21m 30s ago — likely cause: idle past the 1h TTL, 345.9k tokens re-cached) · warm (1h TTL, last activity 19m 55s ago)
+
+Current session
+████████████████▌                                  33% used
+Resets 12:59am (Europe/Oslo)
+
+Current week (all models)
+███                                                6% used
+Resets Oct 15, 3:59am (Europe/Oslo)
+
+Current week (Fable)
+                                                   0% used
+Resets Oct 15, 4am (Europe/Oslo)
+
+What's contributing to your limits usage?
+Approximate, based on local sessions on this machine — does not include other devices or claude.ai
+
+Last 24h · these are independent characteristics of your usage, not a breakdown
+
+100% of your usage came from subagent-heavy sessions
+ Each subagent runs its own requests. Be deliberate about spawning them — and consider configuring a cheaper model for simpler subagents.
+
+92% of your usage was at >150k context
+ Longer sessions are more expensive even when cached. /compact mid-task, /clear when switching to new tasks.
+
+75% of your usage came from sessions active for 8+ hours
+ These are often background/loop sessions. Continuous usage can add up quickly so make sure it is intentional.
+
+85% of your usage came from subagents under "general-purpose"
+ If this runs frequently, consider configuring its subagents with a cheaper model or tightening their prompts.
+
+36% of your usage came from the MCP server "plugin:labview-mcp:labview"
+ MCP tool results stay in context for the rest of the session. /compact to flush them, or disable servers you don't need.
+
+Subagents               % of usage
+general-purpose                85%
+```
 
 - session 2 (2026-10-11 09:34 to 10:58, Opus 5.5): not yet pasted. Seen by the manager: 7 agent launches; the
   harness notifications carried 332,117 + 414,317 + 325,239 + 361,753 + 307,509 + 320,223 = 2,061,158 subagent

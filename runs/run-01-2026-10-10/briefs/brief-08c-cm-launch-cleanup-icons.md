@@ -5,7 +5,22 @@ Type: test + build (LabVIEW calls, Actor Framework runs). Phase 08 step c of 3 (
 - Reports to read first: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-08b-cm-hooks-overrides.md`
   (what exists, the shapes, the releaseProtocol code, the sweep baseline), `report-08a-cm-class.md`,
   `report-05d-cp-cleanup-icons-sweep.md` (the measured cleanup and icon route; your report blocks follow it).
-  <<MANAGER: traps from report 08b go here before launch>>
+- From report 08b (2026-10-11 11:26): LabVIEW PID 14516 (port 59983) running, dwarn 4 (not degraded), project CLOSED.
+  The CM is complete: 13 VIs + `.ctl` + class in `ZM-CM-communication_manager.lvlib` under `actors`; cold sweep 13/13
+  state 1; links only to CM, ZM-CI, the CP parent, ZM-PC, ZM-CU-log, AF (no FL/UDP/MX/HW link). Commits a4c3ee7..17ce3f9.
+- `releaseProtocol` clears code **1** (from `UDP Close` of a never-opened UDP sender) without logging and logs any other
+  close error; FL alone closes with 0. So a clean CM run with an MX of one FL adds 0 lines to the error log.
+- `createResources` writes the protocol back even after a failed init (so the release closes the partly opened
+  object), then runs `releaseProtocol` and returns the ORIGINAL init error. The forced PLI failure must show that code.
+- Handle Error: Call Parent, then `evaluateError` on class + error; the override's `stop actor?` comes from Call
+  Parent. Not run yet: if you see behaviour that differs from `02` §5, report it, do not change the CM here.
+- The three AF overrides still carry NI's VI descriptions (report-08b, item 8). Step 6 checks descriptions: if a tool
+  route sets a VI description WITHOUT regenerating the scripted diagram (look it up in `knowledge\labview-mcp.md`;
+  never regenerate an override), use it; otherwise list the three overrides for the user in the IDE with the text.
+- `evaluateError` (13 nodes in a chain) and `releaseProtocol` (11) exceed the width budget of 10; do NOT invent a
+  subVI (names come from `02` only); Clean Up Diagram and report the widths.
+- Clear Errors' input terminal is `error in (no error)`. The 08b agent sent two exports in one message: keep the
+  one-call rule.
 - Save version **26.0**. Session 3 (2026-10-11) user go-ahead: "Continue run-01. You may restart LabVIEW when needed;
   agents may too." (max two starts, each reported; never answer a dialog). D38, D39 as before.
 - Traps: every `lvai_*`/`pylv_*` call ALONE in its message; never probe with `lvai_validate_aixml`; read a `.lvproj`

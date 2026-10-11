@@ -4,7 +4,15 @@ Type: build (LabVIEW calls). Phase 10 step e of 5 (last step of the phase).
 ## UPDATES (read first; they override the rest)
 - Reports to read first: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-10d-root-actor-core-t7-proofs.md`,
   `report-09d-hwm-actor-core-proof-close.md` (the measured cleanup and icon route, the loop-VI probe before Clean Up).
-  <<MANAGER: traps from reports 10b-10d go here before launch>>
+- State (report 10d, 2026-10-11 19:39): LabVIEW PID 26148 (port 52603), dwarn 4, project CLOSED, no dialog. ROOT 26 VIs
+  + tests 7, sweep 33/33. T7 PASS. Launch proofs and the Stop press passed. NO kill go-ahead (used up).
+- **ROOT `Actor Core.vi` still has NI's help text:** set a D40 description with `pa_replace_description` (project
+  closed), as 10b did for PLI and Handle Error. The ROOT's VIs needing cleanup and icons: all 26 ROOT VIs and
+  `src\tests\ZM-TST-routing.vi`; `helperPanel` only after the copy-probe (09d proved Clean Up keeps the HWM loop's
+  dynamic wiring; probe the ROOT loop's static `Stop` frame and payload field too).
+- `lvai_add_to_library` (and any Save All of `ZM-TST-tests.lvlib`) re-saved `ZM-TST-pipeline.vi` by 1 byte: restore
+  out-of-scope re-saves from git with the project closed. A proof VI is adopted into the `.lvproj` at a close: drop it.
+- **Broken wire first** (`pa_clean_member` before any rebuild); F10 before `lvproj_drop.py`; one call per message.
 - Session 3 (2026-10-11) user go-ahead: "Continue run-01. You may restart LabVIEW when needed; agents may too." Max
   two starts, each reported. Never answer a dialog. Save version **26.0**. D38, D39 (icons without a prompt).
 - Every `lvai_*`/`pylv_*` call ALONE in its message. F10 and the BOM restore as before. An icon apply may re-save

@@ -1,0 +1,9 @@
+10d checks, 2026-10-11, LabVIEW 2026 Q3 32-bit PID 26148 port 52603, labview-mcp 1.9.5-local (f9ee41d9), project closed for all runs
+T7 ZM-TST-routing (cold, 485 ms): PASS  Pass=T error 0  hardware_dropped_ok T unknown_dropped_ok T communication_not_dropped_ok T no_error_ok T
+   error log 5 -> 7 lines: "ROOT\t0\tdropped TestPackage for Hardware", "ROOT\t0\tdropped TestPackage for Unknown" (17:34:39.816Z/.817Z)
+Proof 1 ZMP-10d-launch_root.vi press stop F: lines 10, launch 0, stop1 0, stop2 1556, total 8017 ms, read 0, output/test_root_124579290
+Proof 2 same: lines 10, launch 0, stop1 0, stop2 1556, total 8019 ms, output/test_root_124596336
+Stop button press stop T: panel state 3 (running), matched 1, Value (Signaling) error 0, stop2 1556, lines 10 (stable 3 s later), total 8041 ms, output/test_root_124612150
+Error log sha1 da709a72e1b2822ea1110ad6533e13e60c71642d before and after all three runs (7 lines).
+lv_windows after each run: visible = LabVIEW frames only; dialogs 0; unsaved 4 = hidden LVMCP Validate*; LVAutoSave 0.
+Cold after runs: ROOT helperPanel 1, ROOT Actor Core 1, HWM helperAcquisition 1, HWM Actor Core 1, control 0 7.

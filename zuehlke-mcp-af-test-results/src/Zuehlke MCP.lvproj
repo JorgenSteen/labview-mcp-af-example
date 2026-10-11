@@ -12,7 +12,9 @@
 		<Property Name="server.vi.callsEnabled" Type="Bool">true</Property>
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
-		<Item Name="actors" Type="Folder"/>
+		<Item Name="actors" Type="Folder">
+			<Item Name="ZM-CM-communication_manager.lvlib" Type="Library" URL="../actors/ZM-CM-communication_manager/ZM-CM-communication_manager.lvlib"/>
+		</Item>
 		<Item Name="common" Type="Folder">
 			<Item Name="ZM-CI-common_interfaces.lvlib" Type="Library" URL="../common/ZM-CI-common_interfaces/ZM-CI-common_interfaces.lvlib"/>
 			<Item Name="ZM-CU-common_utilities.lvlib" Type="Library" URL="../common/ZM-CU-common_utilities/ZM-CU-common_utilities.lvlib"/>
@@ -32,7 +34,6 @@
 		<Item Name="tests" Type="Folder">
 			<Item Name="ZM-TST-tests.lvlib" Type="Library" URL="../tests/ZM-TST-tests.lvlib"/>
 		</Item>
-		<Item Name="ZM-CM-communication_manager.lvlib" Type="Library" URL="../actors/ZM-CM-communication_manager/ZM-CM-communication_manager.lvlib"/>
 		<Item Name="Dependencies" Type="Dependencies"/>
 		<Item Name="Build Specifications" Type="Build"/>
 	</Item>

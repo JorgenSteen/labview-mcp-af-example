@@ -1,0 +1,10 @@
+11a checks, 2026-10-11, LabVIEW 2026 Q3 32-bit PID 26148 port 52603, labview-mcp 1.9.5-local (f9ee41d9), project closed for all runs and cold reads
+Build: direct route (project open, writePrelaunchSettings opened through it); both VIs generated (loadedSubVIs, executable), settings constant bound to ZM-ROOT-PRELAUNCH_SETTINGS.ctl (replaced 1 each); project close adopted both at My Computer root (.lvproj BOM + CRLF kept, +2 lines)
+Cold: ZM-launcher.vi 1, ZM-launcher_test.vi 1; versions 26:2 / 26:2, .lvproj 26.0
+Precondition: ROOT helperPanel cold 1; output/TestPackage.jsonl absent; output/ZM-error_log.txt 11 lines (copy proof/ZMP-11a/error_log_before.txt), deleted by run 1
+Run 1 ZM-launcher_test.vi defaults (run_time_ms 5000, placeholder F): lines_written 9, error_lines 0, ui_errors "", error out 0 (status F), 6492 ms
+   last_line {"timestamp":"2026-10-11T18:01:59.224Z","type":"TestPackage","destination":"Communication","data":{"temperature_c":20.007154195087917259,"sample_index":373,"duty_percent":84,"sensor_ok":false,"status":"ok"}}
+   afterwards: lv_windows visible = LabVIEW frames only, dialogs 0, unsaved 8 = hidden LVMCP Validate*; TestPackage.jsonl 9 lines (stable), ZM-error_log.txt absent (copy 11a-run1-TestPackage.jsonl)
+Run 2 use_placeholder_hardware T: lines_written 0, last_line "", error_lines 0, ui_errors "", error out 1556 status T source "In Place Element Structure in Actor Framework.lvlib:Message Priority Queue.lvclass:Priority Enqueue.vi:2960001->ZM-launcher_test.vi", 6443 ms
+   afterwards: lv_windows visible = LabVIEW frames only, dialogs 0; TestPackage.jsonl and ZM-error_log.txt both absent
+   cold after: ROOT helperPanel 1, HWM helperAcquisition 1

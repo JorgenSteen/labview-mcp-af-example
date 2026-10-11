@@ -2,7 +2,7 @@
 
 state: open            # open | closed
 last updated: 2026-10-11 19:58 by the manager session (session 3)
-next phase: 11 launchers + receiver, step a - running; phase 10 done (2026-10-11 19:55)
+next phase: 11 launchers + receiver, step b - running; 11a done
 open items: see "Open items" below.
 
 # Session 3 started 2026-10-11 10:58
@@ -191,7 +191,7 @@ PID 14040 (started by this session 2026-10-10 15:24), `Zuehlke MCP.lvproj - Proj
 | 08 | CM actor | done | 2026-10-11 11:05 | 2026-10-11 11:47 | 88f9417..572b81b (08a), a4c3ee7..17ce3f9 (08b), 3a71740..e3efe7a (08c) | 08a done: typedef ZM-CM-PRELAUNCH_SETTINGS (cluster{protocol: CP class}, derived cluster-element helper), class (Actor, implements ZM-CI-package_handler), bound fields, 5 private static accessors, public writePrelaunchSettings, all 26; members state 0 (error of type 8) until 08b overrides the interface method; 08b done: evaluateError, releaseProtocol (clears code 1 of a never-opened UDP close unlogged), createResources (shape F), ZM-CI-handlePackage override (type-8 break gone), library under actors, PLI/Stop Core/Handle Error hooked after Call Parent, sweep 13/13, no forbidden link, all 26; 08c done: launch proof (MX of one FL, 3 packages, Normal Stop) 3 lines twice, error log unchanged, no CM window left; forced PLI failure returned code 1 in 1.8 s, no hang, log unchanged; cleanup 13, icons 13 VIs + class + library at 0 px, override descriptions set by `pa_replace_description`; sweep 13/13, 16 files at 26, links only CM/CI/CU/PC/CP parent. No separate `feat(cm): communication manager actor` commit (the feat(cm) commits carry the build) |
 | 09 | HWM actor | done | 2026-10-11 11:52 | 2026-10-11 14:14 | 2822f5c..e0337ea (09a), 5575e6b..08cb7e7 (09b), 24736c3..6a19814 (09c), 7f4c4de..eda6452 (09d) | 09a done: PRELAUNCH_SETTINGS {hardware: HW class, intervalMs U32 default 500 in the typedef}, EVENTS {stop user event}, class (Actor, implements the interface), bound fields, 5 private accessors, public writePrelaunchSettings, all 26; members state 0 (type 8) until 09b; kit bug F10 found and worked around; 09b done: createEvents, stop, close, createResources (shape F), evaluateError (sender HWM), ZM-CI-handlePackage override (type 8 gone), library under actors, PLI and Handle Error hooked after Call Parent, override descriptions, sweep 14/14, 18 files at 26, links only HWM/CI/CU/PC/HW parent; 09c launched; 09c: all five unmeasured points measured on throwaways, then NEEDS CLARIFICATION (producer error vs event loop; error out cleared), answered by the user (D40); then done: helperAcquisition (variant 2, event structure 3 levels deep wired by a derived helper, use-default tunnel flag, plot names, panel on call, hidden stop), loops stop each other, raw error out; CM and HWM evaluateError rebuilt as pass-throughs; D40 in decisions.md; sweep 15/15, 27/27 with CM; 09d done: Actor Core (loop beside Call Parent, stop after it, close after both), run 1 SIM 6 lines x3 with clean Last Ack, run 2 bare HW: the tree stopped by itself with 5000 in 0.6 s (D40), stop reset PASS (6 + 6 lines), close order by dataflow (export), not timestamps; cleanup 17, icons 17 + class + library at 0 px; sweep 29/29 (HWM + CM), 36 actor files at 26, links only HWM/CI/PC/HW parent |
 | 10 | ROOT actor | done | 2026-10-11 14:30 | 2026-10-11 19:55 | 2670a13..c32ec2c (10a), 1da49de..fe95794 (10b), 4c72e8d..58e06c3 (10c), a401d95..8c4d3d5 (10d), 870a9d9..a4c0df6 (10e) | 10a done: PRELAUNCH_SETTINGS, EVENTS {stop, error}, class (Actor, interface), 7 fields bound, 11 private accessors, public writePrelaunchSettings, all 26, type-8 until 10b; 10b PARTIAL (1da49de..d1794f8): 23/24 ROOT VIs state 1, routing override, library under actors, PLI, Handle Error, D40 descriptions (also the CM's Handle Error); `launchHwm` state 0 (broken wire) after five routes; CANNOT PROCEED; kill + restart (PID 14516 -> 26148) did not help; the user saw a leftover wire; `pa_clean_member` (Remove Bad Wires) fixed it, fe95794; ROOT 24/24 + CM Handle Error state 1; 10c done (4c72e8d..58e06c3): helperPanel with Stop (Switch When Released), errors, stop/error events, D40 tail, panel on call; sweep 25/25; 10d done (a401d95..8c4d3d5): Actor Core launchCm -> launchHwm -> Call Parent, helperPanel beside, stop, close; T7 PASS; launch proofs 10/10 lines, error log unchanged, panels closed; Stop-button signalling press stopped the tree; sweep 33/33; 10e done: cleanup 27, icons 27 + class + library at 0 px, Actor Core description, dependency rule 0 violations over 171 files, 75 files at 26, sweep 62/62 (actors + tests), T1-T7 PASS (T4 needed a rerun, F13) |
-| 11 | launchers + receiver | todo | | | | |
+| 11 | launchers + receiver | running | 2026-10-11 19:58 | | 292b08f (11a) | 11a done: ZM-launcher.vi, ZM-launcher_test.vi at the project root, cold 1; launcher_test run 1: 9 lines, error_lines 0, ui_errors empty, error out 0; run 2 (placeholder): 0/0/empty, error out 1556 (the tree had stopped itself, D40); 11b launched |
 | 12 | runs + structural checks | todo | | | | |
 | 13 | close | todo | | | | |
 
@@ -211,8 +211,8 @@ state: todo | running | done | failed | skipped (say why in the result column)
 | HWM throwaway runs (phase 09 proof) | pass (2026-10-11 ~14:00, cold) | reports/evidence-09d-checks.txt: run 1 SIM 6/6/6 lines, CM Last Ack 0; run 2 bare HW: CM Last Ack 5000 at 559/642 ms, Normal Stops 1556 (tree already down), 0 lines; stop reset 6 + 6 lines |
 | ROOT launch proofs + Stop button (phase 10) | pass (2026-10-11 ~19:37, cold) | reports/evidence-10d-checks.txt: 10 and 10 lines in 5 s, stop 0 then 1556, error log unchanged, panels closed; Stop press: tree stopped by itself, 10 lines |
 | T7 ZM-TST-routing Pass | pass (2026-10-11 ~19:35, cold, round 1) | reports/evidence-10d-checks.txt: Pass T, error 0, four checks T; commit 8c4d3d5 |
-| R-normal ×3 | | |
-| R-error | | |
+| R-normal ×3 | run 1 of 3 in phase 11a (2026-10-11 20:02): lines 9, error_lines 0, ui_errors empty, error out 0; ×3 in phase 12 | reports/evidence-11a-checks.txt |
+| R-error | phase 11a reading under D40: lines 0, error_lines 0, ui_errors empty, error out 1556 (tree stopped by itself); judged in phase 12 against D40 | reports/evidence-11a-checks.txt |
 | R-interactive | | |
 | R-receiver | | |
 | R-viewer | | |
@@ -380,6 +380,11 @@ Facts the next brief must repeat, each by its content with its source (report fi
 ## Deviations and fallbacks
 
 Where the build differs from `02-specification.md`, with why, and whether the user agreed.
+
+- 2026-10-11, phase 11a: `ZM-launcher.vi` has an `error out` indicator that `02` §8 does not list (`errors.ignored-errors`:
+  no unwired error out; Clear Errors would hide a launch failure). Kept by the manager as a convention-driven
+  terminal, not a new name; listed for the user to confirm. `ZM-launcher_test.vi`'s `error out` merges the stop chain
+  first, so under D40 the placeholder run reads 1556 and hides any panel-read error (report-11a, items 3, 6).
 
 - 2026-10-11, phase 09d: the helper-loop close-order check rests on the Actor Core export (close is fed only by
   Merge(loop, stop), so dataflow orders it), not on timestamped lines (they would need log writes in `src\`); `03`

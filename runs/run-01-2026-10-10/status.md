@@ -2,7 +2,7 @@
 
 state: open            # open | closed
 last updated: 2026-10-11 11:04 by the manager session (session 3 start)
-next phase: 10 ROOT actor, step b - STOPPED on CANNOT PROCEED (2026-10-11 15:34): `ZM-ROOT-launchHwm.vi` cold state 0; waiting for the user (LabVIEW restart or an IDE look)
+next phase: 10 ROOT actor, step b - running again: the user allowed one kill of LabVIEW (~15:40); the 10b agent kills, restarts and re-checks `launchHwm`
 open items: see "Open items" below.
 
 # Session 3 started 2026-10-11 10:58
@@ -418,6 +418,10 @@ Where the build differs from `02-specification.md`, with why, and whether the us
   Two commits instead of one. Not asked; a harness detail, not a product deviation.
 
 ## Go-aheads from the user
+
+- User go-ahead (2026-10-11 ~15:40, session 3, single kill): "you may kill LabVIEW" - for PID 14516 (started by
+  the 08a agent 11:03; project closed, LVAutoSave 0, only `LVMCP Validate*` scratch VIs unsaved), so the 10b agent can
+  restart past the exit save dialog. One kill; not standing.
 
 - User decision (2026-10-11, session 3, answering 09c's NEEDS CLARIFICATION): "have all loops close the others on
   error, add a send stop event after the user event loop to, just add ignore error. and then if any other helper loop

@@ -2,6 +2,7 @@
 <LVClass LVVersion="26008000">
 	<Property Name="NI.Lib.ContainingLib" Type="Str">ZM-HW-hardware.lvlib</Property>
 	<Property Name="NI.Lib.ContainingLibPath" Type="Str">../../ZM-HW-hardware.lvlib</Property>
+	<Property Name="NI.Lib.Description" Type="Str">Parent of every hardware object. init and close do real work on the initialized flag (close is where real hardware is put into a safe state); do is a placeholder that returns error 5000 and must be overridden by a child.</Property>
 	<Property Name="NI.Lib.Icon" Type="Bin">*A#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!*8!!!*Q(C=V:3`43N"%)&gt;`@C)A&gt;15ANT!NO!8(:./#5Z/ZB7HB7H!!#1G;&amp;CS^#CS^Y-8(Z\UR!G4@31AEW08YTL`Z^^XO_K1WLK5L^60D?83]][PGJ`V3M^(]+@^)`3H_4`EV/H["`T1P_&amp;`(R@T\.C\Z_Z0`&lt;-#1``1UHN`])`HD`;@YRZ``P0Z\`"/$G-VEU$=0;&gt;:)M=1#=]T;U`7*HOC*HOC*HOC"(OC"(OC"(OC/\OC/\OC/\OC'&lt;OC'&lt;OC'&lt;KL.2R?[U'8N-#4.EU:*U;2!%AS+EK_%*_&amp;*?")?@CLB38A3HI1HY3&amp;%#5`#E`!E0!E0;5JY%J[%*_&amp;*?#D63,*.&gt;(A3(MILY!FY!J[!*_#BJ1+?!#"I&amp;B1/CI#BQ"H="$Q"4]$$L1+?A#@A#8A#(NQ+?!+?A#@A#8B);;M3D?9YU?'BD"Q?B]@B=8A=(EL,Y8&amp;Y("[(R_'BH2Q?B]?"="I[R5'1E_1%/$]=(I?(CRQ?B]@B=8A=(FRNB\SNT*(G/.(B-8A-(I0(Y$&amp;Y+#'$R_!R?!Q?AY?S-HA-(I0(Y$&amp;Y;#7$R_!R?!Q1ISHN:21T%IUA1T"Y_,449GW8IJ&amp;9G`88(![K[A#K$J&lt;KQ+A/AGK$62OHWB$61KM75,5QKA&gt;709A+5.6966!6K!0@?WS(&gt;&gt;A77W-L&lt;)ENM0ER^9M$$Y?$^PO^&gt;LO&gt;OK\4&gt;LP6?LX7;L83=LH59L(1@$Z`@6P&gt;-I=R?`&gt;?_H]XW,]&lt;LD@$`:OR)@[=&gt;2P._E@.(L$_\Y@LY_#`F$O]FX\#OV&amp;`V,^ZT&lt;.',Z\L&amp;XA!!!!!</Property>
 	<Property Name="NI.Lib.SourceVersion" Type="Int">637566976</Property>
 	<Property Name="NI.Lib.Version" Type="Str">1.0.0.0</Property>
@@ -34,28 +35,30 @@
 			<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
 		</Item>
 	</Item>
-	<Item Name="ZM-HW-close.vi" Type="VI" URL="../ZM-HW-close.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1350574592</Property>
-	</Item>
-	<Item Name="ZM-HW-do.vi" Type="VI" URL="../ZM-HW-do.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">4</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1082139136</Property>
-	</Item>
-	<Item Name="ZM-HW-init.vi" Type="VI" URL="../ZM-HW-init.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1350574592</Property>
+	<Item Name="Methods" Type="Folder">
+		<Item Name="ZM-HW-close.vi" Type="VI" URL="../ZM-HW-close.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1350574592</Property>
+		</Item>
+		<Item Name="ZM-HW-do.vi" Type="VI" URL="../ZM-HW-do.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">4</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1082139136</Property>
+		</Item>
+		<Item Name="ZM-HW-init.vi" Type="VI" URL="../ZM-HW-init.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1350574592</Property>
+		</Item>
 	</Item>
 </LVClass>

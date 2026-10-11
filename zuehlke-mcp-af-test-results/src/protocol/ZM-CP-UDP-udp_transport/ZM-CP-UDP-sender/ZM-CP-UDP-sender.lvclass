@@ -2,6 +2,7 @@
 <LVClass LVVersion="26008000">
 	<Property Name="NI.Lib.ContainingLib" Type="Str">ZM-CP-UDP-udp_transport.lvlib</Property>
 	<Property Name="NI.Lib.ContainingLibPath" Type="Str">../../ZM-CP-UDP-udp_transport.lvlib</Property>
+	<Property Name="NI.Lib.Description" Type="Str">UDP sender: one JSON line per datagram, unicast to remoteAddress:remotePort (defaults 127.0.0.1:61557, D34). Sending to nobody is silent (codes 66 and 56 cleared, D25).</Property>
 	<Property Name="NI.Lib.Icon" Type="Bin">*A#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!*F!!!*Q(C=T:8"&lt;&gt;N!%%7`D"R]V=H81#U-V)&amp;;5!P4AKZ#A#"M95[ZKQ6&gt;5M#UI"&lt;5!PWY(!G2)YI"9C0?Z=DE`\MT4\ML7GLN7@KC@K[N(\&lt;2FY;L.;X(_XJOPEK`_N6P`$&lt;H.`?0_?MX]^`5P`D&amp;=O00]@_,LY@N]`MPUP7[/\^:$`TGPNSXKXY`C6('*/8@_80Z_]E%T&lt;`%B&amp;]`B%&gt;]E_X`_T/.-@P:12`=J-7YBXW@2""/W,D[C:\IC:\IC:\IA2\IA2\IA2\IDO\IDO\IDO\IBG\IBG\IBG\DW?C&amp;,H3BS^JB3)IHB:+E39*E-#B+0B+?B#@B38BY6-+4]#1]#5`#QR!F0!F0QJ0Q*$R-5]+4]#1]#5`#1[J'EKWDQZ0QE&amp;Y"4]!4]!1]!1]F&amp;@!%!%'R)('1"!Q&amp;:H!4]!1]!1_X#HA#HI!HY!FYM"8Q"$Q"4]!4]$#FL5IUGK'DQU-;/4Q/D]0D]$A]J*&lt;$Y`!Y0![0QU-Z/4Q/DQ0B&amp;(33AS"HED0!?8"Y("\_S/&amp;R?"Q?B]@BQ7I\Z'VF"JKBI].D]"A]"I`"9`#11A;0Q70Q'$Q'$WFF]"A]"I`"9`"13A;0Q70Q'#"'5=L,3':-.!9:AM($V5[,N6W+2G+NVU^T0+CK![A[7+I$ITI)KAV7&lt;:RK1V1,L6J!V=+IPL$KC[A!6966#65$&gt;?&lt;T2"S*!^%2/W*,&lt;)A6M2SGPP0!]`GMU_GEY`'IQ_'ALOOUW_WUX7[VW7SU7KWU8#[P&lt;[OP^,%N,O_F0@@P%4_)&lt;R8$`8?CWWPR]^@^]?.\[4/]'`6U]`_..8I&amp;_[U\(1!!!!!</Property>
 	<Property Name="NI.Lib.SourceVersion" Type="Int">637566976</Property>
 	<Property Name="NI.Lib.Version" Type="Str">1.0.0.0</Property>
@@ -64,46 +65,48 @@
 			<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
 		</Item>
 	</Item>
-	<Item Name="ZM-CP-close.vi" Type="VI" URL="../ZM-CP-close.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1107821072</Property>
-	</Item>
-	<Item Name="ZM-CP-init.vi" Type="VI" URL="../ZM-CP-init.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1107821072</Property>
-	</Item>
-	<Item Name="ZM-CP-publish.vi" Type="VI" URL="../ZM-CP-publish.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">5</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1350574608</Property>
-	</Item>
-	<Item Name="ZM-CP-UDP-closeConnection.vi" Type="VI" URL="../ZM-CP-UDP-closeConnection.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">3</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">0</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">2</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1082929664</Property>
-		<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
-	</Item>
-	<Item Name="ZM-CP-UDP-openSender.vi" Type="VI" URL="../ZM-CP-UDP-openSender.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">3</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">0</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">2</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1082929680</Property>
-		<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
+	<Item Name="Methods" Type="Folder">
+		<Item Name="ZM-CP-close.vi" Type="VI" URL="../ZM-CP-close.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1107821072</Property>
+		</Item>
+		<Item Name="ZM-CP-init.vi" Type="VI" URL="../ZM-CP-init.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1107821072</Property>
+		</Item>
+		<Item Name="ZM-CP-publish.vi" Type="VI" URL="../ZM-CP-publish.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">5</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1350574608</Property>
+		</Item>
+		<Item Name="ZM-CP-UDP-closeConnection.vi" Type="VI" URL="../ZM-CP-UDP-closeConnection.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">3</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">0</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">2</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1082929664</Property>
+			<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
+		</Item>
+		<Item Name="ZM-CP-UDP-openSender.vi" Type="VI" URL="../ZM-CP-UDP-openSender.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">3</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">0</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">2</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1082929680</Property>
+			<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
+		</Item>
 	</Item>
 </LVClass>

@@ -60,6 +60,17 @@ by saying so in the start message; record such a change in `status.md` with the 
   applies the icons, and the deviation from `icons.banner`/`icons.class-glyph` is listed once in the run's
   deviations. A later spec change (colours, glyphs) still needs no prompt. Recorded in the product's
   `decisions.md` as D39.
+- **Errors are not handled yet: every `evaluateError` is a pass-through, and helper loops stop each other.**
+  Decided by the user in run-01 (2026-10-11, phase 09c): `ZM-<A>-evaluateError.vi` (CM, HWM, ROOT) keeps its
+  name and pane but only forwards `error in` → `error out` and `stop actor? in` → `out` (no log, no error
+  package, no clearing); "I just want the shutdown or error to be controlled by the normal stops", "all
+  evaluate error should be similar for now, can add stuff later". So an error stops its actor, and through
+  its Last Ack the caller (AF default). In a helper-loop VI, every loop stops the others when it ends for any
+  reason: a non-event loop sends the stop user event (`stop` hook, error ignored by Clear Errors); the event
+  loop writes the local `stop` = T (only needed when the VI has another loop) and also sends the stop event
+  (error ignored). After the loops: Merge Errors → `evaluateError` → on an error `Read Self Enqueuer` → `Send
+  Normal Stop`; `error out` = the raw merged error. This overrides `02` §5/§7.10-§7.12 and D14 where they
+  differ; `03` R-error is judged against it. Recorded in the product's `decisions.md` as D40.
 
 ## Running one phase
 

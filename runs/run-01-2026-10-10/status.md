@@ -1,27 +1,51 @@
 # Run status: run-01-2026-10-10
 
 state: closed          # open | closed
-last updated: 2026-10-11 ~22:05 by the manager session (session 3, phase 13)
-next phase: none - run closed; result: partial (phases 00-12 done and verified; open for the user: the D38 IDE rows of `03` §3; F3 decided 13)
+last updated: 2026-10-11 23:50 by the manager session (session 3, after the run: hand-over)
+next phase: post-run steps 12h (D38 items by scripting), 12g (D44), 12i (re-check); see the HAND-OVER block
 open items: see "Open items" below.
+
+# HAND-OVER 2026-10-11 23:50 (session 3, after the run): next session starts HERE
+
+**Start message for the next session (one line):** "Continue run-01's post-run steps (12h, 12g, 12i). You may
+restart and kill LabVIEW at will for this session; agents may too."
+
+**Where it stands.** The run is closed with result **partial** (tag `run-01-result`, 164e241). After phase 13 the
+user and the manager went through the open items:
+- F3 decided: 13 libraries are right (D42, ec0a193). The `03` §3 "Project tree" row passes: 19 rows pass now.
+- The `error out` on `ZM-launcher.vi` is kept: "launchers should have error out indicator" (D43, f12933a).
+- The CM release error is logged AND passed on (D44, 5d11e77). Not built yet: step 12g.
+- `/cost` for all sessions is in `cost.md`: run total $622.43 (3e0d23d, d86e25d).
+- **12f (probe, done):** the D38 items do NOT need the user. LabVIEW's VI Server does all three (class description,
+  `.ctl` into a class folder, members into virtual folders) through derived helpers; done on `ZM-PC-package`, sweep
+  137/137, T1 PASS, all at 26 (791ccab, b342c98, feadd22; report-12f). Helpers (git-ignored, on this machine):
+  `zuehlke-mcp-af-test-results\proof\ZMP-12f\zmp12f_*.xml`; route per item in report-12f, item 6.
+
+**Next steps, in order (one LabVIEW agent at a time):**
+1. **12h: the D38 items for every other class, the interface and the message class** by the 12f helpers. Source of
+   what goes where: "For the user in the IDE" below (use the D40 class texts for CM, HWM, ROOT; the others name the
+   brief/report holding their text). Brief to write from report-12f item 6 and that list; split by layer if large
+   (PC TP/EP + HW + CP; then CM, HWM, ROOT; then CI). Commit per class. Typedefs: open callers outside a class
+   through the project first so they relink in memory; `.ctl` saved only through a library Save All.
+2. **12g: D44** (brief ready: `briefs/brief-12g-cm-release-error-d44.md`; fill its UPDATES slot with 12h's result).
+3. **12i: re-check `03` §3** (Virtual folders, class Descriptions, typedef membership), cold sweep, T1-T7 (T4 x3).
+   If all pass: result "accepted"; update the run log row (`runs/README.md`) and the README status line; the user
+   decides on a new tag.
+4. **With the user:** the style of the agent-written VI descriptions (`descriptions-review.md`: short / as is / no
+   rule IDs; the user reviews a few first). If they change, one agent rewrites them with `pa_replace_description`.
+5. **Ask the user once** whether CLAUDE.md's D38 default ("what no tool does, the user does in the IDE") should
+   become "done by the 12f VI Server helpers" for later runs. Do not change it without the user's words.
+
+**LabVIEW at the hand-over:** PID 26716 (port 56779) running, project closed, no dialog; only `LVMCP Validate*`
+scratch VIs unsaved (a close raises the save dialog: kill under the go-ahead). Not pushed.
+**Untracked on purpose:** `notes-for-run-02.md`, `lessons-mcp-skill.md` (never commit them).
 
 # RUN CLOSED 2026-10-11 ~22:05 - result: partial
 
 Phases 00-13 done. Every row of `03` §1 (T1-T7) and §2 (the runs) passes on a cold LabVIEW, R-error judged against
-D40 and R-close-order on the dataflow proof; R-pli-failure passes after the D41 fix (F14). `03` §3: 18 rows pass;
-the rows that need the user in the IDE (D38: class descriptions, virtual folders, `.ctl` membership) are pending, and
-the library count (13, where `02` §10 says 14) is F3, decided by the user after the run: 13 is right (D42). "partial" because those rows are not yet pass;
-after the user's IDE work, a re-check of those rows would make it "accepted".
-
-- **For the user:** the IDE list below (use the D40 class texts in it); F3 (decided 13, D42); the `error out` on `ZM-launcher.vi` (kept, D43); the CM release error is logged and passed on (D44, to be built in
-  12g); the agent-written VI descriptions (`descriptions-review.md`): the user reviews a few first, style decided at
-  the end (short / as is / no rule IDs)
-  (deviation 11a); review the agent-written override and loop descriptions; `/cost` for sessions 1-3 into `cost.md`;
-  open `output\TestPackage.jsonl` in `tools\jsonl_viewer.html` (R-viewer, checked offline). Not pushed.
-- **Left running:** LabVIEW PID 26716 (port 56779, started by the 12c agent 20:42), project closed, no dialog; only
-  `LVMCP Validate*` scratch VIs unsaved. Close it with Don't Save when convenient.
-- **Untracked on purpose:** `notes-for-run-02.md`, `lessons-mcp-skill.md` (the user's request: tips for labview-mcp
-  and the skill, kept out of git).
+D40 and R-close-order on the dataflow proof; R-pli-failure passes after the D41 fix (F14). `03` §3 at the close: 18
+rows pass; the rows that need the user in the IDE (D38: class descriptions, virtual folders, `.ctl` membership) are
+pending; the library count was F3 (decided after the run: 13, D42). See the hand-over above for what came after.
 
 # Session 3 started 2026-10-11 10:58
 

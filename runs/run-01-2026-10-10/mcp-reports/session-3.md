@@ -53,6 +53,7 @@
 | 11 | `kit/pa_close_join.xml` hard-codes `error in` and skips all steps after an empty Delete | kit bug (F12) | report-09d | derived `zmp09d_close_join` | (kit) |
 | 12 | a stop generated before the loop VI registers is lost; the tree hangs (measured; the skill listed it as unmeasured) | AF fact / skill default | F14, report-12a | D41: `init` registers in Actor Core before Call Parent | (knowledge) |
 | 13 | agents put two calls in one message in seven of 21 Opus steps | agent rule break | F9 | none; harmless here | call-lock |
+| 14 | no tool sets a class description, adds a `.ctl` to a class or moves members into virtual folders, though VI Server can (`LVClassLibrary.Description`, `Library.AddItem`, `ProjectItem.AddItem`/`Move`); the names are missing from the VI Server catalogue | tool gap | report-12f (after the run) | derived `zmp12f_*` helpers | class-folders |
 
 ## Side effects
 

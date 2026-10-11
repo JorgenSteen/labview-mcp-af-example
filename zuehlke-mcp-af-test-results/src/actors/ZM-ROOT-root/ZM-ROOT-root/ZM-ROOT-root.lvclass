@@ -158,10 +158,26 @@
 		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
 		<Property Name="NI.ClassItem.State" Type="Int">1082143232</Property>
 	</Item>
+	<Item Name="ZM-ROOT-launchCm.vi" Type="VI" URL="../ZM-ROOT-launchCm.vi">
+		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+		<Property Name="NI.ClassItem.Flags" Type="Int">3</Property>
+		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">0</Property>
+		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+		<Property Name="NI.ClassItem.State" Type="Int">1082929664</Property>
+	</Item>
+	<Item Name="ZM-ROOT-launchHwm.vi" Type="VI" URL="../ZM-ROOT-launchHwm.vi">
+		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+		<Property Name="NI.ClassItem.Flags" Type="Int">3</Property>
+		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">0</Property>
+		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+		<Property Name="NI.ClassItem.State" Type="Int">1082929664</Property>
+	</Item>
 	<Item Name="ZM-ROOT-notePackageType.vi" Type="VI" URL="../ZM-ROOT-notePackageType.vi">
 		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
 		<Property Name="NI.ClassItem.Flags" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">0</Property>
+		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">3</Property>
 		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
 		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
 		<Property Name="NI.ClassItem.State" Type="Int">1082143232</Property>
@@ -169,7 +185,7 @@
 	<Item Name="ZM-ROOT-showError.vi" Type="VI" URL="../ZM-ROOT-showError.vi">
 		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
 		<Property Name="NI.ClassItem.Flags" Type="Int">3</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">0</Property>
+		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">3</Property>
 		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
 		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
 		<Property Name="NI.ClassItem.State" Type="Int">1082929664</Property>

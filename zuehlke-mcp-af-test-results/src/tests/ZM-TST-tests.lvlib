@@ -9,5 +9,6 @@
 	<Item Name="ZM-TST-packages.vi" Type="VI" URL="../ZM-TST-packages.vi"/>
 	<Item Name="ZM-TST-pipeline.vi" Type="VI" URL="../ZM-TST-pipeline.vi"/>
 	<Item Name="ZM-TST-protocol.vi" Type="VI" URL="../ZM-TST-protocol.vi"/>
+	<Item Name="ZM-TST-routing.vi" Type="VI" URL="../ZM-TST-routing.vi"/>
 	<Item Name="ZM-TST-udp.vi" Type="VI" URL="../ZM-TST-udp.vi"/>
 </Library>

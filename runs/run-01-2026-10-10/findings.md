@@ -177,3 +177,5 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
   registered ... is lost"). The HWM has the same shape (not seen there).
 - **Evidence:** report-12a item 2.8 and 4; reports/evidence-12a-checks.txt.
 - **Owner:** the user (the fix is a design choice); then phases 09/10 (rebuild) and the skill's maintainer (the race).
+- **Decision (the user, 2026-10-11 ~20:40):** D41, an `init` method per actor in Actor Core before Call Parent that
+  registers (and, for the ROOT, launches); the loop VI receives the registration refnum (`CLAUDE.md`).

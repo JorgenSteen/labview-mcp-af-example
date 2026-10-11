@@ -2,7 +2,7 @@
 
 state: open            # open | closed
 last updated: 2026-10-11 19:58 by the manager session (session 3)
-next phase: 12 - STOPPED (2026-10-11 20:33): R-pli-failure hangs the ROOT tree (F14, a design decision for the user); a hung tree is in LabVIEW PID 26148
+next phase: 12c - the F14 fix by D41 (`init` in Actor Core, HWM then ROOT), then 12a reruns and 12b
 open items: see "Open items" below.
 
 # Session 3 started 2026-10-11 10:58
@@ -436,6 +436,12 @@ Where the build differs from `02-specification.md`, with why, and whether the us
   Two commits instead of one. Not asked; a harness detail, not a product deviation.
 
 ## Go-aheads from the user
+
+- User (2026-10-11 ~20:40, session 3, after 12a): F14 fix "Register in Actor Core", then refined: "I have another
+  idea. Make a init method and call it in actor core before the core and add all init things there. basically what
+  you are suggestion, just collecting it in an init, not pre init method, feel free to use subvis in it" (D41,
+  `CLAUDE.md`). And a STANDING kill go-ahead for this session: "feel free to kill labview at will for this
+  session" (agents may kill LabVIEW when needed, reporting each kill; it ends with this session).
 
 - User answers before phase 12 (2026-10-11 ~20:10, session 3, the manager's three questions): F8 "Keep as is"
   (the MX keeps its old array on an element error; a known limitation under D40); "Agent presses" (go-ahead for

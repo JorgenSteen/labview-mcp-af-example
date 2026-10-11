@@ -2,6 +2,7 @@
 <LVClass LVVersion="26008000">
 	<Property Name="NI.Lib.ContainingLib" Type="Str">ZM-CP-communication_protocol.lvlib</Property>
 	<Property Name="NI.Lib.ContainingLibPath" Type="Str">../../ZM-CP-communication_protocol.lvlib</Property>
+	<Property Name="NI.Lib.Description" Type="Str">Parent of every communication protocol. init and close do real work on the opened flag; publish is a placeholder that returns error 5000 and must be overridden by a child. Never looks inside a package: it asks getDataAsJson and getTypeName.</Property>
 	<Property Name="NI.Lib.Icon" Type="Bin">*A#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!*3!!!*Q(C=T:7R&lt;3."$%7`$AYO6?4UI"998KI7V!*&lt;5#I=9(B&lt;9(3Z7F$C!NC#7F!,?W^H;1/#N&lt;M'L)0.75KL4Q\Z.$.;3=V_3A`KF_TXL&amp;X(J?';D+OZZO/,]R@[T]8@W_@DGL8P(X_5XK[&lt;]VNI*N[CD\@$V&lt;_@R+D!*/8(YEPV_]E#,@\K%`([)=TR4&gt;L8RR?-H-.CUH]W;48O9&gt;]H(LDD.KZ_IC&gt;[IC&gt;[IC&gt;[I!&gt;[I!&gt;[I!?[ITO[ITO[ITO[I2O[I2O[I&gt;NY.HKB#VXIMH99EO:*I[2I5C"*"E8*3]+4]#1]#1]@F@!E0!F0QJ0QE++%*_&amp;*?"+?B)&gt;J3HA3HI1HY5FY+.6)MAVU?")?SCPA#8A#HI!HY+'F!JY!)'A7&amp;![+A+%A'.Q%0!&amp;0Q-/N!J[!*_!*?!)?QAJY!J[!*_!*?*D36C5;T4$1Y;'-("[(R_&amp;R?"Q?3MPB=8A=(I@(Y;'&gt;("[(RY&amp;Q'DL&amp;1:!TS5FQ0DA]$A^P=HA=(I@(Y8&amp;Y#,5&gt;]L9S!]UQU/%R?!Q?A]@A-8AI)90(Y$&amp;Y$"[$B\)S?!Q?A]@A-8BI*90(Y$&amp;Y$"#D+?VF&amp;$-G'EG'90"QN&gt;.C&lt;:?CE6A&lt;^&gt;-=$[LK!+I/FOL!K![#;I.6'[@;%.6#KR:1N4#K,[T[)CJ!67.6167C,LS?]2._R$N]D_`Q,&lt;\"V]05/S&gt;?,B?&gt;TW?&gt;4C=&gt;DU&gt;V8;@^@K`&gt;&lt;K@N&gt;KP.:K0V?PXWN0L&amp;''XV_FQ[=(]0@]&lt;`F!`X4XBXU/LPS_X]]&lt;HU(:[._H(V`]9;`1.P'E?X!!!!!!</Property>
 	<Property Name="NI.Lib.SourceVersion" Type="Int">637566976</Property>
 	<Property Name="NI.Lib.Version" Type="Str">1.0.0.0</Property>
@@ -34,28 +35,30 @@
 			<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
 		</Item>
 	</Item>
-	<Item Name="ZM-CP-close.vi" Type="VI" URL="../ZM-CP-close.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1350574592</Property>
-	</Item>
-	<Item Name="ZM-CP-init.vi" Type="VI" URL="../ZM-CP-init.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1350574592</Property>
-	</Item>
-	<Item Name="ZM-CP-publish.vi" Type="VI" URL="../ZM-CP-publish.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">5</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1082139136</Property>
+	<Item Name="Methods" Type="Folder">
+		<Item Name="ZM-CP-close.vi" Type="VI" URL="../ZM-CP-close.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1350574592</Property>
+		</Item>
+		<Item Name="ZM-CP-init.vi" Type="VI" URL="../ZM-CP-init.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1350574592</Property>
+		</Item>
+		<Item Name="ZM-CP-publish.vi" Type="VI" URL="../ZM-CP-publish.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">5</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1082139136</Property>
+		</Item>
 	</Item>
 </LVClass>

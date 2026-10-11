@@ -13,7 +13,7 @@ the rows that need the user in the IDE (D38: class descriptions, virtual folders
 the library count (13, where `02` §10 says 14) is F3, decided by the user after the run: 13 is right (D42). "partial" because those rows are not yet pass;
 after the user's IDE work, a re-check of those rows would make it "accepted".
 
-- **For the user:** the IDE list below (use the D40 class texts in it); F3 (decided 13, D42); confirm the `error out` on `ZM-launcher.vi`
+- **For the user:** the IDE list below (use the D40 class texts in it); F3 (decided 13, D42); the `error out` on `ZM-launcher.vi` (kept, D43)
   (deviation 11a); review the agent-written override and loop descriptions; `/cost` for sessions 1-3 into `cost.md`;
   open `output\TestPackage.jsonl` in `tools\jsonl_viewer.html` (R-viewer, checked offline). Not pushed.
 - **Left running:** LabVIEW PID 26716 (port 56779, started by the 12c agent 20:42), project closed, no dialog; only

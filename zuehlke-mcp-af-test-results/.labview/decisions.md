@@ -154,3 +154,11 @@ Chosen: 13 libraries, as the tables of `02` §1 and §7 list them (12 shipped + 
 `03` §3 "Project tree" and `05` "Counts" is a counting slip, and no 14th library exists
 Why: the user's words (2026-10-11, after run-01's phase 13, finding F3): "13 is right"
 Supersedes: the count in `02` §10 and `03` §3
+
+## D43 (2026-10-11): Every launcher has an `error out` indicator
+Rule: errors.ignored-errors
+Chosen: `ZM-launcher.vi` keeps the `error out` indicator (pane terminal 0) that the 11a agent added, though `02` §8
+lists none; `ZM-launcher_test.vi` has one already. A failed launch stays visible on the panel; nothing is cleared
+Why: the user's words (2026-10-11, after run-01's phase 13): "Keep it ... its a good catche, launchers should have
+error out indicator"
+Supersedes: the panel list of `ZM-launcher.vi` in `02` §8

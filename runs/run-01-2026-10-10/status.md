@@ -1,8 +1,8 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-11 10:18 by the manager session (session 2, phase 05)
-next phase: 05 UDP + multi protocol, step d (cleanup, icons, sweep; launched 10:19 on 2026-10-11)
+last updated: 2026-10-11 10:31 by the manager session (session 2, phase 06)
+next phase: 06 pipeline test (launched 10:32 on 2026-10-11)
 open items: see "Open items" below.
 
 # Session 2 started 2026-10-11 09:34
@@ -146,8 +146,8 @@ PID 14040 (started by this session 2026-10-10 15:24), `Zuehlke MCP.lvproj - Proj
 | 02 | common utilities | done | 2026-10-10 18:03 | 2026-10-10 18:19 | e2ef456..146b6cd (two steps, 7 commits) | ZM-CU-log.vi in ZM-CU-common_utilities.lvlib under common, ZM-TST-log.vi, T2 Pass, cleanup, icons read back 0 px, sweep 3/3, no ZM/AF link, all 26.0; nothing left for the IDE (no class) |
 | 03 | hardware | done | 2026-10-10 18:25 | 2026-10-10 22:13 | de2f81c..8b596f2 (three steps, 17 commits) | parent + SIM in two libraries under hardware, do placeholder 5000 with FreeLabel, SIM do override, T3 Pass, cleanup, icons read back 0 px, sweep 9/9, no AF/CU/CP link, all 26.0; for the IDE: 2 class descriptions, Methods folders (D38) |
 | 04 | protocol + file logger | done | 2026-10-10 22:17 | 2026-10-10 22:56 | 72828e3..6936679 (three steps, 23 commits) | parent + FL in two libraries under protocol, publish placeholder 5000 with FreeLabel, init override + createFolder hook, publish override, T4 Pass (six checks; the MX check comes in 05), cleanup, icons read back 0 px, sweep 15/15, no AF/CU/HW link, all 26.0; for the IDE: 2 class descriptions, Methods folders |
-| 05 | UDP + multi protocol | running | 2026-10-10 23:01 | | 208e74b..29e2187 (05a), d7b5cf8..ab14b57 (05a2) | 05a done in two sessions: sender and receiver in ZM-CP-UDP-udp_transport.lvlib under protocol, four overrides hooked (open hooks end in Preserve Run-Time Class), sweep 18/18, probe error 0; 05b done (576b7a0..36c7a06): MX class with PROTOCOLS typedef (array of the CP parent), reentrant initAll/closeAll, three overrides, library under protocol, sweep 36/36, probe [parent] 5000 and [] clean; 05c done (53627a4, a1e87f0): T5 PASS, T4 PASS with seven checks, sweep 41/41; 05d running |
-| 06 | pipeline test | todo | | | | |
+| 05 | UDP + multi protocol | done | 2026-10-10 23:01 | | 208e74b..29e2187 (05a), d7b5cf8..ab14b57 (05a2) | 05a done in two sessions: sender and receiver in ZM-CP-UDP-udp_transport.lvlib under protocol, four overrides hooked (open hooks end in Preserve Run-Time Class), sweep 18/18, probe error 0; 05b done (576b7a0..36c7a06): MX class with PROTOCOLS typedef (array of the CP parent), reentrant initAll/closeAll, three overrides, library under protocol, sweep 36/36, probe [parent] 5000 and [] clean; 05c done (53627a4, a1e87f0): T5 PASS, T4 PASS with seven checks, sweep 41/41; 05d done (45a2646..bbe3273): cleanup 27 VIs, 3 class + 2 library icons, read back 0 px, sweep 41/41, no AF/CU/HW/FL link, all 26.0. Phase ended 2026-10-11 10:27 |
+| 06 | pipeline test | running | 2026-10-11 10:32 | | | T6 + rerun of T1-T5, cleanup, icon |
 | 07 | interface + message | todo | | | | |
 | 08 | CM actor | todo | | | | |
 | 09 | HWM actor | todo | | | | |
@@ -268,6 +268,9 @@ Facts the next brief must repeat, each by its content with its source (report fi
 
 Where the build differs from `02-specification.md`, with why, and whether the user agreed.
 
+- 2026-10-11, phase 05d: the agent sent two `lvai_set_vi_icon` calls in one message; the third break of the one-call
+  rule in a row (05a2, 05b, 05d), each harmless, each by a different agent on Opus 5.5 (none on Fable 5.1 in session
+  1 reported one). Recorded as finding F9; the launch messages keep the rule in bold.
 - 2026-10-11, phase 05b: the agent sent two `pylv_extract` calls in one message (offline reads); the second break of
   the one-call rule in a row, no harm (report-05b, item 8a). The 05c launch message repeats the rule with emphasis.
 - 2026-10-11, phase 05b: when an MX element errors, `Write protocols` skips (it honours `error in`), so the array

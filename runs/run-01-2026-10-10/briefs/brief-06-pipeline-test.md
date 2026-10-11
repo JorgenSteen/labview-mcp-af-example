@@ -5,7 +5,17 @@ Type: build + test (LabVIEW calls). Phase 06, one step.
 - Reports to read first: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-05c-cp-tests.md`
   and `report-05d-cp-cleanup-icons-sweep.md` (the state of the tree, the test-VI route over several libraries, the
   cleanup and icon routes), `report-03b-hw-sim-test.md` (item 5), `report-04b-cp-fl-test.md`.
-  <<MANAGER: traps from reports 05c/05d go here before launch>>
+- Phase 05 closed 2026-10-11 10:27 (reports 05a2-05d): every class of phases 01-05 is built, tested, cleaned and has
+  icons; sweep of `src\protocol` + `src\tests` 41/41. `ZM-TST-tests.lvlib` holds five tests now.
+- Traps from 05c: a VI already in a LOADED library cannot be regenerated over its path (1357): remove the member
+  with the project closed, regenerate, re-add (only if your T6 needs a second generation). A project close may drop
+  the `.lvproj` BOM or change only its line endings: `git checkout` it with the project closed. T5 deletes and
+  rewrites `output\test_mx_a\` and `output\test_mx_b\`; T2 appends two lines to `output\ZM-error_log.txt`: both
+  are expected side effects of the reruns.
+- Measured model for T6's AIXML: `proof\ZMP-04b\` (T4 over FL), `proof\ZMP-03b\` (T3 over SIM and the bare
+  parent), `proof\ZMP-05c\ZM-TST-udp.xml` (a For loop is NOT in those; T6 needs one with shift registers and a
+  conditional stop on the error: author it per `lvai_aixml_reference`, `<Condition>` on a For loop is supported).
+- Every `lvai_*` and `pylv_*` call goes ALONE in its message, offline ones included: broken in 05a2, 05b and 05d.
 - Save version **26.0**. User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself
   when it crashes or stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported.
   Never answer a dialog. D39: icons without a prompt; D38 does not apply (no class).

@@ -24,13 +24,13 @@
 		<Item Name="protocol" Type="Folder">
 			<Item Name="ZM-CP-communication_protocol.lvlib" Type="Library" URL="../protocol/ZM-CP-communication_protocol/ZM-CP-communication_protocol.lvlib"/>
 			<Item Name="ZM-CP-FL-file_logger.lvlib" Type="Library" URL="../protocol/ZM-CP-FL-file_logger/ZM-CP-FL-file_logger.lvlib"/>
+			<Item Name="ZM-CP-MX-multi_protocol.lvlib" Type="Library" URL="../protocol/ZM-CP-MX-multi_protocol/ZM-CP-MX-multi_protocol.lvlib"/>
 			<Item Name="ZM-CP-UDP-udp_transport.lvlib" Type="Library" URL="../protocol/ZM-CP-UDP-udp_transport/ZM-CP-UDP-udp_transport.lvlib"/>
 		</Item>
 		<Item Name="receiver" Type="Folder"/>
 		<Item Name="tests" Type="Folder">
 			<Item Name="ZM-TST-tests.lvlib" Type="Library" URL="../tests/ZM-TST-tests.lvlib"/>
 		</Item>
-		<Item Name="ZM-CP-MX-multi_protocol.lvclass" Type="LVClass" URL="../protocol/ZM-CP-MX-multi_protocol/ZM-CP-MX-multi_protocol/ZM-CP-MX-multi_protocol.lvclass"/>
 		<Item Name="Dependencies" Type="Dependencies"/>
 		<Item Name="Build Specifications" Type="Build"/>
 	</Item>

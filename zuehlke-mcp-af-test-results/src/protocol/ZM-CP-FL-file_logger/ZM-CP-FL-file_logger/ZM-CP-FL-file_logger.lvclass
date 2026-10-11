@@ -2,6 +2,7 @@
 <LVClass LVVersion="26008000">
 	<Property Name="NI.Lib.ContainingLib" Type="Str">ZM-CP-FL-file_logger.lvlib</Property>
 	<Property Name="NI.Lib.ContainingLibPath" Type="Str">../../ZM-CP-FL-file_logger.lvlib</Property>
+	<Property Name="NI.Lib.Description" Type="Str">Pluggable file logger: one JSON Lines file per package type under outputFolder; init creates the folder after the parent; publish appends getDataAsJson to &lt;getTypeName&gt;.jsonl; close inherited.</Property>
 	<Property Name="NI.Lib.Icon" Type="Bin">*A#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!*\!!!*Q(C=T:5RDB."%%8`)A*32ZMC8['OY"12/3&lt;;OI*$,#3%LV!2O;`AB)3M=B*'X-!X]!ZP?GJ88O4R)!2CO[@M^K`KKO@O&gt;FNK\:8U5PV=O\P;(PT3].31]3^_.&gt;0:_)*@.6=4`J)OT&lt;]\K[FC?/+@Y`^TP[[WZ__`F2[@C`/&lt;[YK`?7]PO[N_0YF2DEH+X`00Z?]H%T4`AUXY[Y&gt;QD7_S`8``4#.G/RPUDZNU-_ZBXS=7G'-WLH[C*XKC*XKC*XKA"XKA"XKA"\KD/\KD/\KD/\KB'\KB'\KBWXAW?K%,8?CS&gt;BC3YEGB*'G3)!E'2=F,QJ0Q*$Q*$R_6]#1]#5`#E`!1II1HY5FY%J[%BWF+?"+?B#@B38B)V5CS&gt;82Y%B\3+_!*?!+?A#@AI;1#HA!A+"9E$J+!I=!:$!+?A#@A9;C!*_!*?!+?A!?X!J[!*_!*?!)?JL26C59T&gt;(2Y3#/(R_&amp;R?"Q?BY@5=HA=(I@(Y8&amp;Y+#?(R_&amp;R)*S#4H)1Z%RS!JQ0$I`$QZM=(I@(Y8&amp;Y("Z=&lt;9?]L=R!-X2U?!Q?A]@A-8A-(F,)Y$&amp;Y$"[$R_!BL1Q?A]@A-8A-(EL*Y$&amp;Y$"Y$R#B+?2H*D)F'E#%90$TNN&amp;D&lt;J7AEVHL^.-?$KDK!KI/F/D#KA[$;9.8'K4:%N&gt;#K"61ND/I,K\[)#F"67*61&amp;;ADLRVWQ0&lt;9$NNA;WS&amp;,&lt;(&amp;-05P"R[02X6&gt;J]0BI0V_L^VOJ]VGI`6[L&gt;6KJ?6SK=6C]8B&lt;P;;0\?&lt;]8LJ`_\5`@?P[5\\J4T_[`P\&gt;^`@H^]?7_$H\B(UI']9@M&gt;V7.Z_`8)Y@\[8H=$@KR:0`.^&lt;I*V"CBC!!!!!!</Property>
 	<Property Name="NI.Lib.SourceVersion" Type="Int">637566976</Property>
 	<Property Name="NI.Lib.Version" Type="Str">1.0.0.0</Property>
@@ -45,47 +46,49 @@
 			<Property Name="NI.ClassItem.State" Type="Int">8396800</Property>
 		</Item>
 	</Item>
-	<Item Name="ZM-CP-FL-appendLine.vi" Type="VI" URL="../ZM-CP-FL-appendLine.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">0</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">2</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1082143248</Property>
-		<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
-	</Item>
-	<Item Name="ZM-CP-FL-buildPath.vi" Type="VI" URL="../ZM-CP-FL-buildPath.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">0</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">2</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1082143232</Property>
-		<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
-	</Item>
-	<Item Name="ZM-CP-FL-createFolder.vi" Type="VI" URL="../ZM-CP-FL-createFolder.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">3</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">0</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">2</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1082929680</Property>
-		<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
-	</Item>
-	<Item Name="ZM-CP-init.vi" Type="VI" URL="../ZM-CP-init.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1107821072</Property>
-	</Item>
-	<Item Name="ZM-CP-publish.vi" Type="VI" URL="../ZM-CP-publish.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">33554432</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">5</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1350574592</Property>
+	<Item Name="Methods" Type="Folder">
+		<Item Name="ZM-CP-FL-appendLine.vi" Type="VI" URL="../ZM-CP-FL-appendLine.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">0</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">2</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1082143248</Property>
+			<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
+		</Item>
+		<Item Name="ZM-CP-FL-buildPath.vi" Type="VI" URL="../ZM-CP-FL-buildPath.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">0</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">2</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1082143232</Property>
+			<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
+		</Item>
+		<Item Name="ZM-CP-FL-createFolder.vi" Type="VI" URL="../ZM-CP-FL-createFolder.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">3</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">0</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">2</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1082929680</Property>
+			<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
+		</Item>
+		<Item Name="ZM-CP-init.vi" Type="VI" URL="../ZM-CP-init.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1107821072</Property>
+		</Item>
+		<Item Name="ZM-CP-publish.vi" Type="VI" URL="../ZM-CP-publish.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">33554432</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">5</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1350574592</Property>
+		</Item>
 	</Item>
 </LVClass>

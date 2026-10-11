@@ -8,4 +8,5 @@
 	<Item Name="ZM-TST-log.vi" Type="VI" URL="../ZM-TST-log.vi"/>
 	<Item Name="ZM-TST-packages.vi" Type="VI" URL="../ZM-TST-packages.vi"/>
 	<Item Name="ZM-TST-protocol.vi" Type="VI" URL="../ZM-TST-protocol.vi"/>
+	<Item Name="ZM-TST-udp.vi" Type="VI" URL="../ZM-TST-udp.vi"/>
 </Library>

@@ -4,7 +4,17 @@ Type: sweep / verify (mostly offline; a few LabVIEW reads). Phase 12 step b of 2
 ## UPDATES (read first; they override the rest)
 - Reports to read first: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-12a-runs.md`,
   `report-10e-root-cleanup-icons-close.md` (the dependency check over 171 files, `lv_loadability --links`).
-  <<MANAGER: traps from report 12a go here before launch>>
+  `report-12c-hwm-init-d41.md` and `report-12d-root-init-d41.md` (D41: an `init` member per actor in Actor Core before
+  Call Parent registers for events; the loop VIs take the registration refnum as an input and no longer register).
+- State (12d, 2026-10-11 21:30): LabVIEW PID 26716, port 56779, project closed, no dialog. Every run of `03` §2 passed
+  in 12a/12c/12d (R-pli-failure after the D41 fix; R-error and R-close-order as recorded). The user's STANDING kill
+  go-ahead for this session: "feel free to kill labview at will for this session" (report each kill).
+- **D41 changes four rows of `03` §3, judge them against D41:** "Actor Core (ROOT, HWM)" now reads init (series,
+  before Call Parent) → loop beside Call Parent with init's refnum → stop after Call Parent → close; "Helper loops":
+  registration comes in through the pane, the dynamic terminal and Unregister stay in the loop VI, "fresh no error
+  into Register" is checked in `init`; "Pre-launch settings ... children launched by `launch<Child>` methods":
+  launchCm/launchHwm are called inside `ZM-ROOT-init`; members added by D41 (`ZM-<A>-init.vi`) are not "invented".
+- Derived kit copies live in `proof\` only; the `src\` files carry no `LVMCP Stub` link (12d checked).
 - Session 3 (2026-10-11) user go-ahead: "Continue run-01. You may restart LabVIEW when needed; agents may too." Max
   two starts. NO kill. Never answer a dialog.
 - **The user (2026-10-11, "Mark pending, go on"; `CLAUDE.md`, D38 bullet):** rows that depend on IDE-only items - class

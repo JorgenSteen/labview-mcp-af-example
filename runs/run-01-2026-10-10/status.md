@@ -2,7 +2,7 @@
 
 state: open            # open | closed
 last updated: 2026-10-11 19:58 by the manager session (session 3)
-next phase: 12d - the F14 fix by D41 on the ROOT + reruns (12c HWM done), then 12b
+next phase: 12b - structural checks of `03` §3 and the cold sweep (12a, 12c, 12d done)
 open items: see "Open items" below.
 
 # Session 3 started 2026-10-11 10:58
@@ -192,7 +192,7 @@ PID 14040 (started by this session 2026-10-10 15:24), `Zuehlke MCP.lvproj - Proj
 | 09 | HWM actor | done | 2026-10-11 11:52 | 2026-10-11 14:14 | 2822f5c..e0337ea (09a), 5575e6b..08cb7e7 (09b), 24736c3..6a19814 (09c), 7f4c4de..eda6452 (09d) | 09a done: PRELAUNCH_SETTINGS {hardware: HW class, intervalMs U32 default 500 in the typedef}, EVENTS {stop user event}, class (Actor, implements the interface), bound fields, 5 private accessors, public writePrelaunchSettings, all 26; members state 0 (type 8) until 09b; kit bug F10 found and worked around; 09b done: createEvents, stop, close, createResources (shape F), evaluateError (sender HWM), ZM-CI-handlePackage override (type 8 gone), library under actors, PLI and Handle Error hooked after Call Parent, override descriptions, sweep 14/14, 18 files at 26, links only HWM/CI/CU/PC/HW parent; 09c launched; 09c: all five unmeasured points measured on throwaways, then NEEDS CLARIFICATION (producer error vs event loop; error out cleared), answered by the user (D40); then done: helperAcquisition (variant 2, event structure 3 levels deep wired by a derived helper, use-default tunnel flag, plot names, panel on call, hidden stop), loops stop each other, raw error out; CM and HWM evaluateError rebuilt as pass-throughs; D40 in decisions.md; sweep 15/15, 27/27 with CM; 09d done: Actor Core (loop beside Call Parent, stop after it, close after both), run 1 SIM 6 lines x3 with clean Last Ack, run 2 bare HW: the tree stopped by itself with 5000 in 0.6 s (D40), stop reset PASS (6 + 6 lines), close order by dataflow (export), not timestamps; cleanup 17, icons 17 + class + library at 0 px; sweep 29/29 (HWM + CM), 36 actor files at 26, links only HWM/CI/PC/HW parent |
 | 10 | ROOT actor | done | 2026-10-11 14:30 | 2026-10-11 19:55 | 2670a13..c32ec2c (10a), 1da49de..fe95794 (10b), 4c72e8d..58e06c3 (10c), a401d95..8c4d3d5 (10d), 870a9d9..a4c0df6 (10e) | 10a done: PRELAUNCH_SETTINGS, EVENTS {stop, error}, class (Actor, interface), 7 fields bound, 11 private accessors, public writePrelaunchSettings, all 26, type-8 until 10b; 10b PARTIAL (1da49de..d1794f8): 23/24 ROOT VIs state 1, routing override, library under actors, PLI, Handle Error, D40 descriptions (also the CM's Handle Error); `launchHwm` state 0 (broken wire) after five routes; CANNOT PROCEED; kill + restart (PID 14516 -> 26148) did not help; the user saw a leftover wire; `pa_clean_member` (Remove Bad Wires) fixed it, fe95794; ROOT 24/24 + CM Handle Error state 1; 10c done (4c72e8d..58e06c3): helperPanel with Stop (Switch When Released), errors, stop/error events, D40 tail, panel on call; sweep 25/25; 10d done (a401d95..8c4d3d5): Actor Core launchCm -> launchHwm -> Call Parent, helperPanel beside, stop, close; T7 PASS; launch proofs 10/10 lines, error log unchanged, panels closed; Stop-button signalling press stopped the tree; sweep 33/33; 10e done: cleanup 27, icons 27 + class + library at 0 px, Actor Core description, dependency rule 0 violations over 171 files, 75 files at 26, sweep 62/62 (actors + tests), T1-T7 PASS (T4 needed a rerun, F13) |
 | 11 | launchers + receiver | done | 2026-10-11 19:58 | 2026-10-11 20:16 | 292b08f (11a), 1fa6d23..1e07b17 (11b) | 11a done: ZM-launcher.vi, ZM-launcher_test.vi at the project root, cold 1; launcher_test run 1: 9 lines, error_lines 0, ui_errors empty, error out 0; run 2 (placeholder): 0/0/empty, error out 1556 (the tree had stopped itself, D40); 11b done: ZM-receiver.vi under `receiver`, depends only on UDP/CP/PC (closure 80 files), Stop action 1, plot names; cleanup and icons on the three VIs; 175 files at 26; T1-T7 PASS (T4 init_ok T) |
-| 12 | runs + structural checks | running | 2026-10-11 20:20 | | | 12a done (no commit): every run of `03` §2 passes except R-pli-failure, which hangs the ROOT tree (F14); R-error passes under D40; R-close-order by dataflow; T1-T7 PASS, T4 x5 all PASS; 12c done (206b920..076479e): ZM-HWM-init registers before Call Parent (D41), the loop takes the refnum, early stop 5/5 no hang, HWM proofs pass; 12d launched |
+| 12 | runs + structural checks | running | 2026-10-11 20:20 | | | 12a done (no commit): every run of `03` §2 passes except R-pli-failure, which hangs the ROOT tree (F14); R-error passes under D40; R-close-order by dataflow; T1-T7 PASS, T4 x5 all PASS; 12c done (206b920..076479e): ZM-HWM-init registers before Call Parent (D41), the loop takes the refnum, early stop 5/5 no hang, HWM proofs pass; 12d done (9cb0c60..1cad6ec): ZM-ROOT-init (launchCm, launchHwm, Register), the panel loop takes the refnum, R-pli-failure PASS, early stop 5/5, reruns pass, sweep 64/64; 12b launched |
 | 13 | close | todo | | | | |
 
 state: todo | running | done | failed | skipped (say why in the result column)
@@ -218,7 +218,7 @@ state: todo | running | done | failed | skipped (say why in the result column)
 | R-viewer | pass offline (the user opens the viewer later) | reports/evidence-12a-checks.txt: 4 files, every line parses, keys and 5 data fields |
 | R-close-order | pass on the dataflow proof, order not timed | Actor Core exports (09d, 10d): close fed only by Merge(loop, stop); timing needs log writes in `src` |
 | R-stop-reset | pass (09d and 2026-10-11 ~20:27) | reports/evidence-12a-checks.txt: 6 + 6 lines, all codes 0 |
-| R-pli-failure | **FAIL** (2026-10-11 ~20:28): the ROOT tree hangs after a CM PLI failure (F14) | reports/evidence-12a-checks.txt: no Last Ack in 5 s, helperPanel still running, Stop press no effect |
+| R-pli-failure | pass after the D41 fix (2026-10-11 21:24); FAIL in 12a (F14, hang) | reports/evidence-12d-checks.txt: Last Ack at 70 ms with code 1 (CM PLI Create Folder), root queue gone, no panel, no hang |
 | structural checks (03 §3), one line per row that failed | | |
 
 ## Traps carried forward
@@ -481,6 +481,8 @@ Where the build differs from `02-specification.md`, with why, and whether the us
 Do these in LabVIEW's Project Explorer at the end of a phase or before phase 12, then commit. Each line names
 the class, the item and the file that holds the text.
 
+- 12c/12d: `ZM-HWM-init.vi`, `ZM-ROOT-init.vi` into `Methods`; review the agent-written init, Actor Core and loop VI
+  descriptions (12c 49ec6d0, 12d 57b27ee).
 - 10e: the full ROOT list is in report-10e, item 6 (class description; three AF overrides; helperPanel into
   `Helpers`; handlePackage, 9 hooks/ST and writePrelaunchSettings into `Methods`; two `.ctl` into `TypeDefs`).
 - 10d: ROOT `Actor Core.vi` into `AF Overrides`.

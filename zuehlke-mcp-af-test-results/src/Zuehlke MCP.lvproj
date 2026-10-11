@@ -32,7 +32,7 @@
 		<Item Name="tests" Type="Folder">
 			<Item Name="ZM-TST-tests.lvlib" Type="Library" URL="../tests/ZM-TST-tests.lvlib"/>
 		</Item>
-		<Item Name="ZM-CM-communication_manager.lvclass" Type="LVClass" URL="../actors/ZM-CM-communication_manager/ZM-CM-communication_manager/ZM-CM-communication_manager.lvclass"/>
+		<Item Name="ZM-CM-communication_manager.lvlib" Type="Library" URL="../actors/ZM-CM-communication_manager/ZM-CM-communication_manager.lvlib"/>
 		<Item Name="Dependencies" Type="Dependencies"/>
 		<Item Name="Build Specifications" Type="Build"/>
 	</Item>

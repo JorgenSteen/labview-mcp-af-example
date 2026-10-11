@@ -5,7 +5,19 @@ Type: build (LabVIEW calls, Actor Framework helper loop). Phase 10 step c of 5 (
 - Reports to read first: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-10b-root-hooks-routing-overrides.md`,
   then `report-09c-hwm-helper-loop.md` (the MEASURED route for a loop VI with the event structure inside a case frame
   inside the loop: derived helpers, the use-default tunnel flag, event specs, panel on call) and `report-09d-...`.
-  <<MANAGER: traps from report 10b go here before launch>>
+- State (reports 10b-10b3, 2026-10-11 ~19:15): LabVIEW **PID 26148, port 52603** (fresh since the user-approved kill of
+  14516 at 18:52), project CLOSED, 0 unsaved, no dialog. ROOT: 24 VIs, all cold state 1 (25/25 with the CM's Handle
+  Error); library under `actors`; PLI and Handle Error hooked; `evaluateError` a pass-through (pane: class 11/3,
+  `error in (no error)` 8, `error out` 0, `stop actor? in` 10, `out` 2); `stop`, `close`, `createEvents` as the HWM's.
+- **Broken wire first (the user, 2026-10-11: "the issue was just a wire that was not cleaned up ... it a trivial
+  hangup"):** a VI that reads cold state 0 with a broken-wire text after a generate, swap or bind gets the kit's
+  `pa_clean_member` (Remove Bad Wires + save VI and class; project open and active) BEFORE any rebuild; 10b rebuilt
+  `launchHwm` five times for one leftover wire segment.
+- `lvai_bind_typedef_constants` needs the QUALIFIED subVI name (a bare name answers a misleading 1055). A `git
+  checkout` of a `.lvclass` writes LF (`.gitattributes`); LabVIEW's next save restores CRLF. 10b sent two exports in one
+  message: keep the one-call rule.
+- The validator leaves hidden unsaved `LVMCP Validate*` VIs; a LabVIEW close then raises a save dialog nobody may
+  answer. If you must restart, stop and report: a kill needs the user's own go-ahead (the last one is used).
 - Session 3 (2026-10-11) user go-ahead: "Continue run-01. You may restart LabVIEW when needed; agents may too." Max
   two starts, each reported. Never answer a dialog. Save version **26.0**. D38: `Helpers` placement by the user.
 - **D40** (`C:\project\claude\LabVIEW-AFAItest\CLAUDE.md`, "Errors are not handled yet"; the user's words): this VI has

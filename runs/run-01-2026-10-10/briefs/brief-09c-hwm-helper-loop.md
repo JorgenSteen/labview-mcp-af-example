@@ -2,6 +2,18 @@
 Type: build (LabVIEW calls, Actor Framework helper loop). Phase 09 step c of 4 (a: class; b: hooks, library, PLI, Handle Error; d: Actor Core, proof runs, cleanup, icons, sweep).
 
 ## UPDATES (read first; they override the rest)
+- **The user's decision D40 (2026-10-11), answering your NEEDS CLARIFICATION; it overrides "What to build" below:**
+  (1) Every loop stops the others when it ends, for any reason. Producer loop, after it: `ZM-HWM-stop` (Generate the
+  stop event) → its error into `Clear Errors.vi`. Event loop, after it: `stop` = T by local (needed because the VI has
+  a second loop), then `ZM-HWM-stop` → `Clear Errors.vi`. (2) After both loops: Merge Errors → `evaluateError` → on an
+  error `Read Self Enqueuer` → `Send Normal Stop`; `error out` = the RAW merged error. (3) Every `evaluateError` is a
+  pass-through for now: rebuild BOTH `ZM-HWM-evaluateError.vi` and `ZM-CM-evaluateError.vi` (the CM file is allowed for
+  this one VI only) with the same name, pane, scope and description slot: `error in` → `error out`, `stop actor? in` →
+  `stop actor? out`, class in → class out, nothing else; description says it is a pass-through by D40. Sweep both
+  class folders after it; redo cleanup/icon for those two VIs in step d (CM) / here (HWM) or list it. (4) Append D40 to
+  `zuehlke-mcp-af-test-results\.labview\decisions.md` in the D38/D39 format (Rule: errors.plan-required,
+  errors.loop-errors, af-shapes.stop-mechanism; Chosen/Instead of/Why with the user's words from
+  `runs\run-01-2026-10-10\status.md`, "Go-aheads"; Supersedes: D14 for now) and commit it with `docs(labview): D40 ...`.
 - Reports to read first: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-09b-hwm-hooks-overrides.md`
   (what exists: `createEvents`, `stop`, `close`, `evaluateError`, the library), `report-09a-hwm-class.md` (the events
   typedef and its element label), `report-08b-cm-hooks-overrides.md` (stub and swap route).

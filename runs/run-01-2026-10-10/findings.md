@@ -126,3 +126,17 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
   the file's own line ending (checked by the manager). Nothing was lost; the commit after it shows a one-line diff.
 - **Evidence:** report-09a item 7a; `git diff 6c9fdf2 e0337ea` on the `.lvproj` (one added line).
 - **Owner:** the skill's maintainer (fix the split; a size guard). Later briefs carry the trap.
+
+## F11 (2026-10-11): a producer-loop error cannot end the HWM's event loop as `02` §7.11 is written (spec gap)
+
+- **What:** built literally, a producer error (e.g. 5000 from a bare `ZM-HW-do`) ends only the producer loop; the
+  event loop waits for the `stop` user event, which Actor Core sends only after Call Parent returns, which needs a
+  stop the loop VI sends only "after both loops". The HWM would run on with a dead producer until shutdown, and `03`
+  R-error ("the HWM stopped with a clean Last Ack, the root kept running" before Normal Stop) could not pass.
+- **Evidence:** report-09c-hwm-helper-loop-clarification.md, question 1; `03-acceptance.md` R-error.
+- **Decision (the user, 2026-10-11):** every loop stops the others when it ends; every `evaluateError` is a
+  pass-through for now (D40; `CLAUDE.md`, "Errors are not handled yet"). Consequence: D14's plan (log, error
+  package, clean Last Ack) is suspended; the CM's (08b) and HWM's (09b) built `evaluateError` are rebuilt as
+  pass-throughs in 09c; `03` R-error's expected readings (error_lines 1, ui_errors, root keeps running) no longer
+  hold and phase 12 judges R-error against D40.
+- **Owner:** the user (restore the error plan later); the requirements' author (`02` §5/§7.11, `03` R-error).

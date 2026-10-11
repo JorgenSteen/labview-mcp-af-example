@@ -2,7 +2,7 @@
 
 state: open            # open | closed
 last updated: 2026-10-11 11:04 by the manager session (session 3 start)
-next phase: 09 HWM actor, step c (helper loop) - STOPPED on NEEDS CLARIFICATION (2026-10-11 12:34), waiting for the user; 09a, 09b done
+next phase: 09 HWM actor, step c (helper loop) - running again after the user's answer (D40, 2026-10-11); 09a, 09b done
 open items: see "Open items" below.
 
 # Session 3 started 2026-10-11 10:58
@@ -351,6 +351,10 @@ Facts the next brief must repeat, each by its content with its source (report fi
 
 Where the build differs from `02-specification.md`, with why, and whether the user agreed.
 
+- 2026-10-11, phase 09c (the user's decision D40): every `evaluateError` is a pass-through (no log, no error package,
+  no clearing), D14 suspended; helper loops stop each other on any exit; the loop VI's `error out` is the raw merged
+  error. `03` R-error is judged against D40 in phase 12 (findings F11).
+
 - 2026-10-11, phase 08c: the forced PLI failure used an invalid folder NAME (`test_cm_bad<>|_`) instead of a missing
   drive (the brief's VI stayed eBad); the unchanged error log cannot show Stop Core skipped (FL close is 0 anyway).
   The AF overrides' descriptions were written by the agent (review in e3efe7a). No separate phase commit named
@@ -391,6 +395,15 @@ Where the build differs from `02-specification.md`, with why, and whether the us
   Two commits instead of one. Not asked; a harness detail, not a product deviation.
 
 ## Go-aheads from the user
+
+- User decision (2026-10-11, session 3, answering 09c's NEEDS CLARIFICATION): "have all loops close the others on
+  error, add a send stop event after the user event loop to, just add ignore error. and then if any other helper loop
+  than the user event stops it sends the stop event"; "the local stop is only needed in cases where you have an
+  additional loop"; "after the error handler run it should, but just let it forward everything, so the stop and the
+  error without doing anything with it. I just want the shutdown or error to be contrpolled by the normals stops. So
+  the evaluateError is just basicallyt empty"; "all evaluate error should be similar for now, can add stuff later".
+  Written into `CLAUDE.md` ("Errors are not handled yet"), findings F11, the product's `decisions.md` as D40 (by the
+  09c agent), and brief 09c. The CM's and HWM's built `evaluateError` become pass-throughs.
 
 - User go-ahead (2026-10-10 15:22): "You may restart LabVIEW when needed. close anything you are using labview all by yourself for the whole session, not restrictions" - scope: the whole session; restarting, closing and starting LabVIEW, and closing projects this run opened, need no further question. Extended by the user (2026-10-10 15:30): "Agents can restart labview themselves too, no need to ask me" - every brief from 00b on carries a hard-rules line letting the agent start or restart LabVIEW itself per the skill's session/start.md, reporting each start. `restart_go_ahead` is `always` in `project.json` with this quote as the note. Per the skill's `session/close.md` a blanket go-ahead ends with the session: the next session asks again at its start unless its start message grants it.
 - User decision (2026-10-10 16:00): "option 1 then and log that answer into the documentation to so if someone wants to try to rerun this later, then do not need this clearification" - class descriptions, `.ctl` membership and `Methods`/`TypeDefs`/`Helpers` folder placement are done by the user in the IDE; agents list them; written into `CLAUDE.md` and `orchestration/plan.md` (commit fcac3e0) and into the product's `decisions.md` as D38.

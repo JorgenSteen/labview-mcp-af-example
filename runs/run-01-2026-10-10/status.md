@@ -121,7 +121,7 @@ request (2026-10-11). Also on 2026-10-11 the user switched the session model wit
 the default): the manager and every agent launched from now on run on `claude-opus-5-5` unless the user switches back
 (`orchestration/plan.md`, "Models and effort": a later role change is its own row in `cost.md`).
 
-## Open items
+## Open items (session 1; SUPERSEDED by the session 2 block at the top)
 
 1. **The project is open in LabVIEW with unsaved edits** (LVAutoSave 2). Owner: next session, step 2 below.
 2. **05a is unfinished:** the four overrides are bare; hooks, export checks, sweep, probe and the report remain.
@@ -134,7 +134,7 @@ the default): the manager and every agent launched from now on run on `claude-op
    (proposals in `mcp-reports/session-1.md`).
 7. **Phase card 03** note contradicts `02` §3.1 (F6). Owner: the user (fix the card for the next run).
 
-## Next session: start here
+## Next session: start here (session 1; SUPERSEDED: 05a2 is done, the project was recovered; follow the session 2 block at the top)
 
 1. Read `CLAUDE.md`, `orchestration/plan.md`, this file. Model: the session now defaults to Opus 5.5 (the user's
    `/model` on 2026-10-11); note in `cost.md` which model the session and its agents run on.
@@ -149,7 +149,7 @@ the default): the manager and every agent launched from now on run on `claude-op
    committed; each has a `<<MANAGER ...>>` slot to fill from the previous report).
 5. Briefs 08b, 08c, 09b-09d, 10*, 11*, 12*, 13 are not drafted yet; the phase cards and `02` §5-§8 are the source.
 
-## LabVIEW at the end (lv_windows.ps1, 2026-10-11 09:28)
+## LabVIEW at the end of session 1 (lv_windows.ps1, 2026-10-11 09:28; superseded: at the end of session 2 the project is closed, LVAutoSave 0)
 
 PID 14040 (started by this session 2026-10-10 15:24), `Zuehlke MCP.lvproj - Project Explorer` visible, unsaved 18
 (all `LVMCP Validate*` scratch VIs, hidden), possible dialogs 0, LVAutoSave 2 (`NI32LV2631f1ASD2_Zuehlke MCP.lvproj`,
@@ -172,7 +172,7 @@ PID 14040 (started by this session 2026-10-10 15:24), `Zuehlke MCP.lvproj - Proj
 | 02 | common utilities | done | 2026-10-10 18:03 | 2026-10-10 18:19 | e2ef456..146b6cd (two steps, 7 commits) | ZM-CU-log.vi in ZM-CU-common_utilities.lvlib under common, ZM-TST-log.vi, T2 Pass, cleanup, icons read back 0 px, sweep 3/3, no ZM/AF link, all 26.0; nothing left for the IDE (no class) |
 | 03 | hardware | done | 2026-10-10 18:25 | 2026-10-10 22:13 | de2f81c..8b596f2 (three steps, 17 commits) | parent + SIM in two libraries under hardware, do placeholder 5000 with FreeLabel, SIM do override, T3 Pass, cleanup, icons read back 0 px, sweep 9/9, no AF/CU/CP link, all 26.0; for the IDE: 2 class descriptions, Methods folders (D38) |
 | 04 | protocol + file logger | done | 2026-10-10 22:17 | 2026-10-10 22:56 | 72828e3..6936679 (three steps, 23 commits) | parent + FL in two libraries under protocol, publish placeholder 5000 with FreeLabel, init override + createFolder hook, publish override, T4 Pass (six checks; the MX check comes in 05), cleanup, icons read back 0 px, sweep 15/15, no AF/CU/HW link, all 26.0; for the IDE: 2 class descriptions, Methods folders |
-| 05 | UDP + multi protocol | done | 2026-10-10 23:01 | | 208e74b..29e2187 (05a), d7b5cf8..ab14b57 (05a2) | 05a done in two sessions: sender and receiver in ZM-CP-UDP-udp_transport.lvlib under protocol, four overrides hooked (open hooks end in Preserve Run-Time Class), sweep 18/18, probe error 0; 05b done (576b7a0..36c7a06): MX class with PROTOCOLS typedef (array of the CP parent), reentrant initAll/closeAll, three overrides, library under protocol, sweep 36/36, probe [parent] 5000 and [] clean; 05c done (53627a4, a1e87f0): T5 PASS, T4 PASS with seven checks, sweep 41/41; 05d done (45a2646..bbe3273): cleanup 27 VIs, 3 class + 2 library icons, read back 0 px, sweep 41/41, no AF/CU/HW/FL link, all 26.0. Phase ended 2026-10-11 10:27 |
+| 05 | UDP + multi protocol | done | 2026-10-10 23:01 | 2026-10-11 10:27 | 208e74b..29e2187 (05a), d7b5cf8..ab14b57 (05a2) | 05a done in two sessions: sender and receiver in ZM-CP-UDP-udp_transport.lvlib under protocol, four overrides hooked (open hooks end in Preserve Run-Time Class), sweep 18/18, probe error 0; 05b done (576b7a0..36c7a06): MX class with PROTOCOLS typedef (array of the CP parent), reentrant initAll/closeAll, three overrides, library under protocol, sweep 36/36, probe [parent] 5000 and [] clean; 05c done (53627a4, a1e87f0): T5 PASS, T4 PASS with seven checks, sweep 41/41; 05d done (45a2646..bbe3273): cleanup 27 VIs, 3 class + 2 library icons, read back 0 px, sweep 41/41, no AF/CU/HW/FL link, all 26.0. Phase ended 2026-10-11 10:27 |
 | 06 | pipeline test | done | 2026-10-11 10:32 | 2026-10-11 10:39 | 558726e..f6f5260 (3 commits) | ZM-TST-pipeline.vi (T6) PASS in round 2 (a test-only fix), T1-T6 all PASS on the rerun, cleanup, icon 0 px, sweep 6/6, no production VI touched |
 | 07 | interface + message | done | 2026-10-11 10:44 | 2026-10-11 10:50 | 6ea3457..254038b (11 commits) | ZM-CI-common_interfaces.lvlib under common: interface ZM-CI-package_handler, method ZM-CI-handlePackage (pane 4815, package on 10), message class ZM-CI-handlePackage Msg by Message Maker + repair_r1 in the Messages folder; Do.vi casts to the interface; sweep 3/3, icons 0 px; links only to ZM-PC and vi.lib |
 | 08 | CM actor | todo | | | | |

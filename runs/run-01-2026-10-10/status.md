@@ -1,9 +1,9 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-10 23:00 by the manager session (phase 05)
+last updated: 2026-10-11 02:23 by the manager session (phase 05)
 next phase: 05 UDP + multi protocol, step a (the UDP sender and receiver; launched 23:01)
-open items: F3 (library count 13 vs 14) still unanswered, not blocking. 03b was cut off by the user's usage limit at about 18:45 (HTTP 429) and resumed at 21:55; it finished at 22:02 (report-03b-hw-sim-test.md). Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429) and resumed by SendMessage at 16:22; it finished at 16:32 (report-01b-pc-methods-library.md).
+open items: F3 (library count 13 vs 14) still unanswered, not blocking. 05a was cut off by the user's usage limit at about 23:20 on 2026-10-10 (HTTP 429, reset 02:20) with the project open, right after the library step (library and member re-saves uncommitted on disk); the same agent was resumed by SendMessage at 02:22 on 2026-10-11 with the git state. 03b was cut off by the user's usage limit at about 18:45 (HTTP 429) and resumed at 21:55; it finished at 22:02 (report-03b-hw-sim-test.md). Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429) and resumed by SendMessage at 16:22; it finished at 16:32 (report-01b-pc-methods-library.md).
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
 

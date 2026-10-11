@@ -5,6 +5,14 @@ Type: build + test (LabVIEW calls, Actor Framework runs). Phase 09 step d of 4 (
 - Reports to read first: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-09c-hwm-helper-loop.md`,
   `report-09b-hwm-hooks-overrides.md`, `report-08c-cm-launch-cleanup-icons.md` (the CM launch proof: how a proof VI
   launched, waited, stopped and read files; the measured cleanup and icon route).
+- **D40 (the user, 2026-10-11; `CLAUDE.md`, "Errors are not handled yet"): it overrides run 2 below.** Every
+  `evaluateError` is a pass-through: no `HWM\t5000` log line, no error package. The helper loop's raw error reaches
+  the HWM's Last Ack; AF's default Handle Last Ack Core in the caller returns it, so the CALLER stops with it and its
+  Stop Core stops the rest ("if any actor stops it should cascade and stop all"). Run 2 therefore expects: the
+  whole throwaway tree stops by itself with code 5000 (source `ZM-HW-do.vi: must be overridden by a child class`)
+  before the proof's own Normal Stop, the error log unchanged, no `ErrorPackage.jsonl`, the run returns, no hang. Run
+  1 (SIM) is the clean case: only the proof's Normal Stop ends it. No Handle Last Ack Core override anywhere.
+  If D40 is not yet in `zuehlke-mcp-af-test-results\.labview\decisions.md` with the cascade clause, add it.
   <<MANAGER: traps from reports 08c, 09b and 09c go here before launch>>
 - Session 3 (2026-10-11) user go-ahead: "Continue run-01. You may restart LabVIEW when needed; agents may too." Max
   two starts, each reported. Never answer a dialog. Save version **26.0**. D38, D39 as before.

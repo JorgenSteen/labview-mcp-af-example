@@ -404,6 +404,10 @@ Where the build differs from `02-specification.md`, with why, and whether the us
   the evaluateError is just basicallyt empty"; "all evaluate error should be similar for now, can add stuff later".
   Written into `CLAUDE.md` ("Errors are not handled yet"), findings F11, the product's `decisions.md` as D40 (by the
   09c agent), and brief 09c. The CM's and HWM's built `evaluateError` become pass-throughs.
+- User decision (2026-10-11, session 3, the cascade): "if any actor stops it should cascade and stop all"; then, after
+  the manager explained Last Ack: "if the child stops cleany then its fine that it does not cascade, but for now the
+  ponly clean stop case should be stop from actor core." So: no Handle Last Ack Core override; error stops cascade by AF's
+  default through the Last Ack. Added to `CLAUDE.md` (D40 bullet) and brief 09d (run 2 expects the tree to stop with 5000).
 
 - User go-ahead (2026-10-10 15:22): "You may restart LabVIEW when needed. close anything you are using labview all by yourself for the whole session, not restrictions" - scope: the whole session; restarting, closing and starting LabVIEW, and closing projects this run opened, need no further question. Extended by the user (2026-10-10 15:30): "Agents can restart labview themselves too, no need to ask me" - every brief from 00b on carries a hard-rules line letting the agent start or restart LabVIEW itself per the skill's session/start.md, reporting each start. `restart_go_ahead` is `always` in `project.json` with this quote as the note. Per the skill's `session/close.md` a blanket go-ahead ends with the session: the next session asks again at its start unless its start message grants it.
 - User decision (2026-10-10 16:00): "option 1 then and log that answer into the documentation to so if someone wants to try to rerun this later, then do not need this clearification" - class descriptions, `.ctl` membership and `Methods`/`TypeDefs`/`Helpers` folder placement are done by the user in the IDE; agents list them; written into `CLAUDE.md` and `orchestration/plan.md` (commit fcac3e0) and into the product's `decisions.md` as D38.

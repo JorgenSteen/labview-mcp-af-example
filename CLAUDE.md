@@ -71,6 +71,11 @@ by saying so in the start message; record such a change in `status.md` with the 
   (error ignored). After the loops: Merge Errors → `evaluateError` → on an error `Read Self Enqueuer` → `Send
   Normal Stop`; `error out` = the raw merged error. This overrides `02` §5/§7.10-§7.12 and D14 where they
   differ; `03` R-error is judged against it. Recorded in the product's `decisions.md` as D40.
+  Cascade (the user, 2026-10-11): "if any actor stops it should cascade and stop all"; "if the child stops
+  cleanly then its fine that it does not cascade, but for now the only clean stop case should be stop from
+  actor core". So an error stop of the CM or HWM carries its error in the Last Ack, and AF's default Handle Last
+  Ack Core stops the root, whose Stop Core stops the rest; no Handle Last Ack Core override is built. The only
+  clean stop is the normal shutdown sent down from the root's Actor Core/Stop Core.
 
 ## Running one phase
 

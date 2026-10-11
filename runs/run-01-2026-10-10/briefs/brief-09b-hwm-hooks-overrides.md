@@ -6,7 +6,21 @@ Type: build (LabVIEW calls, Actor Framework). Phase 09 step b of 4 (a: the class
   then `report-08b-cm-hooks-overrides.md` (the MEASURED route for every item of this step on the CM: hooks with stubs
   and swaps, `evaluateError`, `createResources` shape F, the interface override, the library, the PLI and Handle Error
   overrides) and `report-08c-cm-launch-cleanup-icons.md` (how the CM behaved when launched).
-  <<MANAGER: traps from reports 08c and 09a go here before launch>>
+- State (report 09a, 2026-10-11 11:56): LabVIEW PID 14516 (port 59983), dwarn 4, project CLOSED. The class is a TOP-LEVEL
+  project item (step 5 wraps it). All six members read cold state 0 "VI has an error of type 8" until step 4 adds the
+  interface override (08b proved that cause on the CM). `ZM-HWM-PRELAUNCH_SETTINGS` = `{hardware: ZM-HW-hardware,
+  intervalMs: U32 = 500}`; `ZM-HWM-EVENTS` = `{stop: user event of Boolean}` (`describe_ctl` does not show the subtype).
+- **`kit\lvproj_drop.py` splits on CRLF only and EMPTIED an LF `.lvproj` in 09a** (finding F10). Before every drop,
+  check the `.lvproj` line ending; on LF use `...\proof\ZMP-09a\lvproj_drop_eol.py` (same arguments; keeps the ending,
+  refuses an emptied file); check the file size after. `lvproj_move.py` keeps the file's own ending.
+- From 08b: `lvai_placeholder_subvi` types a stub's output as a scalar path when the source returns a typedef cluster
+  with a CLASS element (the 08b agent hand-made `LVMCP Stub ZMP08b-readPrelaunchSettings.vi` typed
+  `cluster{path.protocol}` in `user.lib\LV_MCP`; HWM's `Read events` returns a user-event cluster: check the stub's
+  type before the Unbundle). `Clear Errors.vi`'s input is `error in (no error)`. The library close replaced the class
+  item by the library item (no drop needed, but check). Two exports in one message were 08b's rule break.
+- From 08c: AF overrides keep NI's help text after `lvai_create_override`; set their descriptions with
+  `pa_replace_description` (description only, project closed, no regeneration) at the end of this step and say so.
+  The CM's evaluateError (13 stages) exceeded the width budget; no subVI invented: same for the HWM's.
 - Session 3 (2026-10-11) user go-ahead: "Continue run-01. You may restart LabVIEW when needed; agents may too." Max
   two starts, each reported. Never answer a dialog. Save version **26.0**. D38: class description and `Methods`/
   `AF Overrides`/`Helpers` placement by the user (list them). D39: icons without a prompt (step d).

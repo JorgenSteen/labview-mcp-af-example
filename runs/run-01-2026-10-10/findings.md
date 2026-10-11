@@ -115,3 +115,14 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
 - **Why it matters:** the skill (`session/brief.md`) records the same break in four pilot sessions; a parallel call on
   a slow LabVIEW operation can block the service. It is also data for the model comparison the plan asks for.
 - **Owner:** the skill's maintainer (MCP-candidate `call-lock`), the user (model choice).
+
+## F10 (2026-10-11): `kit/lvproj_drop.py` empties a `.lvproj` with LF line endings (skill kit bug)
+
+- **What:** the script splits the file on `\r\n` only (`lvproj_drop.py` line 6). `lvai_create_class` writes the
+  `.lvproj` with LF before LabVIEW's next close turns it back to CRLF; one call that reported "removed 1 line" wrote a
+  0-byte `Zuehlke MCP.lvproj`. The 09a agent restored it from git (project closed), recreated the memberless class,
+  and dropped the stray item with a derived copy that keeps the file's line ending and refuses to write an emptied
+  file (`proof/ZMP-09a/lvproj_drop_eol.py`). `lvproj_move.py`, `lvproj_add_toplevel.py` and `remove_members.py` split on
+  the file's own line ending (checked by the manager). Nothing was lost; the commit after it shows a one-line diff.
+- **Evidence:** report-09a item 7a; `git diff 6c9fdf2 e0337ea` on the `.lvproj` (one added line).
+- **Owner:** the skill's maintainer (fix the split; a size guard). Later briefs carry the trap.

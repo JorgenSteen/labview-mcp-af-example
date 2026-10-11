@@ -1,9 +1,22 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-11 10:58 by the manager session (session 2 hand-over)
-next phase: 08 CM actor, step a - brief `briefs/brief-08a-cm-class.md` (filled, ready to launch); 08b, 08c drafted
+last updated: 2026-10-11 11:04 by the manager session (session 3 start)
+next phase: 08 CM actor, step a - running (session 3); 08b, 08c drafted
 open items: see "Open items" below.
+
+# Session 3 started 2026-10-11 10:58
+
+- New Claude Code session (after `/clear`), manager on Opus 5.5 (`claude-opus-5-5`); agents inherit it.
+- User go-ahead (2026-10-11, start message): "Continue run-01. You may restart LabVIEW when needed; agents may too."
+  Standing for this session: the manager and agents may start, restart and close LabVIEW; written into brief 08a and
+  every later brief. `restart_go_ahead` in `project.json` stays `always` (its note quotes 2026-10-10).
+- `lv_windows.ps1` 10:58: PID 14040 with a visible modal "Save changes? (Exit)" dialog (an exit begun around the
+  session 2 hand-over); 32 unsaved windows, all `LVMCP Validate*` scratch VIs (16 VIs, front panel + diagram); no
+  product item among the windows; project closed; LVAutoSave 0; git clean. Stopped and asked the user (the skill:
+  never answer a dialog). The user answered the dialog (~11:01, "ok closed it now"); LabVIEW exited; 11:02: no
+  LabVIEW process, LVAutoSave 0, git clean. No `lvai_status` by the manager (nothing to answer it); the 08a agent
+  starts LabVIEW itself.
 
 # STATUS: Session 2 stopped, 2026-10-11 10:58
 
@@ -175,7 +188,7 @@ PID 14040 (started by this session 2026-10-10 15:24), `Zuehlke MCP.lvproj - Proj
 | 05 | UDP + multi protocol | done | 2026-10-10 23:01 | 2026-10-11 10:27 | 208e74b..29e2187 (05a), d7b5cf8..ab14b57 (05a2) | 05a done in two sessions: sender and receiver in ZM-CP-UDP-udp_transport.lvlib under protocol, four overrides hooked (open hooks end in Preserve Run-Time Class), sweep 18/18, probe error 0; 05b done (576b7a0..36c7a06): MX class with PROTOCOLS typedef (array of the CP parent), reentrant initAll/closeAll, three overrides, library under protocol, sweep 36/36, probe [parent] 5000 and [] clean; 05c done (53627a4, a1e87f0): T5 PASS, T4 PASS with seven checks, sweep 41/41; 05d done (45a2646..bbe3273): cleanup 27 VIs, 3 class + 2 library icons, read back 0 px, sweep 41/41, no AF/CU/HW/FL link, all 26.0. Phase ended 2026-10-11 10:27 |
 | 06 | pipeline test | done | 2026-10-11 10:32 | 2026-10-11 10:39 | 558726e..f6f5260 (3 commits) | ZM-TST-pipeline.vi (T6) PASS in round 2 (a test-only fix), T1-T6 all PASS on the rerun, cleanup, icon 0 px, sweep 6/6, no production VI touched |
 | 07 | interface + message | done | 2026-10-11 10:44 | 2026-10-11 10:50 | 6ea3457..254038b (11 commits) | ZM-CI-common_interfaces.lvlib under common: interface ZM-CI-package_handler, method ZM-CI-handlePackage (pane 4815, package on 10), message class ZM-CI-handlePackage Msg by Message Maker + repair_r1 in the Messages folder; Do.vi casts to the interface; sweep 3/3, icons 0 px; links only to ZM-PC and vi.lib |
-| 08 | CM actor | todo | | | | |
+| 08 | CM actor | running | 2026-10-11 11:05 | | | 08a launched (session 3) |
 | 09 | HWM actor | todo | | | | |
 | 10 | ROOT actor | todo | | | | |
 | 11 | launchers + receiver | todo | | | | |

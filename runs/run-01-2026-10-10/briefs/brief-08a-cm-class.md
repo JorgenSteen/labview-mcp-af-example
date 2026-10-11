@@ -13,9 +13,11 @@ Type: build (LabVIEW calls). Phase 08 step a of 3 (b: hooks, interface override,
   3, error out 0. `lvai_create_interface` and `lvai_create_class` drop the `.lvproj` BOM and add a top-level class
   line; the next close restores the BOM: READ the diff before any `git checkout` of the `.lvproj`.
 - Facts from report 06: T1-T6 all PASS; every plain class is proven. From here, a failure is an actor-side problem.
-- The standing LabVIEW go-ahead (2026-10-10 15:22/15:30) belongs to the Claude Code session that granted it: copy
-  it here only if the session that launches this brief has the user's go-ahead (status.md says so); otherwise the
-  agent may not start or restart LabVIEW and stops with CANNOT PROCEED if it is lost.
+- Session 3 (2026-10-11 11:03): user go-ahead in the start message: "Continue run-01. You may restart LabVIEW when
+  needed; agents may too." **LabVIEW is NOT running** at launch (the user closed PID 14040 at ~11:01 by answering its
+  "Save changes? (Exit)" dialog; only `LVMCP Validate*` scratch VIs were unsaved; git clean; LVAutoSave 0). Start it
+  yourself first per `<skill>\session\start.md` step 3-4: `lv_windows.ps1`, `lvai_ensure_labview` (LVAutoSave is 0, so
+  its default clearing is safe), then `lvai_status` until it answers; report PID and time.
 - Every `lvai_*`/`pylv_*` call ALONE in its message, offline ones included: broken in four of six Opus steps (F9).
 - Save version **26.0**. User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself
   when it crashes or stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported.

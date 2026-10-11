@@ -6,7 +6,16 @@ Type: build + test (LabVIEW calls, Actor Framework runs). Phase 11 step a of 2 (
   (the ROOT launch proofs and the Stop-button route: Open VI Reference by qualified name, the control reads),
   `report-10e-root-cleanup-icons-close.md`, `report-02a-cu-log-test.md` (a top-level VI calling library members by the
   direct Call route).
-  <<MANAGER: traps from reports 10d and 10e go here before launch>>
+- State (report 10e, 2026-10-11 19:53): LabVIEW **PID 26148, port 52603**, dwarn 5, project CLOSED, no dialog. Phase 10
+  done: the tree runs from `Launch Root Actor` with `ZM-ROOT-writePrelaunchSettings`; 10 lines in 5 s; the Stop press
+  works. Sweep of actors + tests 62/62; T1-T7 PASS (T4 needed one rerun, F13: do not chase it here).
+- The measured launch route is `...\proof\ZMP-10d\ZMP-10d-launch_root.vi` and its AIXML: copy its shape (settings
+  constant bound with `lvai_bind_typedef_constants` using the QUALIFIED subVI name, Launch Root Actor, Wait, Send
+  Normal Stop). The `errors` read of the running panel loop: the kit's measured `pa_press_control_signal` spellings
+  (Open VI Reference by qualified name, `Front Panel` → `Controls[]` by `Label.Text`, `Value` read), cross-checked in
+  `resource\lvserver.rsc`. `lvai_add_to_library` re-saves other members: check `git status` afterwards.
+- A VI run while the project is open is adopted into it; and a launcher must be a project ITEM at the project root:
+  add it with `lvproj_add_toplevel.py` (URL relative to `src\`, project closed; F10 check first), then run cold.
 - Session 3 (2026-10-11) user go-ahead: "Continue run-01. You may restart LabVIEW when needed; agents may too." Max
   two starts, each reported. NO kill (the user's one kill go-ahead is used up). Never answer a dialog. Save version 26.0.
 - **D40** (`C:\project\claude\LabVIEW-AFAItest\CLAUDE.md`, "Errors are not handled yet"): every `evaluateError` is a

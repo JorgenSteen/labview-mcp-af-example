@@ -12,14 +12,21 @@ open items: see "Open items" below.
   at will for this session; agents may too." Standing for this session: start, restart, close, kill.
 - `lv_windows.ps1` 23:54: PID 26716, project closed, no dialog, LVAutoSave 0, unsaved 2 (`LVMCP Validate*` only).
 - 12h split in two: 12h1 (PC children, HW, SIM, CP, FL, UDP sender/receiver, MX), 12h2 (CM, HWM, ROOT, CI interface
-  and message class). Folder placement follows `02` §2 (writePrelaunchSettings and the interface method are methods:
-  `Methods`); the CI message class description is manager-written (in brief 12h2), for the user's review.
+  and message class). Folder placement follows `02` §2: the interface method into `Methods`; writePrelaunchSettings into
+  `Accessors` (`02` §6 calls it "a public custom accessor"; the manager first wrote `Methods` into brief 12h2 and
+  corrected it by SendMessage at 00:11, two minutes after launch); the CI message class description is manager-written (in brief 12h2), for the user's review.
 - 12h1 DONE 23:55-00:07 (e6b8c9b..49fa58a, 9 commits): 9 classes with description, TypeDefs (TP, EP, MX `.ctl`
   added), Methods; `ZM-receiver.vi` and `ZM-HW-SIM-randomData.vi` relinked and saved; 21 files at 26; sweep 137/137,
   membership clean, T1 T3-T6 PASS; MX initAll/closeAll read shared clone reentrant (IDE check closed). Manager check:
   each of the 10 done classes keeps only its private data `.ctl` (and `Parent Libraries`) at the root. New traps:
   `Reentrancy Type` 0 = shared clone (read with `Is Reentrant`); the in-memory list answer is over the tool-result
   limit (`proof\ZMP-12h1\mem_lines.py`).
+- 12h2 00:09-00:15 (ce968be, df162a7, edff0ff, 1ffc0b7): CM, HWM, ROOT, CI interface and message class with
+  description, AF Overrides/Helpers/Methods, writePrelaunchSettings in Accessors; sweep 137/137, membership clean,
+  T1-T7 PASS (T4 failed once on `init_ok`, F13 flaky, rerun PASS). **Not done: the 5 actor `.ctl` into TypeDefs** - the
+  typedef-add helper run (`lvai_run_vi_and_read_values`) was refused by the Claude Code permission classifier ("Modify
+  Shared Resources"); not retried. ROOT description: LabVIEW stores ANSI, "→" became "?", rewritten with "->".
+  **NEEDS CLARIFICATION relayed to the user 00:17; waiting.**
 
 # HAND-OVER 2026-10-11 23:50 (session 3, after the run): next session starts HERE
 

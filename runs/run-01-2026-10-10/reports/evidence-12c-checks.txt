@@ -1,0 +1,12 @@
+12c checks, 2026-10-11, LabVIEW 2026 Q3 32-bit (PID 26716, started by this session after the kill of PID 26148), labview-mcp 1.9.5-local f9ee41d9, project closed for every run.
+Change under test (D41): ZM-HWM-init.vi registers for the stop event in series before Call Parent; helperAcquisition takes the refnum as an input.
+Route: the 09d proof VIs, file-copied to proof\ZMP-12c (ZMP-12c-run_hwm.vi, ZMP-12c-stop_reset.vi); ZMP-12c-early_stop.vi = copy of run_hwm with the constant "run ms" set to 0 (lvai_set_constant), so the Normal Stop goes to the HWM right after Launch Actor returns (Dequeue timeout 0).
+run1 SIM: lines 6, launch 0/0, ack1 timed out T (3000 ms), stop_hwm 0, stop_cm 0, CM Last Ack 0, total 4001 ms
+run2 HW (bare ZM-HW-hardware): CM Last Ack at 641 ms with 5000 "ZM-HW-do.vi: must be overridden by a child class"; stop_hwm 1556, stop_cm 1556 (tree already gone); 0 lines (no file, read error 7); total 6642 ms
+stop reset: lines 6 after HWM#1, 12 total; launch/stop codes 0; ack1 timed out T; CM Last Ack 0
+early stop #1: stop to HWM 42 ms after launch, code 0; CM stop 0; CM Last Ack 0 (ack2 timed out F); lines 1; total 1042 ms; helperAcquisition afterwards state 1
+early stop #2: 49 ms, 0/0, Last Ack 0, lines 1, 1049 ms, helperAcquisition 1
+early stop #3: 1 ms, 0/0, Last Ack 0, lines 0 (no file yet: read error 7), 1001 ms, helperAcquisition 1
+early stop #4: 51 ms, 0/0, Last Ack 0, lines 1, 1052 ms, helperAcquisition 1
+early stop #5: 43 ms, 0/0, Last Ack 0, lines 1, 1043 ms, helperAcquisition 1
+every run returned; error log unchanged (4 lines); lv_windows after runs: no helperAcquisition/Actor Core window, 0 dialogs (2 hidden LVMCP Validate windows of the tool).

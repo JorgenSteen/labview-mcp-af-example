@@ -1,5 +1,9 @@
 # Phase 12: runs, structural checks, cold sweep
 
+> **D40 (2026-10-11) overrides this card where they differ:** every `evaluateError` is a pass-through, helper loops
+> stop each other, an error stop cascades through the Last Ack (`CLAUDE.md`, "Errors are not handled yet";
+> `plan.md`, "Rules that hold in every phase").
+
 **Type:** sweep / verify
 **Reads:** `03-acceptance.md` in full; `02-specification.md` §1, §2, §9, §10; the skill's
 `ops/sweep.md`, `ops/run-checks.md`, `ops/review.md`, `ops/helper-loop.md` (its checks).

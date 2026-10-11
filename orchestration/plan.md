@@ -79,6 +79,11 @@ deviation in `status.md` and ask the user.
 - **Scope**: members private unless called from outside; protected for what children override or
   call; AF overrides protected. **Accessors on demand**: only the ones code uses, in the direction
   used, static.
+- **Errors are not handled yet (D40, the user, 2026-10-11; `CLAUDE.md`, "Errors are not handled yet")**: every
+  `ZM-<A>-evaluateError.vi` is a pass-through (no log, no error package, no clearing); in a helper-loop VI every loop
+  stops the others when it ends, and the loop VI's `error out` is the raw error; an error stop cascades to the whole
+  tree through the Last Ack (AF default, no Handle Last Ack Core override); the only clean stop is the normal shutdown
+  from the root. Where a phase card, `02` §5/§7.10-§7.12, D14 or `03` R-error says otherwise, D40 wins.
 - **Errors**: parent placeholders return 5000 with `source` = `<VI file name>: must be overridden
   by a child class` and a free label `#customerror 5000` beside the node; ignored errors end in
   `Clear Errors.vi`, never unwired.

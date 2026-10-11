@@ -1,5 +1,9 @@
 # Phase 08: the communication manager actor (`ZM-CM-communication_manager.lvlib`)
 
+> **D40 (2026-10-11) overrides this card where they differ:** every `evaluateError` is a pass-through, helper loops
+> stop each other, an error stop cascades through the Last Ack (`CLAUDE.md`, "Errors are not handled yet";
+> `plan.md`, "Rules that hold in every phase").
+
 **Type:** build (Actor Framework)
 **Reads:** `01-requirements.md` R1 (CM), R5 (CM behaviour), R7, R8; `02-specification.md` §5,
 §6, §7.10; `04-decisions.md` D2, D14, D26; the skill's `knowledge/actor-framework.md`,

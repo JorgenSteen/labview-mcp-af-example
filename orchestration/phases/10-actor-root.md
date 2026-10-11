@@ -1,5 +1,9 @@
 # Phase 10: the root actor (`ZM-ROOT-root.lvlib`)
 
+> **D40 (2026-10-11) overrides this card where they differ:** every `evaluateError` is a pass-through, helper loops
+> stop each other, an error stop cascades through the Last Ack (`CLAUDE.md`, "Errors are not handled yet";
+> `plan.md`, "Rules that hold in every phase").
+
 **Type:** build (Actor Framework, panel loop, launches)
 **Reads:** `01-requirements.md` R1 (ROOT), R5 (ROOT routing table), R7, R8 (launches, Stop button,
 helper loop), R9; `02-specification.md` §5, §6, §7.12; `03-acceptance.md` T7;

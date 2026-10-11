@@ -1,5 +1,9 @@
 # Phase 09: the hardware manager actor (`ZM-HWM-hardware_manager.lvlib`)
 
+> **D40 (2026-10-11) overrides this card where they differ:** every `evaluateError` is a pass-through, helper loops
+> stop each other, an error stop cascades through the Last Ack (`CLAUDE.md`, "Errors are not handled yet";
+> `plan.md`, "Rules that hold in every phase").
+
 **Type:** build (Actor Framework, helper loop)
 **Reads:** `01-requirements.md` R1 (HWM), R5, R7, R8 (every helper-loop rule), R9 (live panel);
 `02-specification.md` §5, §6, §7.11; `04-decisions.md` D2, D5, D14, D27, D32 and the user's words

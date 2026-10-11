@@ -5,7 +5,15 @@ Type: test (LabVIEW calls, Actor Framework runs). Phase 12 step a of 2 (b: struc
 - Reports to read first: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-11a-launchers.md`,
   `report-11b-receiver-close.md`, `report-10d-root-actor-core-t7-proofs.md` (the headless Stop press, a launch proof),
   `report-09d-hwm-actor-core-proof-close.md` (the stop-reset route), `report-08c-cm-launch-cleanup-icons.md` (a PLI failure).
-  <<MANAGER: traps from report 11b go here before launch>>
+- State (report 11b, 2026-10-11 20:14): LabVIEW PID 26148 (port 52603), dwarn 5, project CLOSED, 10 hidden
+  `LVMCP Validate*`, no dialog. All builds are done (phases 00-11); T1-T7 passed in 11b (T4 too). Port 61557 was free.
+- `ZM-launcher_test.vi` deletes `output\TestPackage.jsonl` and `output\ZM-error_log.txt` at its start (missing is
+  fine) and counts both after; 11a run 1 read 9 lines in 6.5 s. Its `error out` merges the stop chain first.
+- `ZM-receiver.vi` updates chart, interval, last line and packets only for a TestPackage; `interval measured (ms)`
+  reads 0 for the first packet. `Stop` is Switch When Released (action 1); the press route is `pa_press_control_signal`.
+- Run proofs with the project CLOSED (a run with the project open is adopted into it). F10 before any
+  `lvproj_drop.py`. The validator's scratch VIs make a LabVIEW close raise a save dialog: no restart is possible
+  without the user (no kill go-ahead); if LabVIEW hangs, stop and report.
 - Session 3 (2026-10-11) user go-ahead: "Continue run-01. You may restart LabVIEW when needed; agents may too." Max
   two starts, each reported. NO kill. Never answer a dialog. The user's go-ahead (2026-10-11 ~20:10, "Agent presses"):
   press the Stop buttons of the root panel and `ZM-receiver.vi` by a SIGNALLING write (`Value (Signaling)`, the kit's

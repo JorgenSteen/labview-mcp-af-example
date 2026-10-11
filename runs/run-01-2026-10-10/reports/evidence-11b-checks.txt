@@ -1,0 +1,26 @@
+11b checks, 2026-10-11 20:08-20:14. LabVIEW 2026 Q3 32-bit PID 26148, labview-mcp 1.9.5-local (f9ee41d9), port 52603. Project CLOSED for every check below.
+
+Receiver build
+  route: project open + Write localPort, ZM-CP-UDP-receive, ZM-CP-init, ZM-CP-close opened through it; lvai_generate_vi (4 calls resolved, eBad by the path seed, pane 4815 0 assigned, diagram 1890x676, chain 16)
+  lvai_swap_subvis constants: rx seed -> ZM-CP-UDP-receiver.lvclass; header type -> ZM-PC-HEADER.ctl; tp data type -> ZM-PC-TP-DATA.ctl (each constantsSwapped 1, error 0)
+  close adopted the VI at the project root; lvproj_move.py -> folder receiver (CRLF + BOM kept)
+  cold lvai_exec_state: 1
+  pa_set_mechanical_action Stop -> 1 (read 1); zmp09c_set_plot_names chart -> temperature_c / duty_percent (read back equal); error 0
+  pa_read_boolean Stop after cleanup: found T, mechanical action 1, visible T
+  links (lv_loadability --links): ZM-CP-UDP-receiver.lvclass, Write localPort.vi, ZM-CP-UDP-receive.vi, ZM-PC-HEADER.ctl, ZM-PC-TP-DATA.ctl; closure 80 files, 0 unresolved
+  UDP / CP / PC libraries link nothing outside UDP, CP, PC (links_deps.txt)
+
+Sweep (src top level + src\receiver), before cleanup and after icons
+  3/3 state 1, control 0 7, both runs
+Cleanup: 3/3 code 0. Icons: lvai_set_vi_icon composite x3, read-back 3/3 at 0 px (pixcmp --tree exit 0)
+Versions: 175/175 files under src read 26. Membership: src 132 checked 0 missing, plain 3; src\receiver plain 1.
+
+T1-T7 cold (one call each)
+  ZM-TST-packages  PASS  Pass T  error 0
+  ZM-TST-log       PASS  Pass T  error 0
+  ZM-TST-hardware  PASS  Pass T  error 0
+  ZM-TST-protocol  PASS  Pass T  error 0  (init_ok T)
+  ZM-TST-udp       PASS  Pass T  error 0  (UDP 61557 free before)
+  ZM-TST-pipeline  PASS  Pass T  error 0
+  ZM-TST-routing   PASS  Pass T  error 0
+Receiver NOT run (it loops until Stop); live run left to phase 12 R-receiver.

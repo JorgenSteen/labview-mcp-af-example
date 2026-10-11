@@ -113,6 +113,8 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
 - **Evidence:** report-05a2 item 9b, report-05b item 8a, report-05d item 6a, report-07 item 8b.
 - **Update (session 3, 2026-10-11):** 08a and 08c kept the rule; 08b sent two read-only exports in one message
   (report-08b item 8a). Count now five of nine Opus 5.5 steps.
+- **Update (session 3, end of phase 11):** 08c, 09a-09d, 10a, 10c-10e and 11a kept it; 10b (two exports) and 11b (two
+  icon calls) did not. Count over the Opus 5.5 steps: seven of 21.
 - **Why it matters:** the skill (`session/brief.md`) records the same break in four pilot sessions; a parallel call on
   a slow LabVIEW operation can block the service. It is also data for the model comparison the plan asks for.
 - **Owner:** the skill's maintainer (MCP-candidate `call-lock`), the user (model choice).

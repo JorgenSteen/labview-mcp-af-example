@@ -35,7 +35,7 @@
 		<Item Name="tests" Type="Folder">
 			<Item Name="ZM-TST-tests.lvlib" Type="Library" URL="../tests/ZM-TST-tests.lvlib"/>
 		</Item>
-		<Item Name="ZM-ROOT-root.lvclass" Type="LVClass" URL="../actors/ZM-ROOT-root/ZM-ROOT-root/ZM-ROOT-root.lvclass"/>
+		<Item Name="ZM-ROOT-root.lvlib" Type="Library" URL="../actors/ZM-ROOT-root/ZM-ROOT-root.lvlib"/>
 		<Item Name="Dependencies" Type="Dependencies"/>
 		<Item Name="Build Specifications" Type="Build"/>
 	</Item>

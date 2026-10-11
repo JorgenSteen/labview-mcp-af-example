@@ -16,7 +16,7 @@ Type: sweep / verify (mostly offline; a few LabVIEW reads). Phase 12 step b of 2
   launchCm/launchHwm are called inside `ZM-ROOT-init`; members added by D41 (`ZM-<A>-init.vi`) are not "invented".
 - Derived kit copies live in `proof\` only; the `src\` files carry no `LVMCP Stub` link (12d checked).
 - Session 3 (2026-10-11) user go-ahead: "Continue run-01. You may restart LabVIEW when needed; agents may too." Max
-  two starts. NO kill. Never answer a dialog.
+  two starts. Kills: the standing go-ahead above (each reported). Never answer a dialog.
 - **The user (2026-10-11, "Mark pending, go on"; `CLAUDE.md`, D38 bullet):** rows that depend on IDE-only items - class
   descriptions, the `Methods`/`AF Overrides`/`Helpers`/`TypeDefs` virtual folders, `.ctl` class membership - are marked
   "pending: user in the IDE (D38)" with the list of what is missing; everything else in that row is still checked.

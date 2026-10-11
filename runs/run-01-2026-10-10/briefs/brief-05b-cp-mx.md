@@ -5,7 +5,16 @@ Type: build (LabVIEW calls). Phase 05 step b of 4 (a: UDP done; c: T5 and the MX
 - Reports to read first: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-05a-cp-udp.md`
   (item 3: the measured pane typing for hooks that call CHILD accessors; the override shapes B and B-after as
   measured; the library route), `report-04b-cp-fl-test.md`, `report-01b-pc-methods-library.md` (trap T1).
-  <<MANAGER: traps from report 05a go here before launch>>
+- Facts from report 05a2 (05a done 2026-10-11 09:45): the four UDP overrides are hooked; sweep 18/18. **New trap:**
+  a hook after Call Parent that WRITES a child field must end with `Preserve Run-Time Class` (object in = the object
+  out of the child's `Write <field>`, target = the hook's parent-typed input) on its parent-typed output. Without it
+  the override reads state 0 code 0 cold; passing the input wire straight out loses the write. `initAll` and
+  `closeAll` WRITE `protocols`, so both end with PRTC; `closeAll` hooks BEFORE Call Parent, same rule. The
+  regeneration route that worked (report-05a2, item 4): `git checkout` the bare override, re-run
+  `lvai_add_class_method` on the hook with aixml + vi (`validateFirst` false), swap the stubs, re-hook,
+  `pa_save_member`. The UDP probe AIXML `proof\ZMP-05a\ZMP-05a-probe.xml` is a measured model for your MX probes.
+- Session 2 runs on Opus 5.5. The standing LabVIEW go-ahead of 2026-10-10 is kept in force for this Claude Code
+  session (status.md, "Session 2 started").
 - Save version **26.0**. User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself
   when it crashes or stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported.
   Never answer a dialog. D38: class descriptions, `.ctl` membership (`ZM-CP-MX-PROTOCOLS.ctl` into `TypeDefs`) and
@@ -58,7 +67,8 @@ back with `Replace Array Subset`, so stopping on an error never shortens it. No 
 3. **Accessors** (static): `Read protocols` private, `Write protocols` PUBLIC (`set_scope.py`, project closed);
    the value terminal is named after the `.ctl` (`ZM-CP-MX-PROTOCOLS`). Commit.
 4. **Hooks** (static, private; class terminals typed as the PARENT with an internal `To More Specific Class` to the
-   MX class before `Read protocols`/`Write protocols`, the parent wire returned: measured in 04b, see report-04b item 3):
+   MX class before `Read protocols`/`Write protocols`, and `Preserve Run-Time Class` on the output (object in =
+   `Write protocols` out, target = the hook's input): measured in 04b and 05a2, see report-05a2 item 3):
    | VI | body |
    |---|---|
    | `ZM-CP-MX-initAll.vi` | `Read protocols` → For loop over the array with a shift register on the array and one on the error: at index i, `Index Array` → `ZM-CP-init` (dynamic call on the element's `ZM-CP-communication_protocol` wire) → `Replace Array Subset` back at i; the loop stops on error (conditional terminal from the error status); after the loop `Write protocols` (the array from the shift register, never shortened) → `error out` |

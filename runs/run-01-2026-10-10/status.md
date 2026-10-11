@@ -1,8 +1,8 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-11 09:37 by the manager session (session 2 start)
-next phase: 05 UDP + multi protocol, step a2 (launched 09:38 on 2026-10-11) - brief `briefs/brief-05a2-cp-udp-hooks.md`
+last updated: 2026-10-11 09:50 by the manager session (session 2, phase 05)
+next phase: 05 UDP + multi protocol, step b (the MX composite; launched 09:51 on 2026-10-11)
 open items: see "Open items" below.
 
 # Session 2 started 2026-10-11 09:34
@@ -146,7 +146,7 @@ PID 14040 (started by this session 2026-10-10 15:24), `Zuehlke MCP.lvproj - Proj
 | 02 | common utilities | done | 2026-10-10 18:03 | 2026-10-10 18:19 | e2ef456..146b6cd (two steps, 7 commits) | ZM-CU-log.vi in ZM-CU-common_utilities.lvlib under common, ZM-TST-log.vi, T2 Pass, cleanup, icons read back 0 px, sweep 3/3, no ZM/AF link, all 26.0; nothing left for the IDE (no class) |
 | 03 | hardware | done | 2026-10-10 18:25 | 2026-10-10 22:13 | de2f81c..8b596f2 (three steps, 17 commits) | parent + SIM in two libraries under hardware, do placeholder 5000 with FreeLabel, SIM do override, T3 Pass, cleanup, icons read back 0 px, sweep 9/9, no AF/CU/CP link, all 26.0; for the IDE: 2 class descriptions, Methods folders (D38) |
 | 04 | protocol + file logger | done | 2026-10-10 22:17 | 2026-10-10 22:56 | 72828e3..6936679 (three steps, 23 commits) | parent + FL in two libraries under protocol, publish placeholder 5000 with FreeLabel, init override + createFolder hook, publish override, T4 Pass (six checks; the MX check comes in 05), cleanup, icons read back 0 px, sweep 15/15, no AF/CU/HW link, all 26.0; for the IDE: 2 class descriptions, Methods folders |
-| 05 | UDP + multi protocol | running | 2026-10-10 23:01 | | 208e74b..29e2187 (05a, partial) | 05a stopped (usage limit 23:20, resumed 02:22, then the Fable model limit): both UDP classes, accessors, hooks, sender publish, receive, library under protocol, four bare overrides; hooks into the overrides, checks and report remain (brief 05a2) |
+| 05 | UDP + multi protocol | running | 2026-10-10 23:01 | | 208e74b..29e2187 (05a), d7b5cf8..ab14b57 (05a2) | 05a done in two sessions: sender and receiver in ZM-CP-UDP-udp_transport.lvlib under protocol, four overrides hooked (open hooks end in Preserve Run-Time Class), sweep 18/18, probe init/publish/close with no listener error 0; 05b (MX) running |
 | 06 | pipeline test | todo | | | | |
 | 07 | interface + message | todo | | | | |
 | 08 | CM actor | todo | | | | |
@@ -183,6 +183,11 @@ state: todo | running | done | failed | skipped (say why in the result column)
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
 
+- A child hook placed after Call Parent that WRITES a child field (casts inside, then `Write <field>`) must end with
+  `Preserve Run-Time Class` (object in = the written object, target = the hook's input) on its parent-typed output.
+  Returning the written object without it reads state 0 code 0 on the override (16/18 sweep); passing the input
+  wire straight out loses the write. Read-only and close hooks pass the input wire straight through (report-05a2,
+  items 3 and 9a).
 - A child hook placed after Call Parent that must read a CHILD field keeps the PARENT type on its pane and casts
   inside (`To More Specific Class` to the child, then the child's private accessor); cold state 1 for the hook,
   the override and every caller (04b, `createFolder`). `pa_insert_series2` inputs for B-after on a child override:
@@ -258,6 +263,9 @@ Facts the next brief must repeat, each by its content with its source (report fi
 ## Deviations and fallbacks
 
 Where the build differs from `02-specification.md`, with why, and whether the user agreed.
+
+- 2026-10-11, phase 05a2: the agent sent two `lvai_check_aixml` calls in one message (offline text checks,
+  `labviewNeeded: false`); a break of the one-call rule with no harm (report-05a2, item 9b). Briefs keep the rule.
 
 - 2026-10-10, phase 04: T4 is built without `mx_placeholder_ok` (needs the MX class of phase 05); phase 05 regenerates
   `ZM-TST-protocol.vi` with the seventh check (the card allows it; brief 05c). Not asked; the card decides.

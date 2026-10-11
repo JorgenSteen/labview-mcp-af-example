@@ -1,0 +1,1 @@
+ZMP-05a-probe.vi cold (project closed), 140 ms, helperErrorCode 0: init_code 0, publish_code 0, close_code 0, error out status F code 0 source ''. Sender to 127.0.0.1:61557 with no receiver listening.

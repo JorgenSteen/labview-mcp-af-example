@@ -14,6 +14,12 @@ open items: see "Open items" below.
 - 12h split in two: 12h1 (PC children, HW, SIM, CP, FL, UDP sender/receiver, MX), 12h2 (CM, HWM, ROOT, CI interface
   and message class). Folder placement follows `02` §2 (writePrelaunchSettings and the interface method are methods:
   `Methods`); the CI message class description is manager-written (in brief 12h2), for the user's review.
+- 12h1 DONE 23:55-00:07 (e6b8c9b..49fa58a, 9 commits): 9 classes with description, TypeDefs (TP, EP, MX `.ctl`
+  added), Methods; `ZM-receiver.vi` and `ZM-HW-SIM-randomData.vi` relinked and saved; 21 files at 26; sweep 137/137,
+  membership clean, T1 T3-T6 PASS; MX initAll/closeAll read shared clone reentrant (IDE check closed). Manager check:
+  each of the 10 done classes keeps only its private data `.ctl` (and `Parent Libraries`) at the root. New traps:
+  `Reentrancy Type` 0 = shared clone (read with `Is Reentrant`); the in-memory list answer is over the tool-result
+  limit (`proof\ZMP-12h1\mem_lines.py`).
 
 # HAND-OVER 2026-10-11 23:50 (session 3, after the run): next session starts HERE
 

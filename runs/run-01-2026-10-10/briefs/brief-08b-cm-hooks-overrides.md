@@ -6,7 +6,10 @@ Type: build (LabVIEW calls, Actor Framework). Phase 08 step b of 3 (a: the class
   (the class, its fields, accessors, `writePrelaunchSettings`, the 1003 state), `report-07-ci-interface-message.md`
   (the interface method's pane and qualified names, `Send ZM-CI-handlePackage.vi`), `report-04b-cp-fl-test.md` and
   `report-05a2-cp-udp-hooks.md` (override creation and hook routes, `pa_insert_series2` inputs).
-  <<MANAGER: traps from reports 07 and 08a go here before launch>>
+- From report 07: `Send ZM-CI-handlePackage.vi` (in `...\ZM-CI-common_interfaces\ZM-CI-handlePackage Msg\`) has the
+  inputs `Message Enqueuer` (conIdx 11) and `package` (10, required); `Do.vi` casts the actor to the interface and
+  calls `ZM-CI-handlePackage`. The interface method's pane is 4815 with `package` on 10.
+  <<MANAGER: traps from report 08a go here before launch>>
 - Save version **26.0**. Session 2 runs on Opus 5.5; the standing LabVIEW go-ahead of 2026-10-10 is kept in force:
   you may start or restart LabVIEW yourself when it crashes or stops answering, per `<skill>\session\start.md`, at
   most twice, each reported. Never answer a dialog. D38: class description, `Methods`/`AF Overrides` placement by the

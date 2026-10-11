@@ -30,9 +30,13 @@ Agents inherit the manager's model unless a row says otherwise (`CLAUDE.md`, "De
 | 05 | 05c T5 + T4 complete | general-purpose (following the labview skill) | claude-opus-5-5 (inherited) | not visible (inherited) | 2026-10-11 10:07 | 2026-10-11 10:16 | 9 (agent clock 10:04-10:16) | 325,239 subagent tokens, 100 tool uses (harness notification; ~22 LabVIEW calls, all alone) | T5 PASS, T4 PASS with seven checks (regenerated after a 1357, remove/re-add membership); sweep 41/41; DONE, 2 commits |
 | 05 | 05d cleanup + icons + sweep | general-purpose (following the labview skill) | claude-opus-5-5 (inherited) | not visible (inherited) | 2026-10-11 10:19 | 2026-10-11 10:27 | 8 (agent clock 10:17-10:27) | 361,753 subagent tokens, 140 tool uses (harness notification; 61 LabVIEW calls) | cleanup 27 VIs, 3 class + 2 library icons, read-back 27/27 + 5/5 at 0 px, sweep 41/41, reentrancy flags re-read; DONE, 11 commits |
 | 06 | 06 pipeline test | general-purpose (following the labview skill) | claude-opus-5-5 (inherited) | not visible (inherited) | 2026-10-11 10:32 | 2026-10-11 10:39 | 7 (agent clock 10:30-10:39) | 307,509 subagent tokens, 98 tool uses (harness notification; 35 LabVIEW calls, all alone) | T6 PASS (round 2), T1-T6 rerun all PASS, cleanup, icon; DONE, 3 commits |
-| 07 | 07 interface + message | general-purpose (following the labview skill) | claude-opus-5-5 (inherited) | not visible (inherited) | 2026-10-11 10:44 | | | not visible | ZM-CI-package_handler interface, handlePackage method, library with Messages folder, Message Maker helper + repair_r1, cleanup, icons |
+| 07 | 07 interface + message | general-purpose (following the labview skill) | claude-opus-5-5 (inherited) | not visible (inherited) | 2026-10-11 10:44 | 2026-10-11 10:50 | 6 (agent clock 10:42-10:50) | 320,223 subagent tokens, 108 tool uses (harness notification; 41 LabVIEW calls) | interface, method, library with Messages folder, message class (Message Maker, run twice for the folder), repair_r1, cleanup, icons; DONE, 11 commits |
 
 ## /cost output per session
+
+- session 2 (2026-10-11 09:34 to 10:58, Opus 5.5): not yet pasted. Seen by the manager: 7 agent launches; the
+  harness notifications carried 332,117 + 414,317 + 325,239 + 361,753 + 307,509 + 320,223 = 2,061,158 subagent
+  tokens for six of them (05a2 to 07). The manager's own tokens: not visible; its context reached ~80% at 10:52.
 
 - session 1 (2026-10-10 14:40 to 2026-10-11 09:40): not yet pasted; the user runs `/cost` and pastes it here.
   Seen by the manager: 16 agent launches plus 4 resumes. The 16 harness notifications that carried a subagent

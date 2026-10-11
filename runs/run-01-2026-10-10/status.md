@@ -1,9 +1,35 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-11 10:43 by the manager session (session 2, phase 07)
-next phase: 07 interface + message (launched 10:44 on 2026-10-11)
+last updated: 2026-10-11 10:58 by the manager session (session 2 hand-over)
+next phase: 08 CM actor, step a - brief `briefs/brief-08a-cm-class.md` (filled, ready to launch); 08b, 08c drafted
 open items: see "Open items" below.
+
+# STATUS: Session 2 stopped, 2026-10-11 10:58
+
+Session 2 (Opus 5.5, same Claude Code session as session 1) finished phases 05, 06 and 07 and stopped at the
+user's choice because the manager's context was at 80% ("your context is at 80% is a handover better or do you
+want to continue with phase 7?"; the manager advised finishing 07 first). Commits d5512ec..this hand-over; nothing
+pushed.
+
+- **Built:** 05a2 (UDP hooks), 05b (MX), 05c (T5, T4 complete), 05d (cleanup, icons), 06 (T6, all tests rerun),
+  07 (`ZM-CI-common_interfaces.lvlib`: interface, method, message class by NI's Message Maker in a `Messages` folder).
+- **Verification:** T1-T6 all PASS cold (reports/evidence-06-checks.txt); sweeps `src\protocol`+`src\tests` 41/41,
+  `src\tests` 6/6, `ZM-CI` 3/3, each with control 0 7; every file at 26; icons read back 0 px; no link into the
+  Actor Framework from phases 01-05, and the CI library links only to itself, `ZM-PC-package` and vi.lib.
+- **Side effects:** LabVIEW PID 14040 still running (started by the manager 2026-10-10 15:24), project CLOSED,
+  LVAutoSave 0 at the end of 07; stub cache grew (05a2: 3, 05b: 4); helper VIs regenerated in place
+  (`lvai_create_actor_library.vi`, `lvai_create_message_class.vi`), new `zmp05c_save_orphan*.vi` in the helpers folder;
+  output\ test folders (git-ignored). No item removed, nothing upgraded.
+- **Leftover on purpose:** `runs/run-01-2026-10-10/notes-for-run-02.md` is UNTRACKED by the user's instruction
+  (2026-10-11: "note that down in a file you do not commit"). Do not commit or delete it.
+- **Open for the user:** F3 (13 vs 14 libraries), F6 (card 03), F8 (MX write-back on an element error: keep or
+  change, before phase 12), F9 (one-call rule broken in four of six Opus steps), the IDE list below (now incl. the
+  interface and message descriptions and the MX reentrancy check), `/cost` for sessions 1 and 2.
+- **Next session: start here:** (1) read `CLAUDE.md`, `orchestration/plan.md`, this file; (2) `lv_windows.ps1`, then
+  `lvai_status`; (3) a new Claude Code session needs the LabVIEW go-ahead again in its start message (the standing
+  one belongs to this session); (4) launch brief 08a (filled), then fill and launch 08b and 08c; briefs 09a is
+  drafted; 09b-13 are not.
 
 # Session 2 started 2026-10-11 09:34
 
@@ -148,7 +174,7 @@ PID 14040 (started by this session 2026-10-10 15:24), `Zuehlke MCP.lvproj - Proj
 | 04 | protocol + file logger | done | 2026-10-10 22:17 | 2026-10-10 22:56 | 72828e3..6936679 (three steps, 23 commits) | parent + FL in two libraries under protocol, publish placeholder 5000 with FreeLabel, init override + createFolder hook, publish override, T4 Pass (six checks; the MX check comes in 05), cleanup, icons read back 0 px, sweep 15/15, no AF/CU/HW link, all 26.0; for the IDE: 2 class descriptions, Methods folders |
 | 05 | UDP + multi protocol | done | 2026-10-10 23:01 | | 208e74b..29e2187 (05a), d7b5cf8..ab14b57 (05a2) | 05a done in two sessions: sender and receiver in ZM-CP-UDP-udp_transport.lvlib under protocol, four overrides hooked (open hooks end in Preserve Run-Time Class), sweep 18/18, probe error 0; 05b done (576b7a0..36c7a06): MX class with PROTOCOLS typedef (array of the CP parent), reentrant initAll/closeAll, three overrides, library under protocol, sweep 36/36, probe [parent] 5000 and [] clean; 05c done (53627a4, a1e87f0): T5 PASS, T4 PASS with seven checks, sweep 41/41; 05d done (45a2646..bbe3273): cleanup 27 VIs, 3 class + 2 library icons, read back 0 px, sweep 41/41, no AF/CU/HW/FL link, all 26.0. Phase ended 2026-10-11 10:27 |
 | 06 | pipeline test | done | 2026-10-11 10:32 | 2026-10-11 10:39 | 558726e..f6f5260 (3 commits) | ZM-TST-pipeline.vi (T6) PASS in round 2 (a test-only fix), T1-T6 all PASS on the rerun, cleanup, icon 0 px, sweep 6/6, no production VI touched |
-| 07 | interface + message | running | 2026-10-11 10:44 | | | interface, method, library with Messages folder, Message Maker route, repair, cleanup, icons |
+| 07 | interface + message | done | 2026-10-11 10:44 | 2026-10-11 10:50 | 6ea3457..254038b (11 commits) | ZM-CI-common_interfaces.lvlib under common: interface ZM-CI-package_handler, method ZM-CI-handlePackage (pane 4815, package on 10), message class ZM-CI-handlePackage Msg by Message Maker + repair_r1 in the Messages folder; Do.vi casts to the interface; sweep 3/3, icons 0 px; links only to ZM-PC and vi.lib |
 | 08 | CM actor | todo | | | | |
 | 09 | HWM actor | todo | | | | |
 | 10 | ROOT actor | todo | | | | |
@@ -183,6 +209,11 @@ state: todo | running | done | failed | skipped (say why in the result column)
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
 
+- The kit's Message Maker helper (`lvai_create_message_class.xml`) writes the message class FLAT into its
+  `destination directory`: create the empty `<Msg class name>\` folder first and pass it as the destination; then
+  `repair_r1.py`, then `lvai_add_to_library` into the `Messages` folder. The Send VI's input is named
+  `Message Enqueuer` (NI's name, kept), the payload `package` (report-07, item 4). The kit's
+  `lvai_create_actor_library.xml` creates a library WITH a virtual folder (`messages folder` input).
 - `Equal?` on two clusters in AIXML comes out in Compare Elements mode (a cluster of Booleans): always follow it with
   `Cluster To Array` → `And Array Elements` before a Boolean array or indicator; `vi_nets.py` shows the fault offline
   when a VI reads eBad (report-06, item 2). `lvai_convert_vi_to_aixml` needs its target folder to exist (Error 7).
@@ -271,6 +302,8 @@ Facts the next brief must repeat, each by its content with its source (report fi
 
 Where the build differs from `02-specification.md`, with why, and whether the user agreed.
 
+- 2026-10-11, phase 07: the agent sent three read-only icon reads in one message (report-07, item 8b): four of the
+  six Opus 5.5 steps broke the one-call rule (05a2, 05b, 05d, 07; 05c and 06 kept it). F9 updated.
 - 2026-10-11, phase 05d: the agent sent two `lvai_set_vi_icon` calls in one message; the third break of the one-call
   rule in four Opus 5.5 steps (05a2, 05b, 05d; 05c kept it), each harmless; no Fable 5.1 agent of session 1
   reported one. Recorded as finding F9; the launch messages keep the rule in bold.
@@ -304,6 +337,9 @@ Where the build differs from `02-specification.md`, with why, and whether the us
 Do these in LabVIEW's Project Explorer at the end of a phase or before phase 12, then commit. Each line names
 the class, the item and the file that holds the text.
 
+- ZM-CI-package_handler (interface) and ZM-CI-handlePackage Msg: descriptions (report-07, item 8: "Interface: one
+  method, ZM-CI-handlePackage; every actor that receives packages implements it"); whether `ZM-CI-handlePackage.vi`
+  goes into a `Methods` folder of the interface is the user's call.
 - ZM-CP-MX-multi_protocol: class description (report-05b, item 8); `ZM-CP-MX-PROTOCOLS.ctl` into `TypeDefs`; initAll,
   closeAll and the three overrides into `Methods`. **Check** that `ZM-CP-MX-initAll.vi` and `ZM-CP-MX-closeAll.vi`
   show "Shared clone reentrant" in VI Properties > Execution (report-05b, item 8b: the flags read differently after

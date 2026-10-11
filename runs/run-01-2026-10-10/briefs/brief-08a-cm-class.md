@@ -6,7 +6,17 @@ Type: build (LabVIEW calls). Phase 08 step a of 3 (b: hooks, interface override,
   (the interface's qualified name and path, how `lvai_create_interface` and the message were made),
   `report-01a-pc-classes.md` (typedef + class + bound field + accessors), `report-05b-cp-mx.md` (a typedef whose
   element is a class, via `pa_array_element_replace.xml`, and a field bound to it), `report-01b-pc-methods-library.md`.
-  <<MANAGER: traps from reports 06/07 go here before launch>>
+- Facts from report 07 (2026-10-11 10:50): the interface is
+  `...\src\common\ZM-CI-common_interfaces\ZM-CI-package_handler\ZM-CI-package_handler.lvclass`, qualified
+  `ZM-CI-common_interfaces.lvlib:ZM-CI-package_handler.lvclass`, `NI.LVClass.IsInterface` true; its one method
+  `ZM-CI-handlePackage.vi` has pane 4815: class in 11, `package` 10 (required, `ZM-PC-package`), error in 8, class out
+  3, error out 0. `lvai_create_interface` and `lvai_create_class` drop the `.lvproj` BOM and add a top-level class
+  line; the next close restores the BOM: READ the diff before any `git checkout` of the `.lvproj`.
+- Facts from report 06: T1-T6 all PASS; every plain class is proven. From here, a failure is an actor-side problem.
+- The standing LabVIEW go-ahead (2026-10-10 15:22/15:30) belongs to the Claude Code session that granted it: copy
+  it here only if the session that launches this brief has the user's go-ahead (status.md says so); otherwise the
+  agent may not start or restart LabVIEW and stops with CANNOT PROCEED if it is lost.
+- Every `lvai_*`/`pylv_*` call ALONE in its message, offline ones included: broken in four of six Opus steps (F9).
 - Save version **26.0**. User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself
   when it crashes or stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported.
   Never answer a dialog. D38: class descriptions, `.ctl` membership (`TypeDefs`) and `Methods`/`Accessors` placement

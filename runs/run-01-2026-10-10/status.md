@@ -437,6 +437,12 @@ Where the build differs from `02-specification.md`, with why, and whether the us
 
 ## Go-aheads from the user
 
+- User answers before phase 12 (2026-10-11 ~20:10, session 3, the manager's three questions): F8 "Keep as is"
+  (the MX keeps its old array on an element error; a known limitation under D40); "Agent presses" (go-ahead for
+  signalling writes to the Stop buttons of the root panel and `ZM-receiver.vi` in phase 12's R-interactive and
+  R-receiver); "Mark pending, go on" (phase 12 marks the D38 rows - class descriptions, virtual folders, `.ctl`
+  membership - as pending for the user in the IDE and finishes everything else).
+
 - User (2026-10-11 ~19:00, on 10b's CANNOT PROCEED): "the issue was just a wire that was not cleaned up. i would just
   click ctrl b to remove it, or clean up diagram. Try that yourself and log it, it a trivial hangup". Logged in
   "Traps carried forward" and every later brief. The user had `launchHwm` open in the IDE (unsaved, PID 26148);

@@ -103,6 +103,7 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
 - **Options:** write the array on a fresh error chain and merge the errors after it (a small regeneration of three
   VIs), or keep as is. `02` does not say which. Owner: the user (decide before phase 12); the manager raises it in the
   phase 12 brief if not answered.
+- **Decision (the user, 2026-10-11 ~20:10):** "Keep as is". Recorded as a known limitation (fits D40).
 
 ## F9 (2026-10-11): the one-call rule broken in four of six steps after the switch to Opus 5.5 (agent behaviour)
 

@@ -81,6 +81,16 @@ by saying so in the start message; record such a change in `status.md` with the 
   actor core". So an error stop of the CM or HWM carries its error in the Last Ack, and AF's default Handle Last
   Ack Core stops the root, whose Stop Core stops the rest; no Handle Last Ack Core override is built. The only
   clean stop is the normal shutdown sent down from the root's Actor Core/Stop Core.
+- **Each actor with a helper loop has an `init` method in Actor Core (D41).** Decided by the user in run-01
+  (2026-10-11, phase 12, finding F14: a stop generated before the loop VI registered was lost and the ROOT tree
+  hung): "Make a init method and call it in actor core before the core and add all init things there. basically
+  what you are suggestion, just collecting it in an init, not pre init method, feel free to use subvis in it".
+  So `ZM-<A>-init.vi` (private, static) runs in series before Call Parent and does everything Actor Core sets up:
+  for the ROOT `launchCm` → `launchHwm` (as subVIs) and Register For Events; for the HWM Register For Events. The
+  registration refnum goes from `init` into the loop VI, which wires it into its event structure's dynamic
+  terminal and keeps Unregister after the loop. The registration therefore exists before Call Parent can return,
+  so the stop always reaches the loop. Overrides `02` §6/§7.11/§7.12 and the `registration` convention ("Register
+  right before the loop") where they differ. Recorded in the product's `decisions.md` as D41.
 
 ## Running one phase
 

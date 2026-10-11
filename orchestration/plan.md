@@ -84,6 +84,9 @@ deviation in `status.md` and ask the user.
   stops the others when it ends, and the loop VI's `error out` is the raw error; an error stop cascades to the whole
   tree through the Last Ack (AF default, no Handle Last Ack Core override); the only clean stop is the normal shutdown
   from the root. Where a phase card, `02` §5/§7.10-§7.12, D14 or `03` R-error says otherwise, D40 wins.
+- **`init` in Actor Core (D41, the user, 2026-10-11; `CLAUDE.md`):** each actor with a helper loop runs
+  `ZM-<A>-init.vi` in series before Call Parent (ROOT: launchCm, launchHwm, Register For Events; HWM: Register For
+  Events); the registration refnum goes into the loop VI, which no longer registers itself.
 - **A broken VI after a generate, swap or bind: remove broken wires first** (the user, 2026-10-11, run-01 10b: "the
   issue was just a wire that was not cleaned up. i would just click ctrl b to remove it, or clean up diagram. Try that
   yourself and log it"): run the skill kit's `pa_clean_member` (Remove Bad Wires, save) or Clean Up Diagram and read

@@ -17,8 +17,9 @@ cannot be resumed).
   (sender with no listener: `error out` 0), the versions and links checks, and the report.
 - AIXML sources and sweeps of 05a: `C:\project\claude\LabVIEW-AFAItest\zuehlke-mcp-af-test-results\proof\ZMP-05a\`.
 - Model: the session runs on Opus 5.5 since the user's `/model` on 2026-10-11.
-- <<MANAGER: the user's LabVIEW go-ahead for THIS session, quoted with the date, goes here; without it, the agent
-  may not restart or close LabVIEW, only close the project (step 1)>>
+- User go-ahead (2026-10-10 15:22): "You may restart LabVIEW when needed. close anything you are using labview all by yourself for the whole session, not restrictions", extended 15:30: "Agents can restart labview themselves too, no need to ask me". Session 2 continues in the SAME Claude Code session (the user answered "2" to the hand-over on 2026-10-11 09:34), so the manager keeps this go-ahead in force: you may start or restart LabVIEW yourself when it crashes or stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported. Never answer a dialog.
+- `lvai_status` by the manager at 09:35 on 2026-10-11: ok, PID 14040, port 59552, up 65438 s, dwarnCount 0;
+  `lv_windows.ps1` 09:34: the project open, possible dialogs 0, LVAutoSave 2, unsaved 18 (all `LVMCP Validate*`).
 
 ## Route
 1. **Recover.** `lv_windows.ps1` (no LabVIEW call), then `lvai_status`. If no dialog and the project is open:

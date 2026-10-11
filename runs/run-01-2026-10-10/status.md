@@ -2,7 +2,7 @@
 
 state: open            # open | closed
 last updated: 2026-10-11 11:04 by the manager session (session 3 start)
-next phase: 09 HWM actor, step c (helper loop) - running again after the user's answer (D40, 2026-10-11); 09a, 09b done
+next phase: 09 HWM actor, step d (Actor Core, proof runs, cleanup, icons) - running; 09a-09c done
 open items: see "Open items" below.
 
 # Session 3 started 2026-10-11 10:58
@@ -189,7 +189,7 @@ PID 14040 (started by this session 2026-10-10 15:24), `Zuehlke MCP.lvproj - Proj
 | 06 | pipeline test | done | 2026-10-11 10:32 | 2026-10-11 10:39 | 558726e..f6f5260 (3 commits) | ZM-TST-pipeline.vi (T6) PASS in round 2 (a test-only fix), T1-T6 all PASS on the rerun, cleanup, icon 0 px, sweep 6/6, no production VI touched |
 | 07 | interface + message | done | 2026-10-11 10:44 | 2026-10-11 10:50 | 6ea3457..254038b (11 commits) | ZM-CI-common_interfaces.lvlib under common: interface ZM-CI-package_handler, method ZM-CI-handlePackage (pane 4815, package on 10), message class ZM-CI-handlePackage Msg by Message Maker + repair_r1 in the Messages folder; Do.vi casts to the interface; sweep 3/3, icons 0 px; links only to ZM-PC and vi.lib |
 | 08 | CM actor | done | 2026-10-11 11:05 | 2026-10-11 11:47 | 88f9417..572b81b (08a), a4c3ee7..17ce3f9 (08b), 3a71740..e3efe7a (08c) | 08a done: typedef ZM-CM-PRELAUNCH_SETTINGS (cluster{protocol: CP class}, derived cluster-element helper), class (Actor, implements ZM-CI-package_handler), bound fields, 5 private static accessors, public writePrelaunchSettings, all 26; members state 0 (error of type 8) until 08b overrides the interface method; 08b done: evaluateError, releaseProtocol (clears code 1 of a never-opened UDP close unlogged), createResources (shape F), ZM-CI-handlePackage override (type-8 break gone), library under actors, PLI/Stop Core/Handle Error hooked after Call Parent, sweep 13/13, no forbidden link, all 26; 08c done: launch proof (MX of one FL, 3 packages, Normal Stop) 3 lines twice, error log unchanged, no CM window left; forced PLI failure returned code 1 in 1.8 s, no hang, log unchanged; cleanup 13, icons 13 VIs + class + library at 0 px, override descriptions set by `pa_replace_description`; sweep 13/13, 16 files at 26, links only CM/CI/CU/PC/CP parent. No separate `feat(cm): communication manager actor` commit (the feat(cm) commits carry the build) |
-| 09 | HWM actor | running | 2026-10-11 11:52 | | 2822f5c..e0337ea (09a), 5575e6b..08cb7e7 (09b) | 09a done: PRELAUNCH_SETTINGS {hardware: HW class, intervalMs U32 default 500 in the typedef}, EVENTS {stop user event}, class (Actor, implements the interface), bound fields, 5 private accessors, public writePrelaunchSettings, all 26; members state 0 (type 8) until 09b; kit bug F10 found and worked around; 09b done: createEvents, stop, close, createResources (shape F), evaluateError (sender HWM), ZM-CI-handlePackage override (type 8 gone), library under actors, PLI and Handle Error hooked after Call Parent, override descriptions, sweep 14/14, 18 files at 26, links only HWM/CI/CU/PC/HW parent; 09c launched; 09c: all five unmeasured points measured on throwaways, then NEEDS CLARIFICATION (producer error vs event loop; error out cleared), nothing committed |
+| 09 | HWM actor | running | 2026-10-11 11:52 | | 2822f5c..e0337ea (09a), 5575e6b..08cb7e7 (09b), 24736c3..6a19814 (09c) | 09a done: PRELAUNCH_SETTINGS {hardware: HW class, intervalMs U32 default 500 in the typedef}, EVENTS {stop user event}, class (Actor, implements the interface), bound fields, 5 private accessors, public writePrelaunchSettings, all 26; members state 0 (type 8) until 09b; kit bug F10 found and worked around; 09b done: createEvents, stop, close, createResources (shape F), evaluateError (sender HWM), ZM-CI-handlePackage override (type 8 gone), library under actors, PLI and Handle Error hooked after Call Parent, override descriptions, sweep 14/14, 18 files at 26, links only HWM/CI/CU/PC/HW parent; 09c launched; 09c: all five unmeasured points measured on throwaways, then NEEDS CLARIFICATION (producer error vs event loop; error out cleared), answered by the user (D40); then done: helperAcquisition (variant 2, event structure 3 levels deep wired by a derived helper, use-default tunnel flag, plot names, panel on call, hidden stop), loops stop each other, raw error out; CM and HWM evaluateError rebuilt as pass-throughs; D40 in decisions.md; sweep 15/15, 27/27 with CM; 09d launched |
 | 10 | ROOT actor | todo | | | | |
 | 11 | launchers + receiver | todo | | | | |
 | 12 | runs + structural checks | todo | | | | |
@@ -222,6 +222,14 @@ state: todo | running | done | failed | skipped (say why in the result column)
 ## Traps carried forward
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
+
+- A helper loop with the event structure inside a case frame inside the loop (3 levels): `lvai_generate_vi_with_events`
+  keeps it, but `lvai_wire_dynamic_events` reaches only 2 levels (Error 91): use the derived
+  `...\proof\ZMP-09c\zmp09c_wire_dyn_deep.xml` (both sides), then in one pylv round trip `set_user_event_specs.py`
+  and `zmp09c_set_use_default.py` (objFlags 0x100801 -> 0x300801 on the case output tunnel, else state 0). Plot names:
+  `zmp09c_set_plot_names.xml` (`Active Plot` -> `{LV.Plot} Plot Name`). `lvai_swap_subvis` `constantsJson` finds
+  top-level constants only (`zmp09c_replace_constant_deep`). Each project close may drop the `.lvproj` BOM: restore
+  from git with the project closed (report-09c). The ROOT's helperPanel (phase 10) has the same depth.
 
 - Two members with the same pane signature get ONE shared stub from `lvai_placeholder_subvi`, so `lvai_swap_subvis`
   cannot tell them apart: hand-make a distinct stub for one (`LVMCP Stub ZMP09b-close.vi`) (report-09b, item 2).
@@ -419,6 +427,8 @@ Where the build differs from `02-specification.md`, with why, and whether the us
 Do these in LabVIEW's Project Explorer at the end of a phase or before phase 12, then commit. Each line names
 the class, the item and the file that holds the text.
 
+- 09c: `ZM-HWM-helperAcquisition.vi` into `Helpers`; `ZM-HWM-evaluateError.vi` and `ZM-CM-evaluateError.vi` into
+  `Methods`; review the loop VI's agent-written description (report-09c, item 8).
 - ZM-HWM-hardware_manager: class description (text in briefs/brief-09a-hwm-class.md, end of "What to build");
   `ZM-HWM-PRELAUNCH_SETTINGS.ctl` and `ZM-HWM-EVENTS.ctl` into `TypeDefs`; Pre Launch Init, Handle Error into `AF
   Overrides`; ZM-CI-handlePackage, createEvents, stop, close, createResources, evaluateError and (the user's call)

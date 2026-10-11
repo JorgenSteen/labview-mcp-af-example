@@ -12,8 +12,28 @@ Type: build + test (LabVIEW calls, Actor Framework runs). Phase 09 step d of 4 (
   whole throwaway tree stops by itself with code 5000 (source `ZM-HW-do.vi: must be overridden by a child class`)
   before the proof's own Normal Stop, the error log unchanged, no `ErrorPackage.jsonl`, the run returns, no hang. Run
   1 (SIM) is the clean case: only the proof's Normal Stop ends it. No Handle Last Ack Core override anywhere.
-  If D40 is not yet in `zuehlke-mcp-af-test-results\.labview\decisions.md` with the cascade clause, add it.
-  <<MANAGER: traps from reports 08c, 09b and 09c go here before launch>>
+  D40 is in `zuehlke-mcp-af-test-results\.labview\decisions.md` (24736c3) WITHOUT the cascade clause: append it (the
+  user's words are in `runs\run-01-2026-10-10\status.md`, "Go-aheads"; no Handle Last Ack Core override) and commit.
+- State (report 09c, 2026-10-11): LabVIEW PID 14516 (port 59983), dwarn 9 (not degraded), project CLOSED. HWM 15 VIs,
+  sweep 15/15; CM + HWM 27/27. `helperAcquisition` is a private static member; panel shown on call and closed after;
+  `stop` hidden, Switch When Pressed; plot names set. Its loops stop each other (D40); after both loops: Merge →
+  `evaluateError` (pass-through) → on an error Send Normal Stop to self; `error out` RAW.
+- **Extra cleanup/icon work in this step:** `ZM-HWM-evaluateError.vi`, `ZM-CM-evaluateError.vi` (regenerated as
+  pass-throughs in 09c: icon and cleanup lost) and `ZM-HWM-helperAcquisition.vi` (new). The CM file is allowed for its
+  `evaluateError.vi` only. `Handle Error.vi` of CM and HWM was re-saved by a swap in 09c: read its icon back too.
+  Clean Up Diagram on `helperAcquisition` ONLY after a throwaway copy proves it keeps the dynamic wiring, the event
+  spec and the use-default tunnel cold (state 1); otherwise skip it and report. Never regenerate the loop VI: its
+  dynamic wiring needs the derived helpers in `...\proof\ZMP-09c\` (`zmp09c_wire_dyn_deep.xml`,
+  `zmp09c_set_use_default.py`, `zmp09c_set_plot_names.xml`).
+- The loop VI is NEVER run by itself (it waits for a stop event; a hung loop needs a LabVIEW restart). The stop-reset
+  check calls it twice from one caller INSIDE a running actor, or is reported as not measurable with the reason.
+- Traps: `lvai_placeholder_subvi` flattens a typedef cluster holding a class to a scalar path (hand-make a stub);
+  members with the same pane share one stub (hand-make one); `lvai_swap_subvis` `constantsJson` finds top-level
+  constants only (09c derived `zmp09c_replace_constant_deep`); each project close drops the `.lvproj` BOM (restore it
+  from git with the project closed, after reading the diff); `kit\lvproj_drop.py` empties an LF `.lvproj` (F10: check
+  the ending, else `...\proof\ZMP-09a\lvproj_drop_eol.py`). Proof VIs: build with the project open, swap, then
+  `lvai_bind_typedef_constants` for a settings cluster; run with the project closed; to vary a run, copy the working
+  proof VI and `lvai_set_constant` (a `String To Path` variant stayed eBad in 08c).
 - Session 3 (2026-10-11) user go-ahead: "Continue run-01. You may restart LabVIEW when needed; agents may too." Max
   two starts, each reported. Never answer a dialog. Save version **26.0**. D38, D39 as before.
 - Every `lvai_*`/`pylv_*` call ALONE in its message (F9). `lvai_run_vi_as_top_level` blocks on a VI that never

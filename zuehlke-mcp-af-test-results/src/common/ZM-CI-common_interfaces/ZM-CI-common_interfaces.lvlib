@@ -4,6 +4,8 @@
 	<Property Name="NI.Lib.SourceVersion" Type="Int">637566976</Property>
 	<Property Name="NI.Lib.Version" Type="Str">1.0.0.0</Property>
 	<Property Name="NI.LV.All.SourceOnly" Type="Bool">true</Property>
-	<Item Name="Messages" Type="Folder"/>
+	<Item Name="Messages" Type="Folder">
+		<Item Name="ZM-CI-handlePackage Msg.lvclass" Type="LVClass" URL="../ZM-CI-handlePackage Msg/ZM-CI-handlePackage Msg.lvclass"/>
+	</Item>
 	<Item Name="ZM-CI-package_handler.lvclass" Type="LVClass" URL="../ZM-CI-package_handler/ZM-CI-package_handler.lvclass"/>
 </Library>

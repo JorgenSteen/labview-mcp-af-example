@@ -1,4 +1,4 @@
-﻿<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <LVClass LVVersion="26008000">
 	<Property Name="NI.Lib.ContainingLib" Type="Str">ZM-CM-communication_manager.lvlib</Property>
 	<Property Name="NI.Lib.ContainingLibPath" Type="Str">../../ZM-CM-communication_manager.lvlib</Property>
@@ -124,7 +124,7 @@
 		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">0</Property>
 		<Property Name="NI.ClassItem.MethodScope" Type="UInt">2</Property>
 		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1082139152</Property>
+		<Property Name="NI.ClassItem.State" Type="Int">1082143232</Property>
 		<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
 	</Item>
 	<Item Name="ZM-CM-releaseProtocol.vi" Type="VI" URL="../ZM-CM-releaseProtocol.vi">

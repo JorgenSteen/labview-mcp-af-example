@@ -1,5 +1,9 @@
 # Phase 11: launchers and the receiver
 
+> **D40 (2026-10-11) overrides this card where they differ:** every `evaluateError` is a pass-through, helper loops
+> stop each other, an error stop cascades through the Last Ack (`CLAUDE.md`, "Errors are not handled yet";
+> `plan.md`, "Rules that hold in every phase"). The placeholder-hardware readings below are judged against D40.
+
 **Type:** build (top-level VIs)
 **Reads:** `01-requirements.md` R9 (receiver), R10; `02-specification.md` §8; `03-acceptance.md`
 §2 (what the launcher runs must return); `04-decisions.md` D7, D25, D28, D36.

@@ -224,6 +224,14 @@ state: todo | running | done | failed | skipped (say why in the result column)
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
 
+- **A VI that reads cold state 0 with a broken-wire text after a generate, swap or bind (e.g. `output cluster @
+  NamedBundler | settings @ SubVI`) usually has a leftover broken wire segment, not a type problem.** The user
+  (2026-10-11, on `ZM-ROOT-launchHwm.vi`): "the issue was just a wire that was not cleaned up. i would just click
+  ctrl b to remove it, or clean up diagram. Try that yourself and log it, it a trivial hangup". First fix: Remove
+  Broken Wires by script (the `Remove Bad Wires` step of the derived `...\proof\ZMP-09d\zmp09d_close_join.xml`, or
+  Clean Up Diagram per `ops\cleanup.md`), save, read cold. Only if that fails, try other routes. 08c's eBad
+  `pli_failure` VI and 10b's five rebuilds of `launchHwm` were this (report-10b2, item 8).
+
 - `kit\pa_close_join.xml` hard-codes the hook input `error in` (our hooks have `error in (no error)`) and skips every
   step after a Delete that finds nothing (1055): use the derived `...\proof\ZMP-09d\zmp09d_close_join.xml` for
   D-close (F12). A tree can be proved without a throwaway class: AF's public `Launch Actor.vi` with a proof-owned
@@ -418,6 +426,11 @@ Where the build differs from `02-specification.md`, with why, and whether the us
   Two commits instead of one. Not asked; a harness detail, not a product deviation.
 
 ## Go-aheads from the user
+
+- User (2026-10-11 ~19:00, on 10b's CANNOT PROCEED): "the issue was just a wire that was not cleaned up. i would just
+  click ctrl b to remove it, or clean up diagram. Try that yourself and log it, it a trivial hangup". Logged in
+  "Traps carried forward" and every later brief. The user had `launchHwm` open in the IDE (unsaved, PID 26148);
+  the manager asked them to close it before the agent's scripted fix.
 
 - User go-ahead (2026-10-11 ~15:40, session 3, single kill): "you may kill LabVIEW" - for PID 14516 (started by
   the 08a agent 11:03; project closed, LVAutoSave 0, only `LVMCP Validate*` scratch VIs unsaved), so the 10b agent can

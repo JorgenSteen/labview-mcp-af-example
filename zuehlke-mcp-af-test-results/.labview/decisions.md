@@ -162,3 +162,13 @@ lists none; `ZM-launcher_test.vi` has one already. A failed launch stays visible
 Why: the user's words (2026-10-11, after run-01's phase 13): "Keep it ... its a good catche, launchers should have
 error out indicator"
 Supersedes: the panel list of `ZM-launcher.vi` in `02` §8
+
+## D44 (2026-10-11): A release error at shutdown is logged and passed on
+Rule: errors.release-errors, af-shapes.stop-core-order
+Chosen: `ZM-CM-releaseProtocol.vi` logs a release error with `ZM-CU-log` and does not clear it (code 1 from a
+never-opened resource stays cleared without a log); the CM Stop Core override passes the hook's error out to its
+error out (no Clear Errors), so the error reaches the Last Ack (D40)
+Instead of: logged and cleared (the 08b build)
+Why: the user's words (2026-10-11, after run-01's phase 13, reviewing the CM Stop Core description): "log, but let
+the error pass through"
+Supersedes: `errors.release-errors` "cleared" for the CM; to be built in step 12g

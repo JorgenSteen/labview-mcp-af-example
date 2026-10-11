@@ -52,9 +52,18 @@ Agents inherit the manager's model unless a row says otherwise (`CLAUDE.md`, "De
 | 12 | 12d F14 fix on the ROOT (D41) + reruns | general-purpose (following the labview skill) | claude-opus-5-5 (inherited, no override) | not visible (inherited) | 2026-10-11 21:18 | 2026-10-11 21:32 | 15 (agent clock 21:15-21:30) | 500,122 subagent tokens, 150 tool uses (harness notification; ~60 LabVIEW calls, one pair of exec_state reads in one message) | ZM-ROOT-init (launches + Register), loop takes the refnum, Actor Core rewired; R-pli-failure now PASS (Last Ack code 1 at 70 ms), early stop 5/5, R-normal, R-error (D40), R-interactive, T7, launch proof PASS; DONE, 7 commits |
 | 12 | 12b structural checks + cold sweep | general-purpose (following the labview skill) | claude-opus-5-5 (inherited, no override) | not visible (inherited) | 2026-10-11 21:36 | 2026-10-11 22:22 | ~48 (agent clock 21:32-22:20) | 341,265 subagent tokens, 106 tool uses (harness notification; 4 LabVIEW calls, rest offline) | 21 rows of `03` §3: 17 pass, 3 pending (D38) / F3 count, 1 fail (T7's 6 unwired error terminals); cold sweep 137/137, 177 files at 26; defects a-c; no commit |
 | 12 | 12b docs | docs-only general-purpose (comparison draft for phase 13, no LabVIEW call) | claude-opus-5-5 (inherited, no override) | not visible (inherited) | 2026-10-11 ~21:40 | 2026-10-11 ~21:44 | 4 | 176,662 subagent tokens, 28 tool uses (harness notification) | comparison.md draft (e89e0f1) |
-| 12 | 12e fixes (T7 error terminals, CM Handle Error cleanup) | general-purpose (following the labview skill) | claude-opus-5-5 (inherited, no override) | not visible (inherited) | 2026-10-11 22:26 | | | | |
+| 12 | 12e fixes (T7 error terminals, CM Handle Error cleanup) | general-purpose (following the labview skill) | claude-opus-5-5 (inherited, no override) | not visible (inherited) | 2026-10-11 ~21:45 (manager clock) | 2026-10-11 21:56 | ~10 | 250,976 subagent tokens, 69 tool uses (harness notification; 15 LabVIEW calls, all alone) | T7 error terminals chained in place, T7 PASS twice; CM Handle Error re-cleaned; sweep 20/20; DONE, 2 commits |
+| 13 | close | manager (no agent, no LabVIEW call) | claude-opus-5-5 | not visible | 2026-10-11 21:58 | 2026-10-11 ~22:05 | ~7 | not visible | comparison (draft by the 12b docs agent), findings, cost, MCP report session 3, status closed, run log, README, tag |
+
+**Clock note (session 3):** from phase 12b on, several agents' own clock readings ran ahead of the manager's shell
+clock (12b reported "to 22:20" while `date` read 21:58 after 12e). Start/end cells marked "manager clock" or taken
+from `date` are authoritative; agent-clock minutes are kept as reported.
 
 ## /cost output per session
+
+- session 3 (2026-10-11 10:58 to ~22:05, Opus 5.5): not yet pasted; the user runs `/cost` and pastes it here. Seen by
+  the manager: 25 agent launches/resumes; the harness notifications in this file sum per row (not totalled here, as
+  resumed agents report cumulative counts). The manager's own tokens: not visible.
 
 - session 2 (2026-10-11 09:34 to 10:58, Opus 5.5): not yet pasted. Seen by the manager: 7 agent launches; the
   harness notifications carried 332,117 + 414,317 + 325,239 + 361,753 + 307,509 + 320,223 = 2,061,158 subagent

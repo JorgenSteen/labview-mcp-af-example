@@ -1,0 +1,10 @@
+12e checks (2026-10-11). LabVIEW PID 26716 port 56779, project closed throughout.
+BEFORE sweep src\tests + CM folder: 20/20 state 1, control 0 7.
+Fix (a) ZM-TST-routing.vi: in-place scripted edit, helper proof\ZMP-12e\zmp12e_chain_sr_errors.xml (project closed).
+  dry run: nodes 6 (Function), indicator 1, wire ends source 1 (Read from Text File#5150 error out) sinks 2 (Unbundle input cluster, error out indicator).
+  apply: delete/chain/sink/save errors all 0. Nets diff (nets-routing-before/after.txt): old 3-end wire replaced by
+  5150.err -> 5165 -> 5164 -> 5163 -> 5162 -> 5161 -> 5160 -> {Unbundle#5175, error out}; 56 -> 62 wires, nothing else changed.
+  cold state 1; T7 run 1: Pass T, error 0, 4 checks T; cleanup code 0; icon composite set, read back 0 px; T7 run 2: PASS same.
+  render 1814x516 -> 2403x535 (after cleanup). nets unchanged by cleanup+icon. commit f65a32e.
+Fix (b) CM Handle Error.vi: cleanup code 0, nets identical, render 623x162 before and after (pixel-identical), icon read back 0 px. commit 125d2a8.
+AFTER sweep: 20/20 state 1, control 0 7. Membership tests 7/0, CM 13/0. Versions 24/24 files 26. Loadability 2/2.

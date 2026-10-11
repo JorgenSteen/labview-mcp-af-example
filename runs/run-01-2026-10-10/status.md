@@ -1,9 +1,25 @@
 # Run status: run-01-2026-10-10
 
-state: open            # open | closed
-last updated: 2026-10-11 19:58 by the manager session (session 3)
-next phase: 12e - two fixes from 12b (T7 error terminals, CM Handle Error cleanup), then phase 13
+state: closed          # open | closed
+last updated: 2026-10-11 ~22:05 by the manager session (session 3, phase 13)
+next phase: none - run closed; result: partial (phases 00-12 done and verified; open for the user: the D38 IDE rows of `03` §3, F3)
 open items: see "Open items" below.
+
+# RUN CLOSED 2026-10-11 ~22:05 - result: partial
+
+Phases 00-13 done. Every row of `03` §1 (T1-T7) and §2 (the runs) passes on a cold LabVIEW, R-error judged against
+D40 and R-close-order on the dataflow proof; R-pli-failure passes after the D41 fix (F14). `03` §3: 18 rows pass;
+the rows that need the user in the IDE (D38: class descriptions, virtual folders, `.ctl` membership) are pending, and
+the library count (13, where `02` §10 says 14) is F3, undecided. "partial" because those rows are not yet pass;
+after the user's IDE work and an F3 decision, a re-check of those rows would make it "accepted".
+
+- **For the user:** the IDE list below (use the D40 class texts in it); F3; confirm the `error out` on `ZM-launcher.vi`
+  (deviation 11a); review the agent-written override and loop descriptions; `/cost` for sessions 1-3 into `cost.md`;
+  open `output\TestPackage.jsonl` in `tools\jsonl_viewer.html` (R-viewer, checked offline). Not pushed.
+- **Left running:** LabVIEW PID 26716 (port 56779, started by the 12c agent 20:42), project closed, no dialog; only
+  `LVMCP Validate*` scratch VIs unsaved. Close it with Don't Save when convenient.
+- **Untracked on purpose:** `notes-for-run-02.md`, `lessons-mcp-skill.md` (the user's request: tips for labview-mcp
+  and the skill, kept out of git).
 
 # Session 3 started 2026-10-11 10:58
 
@@ -192,8 +208,8 @@ PID 14040 (started by this session 2026-10-10 15:24), `Zuehlke MCP.lvproj - Proj
 | 09 | HWM actor | done | 2026-10-11 11:52 | 2026-10-11 14:14 | 2822f5c..e0337ea (09a), 5575e6b..08cb7e7 (09b), 24736c3..6a19814 (09c), 7f4c4de..eda6452 (09d) | 09a done: PRELAUNCH_SETTINGS {hardware: HW class, intervalMs U32 default 500 in the typedef}, EVENTS {stop user event}, class (Actor, implements the interface), bound fields, 5 private accessors, public writePrelaunchSettings, all 26; members state 0 (type 8) until 09b; kit bug F10 found and worked around; 09b done: createEvents, stop, close, createResources (shape F), evaluateError (sender HWM), ZM-CI-handlePackage override (type 8 gone), library under actors, PLI and Handle Error hooked after Call Parent, override descriptions, sweep 14/14, 18 files at 26, links only HWM/CI/CU/PC/HW parent; 09c launched; 09c: all five unmeasured points measured on throwaways, then NEEDS CLARIFICATION (producer error vs event loop; error out cleared), answered by the user (D40); then done: helperAcquisition (variant 2, event structure 3 levels deep wired by a derived helper, use-default tunnel flag, plot names, panel on call, hidden stop), loops stop each other, raw error out; CM and HWM evaluateError rebuilt as pass-throughs; D40 in decisions.md; sweep 15/15, 27/27 with CM; 09d done: Actor Core (loop beside Call Parent, stop after it, close after both), run 1 SIM 6 lines x3 with clean Last Ack, run 2 bare HW: the tree stopped by itself with 5000 in 0.6 s (D40), stop reset PASS (6 + 6 lines), close order by dataflow (export), not timestamps; cleanup 17, icons 17 + class + library at 0 px; sweep 29/29 (HWM + CM), 36 actor files at 26, links only HWM/CI/PC/HW parent |
 | 10 | ROOT actor | done | 2026-10-11 14:30 | 2026-10-11 19:55 | 2670a13..c32ec2c (10a), 1da49de..fe95794 (10b), 4c72e8d..58e06c3 (10c), a401d95..8c4d3d5 (10d), 870a9d9..a4c0df6 (10e) | 10a done: PRELAUNCH_SETTINGS, EVENTS {stop, error}, class (Actor, interface), 7 fields bound, 11 private accessors, public writePrelaunchSettings, all 26, type-8 until 10b; 10b PARTIAL (1da49de..d1794f8): 23/24 ROOT VIs state 1, routing override, library under actors, PLI, Handle Error, D40 descriptions (also the CM's Handle Error); `launchHwm` state 0 (broken wire) after five routes; CANNOT PROCEED; kill + restart (PID 14516 -> 26148) did not help; the user saw a leftover wire; `pa_clean_member` (Remove Bad Wires) fixed it, fe95794; ROOT 24/24 + CM Handle Error state 1; 10c done (4c72e8d..58e06c3): helperPanel with Stop (Switch When Released), errors, stop/error events, D40 tail, panel on call; sweep 25/25; 10d done (a401d95..8c4d3d5): Actor Core launchCm -> launchHwm -> Call Parent, helperPanel beside, stop, close; T7 PASS; launch proofs 10/10 lines, error log unchanged, panels closed; Stop-button signalling press stopped the tree; sweep 33/33; 10e done: cleanup 27, icons 27 + class + library at 0 px, Actor Core description, dependency rule 0 violations over 171 files, 75 files at 26, sweep 62/62 (actors + tests), T1-T7 PASS (T4 needed a rerun, F13) |
 | 11 | launchers + receiver | done | 2026-10-11 19:58 | 2026-10-11 20:16 | 292b08f (11a), 1fa6d23..1e07b17 (11b) | 11a done: ZM-launcher.vi, ZM-launcher_test.vi at the project root, cold 1; launcher_test run 1: 9 lines, error_lines 0, ui_errors empty, error out 0; run 2 (placeholder): 0/0/empty, error out 1556 (the tree had stopped itself, D40); 11b done: ZM-receiver.vi under `receiver`, depends only on UDP/CP/PC (closure 80 files), Stop action 1, plot names; cleanup and icons on the three VIs; 175 files at 26; T1-T7 PASS (T4 init_ok T) |
-| 12 | runs + structural checks | running | 2026-10-11 20:20 | | | 12a done (no commit): every run of `03` §2 passes except R-pli-failure, which hangs the ROOT tree (F14); R-error passes under D40; R-close-order by dataflow; T1-T7 PASS, T4 x5 all PASS; 12c done (206b920..076479e): ZM-HWM-init registers before Call Parent (D41), the loop takes the refnum, early stop 5/5 no hang, HWM proofs pass; 12d done (9cb0c60..1cad6ec): ZM-ROOT-init (launchCm, launchHwm, Register), the panel loop takes the refnum, R-pli-failure PASS, early stop 5/5, reruns pass, sweep 64/64; 12b done (no commit): 21 rows of `03` §3, cold sweep 137/137, 177 files at 26, dependency rule 0 violations; FAIL: T7's 6 unwired error terminals; notes: CM Handle Error not re-cleaned, CM/HWM description texts state D14; 12e launched |
-| 13 | close | todo | | | | |
+| 12 | runs + structural checks | done | 2026-10-11 20:20 | 2026-10-11 21:56 | 206b920..1cad6ec (12c, 12d), f65a32e, 125d2a8 (12e) | 12a done (no commit): every run of `03` §2 passes except R-pli-failure, which hangs the ROOT tree (F14); R-error passes under D40; R-close-order by dataflow; T1-T7 PASS, T4 x5 all PASS; 12c done (206b920..076479e): ZM-HWM-init registers before Call Parent (D41), the loop takes the refnum, early stop 5/5 no hang, HWM proofs pass; 12d done (9cb0c60..1cad6ec): ZM-ROOT-init (launchCm, launchHwm, Register), the panel loop takes the refnum, R-pli-failure PASS, early stop 5/5, reruns pass, sweep 64/64; 12b done (no commit): 21 rows of `03` §3, cold sweep 137/137, 177 files at 26, dependency rule 0 violations; FAIL: T7's 6 unwired error terminals; notes: CM Handle Error not re-cleaned, CM/HWM description texts state D14; 12e done: T7's six error terminals chained in place (T7 PASS), CM Handle Error re-cleaned; sweep 20/20 |
+| 13 | close | done | 2026-10-11 21:58 | 2026-10-11 ~22:05 | this commit, tag `run-01-result` | comparison.md, findings F1-F14, cost.md, mcp-reports/session-3.md, run log row, README line; no LabVIEW call |
 
 state: todo | running | done | failed | skipped (say why in the result column)
 
@@ -219,7 +235,7 @@ state: todo | running | done | failed | skipped (say why in the result column)
 | R-close-order | pass on the dataflow proof, order not timed | Actor Core exports (09d, 10d): close fed only by Merge(loop, stop); timing needs log writes in `src` |
 | R-stop-reset | pass (09d and 2026-10-11 ~20:27) | reports/evidence-12a-checks.txt: 6 + 6 lines, all codes 0 |
 | R-pli-failure | pass after the D41 fix (2026-10-11 21:24); FAIL in 12a (F14, hang) | reports/evidence-12d-checks.txt: Last Ack at 70 ms with code 1 (CM PLI Create Folder), root queue gone, no panel, no hang |
-| structural checks (03 §3) | 17 pass, Virtual folders + class descriptions + `.ctl` membership PENDING (D38, the user), project tree count 13 vs 14 (F3, the user), Ignored errors FAIL (T7, fix in 12e) | reports/report-12b-structural-sweep.md, reports/evidence-12b-checks.txt |
+| structural checks (03 §3) | 18 pass (Ignored errors after the 12e fix), Virtual folders + class descriptions + `.ctl` membership PENDING (D38, the user), project tree count 13 vs 14 (F3, the user) | reports/report-12b-structural-sweep.md, reports/evidence-12b-checks.txt |
 | cold sweep (all of src) | pass (2026-10-11 ~22:15): 137/137 state 1, control 0 7, membership 134/0 + 3 plain, 177 files at 26 | reports/evidence-12b-checks.txt |
 
 ## Traps carried forward

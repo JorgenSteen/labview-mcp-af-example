@@ -1,7 +1,9 @@
 # Comparison with the original: run-01-2026-10-10
 
 Drafted by a docs-only agent at HEAD `b63eea2` (2026-10-11 ~21:40) while 12b ran; the manager checked it against the
-files and adds the 12b results in phase 13. Method: the 178 tracked files under `zuehlke-mcp-af-test-results/src/`
+files. Phase 12 results added in phase 13: 12b's structural checks (report-12b) confirm sections 1-3; its two defects
+were fixed in 12e (T7's six unwired error terminals chained, f65a32e; CM `Handle Error.vi` re-cleaned, 125d2a8), and
+`ZM-CP-MX-initAll`/`closeAll` read as shared-clone reentrant (12b), which settles the "not verified" note below. Method: the 178 tracked files under `zuehlke-mcp-af-test-results/src/`
 listed and the `.lvclass`/`.lvlib`/`.lvproj` XML grepped; no LabVIEW call. What lives inside a VI (diagram shape,
 dispatch, reentrancy) comes from the agents' reports and is cited; what could not be seen is "not verified". Paths
 are relative to `src/`; "report-NN" = `runs/run-01-2026-10-10/reports/report-NN-*.md`.

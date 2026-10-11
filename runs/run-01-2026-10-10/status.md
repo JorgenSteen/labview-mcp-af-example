@@ -1,15 +1,132 @@
 # Run status: run-01-2026-10-10
 
 state: open            # open | closed
-last updated: 2026-10-11 02:23 by the manager session (phase 05)
-next phase: 05 UDP + multi protocol, step a (the UDP sender and receiver; launched 23:01)
-open items: F3 (library count 13 vs 14) still unanswered, not blocking. 05a was cut off by the user's usage limit at about 23:20 on 2026-10-10 (HTTP 429, reset 02:20) with the project open, right after the library step (library and member re-saves uncommitted on disk); the same agent was resumed by SendMessage at 02:22 on 2026-10-11 with the git state. 03b was cut off by the user's usage limit at about 18:45 (HTTP 429) and resumed at 21:55; it finished at 22:02 (report-03b-hw-sim-test.md). Items for the user in the IDE accumulate in the section below. 01b was cut off by the user's usage limit at about 16:15 (HTTP 429) and resumed by SendMessage at 16:22; it finished at 16:32 (report-01b-pc-methods-library.md).
+last updated: 2026-10-11 09:40 by the manager session (session 1 hand-over)
+next phase: 05 UDP + multi protocol, step a2 (hook the four UDP overrides, checks, report) - brief `briefs/brief-05a2-cp-udp-hooks.md`
+open items: see "Session 1 hand-over", "Open items" below.
+
+# STATUS: Session 1 stopped, 2026-10-11 09:40
+
+Session 1 ran from 2026-10-10 14:40 to 2026-10-11 09:40 (one Claude Code session, three usage-limit cut-offs, one
+model limit). It stopped at the user's request ("seems to have hit a limit, i suggest we try to wrap up at a good
+place to have a handover", 2026-10-11) after the 05a agent hit the Fable model limit. 159 commits from start HEAD
+3e52c79 to 29e2187 plus this hand-over commit; nothing pushed.
+
+## Built or changed
+
+| phase | what | commits |
+|---|---|---|
+| 00 | run folder, product skeleton, `.labview/` (10 decided rules + D38, D39 later), empty project with six folders | 732c6d7..15b56f9 |
+| 01 | `ZM-PC-packages.lvlib` (3 classes, 5 typedefs, 24 VIs), `ZM-TST-tests.lvlib`, T1, cleanup, icons | 63c4179..e8790ac |
+| 02 | `ZM-CU-common_utilities.lvlib` (`ZM-CU-log.vi`), T2, cleanup, icons | e2ef456..146b6cd |
+| 03 | `ZM-HW-hardware.lvlib`, `ZM-HW-SIM-simulated_hardware.lvlib`, T3, cleanup, icons | de2f81c..8b596f2 |
+| 04 | `ZM-CP-communication_protocol.lvlib`, `ZM-CP-FL-file_logger.lvlib`, T4 (six of seven checks), cleanup, icons | 72828e3..6936679 |
+| 05a (partial) | `ZM-CP-UDP-udp_transport.lvlib` with `ZM-CP-UDP-sender` and `ZM-CP-UDP-receiver`: fields, accessors, hooks (parent-typed, cast inside), sender `publish` override, receiver `receive`, the library under `protocol`, and the four BARE overrides `ZM-CP-init`/`ZM-CP-close` (Call Parent only) | 208e74b..29e2187 |
+
+Proof folders (git-ignored, inside the product): `proof/ZMP-00b-project/`, `proof/ZMP-01a/` .. `proof/ZMP-04c/`,
+`proof/ZMP-05a/` (if the agent wrote one), `proof/icons/`, `proof/runs/`. Test evidence copied into
+`reports/evidence-*.txt`.
+
+## Verification (readings, not "green")
+
+| check | target | reading | source |
+|---|---|---|---|
+| T1 `ZM-TST-packages` | cold run | Pass T, error 0, 10/10 checks T | reports/evidence-01c-checks.txt |
+| T2 `ZM-TST-log` | cold run | Pass T, error 0, 3/3 checks T | reports/evidence-02a-checks.txt |
+| T3 `ZM-TST-hardware` | cold run | Pass T, error 0, 5/5 checks T | reports/evidence-03b-checks.txt |
+| T4 `ZM-TST-protocol` | cold run | Pass T, error 0, 6/6 checks T (`mx_placeholder_ok` not yet built) | reports/evidence-04b-checks.txt |
+| cold sweep `src\common\ZM-PC-packages` + `src\tests` | 25 VIs | 25/25 state 1, control 0 7, membership 0 missing | report-01e |
+| cold sweep `ZM-CU` + `src\tests` | 3 VIs | 3/3 state 1, control 0 7 | report-02b |
+| cold sweep `src\hardware` + `src\tests` | 9 VIs | 9/9 state 1, control 0 7 | report-03c |
+| cold sweep `src\protocol` (CP, FL) + `src\tests` | 15 VIs | 15/15 state 1, control 0 7 | report-04c |
+| icons read back | phases 01-04 | 25 + 2 + 7 + 12 VIs at 0 px; 5 + 1 + 4 + 4 owners at 0 px | reports 01e, 02b, 03c, 04c |
+| save version | every file under `src\` written by phases 00-04 | 26 (LabVIEW 2026 Q3) | each report's `lv_save_version.py` block |
+| dependency links | phases 01-04 VIs | no link into `vi.lib\ActorFramework`; no forbidden `ZM-` link | reports 01e, 02b, 03c, 04c |
+| 05a UDP, before the hooks | 18 VIs (2 classes, bare overrides) | 18/18 state 1, control 0 7, project closed (membership not yet checked) | proof/ZMP-05a/ZMP-05a-sweep-after-library-and-bare-overrides.txt |
+| 05a UDP, hooks, probe, final sweep | the four overrides with hooks | **not run**: the agent reopened the project to start the hooks and was cut off; nothing after 29e2187 is committed | this file |
+
+Not run this session: phases 05b-13, T5-T7, every R-* run, the structural review of `03` §3.
+
+## Side effects (session 1, unshortened)
+
+- **Items removed:** none (`git log --diff-filter=D 3e52c79..HEAD` is empty). Project items dropped by
+  `lvproj_drop.py` were only the stray top-level class items the tools added (one per new library, see reports).
+- **Files re-saved:** every product file written by the agents, all at version 26; libraries' Save All re-saved
+  their members (committed each time). Nothing was upgraded (the project's version IS the IDE's).
+- **Project files rewritten:** `src/Zuehlke MCP.lvproj` at every open/close (BOM stripped by `lvai_create_class`
+  and restored by the next close; `NI.LV.All.SaveVersion` 26.0 added at the first close); `.lvlps`, `.aliases`,
+  `.Zuehlke MCP.UserState\` rewritten (git-ignored; `*.UserState/` added to the product `.gitignore`, 9de0549).
+- **LabVIEW:** started by the manager 2026-10-10 15:06 (PID 2428, `lvai_ensure_labview`); it crashed 15:13:55 on a
+  `lvai_validate_aixml` probe (F2). Started again by the manager 15:24 (PID 14040) under the user's go-ahead. PID
+  14040 is STILL RUNNING at the hand-over with `Zuehlke MCP.lvproj` OPEN in the Project Explorer and LVAutoSave
+  count 2 (`NI32LV2631f1ASD2_Zuehlke MCP.lvproj`, `.txt`): unsaved edits of the project in memory, made by the 05a
+  agent after its last commit or by its last open. 18 hidden unsaved windows are the tool's own `LVMCP Validate*`
+  scratch VIs (not product files). No agent restarted LabVIEW.
+- **Nigel chat:** not opened. **LVAutoSave cleared:** never by this session (count 0 at both starts).
+- **Outside the product folder:** the plugin's stub cache `C:\Program Files (x86)\National Instruments\LabVIEW
+  2026\user.lib\LV_MCP\` grew from 145 to 169 stub VIs (tool design; agents' reports name each); helper VIs left in
+  `C:\Users\jorgen.steen\AppData\Local\Temp\LabVIEWMCP\helpers\`: `zm_probe_c1.vi`, `zm_new_project.vi`,
+  `zm_create_package_library.vi`, `zm_create_test_library.vi`, `zm_create_class_library.vi` (plus the tool's own);
+  read-back folders `...\LabVIEWMCP\rb\01e`..`rb\04c`; the tool's scratch class projects under
+  `...\LabVIEWMCP\classes\`. Nothing copied into `user.lib\errors\`.
+- **Run-time output:** `zuehlke-mcp-af-test-results/output/` (git-ignored): `ZM-error_log.txt` (smoke and T2 marker
+  lines), `test_fl_*` folders from T4.
+
+## Deviations
+
+See "Deviations and fallbacks" below (D38/D39 items, T4 without the MX check, the 00a/00b order). Agent rule breaks:
+none seen (no parallel LabVIEW calls reported; heredoc slips were the manager's own shell edits, no product file
+touched).
+
+## The user's decisions this session
+
+Quoted with dates in "Go-aheads from the user" below: the standing LabVIEW go-ahead (15:22, extended 15:30), option
+1 for IDE-only items (16:00, D38), the icon preview approved in advance (17:10, D39), and at the end the hand-over
+request (2026-10-11). Also on 2026-10-11 the user switched the session model with `/model` to **Opus 5.5** (saved as
+the default): the manager and every agent launched from now on run on `claude-opus-5-5` unless the user switches back
+(`orchestration/plan.md`, "Models and effort": a later role change is its own row in `cost.md`).
+
+## Open items
+
+1. **The project is open in LabVIEW with unsaved edits** (LVAutoSave 2). Owner: next session, step 2 below.
+2. **05a is unfinished:** the four overrides are bare; hooks, export checks, sweep, probe and the report remain.
+   Owner: next session, brief `briefs/brief-05a2-cp-udp-hooks.md`.
+3. **F3:** library count 13 (spec tables) vs 14 (`02` §10). Owner: the user.
+4. **For the user in the IDE** (D38): the list below; to be done before phase 12.
+5. **`/cost` for session 1:** the user runs `/cost` and pastes the output into `cost.md`.
+6. **Knowledge files:** `project.json` names no `knowledge_files`; the measured LabVIEW facts of this run live in
+   "Traps carried forward" below and in the reports. Owner: the user (where they should go), the skill's maintainer
+   (proposals in `mcp-reports/session-1.md`).
+7. **Phase card 03** note contradicts `02` §3.1 (F6). Owner: the user (fix the card for the next run).
+
+## Next session: start here
+
+1. Read `CLAUDE.md`, `orchestration/plan.md`, this file. Model: the session now defaults to Opus 5.5 (the user's
+   `/model` on 2026-10-11); note in `cost.md` which model the session and its agents run on.
+2. LabVIEW state without a LabVIEW call: `powershell -NoProfile -ExecutionPolicy Bypass -File
+   C:\Users\jorgen.steen\.claude\skills\labview\kit\lv_windows.ps1`. Then `lvai_status`.
+3. The project `Zuehlke MCP.lvproj` is probably still open with unsaved edits. Brief 05a2's agent closes it first
+   (`lvai_open_file` to make it active, then `lvai_close_active_project`, which saves), then runs `git status`: any
+   product file changed by that save is compared with HEAD 29e2187; a change it cannot explain is restored from git
+   with the project closed. The standing go-ahead covered session 1 only (`session/close.md`): if LabVIEW must be
+   restarted, ask the user at the start, unless the start message grants it again.
+4. Launch the 05a2 agent (brief ready, committed). Then continue with briefs 05b, 05c, 05d, 06, 07, 08a, 09a (drafted,
+   committed; each has a `<<MANAGER ...>>` slot to fill from the previous report).
+5. Briefs 08b, 08c, 09b-09d, 10*, 11*, 12*, 13 are not drafted yet; the phase cards and `02` §5-§8 are the source.
+
+## LabVIEW at the end (lv_windows.ps1, 2026-10-11 09:28)
+
+PID 14040 (started by this session 2026-10-10 15:24), `Zuehlke MCP.lvproj - Project Explorer` visible, unsaved 18
+(all `LVMCP Validate*` scratch VIs, hidden), possible dialogs 0, LVAutoSave 2 (`NI32LV2631f1ASD2_Zuehlke MCP.lvproj`,
+`NI32LV2631f1ASD2_Zuehlke MCP.txt`), LVNigelChat not running.
+
+---
 
 ## Machine facts (from lvai_status at the start of each session, never from memory)
 
-- LabVIEW: 2026 Q3 32-bit (log `LabVIEW_32_26.3.1f1`), `C:\Program Files (x86)\National Instruments\LabVIEW 2026\LabVIEW.exe`; started by this session 2026-10-10 15:06 via lvai_ensure_labview (PID 2428, launchMethod breakaway, 42.7 s); port 57742; Nigel chat not needed; lvai_status ok at 15:08, up 44 s, dwarnCount 0
+- LabVIEW: 2026 Q3 32-bit (log `LabVIEW_32_26.3.1f1`), `C:\Program Files (x86)\National Instruments\LabVIEW 2026\LabVIEW.exe`; started by this session 2026-10-10 15:06 via lvai_ensure_labview (PID 2428, launchMethod breakaway, 42.7 s); crashed 15:13:55; started again 15:24 (PID 14040, port 59552); Nigel chat not needed
 - labview-mcp: server 1.9.5-local.20261010-1430 (f9ee41d9), scripts `C:\project\claude\labview-mcp-local-plugin\labview-mcp\bin\scripts`; the plugin reconnected after the user ran /mcp at about 15:05
-- LVAutoSave path: C:SERSJORGEN.STEENONEDRIVE - VIRINCO ASDOKUMENTERabview datavautosave (count 0; ensure_labview reported the store already empty)
+- LVAutoSave path: `C:\Users\jorgen.steen\OneDrive - Virinco AS\Dokumenter\LabVIEW Data\LVAutoSave` (count 0 at both starts; 2 at the hand-over)
 
 ## Phases
 
@@ -20,7 +137,7 @@ open items: F3 (library count 13 vs 14) still unanswered, not blocking. 05a was 
 | 02 | common utilities | done | 2026-10-10 18:03 | 2026-10-10 18:19 | e2ef456..146b6cd (two steps, 7 commits) | ZM-CU-log.vi in ZM-CU-common_utilities.lvlib under common, ZM-TST-log.vi, T2 Pass, cleanup, icons read back 0 px, sweep 3/3, no ZM/AF link, all 26.0; nothing left for the IDE (no class) |
 | 03 | hardware | done | 2026-10-10 18:25 | 2026-10-10 22:13 | de2f81c..8b596f2 (three steps, 17 commits) | parent + SIM in two libraries under hardware, do placeholder 5000 with FreeLabel, SIM do override, T3 Pass, cleanup, icons read back 0 px, sweep 9/9, no AF/CU/CP link, all 26.0; for the IDE: 2 class descriptions, Methods folders (D38) |
 | 04 | protocol + file logger | done | 2026-10-10 22:17 | 2026-10-10 22:56 | 72828e3..6936679 (three steps, 23 commits) | parent + FL in two libraries under protocol, publish placeholder 5000 with FreeLabel, init override + createFolder hook, publish override, T4 Pass (six checks; the MX check comes in 05), cleanup, icons read back 0 px, sweep 15/15, no AF/CU/HW link, all 26.0; for the IDE: 2 class descriptions, Methods folders |
-| 05 | UDP + multi protocol | running | 2026-10-10 23:01 | | | step a (UDP sender + receiver classes, hooks, overrides, receive, one library) running |
+| 05 | UDP + multi protocol | running | 2026-10-10 23:01 | | 208e74b..29e2187 (05a, partial) | 05a stopped (usage limit 23:20, resumed 02:22, then the Fable model limit): both UDP classes, accessors, hooks, sender publish, receive, library under protocol, four bare overrides; hooks into the overrides, checks and report remain (brief 05a2) |
 | 06 | pipeline test | todo | | | | |
 | 07 | interface + message | todo | | | | |
 | 08 | CM actor | todo | | | | |
@@ -99,10 +216,9 @@ Facts the next brief must repeat, each by its content with its source (report fi
 - Evidence files under `proof/` are git-ignored by design; the manager copies each test's evidence into
   `runs/<run>/reports/evidence-<step>-checks.txt` (report-01c, item 6).
 - A hook placed after Call Parent (shape B-after) in a DYNAMIC override of a plain class must take and return
-  the PARENT class type (`ZM-PC-package in`/`out`), never the child type and never a To More Specific Class cast:
-  otherwise the override and every caller of the dispatch method read state 0 cold with only "VI is not
-  executable". Cost ~20 calls to find (report-01b-pc-methods-library.md, item 9, T1). Applies to HW and CP child
-  hooks in phases 03-05.
+  the PARENT class type (`ZM-PC-package in`/`out`), never the child type: otherwise the override and every caller
+  of the dispatch method read state 0 cold with only "VI is not executable". Cost ~20 calls to find
+  (report-01b-pc-methods-library.md, item 9, T1). A cast INSIDE the hook, returning the parent wire, is fine (04b).
 - A plain `.lvlib` is created by a helper derived from the kit's `lvai_create_actor_library.xml` (Library.Create,
   AddItem Type LVClass per class, Save All This Library), run with the project OPEN AND ACTIVE (it reads
   Project:Active Project); the close then lists the library at top level plus a stray class item: `lvproj_drop.py`
@@ -111,17 +227,13 @@ Facts the next brief must repeat, each by its content with its source (report fi
 - `lvai_add_class_method` with the parent's pane and `dispatchTerminals` makes a dynamic-dispatch override of a
   plain-class method with its own body (no Call Parent); measured (report-01b, item 5).
 - `lvai_placeholder_subvi` writes stub VIs into `<LabVIEW>\user.lib\LV_MCP\` (the tool's own cache, outside the
-  product folder by design; 17 added in 01b). `sweep_paths.py` writes `paths.txt` into the current folder by
-  default: pass `--out` (report-01b, item 9).
+  product folder by design). `sweep_paths.py` writes `paths.txt` into the current folder by default: pass `--out`
+  (report-01b, item 9).
 - No labview-mcp tool sets a class description (`NI.Lib.Description`); no tool adds a `.ctl` to a class; no tool
   places a member in a `Methods`/`TypeDefs` virtual folder. The accessor tool's `virtualFolderName` does create
   `Accessors`. `lvai_create_class` with `typedefFieldsJson` and `projectPath` binds at creation (`boundInFile` true) and
-  closes the project itself; a child created with `parentClassPath` did NOT add a duplicate parent entry to the
-  `.lvproj` on labview-mcp 1.9.5 (report-01a-pc-classes.md, items 2, 6, 8).
-- `icon-spec.json` (`.labview/conventions/`) carries the pilot's `rules` patterns in snake_case (`get_data_as_json`,
-  ...) and an empty `planned`; the icons step of each phase must revisit the patterns for the camelCase names of `02`
-  before generating (report-00a-conventions.md, item 6).
-- Opening and closing a project writes `src/.Zuehlke MCP.UserState/debug.lvprojstate`; now git-ignored by
+  closes the project itself (report-01a-pc-classes.md, items 2, 6, 8).
+- Opening and closing a project writes `src/.Zuehlke MCP.UserState/debug.lvprojstate`; git-ignored by
   `*.UserState/` in the product `.gitignore` (report-00b-project.md, item 6).
 - `lvai_describe_project` does not list virtual folders; folders are verified from the `.lvproj` XML
   (report-00b-project.md, item 3). AIXML spellings that create a project and virtual folders are in item 2 of that
@@ -130,15 +242,9 @@ Facts the next brief must repeat, each by its content with its source (report fi
   `regenerateHelper: true` once when that happens (report-00b-project.md, item 2e-f).
 - Never probe a VI Server name with `lvai_validate_aixml`: an invented method on {LV.Application} crashed LabVIEW
   2026 Q3 (DWarn 0x762E6013 in invoke.cpp, minidump fd529ccf-601a-49a4-d740-28409e75b42d). Take spellings from
-  `resource\lvserver.rsc` and NI's shipped helpers, commit first, generate the real helper directly, and expect a
-  possible crash on the convert too (report-00b-project.md, item 6).
-- The project-creation vocabulary found offline in `lvserver.rsc`: {LV.Application} Invoke `Project.New` (no inputs),
-  `Project.Open` (Path); {LV.Project} property `My Computer`, Invoke `Save` (optional Path), `Close`;
-  {LV.ProjectItem} Invoke `AddItem` (Name, Path, Type; Type "Folder" for a virtual folder, as in the plugin's
-  lvai_add_one_to_library.xml). The output terminal name of `Project.New` is unmeasured (report-00b-project.md, item 2).
-- No labview-mcp tool creates a `.lvproj` or an empty virtual folder; `lvproj_move.py --create` needs an item to
-  move (skill `knowledge/labview-mcp.md`, "lvai_add_to_library"; `kit/lvproj_move.py` header). Brief 00b marks the
-  project creation as unmeasured.
+  `resource\lvserver.rsc` and NI's shipped helpers (report-00b-project.md, item 6).
+- The validator leaves hidden unsaved `LVMCP Validate*` scratch VIs in memory (tool design); `lv_windows.ps1` counts
+  them as unsaved. They are not product files (reports 02a-04c).
 
 ## Deviations and fallbacks
 
@@ -148,29 +254,25 @@ Where the build differs from `02-specification.md`, with why, and whether the us
   `ZM-TST-protocol.vi` with the seventh check (the card allows it; brief 05c). Not asked; the card decides.
 - 2026-10-10, phase 01 (icons): the icons follow the skill's generator as it is today, not the letter of
   `icons.banner` (black Small Fonts text) and `icons.class-glyph` (class glyph at the right): the banner text is
-  white 3x5 and the library glyph sits at the left. Approved by the user (go-ahead above). Applies to every phase.
+  white 3x5 and the library glyph sits at the left. Approved by the user (go-ahead below). Applies to every phase.
 - 2026-10-10, phase 00: the card's step order 6 (conventions) then 7 (project) is swapped to 00b (project) then 00a
   (conventions), because `lvai_status` reports no save version and the card wants it measured, not from memory.
   Two commits instead of one. Not asked; a harness detail, not a product deviation.
 
 ## Go-aheads from the user
 
-- User go-ahead (2026-10-10 15:22): "You may restart LabVIEW when needed. close anything you are using labview all by yourself for the whole session, not restrictions" - scope: the whole session; restarting, closing and starting LabVIEW, and closing projects this run opened, need no further question. Extended by the user (2026-10-10 15:30): "Agents can restart labview themselves too, no need to ask me" - every brief from 00b on carries a hard-rules line letting the agent start or restart LabVIEW itself per the skill's session/start.md, reporting each start. The manager relayed it into brief 00b's continuation and sets `restart_go_ahead` to `always` in `project.json` (brief 00a) with this quote as the note.
-
-- User decision (2026-10-10 16:00): "option 1 then and log that answer into the documentation to so if someone wants to try to rerun this later, then do not need this clearification" - the manager's option 1: class descriptions, `.ctl` membership and `Methods`/`TypeDefs`/`Helpers`
-  folder placement are done by the user in the IDE; agents list them; written into `CLAUDE.md` ("Defaults that
-  need no question") and `orchestration/plan.md` on the user's instruction (commit fcac3e0), and into the product's
-  `decisions.md` as D38 by the 01b agent.
-
-- User decision (2026-10-10 17:10): "Approve as is, option 1, continue, but note this down so any clean start also does the same, without this prompt" - the icon preview `reports/icon-preview-01d.png` is approved as the kit draws it; written into
-  `CLAUDE.md` ("The icon preview is approved in advance") and `orchestration/plan.md` on the user's instruction, and
-  into the product's `decisions.md` as D39 by the 01e agent.
+- User go-ahead (2026-10-10 15:22): "You may restart LabVIEW when needed. close anything you are using labview all by yourself for the whole session, not restrictions" - scope: the whole session; restarting, closing and starting LabVIEW, and closing projects this run opened, need no further question. Extended by the user (2026-10-10 15:30): "Agents can restart labview themselves too, no need to ask me" - every brief from 00b on carries a hard-rules line letting the agent start or restart LabVIEW itself per the skill's session/start.md, reporting each start. `restart_go_ahead` is `always` in `project.json` with this quote as the note. Per the skill's `session/close.md` a blanket go-ahead ends with the session: the next session asks again at its start unless its start message grants it.
+- User decision (2026-10-10 16:00): "option 1 then and log that answer into the documentation to so if someone wants to try to rerun this later, then do not need this clearification" - class descriptions, `.ctl` membership and `Methods`/`TypeDefs`/`Helpers` folder placement are done by the user in the IDE; agents list them; written into `CLAUDE.md` and `orchestration/plan.md` (commit fcac3e0) and into the product's `decisions.md` as D38.
+- User decision (2026-10-10 17:10): "Approve as is, option 1, continue, but note this down so any clean start also does the same, without this prompt" - the icon preview `reports/icon-preview-01d.png` is approved as the kit draws it; written into `CLAUDE.md` and `orchestration/plan.md` (commit 6a89006) and into the product's `decisions.md` as D39.
+- User (2026-10-11): `/model` set to Opus 5.5 (saved as the default for new sessions); then "seems to have hit a limit, i suggest we try to wrap up at a good place to have a handover".
 
 ## For the user in the IDE (decided 2026-10-10: things no tool does)
 
 Do these in LabVIEW's Project Explorer at the end of a phase or before phase 12, then commit. Each line names
 the class, the item and the file that holds the text.
 
+- ZM-CP-UDP-sender, ZM-CP-UDP-receiver: class descriptions (texts in briefs/brief-05a-cp-udp.md, "What to build"); their
+  methods and hooks into a `Methods` folder (05a2 lists them).
 - ZM-CP-FL-file_logger: class description (report-04b, item 8: "Pluggable file logger: one JSON Lines file per package
   type under outputFolder; init creates the folder after the parent; publish appends getDataAsJson to
   <getTypeName>.jsonl; close inherited"); `ZM-CP-init.vi`, `ZM-CP-publish.vi`, `ZM-CP-FL-createFolder.vi`,
@@ -186,35 +288,25 @@ the class, the item and the file that holds the text.
   `ZM-PC-PACKAGE_TYPE.ctl`, `ZM-PC-DESTINATION.ctl`, `ZM-PC-HEADER.ctl` into the class, folder `TypeDefs`.
 - ZM-PC-TP-test_package: class description (same brief); `ZM-PC-TP-DATA.ctl` into the class, folder `TypeDefs`.
 - ZM-PC-EP-error_package: class description (same brief); `ZM-PC-EP-DATA.ctl` into the class, folder `TypeDefs`.
-- All three classes: the 12 non-accessor members (`ZM-PC-init`, `ZM-PC-getDataAsJson`, `ZM-PC-getTypeName`,
+- All three PC classes: the 12 non-accessor members (`ZM-PC-init`, `ZM-PC-getDataAsJson`, `ZM-PC-getTypeName`,
   `ZM-PC-getDestinationName`, `ZM-PC-getTimestampString`, `ZM-PC-getHeader`; TP: `ZM-PC-init`, `ZM-PC-getDataAsJson`,
   `ZM-PC-TP-setType`, `ZM-PC-TP-create`; EP: the same four with `EP`) into a `Methods` virtual folder of their class
   (report-01b, item 2).
 
 ## Side effects outside src/
 
-Files written outside `zuehlke-mcp-af-test-results/src/` and this run's folder (error-code file into user.lib, LabVIEW
-restarts, projects closed), one line each with the user's go-ahead quoted and dated.
+Files written outside `zuehlke-mcp-af-test-results/src/` and this run's folder, one line each. The full session-1
+list is in "Side effects (session 1, unshortened)" above.
 
-- 2026-10-10 15:06: LabVIEW 2026 32-bit started by the manager (`lvai_ensure_labview`, PID 2428); the skill's
-  start routine allows it with no go-ahead (no LabVIEW was running, LVAutoSave empty). Crashed 15:13:55 (F2).
-- 2026-10-10 16:00-16:30 (01b): 17 placeholder stub VIs written by `lvai_placeholder_subvi` into
-  `C:\Program Files (x86)\National Instruments\LabVIEW 2026\user.lib\LV_MCP\` (the plugin's pre-existing cache folder,
-  145 stubs before). The tool's design, not the agent's choice; nothing of the user's touched.
-- 2026-10-10 15:24: LabVIEW 2026 32-bit started again by the manager (`lvai_ensure_labview`, PID 14040, port 59552,
-  21.8 s, LVAutoSave already empty), under the user's standing go-ahead above.
+- 2026-10-10 15:06: LabVIEW 2026 32-bit started by the manager (`lvai_ensure_labview`, PID 2428); crashed 15:13:55 (F2).
+- 2026-10-10 15:24: LabVIEW 2026 32-bit started again by the manager (PID 14040, port 59552), under the user's go-ahead. Still running at the hand-over.
+- 2026-10-10 to 2026-10-11: the plugin's stub cache `...\LabVIEW 2026\user.lib\LV_MCP\` grew from 145 to 169 stub VIs (tool design).
 
-## Where the next session starts
+## Usage-limit cut-offs (session 1)
 
-Phase 00 is done. Phase 01 (packages) is split into 01a classes, 01b methods and library, 01c test, 01d icons,
-cleanup, sweep. Briefs are written one step ahead; check `briefs/` for the highest step with no matching report in
-`reports/`: that is the running or next step. Each step commits its own product files.
-
-Last product commit: `chore: empty project Zuehlke MCP.lvproj with six virtual folders` (d0ef347). Nothing is
-half done in LabVIEW: no project is open. First check that the labview-mcp plugin is connected (the
-`lvai_*` tools are listed) and run `lvai_status`; if it does not answer, follow the skill's
-`session/start.md` (LabVIEW was not running at 14:44 on 2026-10-10). Then write the machine facts
-above, fill the `<<FILL ...>>` markers in `briefs/brief-00a-conventions.md` and `briefs/brief-00b-project.md`
-(drafted 2026-10-10, not yet launched), commit them, and launch 00a (docs-only, general-purpose agent), then
-00b (LabVIEW, general-purpose agent), one after the other (steps 6 to 8 of `orchestration/phases/00-setup.md`). Defaults in force: agents inherit the manager's model,
-error-code file stays in the repository, no standing restart go-ahead, never push.
+| agent step | cut off | resumed | how |
+|---|---|---|---|
+| 01b | ~16:15 (session limit) | 16:22 | SendMessage to the same agent; finished 16:32 |
+| 03b | ~18:45 (session limit) | 21:55 | SendMessage; finished 22:02 |
+| 05a | ~23:20 (session limit) | 2026-10-11 02:22 | SendMessage; continued to commit 29e2187 |
+| 05a | 2026-10-11, before ~09:25 ("You've reached your Fable limit") | not resumed | the user switched to Opus 5.5 and asked for a hand-over |

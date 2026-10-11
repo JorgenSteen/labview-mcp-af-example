@@ -76,3 +76,17 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
 - **Decision:** `02` wins (CLAUDE.md, "Where 01 and 02 disagree, 02 wins"; the card is derived). The SIM gets no
   `init`/`close` override. Briefs 03a and 03b say so. The card is not patched (harness read-only).
 - **Owner:** the user (fix the card note for the next run).
+
+## F7 (2026-10-11): usage limits interrupted agents four times; the run spans sessions (harness / environment)
+
+- **What:** three agents were cut off by the user's session limit mid-step (01b ~16:15, 03b ~18:45, 05a ~23:20,
+  HTTP 429 "You've hit your session limit") and resumed with `SendMessage` after the reset; 05a was then stopped by the
+  model limit ("You've reached your Fable limit. /model to switch models.", request id req_011CfuVsU5PuC3Yi5VPG8Prs).
+  The user switched to Opus 5.5 and asked for a hand-over.
+- **Effect:** no work was lost: every agent committed before each structural step, and the resumes started from git.
+  But the last cut-off left the project OPEN in LabVIEW with unsaved edits (LVAutoSave 2), which the next session
+  must recover (brief 05a2, step 1). An agent cut off with the project open cannot close it.
+- **Lesson for the harness:** a step should close the project before any long run of tool calls, and briefs should
+  keep the "commit, then close" rhythm short, so a cut-off finds the project closed more often. Proposed for
+  `orchestration/plan.md` in phase 13 (the harness is read-only during the run).
+- **Owner:** the user (harness), the skill's maintainer (`session/brief.md`, "Resume after a cut-off").

@@ -1,6 +1,8 @@
 # Cost: run-01-2026-10-10
 
-Manager: Claude Fable 5.1 (`claude-fable-5-1`), effort: not visible (not stated by the user).
+Manager: Claude Fable 5.1 (`claude-fable-5-1`) for session 1 up to 2026-10-11 ~09:25, then Claude Opus 5.5
+(`claude-opus-5-5`) after the user's `/model` (saved as the default; the hand-over was written on Opus 5.5).
+Effort: not visible (not stated by the user).
 Agents inherit the manager's model unless a row says otherwise (`CLAUDE.md`, "Defaults that need no question").
 
 | phase | step | agent type | model | effort | start | end | minutes | tokens seen | notes |
@@ -22,8 +24,11 @@ Agents inherit the manager's model unless a row says otherwise (`CLAUDE.md`, "De
 | 04 | 04a protocol parent | general-purpose (following the labview skill) | claude-fable-5-1 (inherited, no override) | not visible (inherited) | 2026-10-10 22:17 | 2026-10-10 22:22 | 5 (agent clock 22:16-22:22) | 237,620 subagent tokens, 62 tool uses (harness notification; 22 LabVIEW calls) | ZM-CP-communication_protocol class, Write opened, init/publish(5000, FreeLabel)/close, library under protocol; DONE, 4 commits |
 | 04 | 04b file logger + T4 | general-purpose (following the labview skill) | claude-fable-5-1 (inherited, no override) | not visible (inherited) | 2026-10-10 22:27 | 2026-10-10 22:43 | 16 (agent clock 22:27-22:43) | 444,466 subagent tokens, 115 tool uses (harness notification; ~53 LabVIEW calls) | ZM-CP-FL class, 2 accessors, 3 static members, library, init override + createFolder hook (T1 measured), publish override, T4 PASS round 1 (six checks); DONE, 11 commits |
 | 04 | 04c cleanup + icons + sweep | general-purpose (following the labview skill) | claude-fable-5-1 (inherited, no override) | not visible (inherited) | 2026-10-10 22:48 | 2026-10-10 22:56 | 8 (agent clock 22:47-22:56) | 296,256 subagent tokens, 91 tool uses (harness notification; 39 LabVIEW calls) | cleanup 12 VIs, 2 class + 2 library icons, 12/12 + 4/4 read-back 0 px, closing checks; DONE, 8 commits |
-| 05 | 05a UDP sender + receiver | general-purpose (following the labview skill) | claude-fable-5-1 (inherited, no override) | not visible (inherited) | 2026-10-10 23:01 | | | not visible | two classes, accessors, hooks, init/close overrides, publish override, receive, one library under protocol; cut off by the usage limit ~23:20 (10 commits in, library step on disk), resumed 2026-10-11 02:22 |
+| 05 | 05a UDP sender + receiver | general-purpose (following the labview skill) | claude-fable-5-1 (inherited, no override) | not visible (inherited) | 2026-10-10 23:01 | 2026-10-11 ~03:00 (stopped) | ~20 + ~40 (two segments) | not visible (no completion notification with a count) | two classes, accessors, hooks, sender publish, receive, library, four bare overrides (12 commits, 208e74b..29e2187); cut off by the session limit ~23:20, resumed 02:22, stopped by the Fable model limit; hooks not done (brief 05a2) |
 
 ## /cost output per session
 
-- session 1 (2026-10-10): not yet pasted; ask the user to run `/cost` at the end of the session.
+- session 1 (2026-10-10 14:40 to 2026-10-11 09:40): not yet pasted; the user runs `/cost` and pastes it here.
+  Seen by the manager: 16 agent launches plus 4 resumes. The 16 harness notifications that carried a subagent
+  token count sum to 4,576,373 (00b's two notifications may overlap; the 05a agent's count was never reported).
+  The manager's own tokens: not visible.

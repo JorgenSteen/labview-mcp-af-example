@@ -84,6 +84,10 @@ deviation in `status.md` and ask the user.
   stops the others when it ends, and the loop VI's `error out` is the raw error; an error stop cascades to the whole
   tree through the Last Ack (AF default, no Handle Last Ack Core override); the only clean stop is the normal shutdown
   from the root. Where a phase card, `02` §5/§7.10-§7.12, D14 or `03` R-error says otherwise, D40 wins.
+- **A broken VI after a generate, swap or bind: remove broken wires first** (the user, 2026-10-11, run-01 10b: "the
+  issue was just a wire that was not cleaned up. i would just click ctrl b to remove it, or clean up diagram. Try that
+  yourself and log it"): run the skill kit's `pa_clean_member` (Remove Bad Wires, save) or Clean Up Diagram and read
+  it cold again before any rebuild. Every brief carries this line.
 - **Errors**: parent placeholders return 5000 with `source` = `<VI file name>: must be overridden
   by a child class` and a free label `#customerror 5000` beside the node; ignored errors end in
   `Clear Errors.vi`, never unwired.

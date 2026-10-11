@@ -115,6 +115,15 @@ Subagents               % of usage
 general-purpose                85%
 ```
 
+- **sessions 1 and 2 together** (one Claude Code session, 2026-10-10 14:40 to 2026-10-11 10:54; the user's screenshot
+  `cost.JPG`, transcribed): **$341.85 total**, API time 5h 38m 57s, wall 20h 14m 28s, 7523 lines added, 134 removed.
+  Fable 5.1: 1.3m input, 1.2m output, 366.8m cache read, 7.5m cache write ($270.70; session 1). Opus 5.5: 276.3k
+  input, 429.6k output, 225.6m cache read, 2.8m cache write ($71.16; session 2 and the hand-over). Haiku 5.5
+  $0.0001. Of the usage: 72% general-purpose subagents, 34% labview-mcp tool results, 90% at >150k context. The
+  week's Fable limit read 100% used (the cut-off at ~09:25).
+
+- **run-01 total (sessions 1-3): $622.43** ($341.85 + $280.58).
+
 - session 2 (2026-10-11 09:34 to 10:58, Opus 5.5): not yet pasted. Seen by the manager: 7 agent launches; the
   harness notifications carried 332,117 + 414,317 + 325,239 + 361,753 + 307,509 + 320,223 = 2,061,158 subagent
   tokens for six of them (05a2 to 07). The manager's own tokens: not visible; its context reached ~80% at 10:52.

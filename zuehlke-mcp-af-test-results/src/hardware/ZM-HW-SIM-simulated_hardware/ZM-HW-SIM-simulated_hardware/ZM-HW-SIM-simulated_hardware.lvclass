@@ -2,6 +2,7 @@
 <LVClass LVVersion="26008000">
 	<Property Name="NI.Lib.ContainingLib" Type="Str">ZM-HW-SIM-simulated_hardware.lvlib</Property>
 	<Property Name="NI.Lib.ContainingLibPath" Type="Str">../../ZM-HW-SIM-simulated_hardware.lvlib</Property>
+	<Property Name="NI.Lib.Description" Type="Str">Pluggable simulated hardware: do returns a random TestPackage addressed to Communication; init/close inherited.</Property>
 	<Property Name="NI.Lib.Icon" Type="Bin">*A#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!*X!!!*Q(C=V:1^DBJ"%%9`L!W==A)M&lt;G$6&amp;&lt;A#-6F&gt;A=!*GZ%[L)C=+R"YE]XK"B&lt;3HA$*!@(Y46-A:--1W*;]X6P$T&amp;&gt;`&lt;\J\2WLDI`3E\N(9$)\G6]UWR*UOT\`Z6:=_ZO)`Z`3;&lt;PAX/D_8=X/`@O6?_R`R`Z&amp;@A_-&gt;_-`TDP]S\O9`NX(0XZX^.Q./_;_PQ`H.0Z!`X0]2``$\X^&lt;@D``")'&lt;V-/A@$WH53,(%!H0-WNNVC:\IC:\IC:\IA2\IA2\IA2\IDO\IDO\IDO\IBG\IBG\IBG[KT5=8ON"F\4!ET:.'3&gt;'E1")-CJ*,QJ0Q*$Q*$Y^+?"+?B#@B38A)5=+4]#1]#5`#1ZI3HI1HY5FY%BZ+.:*M%RW?B)@S#HA#HI!HY!FY;+G!*Q!)GA7&amp;AS*A+(!'.Q&amp;0Q"0Q=+O!*_!*?!+?A!?X!J[!*_!*?!)?5NKK2+0J*TI]F*($Y`!Y0![0QU.J/4Q/D]0D]$A]N*0$Y`!Y%%Z$JTA)=J+=!/@"Y8&amp;Y_*($Y`!Y0![0QY/L\:#XF?FJ_IE/D]&amp;D]"A]"I`"1QE:0!;0Q70Q'$S5F=&amp;D]"A]"I`"1SM:0!;0Q7/!'%VJ,[/9E7A%'9,"QV]\,&gt;:W+2K*N6H`GK?$KDK!KI/F/D#KA[$;9.8'K4:%N&gt;#K"61ND/K&amp;63_C!F1V6B65"?L!&gt;9`NM#WWRJ&lt;9(*NB5WT=J`\FQ-0BI0V_L^VOJ_VWK`6[L?6SK@F]LNFMJOFUKP&amp;Y@0F;@7+?ROD[OX2=@&amp;U=&amp;V]G0];\S8(SH@P0C_PPRYLY7\:&gt;;&gt;3^;01.[^Z__8UZ_?`FHLZ,`]/X52`588XG7;/@NT,5V1!!!!!</Property>
 	<Property Name="NI.Lib.SourceVersion" Type="Int">637566976</Property>
 	<Property Name="NI.Lib.Version" Type="Str">1.0.0.0</Property>
@@ -26,21 +27,23 @@
 	<Item Name="ZM-HW-SIM-simulated_hardware.ctl" Type="Class Private Data" URL="ZM-HW-SIM-simulated_hardware.ctl">
 		<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
 	</Item>
-	<Item Name="ZM-HW-do.vi" Type="VI" URL="../ZM-HW-do.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">33554432</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">4</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1350574592</Property>
-	</Item>
-	<Item Name="ZM-HW-SIM-randomData.vi" Type="VI" URL="../ZM-HW-SIM-randomData.vi">
-		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
-		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">0</Property>
-		<Property Name="NI.ClassItem.MethodScope" Type="UInt">2</Property>
-		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1350574592</Property>
-		<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
+	<Item Name="Methods" Type="Folder">
+		<Item Name="ZM-HW-do.vi" Type="VI" URL="../ZM-HW-do.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">33554432</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">4</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1350574592</Property>
+		</Item>
+		<Item Name="ZM-HW-SIM-randomData.vi" Type="VI" URL="../ZM-HW-SIM-randomData.vi">
+			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+			<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">0</Property>
+			<Property Name="NI.ClassItem.MethodScope" Type="UInt">2</Property>
+			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1350574592</Property>
+			<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
+		</Item>
 	</Item>
 </LVClass>

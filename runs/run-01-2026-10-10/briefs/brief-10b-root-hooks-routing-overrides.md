@@ -5,7 +5,14 @@ Type: build (LabVIEW calls, Actor Framework). Phase 10 step b of 5 (a: class, do
 - Reports to read first: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-10a-root-class.md`,
   then `report-09b-hwm-hooks-overrides.md` (the measured route for role hooks, shape F, the interface override, the
   library, PLI and Handle Error) and `report-08b-cm-hooks-overrides.md`.
-  <<MANAGER: traps from report 10a go here before launch>>
+- State (report 10a, 2026-10-11 15:03): LabVIEW PID 14516 (port 59983), dwarn 22 (not degraded), project CLOSED. The
+  ROOT class is a TOP-LEVEL project item (step 5 wraps it); 12 members all read cold state 0 "VI has an error of type
+  8" until step 4 adds the interface override. Fields: `cmEnqueuer`/`hwmEnqueuer` are Message Enqueuer class refs;
+  `lastPackageType` is `ZM-PC-PACKAGE_TYPE.ctl`; `events` = `{stop: user event Boolean, error: user event String}`.
+  Accessors exist exactly as `02` lists them (no `Read hwmEnqueuer`, no `Read lastPackageType`).
+- `lvai_create_class` (1.9.5) writes the `.lvproj` with LF and no BOM: 10a used `...\proof\ZMP-09a\lvproj_drop_eol.py`
+  (F10). The repository's `.gitattributes` has `text=auto eol=lf`; git warns about CRLF in `.lvclass`/`.lvproj`: ignore
+  the warning, never re-normalise a LabVIEW file by hand.
 - Session 3 (2026-10-11) user go-ahead: "Continue run-01. You may restart LabVIEW when needed; agents may too." Max
   two starts, each reported. Never answer a dialog. Save version **26.0**. D38, D39 as before.
 - **D40** (`C:\project\claude\LabVIEW-AFAItest\CLAUDE.md`, "Errors are not handled yet"): `ZM-ROOT-evaluateError.vi` is

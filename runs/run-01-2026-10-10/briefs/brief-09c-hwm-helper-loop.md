@@ -5,7 +5,21 @@ Type: build (LabVIEW calls, Actor Framework helper loop). Phase 09 step c of 4 (
 - Reports to read first: `C:\project\claude\LabVIEW-AFAItest\runs\run-01-2026-10-10\reports\report-09b-hwm-hooks-overrides.md`
   (what exists: `createEvents`, `stop`, `close`, `evaluateError`, the library), `report-09a-hwm-class.md` (the events
   typedef and its element label), `report-08b-cm-hooks-overrides.md` (stub and swap route).
-  <<MANAGER: traps from report 09b go here before launch>>
+- State (report 09b, 2026-10-11 12:09): LabVIEW PID 14516 (port 59983), dwarn 4, project CLOSED. The HWM is in
+  `ZM-HWM-hardware_manager.lvlib` under `actors`; 14 VIs, cold sweep 14/14 state 1. The loop VI is the 15th member.
+- The role hooks exist: `stop` (Read events → Unbundle `stop` → Generate User Event T), `close` (fresh-chain Destroy →
+  Clear Errors, then Merge with `error in`), `createEvents` (Create User Event Boolean labelled `stop`). The loop VI does
+  NOT destroy the event: Unregister only.
+- `evaluateError` pane: class 11/3, `stop actor? in` 10 (default T), `stop actor? out` 2, `error in (no error)` 8,
+  `error out` 0. Leave `stop actor?` unwired in the loop.
+- Stubs: `lvai_placeholder_subvi` flattened `Read events` to the real `cluster{ref{UserEvent}{bool.stop}.stop}` (good);
+  two members with the SAME pane signature share one stub, so the swap cannot tell them apart: hand-make a distinct
+  stub for one of them (09b did `LVMCP Stub ZMP09b-close.vi`). Here: `Read events` and `Read prelaunchSettings` differ;
+  `ZM-HW-init` and `ZM-HW-close` have the same pane: give one its own stub.
+- **`kit\lvproj_drop.py` splits on CRLF only and emptied an LF `.lvproj` in 09a (F10):** check the line ending first;
+  on LF use `...\proof\ZMP-09a\lvproj_drop_eol.py`. The `.lvproj` is CRLF with a BOM after a LabVIEW close.
+- A VI is adopted into the project at a close if it was opened through it: throwaways live in `...\proof\ZMP-09c\`;
+  drop any adopted entry afterwards. `lvai_convert_vi_to_aixml` needs its target folder to exist.
 - Session 3 (2026-10-11) user go-ahead: "Continue run-01. You may restart LabVIEW when needed; agents may too." Max
   two starts, each reported. Never answer a dialog. Save version **26.0**. D38: `Helpers` placement by the user.
 - Every `lvai_*`/`pylv_*` call ALONE in its message, offline and read-only ones included (F9).

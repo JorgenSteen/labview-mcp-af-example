@@ -32,7 +32,9 @@
 			<Item Name="ZM-CP-MX-multi_protocol.lvlib" Type="Library" URL="../protocol/ZM-CP-MX-multi_protocol/ZM-CP-MX-multi_protocol.lvlib"/>
 			<Item Name="ZM-CP-UDP-udp_transport.lvlib" Type="Library" URL="../protocol/ZM-CP-UDP-udp_transport/ZM-CP-UDP-udp_transport.lvlib"/>
 		</Item>
-		<Item Name="receiver" Type="Folder"/>
+		<Item Name="receiver" Type="Folder">
+			<Item Name="ZM-receiver.vi" Type="VI" URL="../receiver/ZM-receiver.vi"/>
+		</Item>
 		<Item Name="tests" Type="Folder">
 			<Item Name="ZM-TST-tests.lvlib" Type="Library" URL="../tests/ZM-TST-tests.lvlib"/>
 		</Item>

@@ -1,0 +1,1 @@
+ZMP-05b-probe.vi cold (project closed), 66 ms, helperErrorCode 0: A=[bare parent]: A_init_code 0, A_publish_code 5000; B=[]: B_init_code 0, B_publish_code 0, B_close_code 0; error out F/0 (chain B).

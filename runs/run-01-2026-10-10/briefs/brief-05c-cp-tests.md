@@ -6,7 +6,18 @@ Type: build + test (LabVIEW calls). Phase 05 step c of 4 (a: UDP, b: MX done; d:
   `report-05b-cp-mx.md` (what exists, the probe readings, terminal names), `report-04b-cp-fl-test.md` (T4 as built,
   its AIXML source in `proof\ZMP-04b\`), `report-03b-hw-sim-test.md` (item 5: a test VI over several libraries by
   the direct route with class-constant seeds swapped by `constantsJson`).
-  <<MANAGER: traps from reports 05a/05b go here before launch>>
+- Facts from reports 05a2 and 05b (2026-10-11): sender `ZM-CP-UDP-sender` (defaults 127.0.0.1:61557, no Write for
+  address/port), receiver `ZM-CP-UDP-receiver` (`Write localPort` public; `ZM-CP-UDP-receive` public: in `timeout_ms`
+  I32; out `json`, `timed_out`), MX `ZM-CP-MX-multi_protocol` (`Write protocols` public, value terminal
+  `ZM-CP-MX-PROTOCOLS`, an array of `ZM-CP-communication_protocol`). Read every pane with `lvai_vi_terminals` before
+  wiring. Measured probe sources: `proof\ZMP-05a\ZMP-05a-probe.xml` (sender init/publish/close) and
+  `proof\ZMP-05b\ZMP-05b-probe.xml` (MX with [parent] and with []): copy their call spellings. An array of class
+  constants for `Write protocols` is built with `Build Array` of up-cast class constants (each FL constant after
+  `Write outputFolder`); a stub for an array-of-class terminal is a scalar `path`, so make that stub by hand with
+  `array{path}` (05b did: `LVMCP Stub ZMP05b-writeProtocols.vi`, source in `proof\ZMP-05b\`).
+- Note for `mx_ok`: the MX `close` after a clean `init` and `publish` must read 0; the files are checked after it.
+- The one-call rule was broken twice in a row by offline calls (`lvai_check_aixml`, `pylv_extract`): every
+  `lvai_*` and `pylv_*` call, offline ones included, goes alone in its message.
 - Save version **26.0**. User go-ahead (2026-10-10 15:22, extended 15:30): you may start or restart LabVIEW yourself
   when it crashes or stops answering, per `<skill>\session\start.md`, at most two starts in this step, each reported.
   Never answer a dialog. D39: icons without a prompt (step d).

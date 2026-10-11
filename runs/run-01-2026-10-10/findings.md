@@ -90,3 +90,16 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
   keep the "commit, then close" rhythm short, so a cut-off finds the project closed more often. Proposed for
   `orchestration/plan.md` in phase 13 (the harness is read-only during the run).
 - **Owner:** the user (harness), the skill's maintainer (`session/brief.md`, "Resume after a cut-off").
+
+## F8 (2026-10-11): MX hooks drop the updated elements on an element error (spec ambiguity)
+
+- **What:** `ZM-CP-MX-initAll`/`closeAll` and the MX `publish` loop over the elements with a shift register and
+  `Replace Array Subset`, then `Write protocols`. The generated accessor skips on an incoming error, so after an
+  element error the MX keeps its OLD array: never shortened (as `02` §7.9 asks), but the elements already processed
+  are not stored (report-05b, item 8c).
+- **Effect:** for `init`, an element opened before the failing one (a UDP socket) is not reachable from the stored MX,
+  so a later `close` cannot release it. In the root's launch, `createResources` of the CM releases on a failed init;
+  the leaked socket would close with LabVIEW. Normal runs are unaffected.
+- **Options:** write the array on a fresh error chain and merge the errors after it (a small regeneration of three
+  VIs), or keep as is. `02` does not say which. Owner: the user (decide before phase 12); the manager raises it in the
+  phase 12 brief if not answered.

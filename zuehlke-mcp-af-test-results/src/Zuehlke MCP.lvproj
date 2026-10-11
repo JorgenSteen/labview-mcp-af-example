@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+﻿<?xml version='1.0' encoding='UTF-8'?>
 <Project Type="Project" LVVersion="26008000">
 	<Property Name="NI.LV.All.SaveVersion" Type="Str">26.0</Property>
 	<Property Name="NI.LV.All.SourceOnly" Type="Bool">true</Property>

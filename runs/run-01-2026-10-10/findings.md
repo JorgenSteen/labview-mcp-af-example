@@ -151,3 +151,12 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
 - **Evidence:** report-09d item 2.
 - **Owner:** the skill's maintainer (read the hook's terminal name instead of a constant; do not chain the cleanup on
   the Delete's error). The phase 10 brief carries the derived helper.
+
+## F13 (2026-10-11): T4 `ZM-TST-protocol` failed once on `init_ok` and passed on the rerun (flaky test or code)
+
+- **What:** in the 10e closing rerun of T1-T7, T4 read Pass F with `init_ok` F (every other check T, error 0); the
+  next cold run passed. `init_ok` = FL `init` with no error AND a second `Create Folder` on the same folder answers
+  10; the test does not expose the code it read. Nothing in FL or T4 changed since 05c (T4 passed in 05c, 06, 09).
+- **Evidence:** report-10e item 4 and 6a; reports/evidence-10e-checks.txt; output folders `test_fl_125501706` (fail),
+  `test_fl_125517645` (pass).
+- **Owner:** phase 12 (run T4 at least three times, read the folder state of a failing run); the user if it recurs.

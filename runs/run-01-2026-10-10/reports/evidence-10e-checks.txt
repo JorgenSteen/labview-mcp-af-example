@@ -1,0 +1,33 @@
+10e checks (phase 10 close), 2026-10-11 19:42-19:53, LabVIEW 2026 Q3 32-bit PID 26148 port 52603, labview-mcp 1.9.5-local, project CLOSED
+git before: clean at 50de8e8 (apart from the two untracked runs\ notes, not mine)
+
+[cleanup] 27 VIs (26 ROOT + ZM-TST-routing), pa_cleanup_diagram_file, batches 5 + 22, codes 27/27 0, 2.7 s + 11.9 s
+  loop-VI probe first: proof\ZMP-10e\ZMP-10e-clean_probe.vi (copy of ZMP-10c-throwaway.vi): state 1 before/after, cleanup code 0,
+    spec rows 0:src1/dyn2, 1:src3 (static "Stop" Value Change)/dyn0, 2:src1/dyn1 same; use-default selTun 517 0x300801 same;
+    5 dyn wires same; 54 wires same endpoints (only the gRef VI name and the payload wire type label Payload Placeholder->error differ)
+  member helperPanel before/after: same spec rows, use-default, 54 wires identical; panel on call 1/1 before and after, state 1;
+    Stop mechanical action 1 (Switch When Released), visible T (after)
+  sweep before/after: 27/27 state 1, control 0 7 both
+
+[icons] spec existing, make_icons --check exit 0, generate exit 0 (160 icons); D39, no prompt
+  before read-back 27/27 written, 27 differ from the spec (no icons yet)
+  own layers: 26 ROOT VIs (_own PNG) + T7 composite, lvai_set_vi_icon 27/27 verified, own read-backs 27/27 at 0 px
+  class icon ZM-ROOT-root.lvclass and library icon ZM-ROOT-root.lvlib: all errors 0; read back 0 px each
+  apply 26 members: vi count 26, open codes 26 x 0, save codes 26 x 0
+  read-back 27/27 files, pixcmp --tree exit 0, 27 x 0 px
+
+[closing checks]
+  descriptions 27/27 (Actor Core: D40 text by pa_replace_description, replacements 1)
+  dependency (lv_loadability --links, 171 files under src): violations 0; ROOT -> CM HWM SIM FL UDP MX; HWM -> none; CM -> none;
+    ROOT referenced only by tests; SIM/FL/UDP/MX referenced only by ROOT and tests
+  .lvproj actors folder: CM, HWM, ROOT once each (lines 16-18); BOM, 42 CRLF; unchanged vs HEAD
+  versions: 75/75 at 26 (actors, tests, .lvproj 26.0)
+  cold sweep src\actors + src\tests: 62/62 state 1, control 0 7, 19.6 s; membership CM 13/0, HWM 16/0, ROOT 26/0, tests 7/0
+  T1 ZM-TST-packages  PASS  Pass=T error 0 (70 ms)
+  T2 ZM-TST-log       PASS  Pass=T error 0 (37 ms; 2 marker lines appended to output\ZM-error_log.txt)
+  T3 ZM-TST-hardware  PASS  Pass=T error 0 (85 ms)
+  T4 ZM-TST-protocol  run 1 FAIL Pass=F error 0 init_ok F (others T; output\test_fl_125501706)
+                      run 2 PASS Pass=T error 0 all T (143 ms; output\test_fl_125517645)
+  T5 ZM-TST-udp       PASS  Pass=T error 0 (360 ms)
+  T6 ZM-TST-pipeline  PASS  Pass=T error 0 (168 ms)
+  T7 ZM-TST-routing   PASS  Pass=T error 0, 4 checks T (444 ms; 2 ROOT drop lines appended; log now 11 lines)

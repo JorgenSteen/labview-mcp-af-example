@@ -2,7 +2,7 @@
 
 state: open            # open | closed
 last updated: 2026-10-11 11:04 by the manager session (session 3 start)
-next phase: 09 HWM actor, step d (Actor Core, proof runs, cleanup, icons) - running; 09a-09c done
+next phase: 10 ROOT actor - briefs to draft (session 3); phase 09 done
 open items: see "Open items" below.
 
 # Session 3 started 2026-10-11 10:58
@@ -189,7 +189,7 @@ PID 14040 (started by this session 2026-10-10 15:24), `Zuehlke MCP.lvproj - Proj
 | 06 | pipeline test | done | 2026-10-11 10:32 | 2026-10-11 10:39 | 558726e..f6f5260 (3 commits) | ZM-TST-pipeline.vi (T6) PASS in round 2 (a test-only fix), T1-T6 all PASS on the rerun, cleanup, icon 0 px, sweep 6/6, no production VI touched |
 | 07 | interface + message | done | 2026-10-11 10:44 | 2026-10-11 10:50 | 6ea3457..254038b (11 commits) | ZM-CI-common_interfaces.lvlib under common: interface ZM-CI-package_handler, method ZM-CI-handlePackage (pane 4815, package on 10), message class ZM-CI-handlePackage Msg by Message Maker + repair_r1 in the Messages folder; Do.vi casts to the interface; sweep 3/3, icons 0 px; links only to ZM-PC and vi.lib |
 | 08 | CM actor | done | 2026-10-11 11:05 | 2026-10-11 11:47 | 88f9417..572b81b (08a), a4c3ee7..17ce3f9 (08b), 3a71740..e3efe7a (08c) | 08a done: typedef ZM-CM-PRELAUNCH_SETTINGS (cluster{protocol: CP class}, derived cluster-element helper), class (Actor, implements ZM-CI-package_handler), bound fields, 5 private static accessors, public writePrelaunchSettings, all 26; members state 0 (error of type 8) until 08b overrides the interface method; 08b done: evaluateError, releaseProtocol (clears code 1 of a never-opened UDP close unlogged), createResources (shape F), ZM-CI-handlePackage override (type-8 break gone), library under actors, PLI/Stop Core/Handle Error hooked after Call Parent, sweep 13/13, no forbidden link, all 26; 08c done: launch proof (MX of one FL, 3 packages, Normal Stop) 3 lines twice, error log unchanged, no CM window left; forced PLI failure returned code 1 in 1.8 s, no hang, log unchanged; cleanup 13, icons 13 VIs + class + library at 0 px, override descriptions set by `pa_replace_description`; sweep 13/13, 16 files at 26, links only CM/CI/CU/PC/CP parent. No separate `feat(cm): communication manager actor` commit (the feat(cm) commits carry the build) |
-| 09 | HWM actor | running | 2026-10-11 11:52 | | 2822f5c..e0337ea (09a), 5575e6b..08cb7e7 (09b), 24736c3..6a19814 (09c) | 09a done: PRELAUNCH_SETTINGS {hardware: HW class, intervalMs U32 default 500 in the typedef}, EVENTS {stop user event}, class (Actor, implements the interface), bound fields, 5 private accessors, public writePrelaunchSettings, all 26; members state 0 (type 8) until 09b; kit bug F10 found and worked around; 09b done: createEvents, stop, close, createResources (shape F), evaluateError (sender HWM), ZM-CI-handlePackage override (type 8 gone), library under actors, PLI and Handle Error hooked after Call Parent, override descriptions, sweep 14/14, 18 files at 26, links only HWM/CI/CU/PC/HW parent; 09c launched; 09c: all five unmeasured points measured on throwaways, then NEEDS CLARIFICATION (producer error vs event loop; error out cleared), answered by the user (D40); then done: helperAcquisition (variant 2, event structure 3 levels deep wired by a derived helper, use-default tunnel flag, plot names, panel on call, hidden stop), loops stop each other, raw error out; CM and HWM evaluateError rebuilt as pass-throughs; D40 in decisions.md; sweep 15/15, 27/27 with CM; 09d launched |
+| 09 | HWM actor | done | 2026-10-11 11:52 | 2026-10-11 14:14 | 2822f5c..e0337ea (09a), 5575e6b..08cb7e7 (09b), 24736c3..6a19814 (09c), 7f4c4de..eda6452 (09d) | 09a done: PRELAUNCH_SETTINGS {hardware: HW class, intervalMs U32 default 500 in the typedef}, EVENTS {stop user event}, class (Actor, implements the interface), bound fields, 5 private accessors, public writePrelaunchSettings, all 26; members state 0 (type 8) until 09b; kit bug F10 found and worked around; 09b done: createEvents, stop, close, createResources (shape F), evaluateError (sender HWM), ZM-CI-handlePackage override (type 8 gone), library under actors, PLI and Handle Error hooked after Call Parent, override descriptions, sweep 14/14, 18 files at 26, links only HWM/CI/CU/PC/HW parent; 09c launched; 09c: all five unmeasured points measured on throwaways, then NEEDS CLARIFICATION (producer error vs event loop; error out cleared), answered by the user (D40); then done: helperAcquisition (variant 2, event structure 3 levels deep wired by a derived helper, use-default tunnel flag, plot names, panel on call, hidden stop), loops stop each other, raw error out; CM and HWM evaluateError rebuilt as pass-throughs; D40 in decisions.md; sweep 15/15, 27/27 with CM; 09d done: Actor Core (loop beside Call Parent, stop after it, close after both), run 1 SIM 6 lines x3 with clean Last Ack, run 2 bare HW: the tree stopped by itself with 5000 in 0.6 s (D40), stop reset PASS (6 + 6 lines), close order by dataflow (export), not timestamps; cleanup 17, icons 17 + class + library at 0 px; sweep 29/29 (HWM + CM), 36 actor files at 26, links only HWM/CI/PC/HW parent |
 | 10 | ROOT actor | todo | | | | |
 | 11 | launchers + receiver | todo | | | | |
 | 12 | runs + structural checks | todo | | | | |
@@ -208,6 +208,7 @@ state: todo | running | done | failed | skipped (say why in the result column)
 | T5 ZM-TST-udp Pass | pass (2026-10-11 ~10:13, cold, round 1; run twice, same readings) | reports/evidence-05c-checks.txt: Pass T, error 0, rx_init_ok/roundtrip_ok/timeout_ok/no_listener_ok/mx_ok/rx_publish_5000_ok T; port 61557 free; commit 53627a4 |
 | T6 ZM-TST-pipeline Pass | pass (2026-10-11 ~10:36, cold, round 2 after a test-only fix); T1-T5 rerun PASS in the same session | reports/evidence-06-checks.txt: Pass T, error 0, pipeline_ok/error_stops_ok T; commit 558726e |
 | CM throwaway launch (phase 08 proof) | pass (2026-10-11 11:35, cold, two runs) | reports/evidence-08c-checks.txt: lines 3, every error 0, error log 5 → 5; PLI failure: launch error 1, no hang |
+| HWM throwaway runs (phase 09 proof) | pass (2026-10-11 ~14:00, cold) | reports/evidence-09d-checks.txt: run 1 SIM 6/6/6 lines, CM Last Ack 0; run 2 bare HW: CM Last Ack 5000 at 559/642 ms, Normal Stops 1556 (tree already down), 0 lines; stop reset 6 + 6 lines |
 | T7 ZM-TST-routing Pass | | |
 | R-normal ×3 | | |
 | R-error | | |
@@ -215,13 +216,21 @@ state: todo | running | done | failed | skipped (say why in the result column)
 | R-receiver | | |
 | R-viewer | | |
 | R-close-order | | |
-| R-stop-reset | | |
+| R-stop-reset | measured in phase 09d (2026-10-11): PASS; rerun in phase 12 | reports/evidence-09d-checks.txt, stop reset line |
 | R-pli-failure | | |
 | structural checks (03 §3), one line per row that failed | | |
 
 ## Traps carried forward
 
 Facts the next brief must repeat, each by its content with its source (report file and section).
+
+- `kit\pa_close_join.xml` hard-codes the hook input `error in` (our hooks have `error in (no error)`) and skips every
+  step after a Delete that finds nothing (1055): use the derived `...\proof\ZMP-09d\zmp09d_close_join.xml` for
+  D-close (F12). A tree can be proved without a throwaway class: AF's public `Launch Actor.vi` with a proof-owned
+  message queue as the top caller, then the child launched with the parent's enqueuer as its caller; the proof queue
+  receives the Last Ack (report-09d, items 2-3). Clean Up Diagram kept the loop VI's dynamic wiring, event specs and
+  use-default tunnel (probed on a copy first). An icon apply may re-save another class's `.lvclass`: restore it from
+  git with the project closed if it is out of scope (report-09d, item 9d).
 
 - A helper loop with the event structure inside a case frame inside the loop (3 levels): `lvai_generate_vi_with_events`
   keeps it, but `lvai_wire_dynamic_events` reaches only 2 levels (Error 91): use the derived
@@ -359,6 +368,12 @@ Facts the next brief must repeat, each by its content with its source (report fi
 
 Where the build differs from `02-specification.md`, with why, and whether the user agreed.
 
+- 2026-10-11, phase 09d: the helper-loop close-order check rests on the Actor Core export (close is fed only by
+  Merge(loop, stop), so dataflow orders it), not on timestamped lines (they would need log writes in `src\`); `03`
+  R-close-order in phase 12 measures it. The runs used AF's `Launch Actor.vi` with the CM as the HWM's caller instead of
+  a throwaway caller class. `pa_close_join` was replaced by a derived copy (F12). An empty marker commit eda6452 carries
+  the card's phase message. The CM `Handle Error.vi` description still describes D14 (phase 10 fixes it). Not asked.
+
 - 2026-10-11, phase 09c (the user's decision D40): every `evaluateError` is a pass-through (no log, no error package,
   no clearing), D14 suspended; helper loops stop each other on any exit; the loop VI's `error out` is the raw merged
   error. `03` R-error is judged against D40 in phase 12 (findings F11).
@@ -427,6 +442,7 @@ Where the build differs from `02-specification.md`, with why, and whether the us
 Do these in LabVIEW's Project Explorer at the end of a phase or before phase 12, then commit. Each line names
 the class, the item and the file that holds the text.
 
+- 09d: HWM `Actor Core.vi` into `AF Overrides`; review the agent-written Actor Core and Handle Error texts (d038199).
 - 09c: `ZM-HWM-helperAcquisition.vi` into `Helpers`; `ZM-HWM-evaluateError.vi` and `ZM-CM-evaluateError.vi` into
   `Methods`; review the loop VI's agent-written description (report-09c, item 8).
 - ZM-HWM-hardware_manager: class description (text in briefs/brief-09a-hwm-class.md, end of "What to build");

@@ -140,3 +140,14 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
   pass-throughs in 09c; `03` R-error's expected readings (error_lines 1, ui_errors, root keeps running) no longer
   hold and phase 12 judges R-error against D40.
 - **Owner:** the user (restore the error plan later); the requirements' author (`02` §5/§7.11, `03` R-error).
+
+## F12 (2026-10-11): `kit/pa_close_join.xml` fails on hooks with `error in (no error)` (skill kit bug)
+
+- **What:** the helper hard-codes the hook's error input as `error in`; this project's hooks (made by
+  `lvai_add_class_method`) name it `error in (no error)`. And when there is nothing to delete, its Delete step answers
+  1055 and every later step is skipped, leaving unsaved partial edits in memory (discarded by the project close). The
+  09d agent used a derived copy (`proof/ZMP-09d/zmp09d_close_join.xml`) with the right constant and Remove Bad Wires fed
+  from before the Delete; Actor Core then exported as specified.
+- **Evidence:** report-09d item 2.
+- **Owner:** the skill's maintainer (read the hook's terminal name instead of a constant; do not chain the cleanup on
+  the Delete's error). The phase 10 brief carries the derived helper.

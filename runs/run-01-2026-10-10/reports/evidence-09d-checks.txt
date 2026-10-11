@@ -1,0 +1,10 @@
+09d checks, 2026-10-11, LabVIEW 2026 Q3 32-bit (PID 14516), labview-mcp 1.9.5-local f9ee41d9, project closed for every run.
+Route: proof VIs launch a ZM-CM (MX of one FL, output/test_hwm_<tick>) with AF Launch Actor and a proof-owned message queue as caller,
+then the HWM with Launch Actor and the CM's enqueuer as caller (the CM is the HWM's caller). No throwaway class.
+run1 SIM #1: lines 6, launch 0/0, ack1 timed out T (3046 ms), stop_hwm 0, stop_cm 0, CM Last Ack error 0, total 4046 ms, log unchanged
+run1 SIM #2: lines 6, same codes, ack1 3039 ms, total 4040 ms
+run1 SIM #3 (after cleanup and icons): lines 6, same codes, ack1 3035 ms, total 4036 ms
+run2 HW  #1: CM Last Ack 559 ms after launch, error 5000 "ZM-HW-do.vi: must be overridden by a child class"; stop_hwm 1556, stop_cm 1556; 0 lines (folder empty, no TestPackage/ErrorPackage file); log unchanged; total 6560 ms
+run2 HW  #2: same, Last Ack at 642 ms, total 6643 ms
+stop reset: one VI, CM caller, HWM#1 3 s -> Normal Stop -> 1 s -> HWM#2 (same settings) 3 s -> Normal Stop -> CM stop: lines 6 after HWM#1, 12 total; all codes 0; CM Last Ack 0. helperAcquisition IsReentrant 0.
+helper panel: lv_windows after runs: no helperAcquisition/Actor Core window, 0 dialogs.

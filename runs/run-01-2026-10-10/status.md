@@ -269,8 +269,8 @@ Facts the next brief must repeat, each by its content with its source (report fi
 Where the build differs from `02-specification.md`, with why, and whether the user agreed.
 
 - 2026-10-11, phase 05d: the agent sent two `lvai_set_vi_icon` calls in one message; the third break of the one-call
-  rule in a row (05a2, 05b, 05d), each harmless, each by a different agent on Opus 5.5 (none on Fable 5.1 in session
-  1 reported one). Recorded as finding F9; the launch messages keep the rule in bold.
+  rule in four Opus 5.5 steps (05a2, 05b, 05d; 05c kept it), each harmless; no Fable 5.1 agent of session 1
+  reported one. Recorded as finding F9; the launch messages keep the rule in bold.
 - 2026-10-11, phase 05b: the agent sent two `pylv_extract` calls in one message (offline reads); the second break of
   the one-call rule in a row, no harm (report-05b, item 8a). The 05c launch message repeats the rule with emphasis.
 - 2026-10-11, phase 05b: when an MX element errors, `Write protocols` skips (it honours `error in`), so the array

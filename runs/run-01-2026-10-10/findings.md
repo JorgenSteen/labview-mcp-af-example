@@ -104,10 +104,10 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
   VIs), or keep as is. `02` does not say which. Owner: the user (decide before phase 12); the manager raises it in the
   phase 12 brief if not answered.
 
-## F9 (2026-10-11): the one-call rule broken in three steps in a row after the switch to Opus 5.5 (agent behaviour)
+## F9 (2026-10-11): the one-call rule broken in three of four steps after the switch to Opus 5.5 (agent behaviour)
 
 - **What:** 05a2 sent two `lvai_check_aixml` calls in one message, 05b two `pylv_extract` calls, 05d two
-  `lvai_set_vi_icon` calls, although each brief and launch message stated the rule, the last two in bold. None of the
+  `lvai_set_vi_icon` calls (05c kept the rule), although each brief and launch message stated the rule, the last two in bold. None of the
   15 Fable 5.1 agents of session 1 reported a break. All three breaks were harmless (offline calls or fast calls).
 - **Evidence:** report-05a2 item 9b, report-05b item 8a, report-05d item 6a.
 - **Why it matters:** the skill (`session/brief.md`) records the same break in four pilot sessions; a parallel call on

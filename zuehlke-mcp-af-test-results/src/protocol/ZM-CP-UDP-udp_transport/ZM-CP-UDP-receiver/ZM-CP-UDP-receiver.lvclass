@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+﻿<?xml version='1.0' encoding='UTF-8'?>
 <LVClass LVVersion="26008000">
 	<Property Name="NI.Lib.ContainingLib" Type="Str">ZM-CP-UDP-udp_transport.lvlib</Property>
 	<Property Name="NI.Lib.ContainingLibPath" Type="Str">../../ZM-CP-UDP-udp_transport.lvlib</Property>

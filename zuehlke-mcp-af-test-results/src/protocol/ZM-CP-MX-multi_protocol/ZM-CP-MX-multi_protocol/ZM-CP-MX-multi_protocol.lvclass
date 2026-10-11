@@ -45,6 +45,14 @@
 			<Property Name="NI.ClassItem.State" Type="Int">8396800</Property>
 		</Item>
 	</Item>
+	<Item Name="ZM-CP-close.vi" Type="VI" URL="../ZM-CP-close.vi">
+		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+		<Property Name="NI.ClassItem.InvokeUsage" Type="UInt">1</Property>
+		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+		<Property Name="NI.ClassItem.State" Type="Int">1107821072</Property>
+	</Item>
 	<Item Name="ZM-CP-init.vi" Type="VI" URL="../ZM-CP-init.vi">
 		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
 		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>

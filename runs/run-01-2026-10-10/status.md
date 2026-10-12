@@ -28,7 +28,8 @@ the run's result moves from partial to **accepted** (run log row and README stat
 7. `/cost` session 4: $51.55; run total $673.98 (`cost.md`).
 
 **LabVIEW at the end (13:00):** PID 27076 (started by the 12j agent 11:56:42, port 61113), project closed, 0 unsaved,
-no dialog, LVAutoSave 0; a scratch `LVMCP Validate` VI is in memory, so end it by a kill, not a close. Earlier: PID 26716 was killed by the 12i agent at 09:11:29 under the session's go-ahead (exit save dialog
+no dialog, LVAutoSave 0. Killed by the manager at the user's request ("kill labview", 2026-10-12 ~13:20); no LabVIEW
+runs now, LVAutoSave 0. Earlier: PID 26716 was killed by the 12i agent at 09:11:29 under the session's go-ahead (exit save dialog
 for the scratch VIs).
 
 # Session 4 started 2026-10-11 23:52

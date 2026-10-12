@@ -26,7 +26,15 @@ open items: see "Open items" below.
   T1-T7 PASS (T4 failed once on `init_ok`, F13 flaky, rerun PASS). **Not done: the 5 actor `.ctl` into TypeDefs** - the
   typedef-add helper run (`lvai_run_vi_and_read_values`) was refused by the Claude Code permission classifier ("Modify
   Shared Resources"); not retried. ROOT description: LabVIEW stores ANSI, "→" became "?", rewritten with "->".
-  **NEEDS CLARIFICATION relayed to the user 00:17; waiting.**
+  NEEDS CLARIFICATION relayed to the user 00:17. The user (2026-10-12): "Moving things into viritual folders does not
+  change anything, so it can be done at will". Sent to the same agent: do the 5 typedef adds by the 12f route; stop on
+  another refusal; keep "->" in the ROOT text (not answered).
+- 12h2 follow-up DONE (f31f16b, 959751e, 2340484): the 5 actor `.ctl` added (the call went through this time); callers
+  launchCm, launchHwm and both launchers relinked and saved; 22 files at 26; sweep 137/137, membership clean, T1-T7 PASS.
+  Manager check from the XML: all 11 typedefs are class members; no class keeps anything at its root but its private
+  data `.ctl`. **12h done; the D38 list ("For the user in the IDE") is closed** except reviewing agent-written texts.
+  The user (2026-10-12) asked to log the folder-move rule as a skill/MCP improvement: `lessons-mcp-skill.md` items
+  38-39 (untracked) and the manager's memory.
 
 # HAND-OVER 2026-10-11 23:50 (session 3, after the run): next session starts HERE
 

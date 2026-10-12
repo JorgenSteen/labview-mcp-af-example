@@ -2,7 +2,16 @@
 Type: fix (LabVIEW calls). After phase 13 (the run is closed, result partial); decided by the user 2026-10-11 (D44).
 
 ## UPDATES (read first; they override the rest)
-- <<MANAGER: 12f's result (commit range, LabVIEW state at its end, any new trap), filled before launch>>
+- 12f, 12h1, 12h2 done (791ccab..2340484): every class has its description, virtual folders and TypeDefs by VI Server
+  scripting. For you: CM `releaseProtocol` is in the CM class's `Methods` folder and `Stop Core.vi` in `AF Overrides`
+  (virtual folders only; the files did not move); `ZM-CM-PRELAUNCH_SETTINGS.ctl` is now a CM class member. Sweep
+  137/137 and T1-T7 PASS at the end of 12h2 (T4's `init_ok` flaked once in 12h2, F13: one rerun is allowed, report it).
+  LabVIEW at 08:41 (2026-10-12): PID 26716, port 56779, project closed, no dialog, LVAutoSave 0, only the 2
+  `LVMCP Validate*` scratch VIs unsaved. New traps: a class or VI text is stored ANSI ("→" becomes "?": use ASCII);
+  the in-memory list helper's answer is over the tool-result limit (`proof\ZMP-12h1\mem_lines.py`); a project close
+  may change only the `.lvproj` BOM/EOL: restore from git.
+- **Standing go-ahead for this session (the user, 2026-10-11): you may start, restart, close and kill LabVIEW at
+  will;** report each one.
 - D44 (product `.labview\decisions.md`), the user's words: "log, but let the error pass through". Today (report-08b,
   item 2): `ZM-CM-releaseProtocol.vi` = Read protocol -> ZM-CP-close -> Write protocol; code 1 cleared without a log;
   any other close error -> ZM-CU-log, then cleared; `error out` carries only a failure of the log. CM `Stop Core.vi`
@@ -10,7 +19,6 @@ Type: fix (LabVIEW calls). After phase 13 (the run is closed, result partial); d
 - Traps (status.md "Traps carried forward"): **broken wire first** (`pa_clean_member`) before any rebuild; a member of
   a LOADED library cannot be regenerated over its path (1357): prefer in-place scripted edits; `.lvproj` BOM/EOL
   after a close: restore from git if otherwise unchanged; F10 before any `lvproj_*` script; one call per message.
-- Standing kill go-ahead: ask the manager's launch message; the user grants it per session.
 
 ## Goal
 1. **`ZM-CM-releaseProtocol.vi`**: code 1 stays cleared without a log; any other close error is logged with

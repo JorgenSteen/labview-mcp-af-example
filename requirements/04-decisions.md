@@ -4,7 +4,10 @@ The project follows the `labview` skill's convention defaults. This file holds w
 to the project: the **decided** rules (the user's choices that the defaults do not cover or that the
 skill asks for, e.g. the error plan), and the design decisions with their reasons. The numbers
 D1–D34 are kept from the original pilot so results can be compared; decisions that were replaced by a
-skill default are listed in `05-skill-alignment.md`, not here.
+skill default are listed in `05-skill-alignment.md`, not here. D39-D47 were decided by the user during and
+after run-01 (2026-10-10 to 2026-10-12) and belong to the requirements from version 2 on; D38 (who sets class
+descriptions, typedef membership and folders, and how) is about how the build is run and lives in the harness's
+`CLAUDE.md`.
 
 When the remake's skill setup writes `.labview/conventions/` and `.labview/decisions.md`, every row
 marked **decided** below goes in as a `decided` rule; everything else is `default`.
@@ -15,7 +18,7 @@ marked **decided** below goes in as a `decided` rule; everything else is `defaul
 |---|---|---|---|
 | D3 | Output: **JSON Lines, one file per package type**, `output/<type>.jsonl`, opened and closed per write | (design) | graphable, always flushed, maps 1:1 to one MQTT topic per type |
 | D4 | The five data types and their **JSON keys** (typedef element labels, snake_case): `temperature_c` DBL, `sample_index` I32, `duty_percent` U8, `sensor_ok` Boolean, `status` String; header keys `timestamp`, `type`, `destination` | naming (not covered: element labels) | the keys are the output format; changing them breaks the viewer and the receiver |
-| D14 | **Error-handling plan**: HWM/CM log, send an error package up, stop with a clean Last Ack (error cleared after the parent, `stop actor?` T); ROOT logs and stops with the error. Recorded in each actor's description | errors.plan-required | a manager error must not silently kill the application, and must be visible on the root's panel |
+| D14 | *(superseded by D40 for now)* **Error-handling plan** (the original): HWM/CM log, send an error package up, stop with a clean Last Ack (error cleared after the parent, `stop actor?` T); ROOT logs and stops with the error. Recorded in each actor's description | errors.plan-required | a manager error must not silently kill the application, and must be visible on the root's panel |
 | D15 | The local log is `ZM-CU-log.vi`, fixed file `output/ZM-error_log.txt`, `<ISO UTC timestamp>\t<message>`, callers write `<sender>\t<code>\t<source>` | errors.log-local (asks the project) | simple, one file, no configuration |
 | D16 | A parent method that is only a placeholder returns **error 5000**; a child override calls its parent where the parent does real work | (design) | a missing override shows up as an error, not as empty output |
 | D18 | Custom codes 5000–5999, each registered (`error-codes.md`, `ZM-errors.txt`) and labelled `#customerror <code>` on the diagram where raised | (not covered) | one known place; *Explain Error* shows the text; a search finds every use |
@@ -23,6 +26,15 @@ marked **decided** below goes in as a `decided` rule; everything else is `defaul
 | D35 | Overrides of a parent class's or interface's method go in the class's **`Methods`** folder | layout.class-folders (no `Overrides` folder) | the skill's folder list has no place named for them; they are methods of the class |
 | D36 | Top-level VIs without an owner keep `ZM-<name>.vi` (`ZM-launcher.vi`, `ZM-launcher_test.vi`, `ZM-receiver.vi`) | naming.prefix (no owner) | they belong to no actor, class or library |
 | D37 | The UDP sender and receiver share one library `ZM-CP-UDP-udp_transport.lvlib` and the abbreviation `UDP` | layout.library-per-actor | two ends of one transport, always shipped together |
+| D39 | Icons as the skill's generator draws them today (white 3x5 banner text; the library glyph at the left of the body standing in for the class glyph); applied without a preview prompt | icons.banner, icons.class-glyph | the user, 2026-10-10: "Approve as is ... so any clean start also does the same, without this prompt" |
+| D40 | **Errors are not handled yet** (supersedes D14 for now): every `ZM-<A>-evaluateError` is a pass-through (no log, no error package, no clearing); in a helper-loop VI every loop stops the others when it ends (the `stop` hook, its error into Clear Errors; the event loop also writes the local `stop` where the VI has another loop); after the loops Merge → `evaluateError` → on an error Send Normal Stop; the loop VI's `error out` is the raw error. An error stop cascades to the whole tree through the Last Ack (AF default, no Handle Last Ack Core override); the only clean stop is the normal shutdown from the root | errors.plan-required, errors.loop-errors, af-shapes.stop-mechanism | the user, 2026-10-11: "I just want the shutdown or error to be controlled by the normal stops"; "all evaluate error should be similar for now, can add stuff later"; "if any actor stops it should cascade and stop all" |
+| D41 | Each actor with a helper loop has a private static `ZM-<A>-init.vi` in Actor Core, in series before Call Parent, doing everything Actor Core sets up (ROOT: `launchCm` → `launchHwm`, then Register For Events; HWM: Register For Events); the loop VI takes the registration refnum and keeps Unregister | af-shapes.registration (replaces "right before the loop" for these actors) | a stop generated before the loop VI had registered was lost and the root's tree hung (run-01). The user, 2026-10-11: "Make a init method and call it in actor core before the core and add all init things there" |
+| D42 | The project has **13 libraries** (12 shipped + `ZM-TST-tests`) | (count) | the user, 2026-10-11: "13 is right" (an earlier "14" was a counting slip) |
+| D43 | Every launcher has an `error out` indicator, `ZM-launcher.vi` too; a failed launch stays visible, nothing is cleared | errors.ignored-errors | the user, 2026-10-11: "launchers should have error out indicator" |
+| D44 | A release error is logged and passed on by `ZM-CM-releaseProtocol` (code 1 from a never-opened resource is cleared without a log); the CM's Stop Core ends it in Clear Errors, because AF's Stop Core has no error out | errors.release-errors | the user, 2026-10-11/12: "log, but let the error pass through"; "no error out of stop core ... if i need the error i need to log it before that" |
+| D45 | `ZM-launcher_test.vi` sits in the project's `tests` virtual folder (its file stays in `src/`; it is not a member of `ZM-TST-tests.lvlib`); `ZM-launcher.vi` stays at the root | layout (project tree) | the user, 2026-10-12: "yes, move it into tests virtual folder only" |
+| D46 | Descriptions are short: what it does (and an actor's error plan) in 2-4 sentences, about 400 characters at most, ASCII; no decision numbers, rule IDs or spec section references, no walk through the diagram | hygiene.descriptions | the user, 2026-10-12: "The VI desription is too long. your shorter description is good" |
+| D47 | The product has a user guide, `docs/user-guide.html`: one self-contained HTML page for a LabVIEW user (`01` R11) | (deliverable) | the user, 2026-10-12: asked for user documentation "like the html one" and chose an HTML guide; "Add the making of it to the requirement" |
 
 ## Design decisions (unchanged by the skill)
 

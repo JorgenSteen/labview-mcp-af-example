@@ -267,7 +267,8 @@ page; the numeric fields plot.</p>
 
 <h2 id="errors">6. Errors</h2>
 <div class="note"><strong>Errors are not handled yet.</strong> This is deliberate for now and replaces the
-specification's plan (log, report an error package, keep the root running).</div>
+original plan (log, report an error package, keep the root running); a later plan can build on the
+error-package path that is already there.</div>
 <ul>
 <li>An error in an actor (in a message or its helper loop) stops that actor. Its Last Ack carries the error to
 the caller, so an error in the HWM or the CM stops the root, and the root stops the whole tree. Nothing is

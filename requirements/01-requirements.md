@@ -83,7 +83,8 @@ Environment: **LabVIEW 2026 Q3, 32-bit**, Actor Framework from `vi.lib`. Tests a
   **caller's enqueuer** with the interface message, so it never knows the actor above it.
 - The interface passes the generic package and has **no logic**. What happens to a package is each
   actor's choice, reading the content through the package class.
-- **Errors travel the same way, as error packages** — no second interface method or message.
+- **Errors travel the same way, as error packages** — no second interface method or message. (The path
+  is built; under D40 no actor sends an error package yet, R7.)
 - Path: HWM helper loop → HWM (own queue) → ROOT → CM → protocol object.
 - Behaviour per actor:
   - **HWM**: counts and forwards every package to its caller. A failed send to the caller (during
@@ -111,24 +112,28 @@ Environment: **LabVIEW 2026 Q3, 32-bit**, Actor Framework from `vi.lib`. Tests a
   a flattened class (so the receiver is not tied to the class version).
 - About two lines per second in `output/TestPackage.jsonl` during a run.
 
-### R7 Error handling (the user's plan, decided D14; skill `errors.*` and `af-shapes.handle-error-order`)
+### R7 Error handling (the user's plan, decided D40; skill `errors.*` and `af-shapes.handle-error-order`)
 
-- Every actor's `Handle Error` override **calls its parent first**; then one decision VI,
-  `ZM-<A>-evaluateError`, works on the parent's outputs (error and `stop actor?`). The parent already
-  treats 43 (Normal Stop) as a normal shutdown; `evaluateError` passes "no error" and 1608 (Emergency
-  Stop) through untouched.
-- Any other error:
-  - **HWM, CM**: log it, send an **error package** (sender `HWM`/`CM`) to the caller, and stop with
-    the error **cleared** (`stop actor?` stays T), so the Last Ack is clean and the root keeps running.
-  - **ROOT**: log it and stop with the error; AF stops HWM and CM.
-- **Helper-loop errors** (`errors.loop-errors`): the loop's error case ends the loop; after it the
-  loop calls `evaluateError` and sends Normal Stop to its own actor.
+- **Errors are not handled yet** (D40, which replaces the original plan D14 for now): shutdown and errors are
+  controlled by the normal stops.
+- Every actor's `Handle Error` override **calls its parent first** (the parent treats 43, Normal Stop, as a
+  normal shutdown); then `ZM-<A>-evaluateError` works on the parent's outputs. For now it is a
+  **pass-through**: no log, no error package, no clearing.
+- So an error stops its actor, its Last Ack carries the error, the caller stops with it (AF default, no Handle
+  Last Ack Core override), and the root's Stop Core stops the rest: **an error anywhere stops the whole tree**.
+  The only clean stop is the normal shutdown from the root.
+- **Helper-loop errors** (`errors.loop-errors`): the loop's error case ends the loop and every loop of the helper
+  VI stops the others; after the loops the VI calls `evaluateError` and, on an error, sends Normal Stop to its own
+  actor. Its `error out` is the raw error.
+- The error-package path (the error package class, its constructor, the root showing an error package on its
+  panel) stays built so a later plan can use it; no actor sends one yet.
 - The plan is written in each actor's class description and in `decisions.md`
   (`errors.plan-required`).
 - **Common error log** `ZM-CU-log.vi` (own library, no dependencies): string in,
   `<ISO UTC timestamp>\t<message>` appended to the fixed file `<project folder>\output\ZM-error_log.txt`
-  (folder created if missing). Callers write `<sender>\t<code>\t<source>`. Release errors in Stop Core
-  are logged there too, or cleared when ignored on purpose.
+  (folder created if missing). Callers write `<sender>\t<code>\t<source>`. Release errors are logged
+  there too: the CM's `releaseProtocol` logs the error and passes it on, and it ends in Stop Core, whose AF pane
+  has no error out (D44); code 1 from a never-opened resource is cleared without a log.
 - A clean stop leaves the error log **empty**.
 - Errors deliberately not handled end in `Clear Errors.vi`, never unwired (`errors.ignored-errors`).
 - **Parent placeholders return error 5000** (`source` = `"<VI file name>: must be overridden by a
@@ -144,8 +149,8 @@ Environment: **LabVIEW 2026 Q3, 32-bit**, Actor Framework from `vi.lib`. Tests a
   it needs at launch, and a public custom accessor `ZM-<A>-writePrelaunchSettings.vi`. The caller
   launches a child in its own `launch<Child>` method: fill the settings → `writePrelaunchSettings` →
   Launch Nested Actor. The launchers do the same for the root.
-- **Launches** run from the root's **Actor Core** (CM first, then HWM: the CM enqueuer must be stored
-  before the first package arrives), never from Pre Launch Init.
+- **Launches** run from the root's **Actor Core**, inside its `init` method (CM first, then HWM: the CM
+  enqueuer must be stored before the first package arrives), never from Pre Launch Init.
 - **Resources** (user events, the protocol's file and socket) are created in **Pre Launch Init** by ONE
   member `createResources`, which cleans up whatever it created if it fails (Stop Core does not run
   after a failed Pre Launch Init).
@@ -161,12 +166,17 @@ Environment: **LabVIEW 2026 Q3, 32-bit**, Actor Framework from `vi.lib`. Tests a
   2. All user events of one actor live in **one cluster typedef `ZM-<ABBR>-EVENTS.ctl`**, held in one
      private field `events` with one accessor pair. `createEvents` creates them all and does one
      `Write events`; every user does `Read events` → Unbundle By Name.
-  3. **Registration**: Register For Events right before the loop on a **fresh "no error"**; the refnum
-     enters the event structure's **dynamic event terminal**; its **right-side** output goes out of
-     the loop to `Unregister For Events`. No separate refnum tunnel, no wire around the event
-     structure.
+  3. **Registration in `init`** (D41): each actor with a helper loop has a private `ZM-<ABBR>-init.vi`,
+     run in Actor Core in series **before Call Parent**, that does everything Actor Core sets up (ROOT:
+     the launches, then the registration; HWM: the registration). It registers on a **fresh "no
+     error"** and hands the refnum to the loop VI, which wires it into the event structure's **dynamic
+     event terminal**; its **right-side** output goes out of the loop to `Unregister For Events`. No
+     separate refnum tunnel, no wire around the event structure. So a stop sent right after Call
+     Parent is never lost.
   4. **Error case inside the loop**: the loop carries its error in a shift register; Error frame →
-     the loop stops; No Error frame → the loop's work.
+     the loop stops; No Error frame → the loop's work. **Every loop stops the others when it ends**,
+     for any reason (D40): it calls the `stop` hook, its error into Clear Errors; the event loop also
+     writes the local `stop` where the VI has another loop.
   5. **The stop**: Actor Core sends the helper loop's stop user event **right after Call Parent**, on a
      fresh error chain, taking the class wire from before Call Parent. So the loop stops whenever Call
      Parent returns, for any reason.
@@ -197,18 +207,27 @@ Environment: **LabVIEW 2026 Q3, 32-bit**, Actor Framework from `vi.lib`. Tests a
   `ZM-CP-UDP`, `ZM-CP` and `ZM-PC`. Uses `ZM-CP-UDP-receiver` in a loop (1000 ms timeout); unflattens
   the header, and for `TestPackage` the data; shows the chart (temperature, duty), the measured interval
   between packets, the last line and a packet count. Stop is Switch When Released. It can start and
-  stop at any time while the tree runs; the tree does not notice.
+  stop at any time while the tree runs; the tree does not notice. The root's panel carries a short note
+  pointing to it (the `receiver` virtual folder).
 - `assets/jsonl_viewer.html` (provided, browser-only) graphs a `.jsonl` file.
 
 ### R10 Launchers
 
 - `ZM-launcher.vi` (interactive): optional `output_folder` (empty = `<project folder>\output`); fills
   the root's pre-launch settings, launches the root, returns. The tree runs until Stop on the root's
-  panel.
-- `ZM-launcher_test.vi` (headless): deletes the two output files, launches the root (optionally with
+  panel. It has an `error out` indicator, so a failed launch stays visible (D43).
+- `ZM-launcher_test.vi` (headless, in the project's `tests` virtual folder, D45): deletes the two output files, launches the root (optionally with
   the placeholder hardware = the error run), waits `run_time_ms`, reads the root helper loop's
   `errors` indicator from the running VI, sends Normal Stop, waits 1 s, counts lines and returns them.
   Inputs and outputs in `02` §8.
+
+### R11 User documentation (D47)
+
+- `README.md` in the product folder: what the application is, how to open and run it, the folder layout.
+- `docs/user-guide.html`: a user guide for a LabVIEW user who has never seen the project, one self-contained HTML
+  page (inline CSS and SVG, opens offline): what the application is, the actor tree as a diagram, how to run the
+  launchers and the receiver, what the panels show, the output files, errors, the tests, troubleshooting, the
+  folder layout. Written at the end of the build, from this pack and the built code; every name matches `02`.
 
 ## 3. Structural and convention requirements (skill defaults)
 
@@ -230,7 +249,9 @@ Environment: **LabVIEW 2026 Q3, 32-bit**, Actor Framework from `vi.lib`. Tests a
 - **Virtual folders** in every class (not on disk): `Accessors`, `AF Overrides`, `Helpers`, `Messages`,
   `Methods`, `TypeDefs` (+ `SubVIs` when needed), only when non-empty. A class's typedefs are members
   of the class. Files stay flat in the class folder.
-- **Descriptions**: every class and VI has one; each actor's class description states its error plan.
+- **Descriptions** (D46): every class and VI has one, and it is **short**: what it does and, for an actor and
+  its overrides, hooks and helper loops, its error plan, in 2-4 sentences, about 400 characters at most, ASCII
+  only; no decision numbers, rule IDs or spec section references, no step-by-step walk through the diagram.
 - **Icons** (skill `icons.*`): each class has a template icon (a banner with its abbreviation in its
   own colour + ONE class glyph) set once on the class and applied by LabVIEW as every member's template
   layer; each VI adds its own glyph layer; each library has a banner icon. Made at the end of the step
@@ -240,7 +261,8 @@ Environment: **LabVIEW 2026 Q3, 32-bit**, Actor Framework from `vi.lib`. Tests a
   regeneration discards the layout).
 - **Tests**: a separate test library; each test VI outputs a Boolean `Pass` and `error out`; a class
   that packs or bundles data has a round-trip test (`03` §1).
-- Project tree virtual folders: `common`, `hardware`, `protocol`, `actors`, `tests`, `receiver`.
+- Project tree virtual folders: `common`, `hardware`, `protocol`, `actors`, `tests`, `receiver`;
+  `ZM-launcher.vi` at the root, `ZM-launcher_test.vi` in `tests` (D45).
 - Every VI in `src/` is runnable (not broken) with the project closed.
 - Commit messages: Conventional Commits, commit by explicit paths.
 
@@ -264,5 +286,5 @@ Environment: **LabVIEW 2026 Q3, 32-bit**, Actor Framework from `vi.lib`. Tests a
 - Global events (stop, emergency stop) shared by all actors: not needed; the stop cascades by
   `Send Normal Stop`.
 - Setting the chart history length (LabVIEW's default is fine).
-- Errors raised before a helper loop has registered for events (the first milliseconds) are logged
-  but not shown on the panel. Accepted.
+- Handling errors beyond stopping (logging them, error packages to the caller, recovery): later (D40).
+  The error-package path is built for it.

@@ -42,6 +42,20 @@ for the scratch VIs).
   agent, brief `brief-12m-user-guide-html.md`) writes `docs/user-guide.html` beside 12l. The user 2026-10-12: "Add the
   making of it to the requirement after completation": once 12m is done, the manager adds the user guide as a
   deliverable to `requirements/` (and the phase card that builds it) so later runs make it.
+- The user 2026-10-12: "yes, update 02 too so it's consistent, but also why do we have multiple runs of the same code? i
+  was hoping that all runs should go from the same requirements"; then "yes, fold everything into the requirements and
+  clearify that the other runs are just cheaper models. But every run should follow the same requirements". So: every
+  product decision of run-01 (D38, D40-D45, short descriptions, the user guide) goes into `requirements/`; `CLAUDE.md`
+  keeps only how the build is run, pointing to the requirements; README/runs README/plan say later runs use the same
+  requirements and only change the model. The manager does this (harness files), no LabVIEW.
+- 12l DONE (19bc59f): the hint on the root panel (style "Label (modern)": a plain free label answered 1060), README
+  receiver line; launcher_test 3 s run and T1-T7 PASS. 12l-b DONE (8711cdd): `ZM-launcher_test.vi` in the `tests`
+  virtual folder (one `.lvproj` line), README headless line, D45 in the product's `decisions.md`. 12m DONE (60478e7):
+  `docs/user-guide.html` (self-contained, ~1,300 words, SVG of the actor tree).
+- Requirements version 2 (this commit): D39-D47 folded into `requirements/` 01-05 and README; `CLAUDE.md` keeps only
+  how the build is run plus one bullet "Every run builds from the same requirements"; `plan.md` and cards 08-12 point
+  to the requirements instead of D40 override banners; card 11 builds the README and the user guide; the repository
+  README and `plan.md` say later runs only change the model. No tag (the user: "no need for tags").
 
 # Session 4 started 2026-10-11 23:52
 

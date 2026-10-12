@@ -1,13 +1,12 @@
 # Phase 10: the root actor (`ZM-ROOT-root.lvlib`)
 
-> **D40 (2026-10-11) overrides this card where they differ:** every `evaluateError` is a pass-through, helper loops
-> stop each other, an error stop cascades through the Last Ack (`CLAUDE.md`, "Errors are not handled yet";
-> `plan.md`, "Rules that hold in every phase").
+> Requirements version 2 (2026-10-12) carry run-01's decisions (D40 errors not handled yet, D41 `init`, D44 release
+> errors): `01` R7/R8 and `02` §5/§6 are the plan for this card.
 
 **Type:** build (Actor Framework, panel loop, launches)
 **Reads:** `01-requirements.md` R1 (ROOT), R5 (ROOT routing table), R7, R8 (launches, Stop button,
 helper loop), R9; `02-specification.md` §5, §6, §7.12; `03-acceptance.md` T7;
-`04-decisions.md` D2, D6, D7, D12, D23, D26; the skill's `ops/override.md`, `ops/helper-loop.md`,
+`04-decisions.md` D2, D6, D7, D12, D23, D26, D40, D41; the skill's `ops/override.md`, `ops/helper-loop.md`,
 `knowledge/actor-framework.md`.
 **Scope:** `zuehlke-mcp-af-test-results/src/actors/ZM-ROOT-root/`, `zuehlke-mcp-af-test-results/src/tests/`, the project file.
 **Suggested agents:** class-generator for the class, fields and typedefs (`ZM-ROOT-EVENTS.ctl`,
@@ -16,14 +15,16 @@ overrides, hooks, launch methods and the panel loop; a VI agent for T7.
 
 ## Goal
 
-The root launches the CM then the HWM from its Actor Core (never from Pre Launch Init), injecting
+The root launches the CM then the HWM from its Actor Core, in its `init` method before Call Parent (D41;
+never from Pre Launch Init), injecting
 the concrete classes through each manager's pre-launch settings in `launchCm` / `launchHwm`. It
 routes every package by destination (`01` R5 table): `Communication` → note type, forward to the CM
 if running; `Root` → an error package is shown on the panel (and a CM sender marks the CM not
 running), other types noted; `Unknown` and `Hardware` → dropped with one log line. Its panel loop
 `ZM-ROOT-helperPanel.vi` has the Stop button (Switch When Released, reset by a local in its event
-frame), the `errors` string, the `error` and `stop` user events. Handle Error logs and stops with
-the error.
+frame), the `errors` string, the `error` and `stop` user events. Handle Error calls the parent, then the pass-through
+`evaluateError`: an error stops the root and the tree (D40). The panel shows a note pointing to the receiver
+VI (`02` §7.12).
 
 ## Builds
 

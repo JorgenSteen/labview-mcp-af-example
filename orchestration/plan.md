@@ -31,7 +31,7 @@ without actors, then the interface, then the actors one at a time, then launcher
 | 08 | `phases/08-actor-cm.md` | `ZM-CM-communication_manager.lvlib` | launches, publishes, stops clean |
 | 09 | `phases/09-actor-hwm.md` | `ZM-HWM-hardware_manager.lvlib` with its helper loop | loop runs and stops clean |
 | 10 | `phases/10-actor-root.md` | `ZM-ROOT-root.lvlib` with its panel loop | T7; tree starts and stops |
-| 11 | `phases/11-launchers-receiver.md` | `ZM-launcher.vi`, `ZM-launcher_test.vi`, `ZM-receiver.vi` | headless launcher returns counts |
+| 11 | `phases/11-launchers-receiver.md` | `ZM-launcher.vi`, `ZM-launcher_test.vi`, `ZM-receiver.vi`, `README.md`, `docs/user-guide.html` | headless launcher returns counts |
 | 12 | `phases/12-runs-and-checks.md` | the 8 runs, the structural checks, the cold sweep | every row of `03` |
 | 13 | `phases/13-close.md` | compare with `05`, report, hand-over, final commit | run log row filled |
 
@@ -46,7 +46,7 @@ side by side. The phase's **done when** applies to the whole phase.
    folders (`Accessors`, `AF Overrides`, `Helpers`, `Messages`, `Methods`, `TypeDefs`), only when
    non-empty, each member filed as it is made and each `.ctl` made a class member right after it is created
    (`orchestration/vi-server-helpers/`; `CLAUDE.md`, D38). Files stay flat in the class folder on disk.
-2. A short description on every VI (`hygiene.descriptions`; `CLAUDE.md`, "Descriptions are short"), written in the AIXML. A **class** description is set
+2. A short description on every VI (`hygiene.descriptions`; `01` §3 and D46: short), written in the AIXML. A **class** description is set
    when the class is made, by the VI Server helper (`orchestration/vi-server-helpers/`; ASCII only). Each actor's
    description states
    its error plan.
@@ -78,14 +78,8 @@ deviation in `status.md` and ask the user.
 - **Scope**: members private unless called from outside; protected for what children override or
   call; AF overrides protected. **Accessors on demand**: only the ones code uses, in the direction
   used, static.
-- **Errors are not handled yet (D40, the user, 2026-10-11; `CLAUDE.md`, "Errors are not handled yet")**: every
-  `ZM-<A>-evaluateError.vi` is a pass-through (no log, no error package, no clearing); in a helper-loop VI every loop
-  stops the others when it ends, and the loop VI's `error out` is the raw error; an error stop cascades to the whole
-  tree through the Last Ack (AF default, no Handle Last Ack Core override); the only clean stop is the normal shutdown
-  from the root. Where a phase card, `02` §5/§7.10-§7.12, D14 or `03` R-error says otherwise, D40 wins.
-- **`init` in Actor Core (D41, the user, 2026-10-11; `CLAUDE.md`):** each actor with a helper loop runs
-  `ZM-<A>-init.vi` in series before Call Parent (ROOT: launchCm, launchHwm, Register For Events; HWM: Register For
-  Events); the registration refnum goes into the loop VI, which no longer registers itself.
+- **The error plan (D40) and `init` in Actor Core (D41)** are in the requirements since version 2 (`01` R7/R8,
+  `02` §5/§6/§7.10-§7.12, `03`); the briefs quote them from there.
 - **A broken VI after a generate, swap or bind: remove broken wires first** (the user, 2026-10-11, run-01 10b: "the
   issue was just a wire that was not cleaned up. i would just click ctrl b to remove it, or clean up diagram. Try that
   yourself and log it"): run the skill kit's `pa_clean_member` (Remove Bad Wires, save) or Clean Up Diagram and read
@@ -118,6 +112,10 @@ The manager chooses. These are the fits:
 | the session's end | a general-purpose agent following `session/close.md`, or the manager itself (no LabVIEW call needed for most of it) | |
 
 ## Models and effort
+
+**Every run builds from the same `requirements/`** (the user, 2026-10-12: "every run should follow the same
+requirements"). Runs after run-01 are repeats on cheaper models: they change only the agents' model and effort, so
+their cost and result compare with run-01's.
 
 The manager and the agents need not run on the same model. Each agent launch takes a `model`
 override, and that is the knob for the cost of a run. The default is set in `CLAUDE.md`

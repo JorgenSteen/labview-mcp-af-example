@@ -26,7 +26,7 @@ Use this file to compare a remake with the original: a difference listed here is
 
 | original | now | rule |
 |---|---|---|
-| 8 libraries; each hierarchy's children in the parent's library | 14 libraries: each pluggable child has its own (`ZM-HW-SIM`, `ZM-CP-FL`, `ZM-CP-UDP`, `ZM-CP-MX`), plus `ZM-TST-tests` | library-per-actor (load units), hygiene.test-library |
+| 8 libraries; each hierarchy's children in the parent's library | 13 libraries (D42): each pluggable child has its own (`ZM-HW-SIM`, `ZM-CP-FL`, `ZM-CP-UDP`, `ZM-CP-MX`), plus `ZM-TST-tests` | library-per-actor (load units), hygiene.test-library |
 | folders `Accessors`, `Methods`, `Overrides`, `AF Overrides`, `Controls`, `Messages for this Actor` | `Accessors`, `AF Overrides`, `Helpers`, `Messages`, `Methods`, `TypeDefs`; overrides in `Methods` (decided D35) | class-folders |
 | typedefs in a library-level `Controls` folder (`ZM-PC` types, `ZM-CP` types) | typedefs are members of their class, in `TypeDefs`; the shared UDP connection typedef is gone (plain refnum fields) | typedef-placement |
 | Read **and** Write accessors for every field, many public, dynamic where public | only the accessors code uses, in the used direction, static, private unless needed outside (e.g. no `Read initialized`, no `Write remoteAddress`) | accessors-on-demand, scope |
@@ -53,9 +53,9 @@ Use this file to compare a remake with the original: a difference listed here is
 | original | now | rule |
 |---|---|---|
 | ignored errors sometimes unwired (stop hook) | every deliberately unhandled error ends in Clear Errors | ignored-errors |
-| release errors in Stop Core not addressed | logged via `ZM-CU-log`, or cleared when ignored on purpose | release-errors |
+| release errors in Stop Core not addressed | logged via `ZM-CU-log` and passed on by the hook, ended in Stop Core (D44); code 1 of a never-opened resource cleared | release-errors |
 | plan only in the design docs | the plan is in each actor's class description and in `decisions.md` | plan-required, hygiene.descriptions |
-| Kept: the plan itself (decided D14), the local log (decided D15), 5000 and its registration (decided D16, D18) | | |
+| Kept at first: the plan itself (decided D14; replaced by D40 for now), the local log (decided D15), 5000 and its registration (decided D16, D18) | | |
 
 ## Hygiene and icons (`hygiene.*`, `icons.*`)
 
@@ -77,7 +77,7 @@ from the skill's helper-loop checks and its AF knowledge.
 
 | | original | now |
 |---|---|---|
-| libraries | 8 | 14 |
+| libraries | 8 | 13 (D42) |
 | message classes | 3 | 1 |
 | AF overrides | 8 | 9 (PLI, Actor Core / Stop Core, Handle Error per actor) |
 | typedefs | 9 | 11 |

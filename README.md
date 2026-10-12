@@ -117,7 +117,8 @@ strongest model available (the setup was made with Fable 5.1); it must keep brie
 traps straight across sessions. The agents inherit the manager's model unless you say otherwise
 when the manager asks at the start. The first run should use the strongest model everywhere, so a
 failure points at the toolchain and not at the model. Later runs can put the agents on a cheaper
-model such as Opus and compare the cost log. Details: `orchestration/plan.md`, "Models and effort".
+model such as Opus and compare the cost log. **Every run builds from the same `requirements/`** (version 2
+since 2026-10-12, with run-01's decisions folded in); a later run changes only the model, not what is built. Details: `orchestration/plan.md`, "Models and effort".
 
 **Before a real run**, do the smoke test in `orchestration/smoke-test.md`: it proves the manager,
 the brief, one agent launch and the revert, in minutes, and leaves nothing behind.

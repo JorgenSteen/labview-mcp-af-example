@@ -1,12 +1,11 @@
 # Phase 11: launchers and the receiver
 
-> **D40 (2026-10-11) overrides this card where they differ:** every `evaluateError` is a pass-through, helper loops
-> stop each other, an error stop cascades through the Last Ack (`CLAUDE.md`, "Errors are not handled yet";
-> `plan.md`, "Rules that hold in every phase"). The placeholder-hardware readings below are judged against D40.
+> Requirements version 2 (2026-10-12) carry run-01's decisions (D40 errors not handled yet, D41 `init`, D44 release
+> errors): `01` R7/R8 and `02` §5/§6 are the plan for this card.
 
 **Type:** build (top-level VIs)
 **Reads:** `01-requirements.md` R9 (receiver), R10; `02-specification.md` §8; `03-acceptance.md`
-§2 (what the launcher runs must return); `04-decisions.md` D7, D25, D28, D36.
+§2 (what the launcher runs must return); `04-decisions.md` D7, D25, D28, D36, D40, D43, D45, D47.
 **Scope:** `zuehlke-mcp-af-test-results/src/ZM-launcher.vi`, `zuehlke-mcp-af-test-results/src/ZM-launcher_test.vi`, `zuehlke-mcp-af-test-results/src/receiver/ZM-receiver.vi`, the
 project file.
 **Suggested agent:** a VI agent per VI, each with the neighbour style to follow.
@@ -14,8 +13,9 @@ project file.
 ## Goal
 
 - `ZM-launcher.vi` (interactive): optional `output_folder` (empty = `<project folder>\output`),
-  fills the root's pre-launch settings, launches the root, returns; the tree runs until Stop.
-- `ZM-launcher_test.vi` (headless): deletes the two output files, launches the root (optionally with
+  fills the root's pre-launch settings, launches the root, returns; the tree runs until Stop. It has an
+  `error out` indicator (D43).
+- `ZM-launcher_test.vi` (headless, in the project's `tests` virtual folder, D45): deletes the two output files, launches the root (optionally with
   the placeholder hardware), waits `run_time_ms`, reads the root panel loop's `errors` indicator
   from the running VI, sends Normal Stop, waits 1 s, counts lines, returns them. Inputs and
   outputs exactly as `02` §8.
@@ -25,7 +25,10 @@ project file.
 
 ## Builds
 
-The three VIs of `02` §8 under the project's root (launchers) and the `receiver` virtual folder.
+The three VIs of `02` §8: `ZM-launcher.vi` at the project root, `ZM-launcher_test.vi` in the `tests` virtual
+folder (D45), `ZM-receiver.vi` in `receiver`. Then the product's user documentation (`01` R11, D47): bring
+`README.md` up to date and write `docs/user-guide.html` from the requirements and the built code (a docs-only
+step, no LabVIEW call).
 
 ## Done when
 
@@ -33,10 +36,11 @@ The three VIs of `02` §8 under the project's root (launchers) and the `receiver
   `lines_written` 8–11, `error_lines` 0, `ui_errors` empty, `error out` 0 (one run; the ×3 is
   phase 12).
 - `ZM-launcher_test.vi` with `use_placeholder_hardware` T returns `lines_written` 0,
-  `error_lines` 1 with `HWM`, `5000` and the `ZM-HW-do.vi` source, `ui_errors` holding the error
-  package JSON, `error out` 0.
+  `error_lines` 0, `ui_errors` empty and `error out` 1556: the tree stopped by itself (D40, `03` R-error).
+- `README.md` and `docs/user-guide.html` as `01` R11 says; the guide's names match `02`.
 - `ZM-receiver.vi` loads with the dependencies above and nothing else (checked from the files).
-- Ending steps of `plan.md` done; committed: `feat: launchers and udp receiver`.
+- Ending steps of `plan.md` done; committed: `feat: launchers and udp receiver`,
+  `docs: readme and user guide`.
 
 ## Notes
 

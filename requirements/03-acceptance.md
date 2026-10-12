@@ -58,7 +58,7 @@ A file logger with `outputFolder` = a fresh temp folder, on a `ZM-CP-communicati
 
 | check | proves |
 |---|---|
-| `init_ok` | `init` creates the folder (child ran), no error |
+| `init_ok` | `init` creates the folder (child ran), no error; the check that proves the folder (a second `Create Folder` answering 10) runs after `init`, on its error chain |
 | `files_ok` | publishing 2 TP, 1 bare parent package, 1 EP → `TestPackage.jsonl` 2 lines, `Undefined.jsonl` 1, `ErrorPackage.jsonl` 1 |
 | `lines_ok` | every line unflattens and carries the file's type |
 | `append_ok` | one more TP publish → `TestPackage.jsonl` 3 lines (append, not overwrite) |
@@ -108,7 +108,7 @@ member VI of an actor class can be run directly) with packages addressed to each
 | run | how | expected |
 |---|---|---|
 | **R-normal** (×3) | `ZM-launcher_test.vi`, `run_time_ms` 5000, `use_placeholder_hardware` F | `lines_written` **8–11**; `last_line` unflattens to type `TestPackage` with five data fields and `"destination":"Communication"`; `error_lines` **0**; `ui_errors` empty; `error out` 0; afterwards both helper loops and every Actor Core are idle (the tree really stopped) |
-| **R-error** | `ZM-launcher_test.vi`, `use_placeholder_hardware` **T** | `lines_written` 0; `last_line` empty; `error_lines` **1**, the line has `HWM`, `5000` and the `ZM-HW-do.vi` source; `ui_errors` holds the ErrorPackage JSON (destination `Root`, sender `HWM`, code 5000, source `ZM-HW-do.vi: must be overridden by a child class`); `error out` 0. The HWM stopped with a clean Last Ack, the root kept running, and Normal Stop still stopped everything (this proves the "clear after the parent" Handle Error shape, `02` §5) |
+| **R-error** | `ZM-launcher_test.vi`, `use_placeholder_hardware` **T** | (D40) the HWM's first `do` returns 5000, the HWM stops, its Last Ack stops the root, and the root's Stop Core stops the CM: the whole tree stops by itself, nothing hangs. `lines_written` 0; `last_line` empty; `error_lines` 0 (errors are not logged yet); `ui_errors` empty; `error out` 1556 (the launcher's Normal Stop finds no root, which shows the tree had already stopped); afterwards both helper loops and every Actor Core are idle |
 | **R-interactive** | `ZM-launcher.vi`; the root's panel opens; JSONL lines grow (~2/s); the HWM live panel shows the chart moving and `interval measured (ms)` ≈ 500; **Stop pressed** (by hand, or headlessly by a signalling write to the Switch-When-Released button) | the tree stops, panels close, the line count stays stable afterwards, both helper loops have left memory |
 | **R-receiver** | during R-interactive, start `ZM-receiver.vi` (default port), then press its Stop | `last line` is a `TestPackage` with `"destination":"Communication"`, the chart updates about every 500 ms; after its Stop the host tree keeps running with no error |
 | **R-viewer** | open `output/TestPackage.jsonl` in `assets/jsonl_viewer.html` | the numeric fields plot |
@@ -126,18 +126,20 @@ member VI of an actor class can be run directly) with packages addressed to each
 | Naming (`02` §2) | camelCase members, snake_case classes/libraries/functions, UPPER_SNAKE typedefs, camelCase fields, role names |
 | Scope and accessors | members private unless needed outside; only used accessors exist, in the used direction, static |
 | Every AF override | protected, calls its parent; Handle Error and Stop Core call the parent **first** |
+| Error plan (D40) | every `evaluateError` is a pass-through (no log, no error package, no clearing); each actor's class description says so |
 | Pre Launch Init | calls only `createResources` (and its parent) |
-| Actor Core (ROOT, HWM) | helper loop beside Call Parent; `stop` after Call Parent on a fresh chain; `close` after Merge(loop, stop); error out = Merge(Call Parent, close) |
+| Actor Core (ROOT, HWM) | `init` in series before Call Parent (ROOT: `launchCm` → `launchHwm` → Register; HWM: Register; D41); helper loop beside Call Parent with `init`'s registration refnum; `stop` after Call Parent on a fresh chain; `close` after Merge(loop, stop); error out = Merge(Call Parent, close) |
 | ROOT and HWM | **no** `Stop Core` override |
-| Helper loops | in `Helpers`; error case inside the loop; registration through the dynamic terminal, right side to Unregister; fresh "no error" into Register; the loop VI does not Destroy |
+| Helper loops | in `Helpers`; error case inside the loop; the registration refnum from `init` into the dynamic terminal, right side to Unregister; every loop stops the others when it ends (the `stop` hook, its error into Clear Errors); after the loops Merge → `evaluateError` → on an error Send Normal Stop; `error out` the raw error; the loop VI does not Destroy |
 | User events | one `ZM-<ABBR>-EVENTS.ctl` per actor, one `events` field, one Read/Write pair |
 | Pre-launch settings | one `ZM-<A>-PRELAUNCH_SETTINGS.ctl` + public `writePrelaunchSettings` per actor; children launched by `launch<Child>` methods |
 | Messages | exactly one message class, `ZM-CI-handlePackage Msg` |
-| Ignored errors | every deliberately unhandled error ends in Clear Errors; no unwired `error out` |
+| Ignored errors | every deliberately unhandled error ends in Clear Errors; no unwired `error out`; the CM release error is logged and passed on by `releaseProtocol` and ends in Stop Core's Clear Errors (D44) |
 | Error code 5000 | registered in `error-codes.md` and `ZM-errors.txt`; each raising VI carries `#customerror 5000` |
 | Virtual folders | `Accessors`, `AF Overrides`, `Helpers`, `Messages`, `Methods`, `TypeDefs` where non-empty; typedefs are class members |
-| Descriptions | every class and VI; actor descriptions state the error plan |
+| Descriptions | every class and VI, short (D46: 2-4 sentences, about 400 characters at most, ASCII, no decision numbers, rule IDs or spec section references); actor descriptions state the error plan |
 | Icons | class templates applied as LabVIEW template layers, a glyph per VI, a banner per library |
 | Clean Up Diagram | on every generated VI; nothing regenerated after it |
-| Project tree | 14 libraries, 2 launchers, 7 tests, the receiver, under virtual folders `common`, `hardware`, `protocol`, `actors`, `tests`, `receiver` |
+| Project tree | 13 libraries (D42); `ZM-launcher.vi` at the root and `ZM-launcher_test.vi` in `tests` (D45), both with `error out` (D43); 7 tests; the receiver; under virtual folders `common`, `hardware`, `protocol`, `actors`, `tests`, `receiver` |
 | A clean stop | leaves `ZM-error_log.txt` empty |
+| User documentation (D47) | `README.md` and `docs/user-guide.html` exist; the guide is one self-contained HTML page covering `01` R11, and its names match `02` |

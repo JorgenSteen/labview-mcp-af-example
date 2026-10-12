@@ -170,37 +170,41 @@ shutdown, does not pass it on, and always returns `stop actor?` = T**; other err
 stop the actor; a child's error in its Last Ack stops the caller by default. Errors in Actor Core's
 own code and in helper loops never reach Handle Error.
 
-**The error-handling plan (decided, D14; `errors.plan-required`).** Recorded in each actor's class
-description and in `decisions.md`:
+**The error-handling plan (decided D40; it replaces the original plan D14 for now; `errors.plan-required`).**
+Errors are not handled yet: shutdown and errors are controlled by the normal stops. Recorded in each actor's class
+description and in `decisions.md`.
 
-- **HWM, CM**: an error is logged, reported to the caller as an **error package**, and the actor stops
-  **without passing the error on**, so its Last Ack is clean and the root keeps running.
-- **ROOT**: an error is logged and the root stops with it; AF stops HWM and CM.
+- Every `ZM-<A>-evaluateError.vi` (CM, HWM, ROOT) keeps its name, pane, scope (private) and static dispatch but is
+  a **pass-through**: class in → out, `error in` → `error out`, `stop actor? in` → `out`. No log, no error
+  package, no clearing.
+- So an error stops its actor and its **Last Ack carries the error** to the caller; AF's default Handle Last Ack
+  Core in the caller returns it, the caller stops with it, and the root's (AF) Stop Core stops the rest: **an error
+  anywhere stops the whole tree.** Handle Last Ack Core is not overridden (`af-shapes.handle-last-ack`).
+- The only **clean** stop is the normal shutdown sent down from the root (Stop on its panel, or Normal Stop from
+  the test launcher). A clean stop leaves the error log empty.
 
 ```
- an error in a message (Do.vi)                       an error in a helper loop
-  Handle Error.vi override (handle-error-order):      the loop's error case ends the loop (helper-loop-error-case)
-  Call Parent FIRST                                    after the loop: evaluateError (stop actor? unwired)
-    43 → cleared by the parent; other → passed on      → Read Self Enqueuer → Send Normal Stop (errors.loop-errors)
-  then on Call Parent's outputs:                               │
-          ▼                                                    ▼
-  ZM-<A>-evaluateError (class in/out, error in/out, stop actor? in/out)
-    no error, or 1608 (Emergency Stop) → pass through untouched
-    any other error:
-      HWM / CM: ZM-CU-log "<A>\t<code>\t<source>"
-                ZM-PC-EP-create(sender "<A>", error) → Read Caller Enqueuer → Send ZM-CI-handlePackage
-                error out = Clear Errors; stop actor? = T  → the actor stops, Last Ack without error
-      ROOT:     ZM-CU-log "ROOT\t<code>\t<source>"; error passed on, stop actor? = T
-
- ROOT receives the error package → showError: Read events → error event ← the package's JSON;
-                                   sender "CM" → cmRunning = F (nothing more is forwarded to a dead CM)
- ZM-ROOT-helperPanel             → appends the text to its `errors` indicator
+ an error in a message (Do.vi)                        an error in a helper loop
+  Handle Error.vi override (handle-error-order):       the loop's error case ends the loop; every loop stops
+  Call Parent FIRST                                     the others (§6, "Helper loops stop each other")
+    43 → cleared by the parent; other → passed on       after the loops: Merge Errors → evaluateError
+  then on Call Parent's outputs:                         → on an error: Read Self Enqueuer → Send Normal Stop
+          ▼                                              error out = the raw merged error
+  ZM-<A>-evaluateError: pass-through (every output = its input)
+          ▼
+  the actor stops; its Last Ack carries the error → the caller stops with it (AF default) → the tree stops
 ```
 
-Clearing the error after the parent with `stop actor?` = T is reasoned from the documented parent
-behaviour, not measured; the error run (`03` R-error) proves it. Handle Last Ack Core is not
-overridden (`af-shapes.handle-last-ack`). During shutdown a package may still be in flight when the
-root's queue is gone: the HWM's `ZM-CI-handlePackage` ends a failed `Send` in `Clear Errors`.
+- **Release errors (decided D44):** `ZM-CM-releaseProtocol` logs a release error with `ZM-CU-log`
+  (`CM<tab><code><tab><source>`) and passes it on in its `error out`; code 1 from a never-opened resource is
+  cleared without a log. The CM's Stop Core ends it in `Clear Errors`: AF's `Stop Core.vi` has no error terminals
+  (only `final error code`), so a release error cannot reach the Last Ack.
+- **The error-package path is built but not used yet:** `ZM-PC-EP-error_package`, `ZM-PC-EP-create` and the
+  root's `showError` (an error package to Root → its JSON appended to the panel's `errors`; sender `"CM"` →
+  `cmRunning` = F) exist, so a later error plan can send error packages without a new message. Today no actor
+  sends one.
+- During shutdown a package may still be in flight when the root's queue is gone: the HWM's
+  `ZM-CI-handlePackage` ends a failed `Send` in `Clear Errors`.
 
 ## 6. Start-up and shutdown
 
@@ -215,7 +219,8 @@ ZM-launcher.vi  (ZM-launcher_test.vi is the headless twin)
 
   ROOT Pre Launch Init: ZM-ROOT-createResources (createEvents; on its error → close) ; Call Parent
   ROOT Actor Core:
-    series launchCm → launchHwm (class and error wires; an error goes into Call Parent and stops the root)
+    init, in series before Call Parent (class and error wires; D41): launchCm → launchHwm → Register For Events
+      (stop, error); a launch or registration error goes into Call Parent and stops the root
       ① launchCm: FL(outputFolder) + UDP-sender (defaults) → Build Array → MX Write protocols
          → CM-PRELAUNCH_SETTINGS {protocol: MX} → ZM-CM-writePrelaunchSettings → Launch Nested Actor
          → Write cmEnqueuer, Write cmRunning = T
@@ -225,10 +230,14 @@ ZM-launcher.vi  (ZM-launcher_test.vi is the headless twin)
          → HWM-PRELAUNCH_SETTINGS {hardware, intervalMs 500} → ZM-HWM-writePrelaunchSettings
          → Launch Nested Actor → Write hwmEnqueuer
            HWM Pre Launch Init: createResources (createEvents; on error → close) ; Call Parent
-           HWM Actor Core: branch helperAcquisition ∥ Call Parent → stop → Merge → close → Merge → error out
+           HWM Actor Core: init (Register For Events: stop) → Call Parent; branch helperAcquisition (takes init's
+              registration refnum) ∥ Call Parent → stop → Merge → close → Merge → error out
               producer loop: HW init → every intervalMs { do → Send to self; chart } until local stop = T or error → HW close
-              ∥ event loop: Register (stop) → { stop event: stop = T (local), exit } → Unregister
-    branch from <C> in: helperPanel ∥ Call Parent
+                → stop hook (its error → Clear Errors)
+              ∥ event loop: init's registration → { stop event: stop = T (local), exit } → stop hook (error → Clear Errors)
+                → Unregister
+              after both loops: Merge → evaluateError → on an error Send Normal Stop to self; error out = the raw error
+    branch from <C> in: helperPanel (takes init's registration refnum) ∥ Call Parent
     after Call Parent: stop (fresh error chain, class wire from before Call Parent)
     Merge(helperPanel error, stop error) → close (Destroy User Event ×2) → Merge(Call Parent error, close error) → error out
   … runs until Stop on the root's panel (or the test launcher sends Normal Stop)
@@ -238,6 +247,7 @@ ZM-launcher.vi  (ZM-launcher_test.vi is the headless twin)
     HWM: Call Parent returns → stop generates the stop event → event loop sets stop = T, exits
          → producer exits after its current Wait (≤ 500 ms) → helperAcquisition returns → close destroys the event
     CM:  Stop Core override: Call Parent FIRST (stop-core-order) → releaseProtocol (ZM-CP-close on the MX → UDP Close)
+         → Clear Errors (a release error was logged and passed on by releaseProtocol, D44)
     ROOT: stop generates the stop event → helperPanel exits (its only event exit) → Unregister → close → panel closes
 ```
 
@@ -247,7 +257,8 @@ Rules in this shape:
   `ZM-<A>-PRELAUNCH_SETTINGS.ctl` and a public custom accessor `ZM-<A>-writePrelaunchSettings.vi`
   (settings input required; class input optional, unwired = a default object). The caller fills the
   settings in its own `launch<Child>` method → `writePrelaunchSettings` → Launch Nested Actor.
-- **Launches** run from Actor Core (never from Pre Launch Init, which hangs; `af-shapes.launch-owner`).
+- **Launches** run from Actor Core, inside the root's `init` (never from Pre Launch Init, which hangs;
+  `af-shapes.launch-owner`).
 - **Resources** (user events, the protocol's file and socket) are created in Pre Launch Init by ONE
   member `createResources`, which merges the create errors and, in the Error frame of a case on that
   error, runs the same release VIs (`close`, `releaseProtocol`) on whatever was created
@@ -262,14 +273,25 @@ Rules in this shape:
   `error out` only sets the order; the hook takes the class wire from before Call Parent
   (`af-shapes.stop-site`). Actor Core returns Merge(Call Parent, close), so an error there ends the
   actor (`errors.default-policy`).
-- **Registration** (`af-shapes.registration`): Register For Events right before the loop with a fresh
-  "no error"; the refnum enters the event structure's dynamic event terminal; its right-side output
-  goes out of the loop into Unregister For Events, which runs even with an incoming error. No refnum
-  tunnel, no wire around the event structure.
+- **Registration in `init` (decided D41; it replaces `af-shapes.registration`'s "right before the loop" for the
+  actors with a helper loop).** Each such actor has a private static `ZM-<A>-init.vi` that runs in series before
+  Call Parent in Actor Core (class and error wires) and does everything Actor Core sets up: for the HWM `Read
+  events` → Unbundle `stop` → Register For Events on a fresh "no error"; for the ROOT `launchCm` → `launchHwm` (as
+  subVIs), then the same registration (stop first, error second). The registration refnum goes out on `init`'s
+  pane into the loop VI, which wires it into its event structure's dynamic event terminal; the right-side output
+  goes out of the loop into Unregister For Events, which runs even with an incoming error. No refnum tunnel, no
+  wire around the event structure. So the registration exists before Call Parent can return, and the stop that
+  the stop hook generates after Call Parent always reaches the loop (a stop generated before the loop VI had
+  registered is lost, and the tree hangs).
 - **Error case inside the loop** (`af-shapes.helper-loop-error-case`): the loop carries the error in a
   shift register; a case on it: Error frame → the loop stops at this iteration and passes the error
   on; No Error frame → the loop's work (event structure, or the timed work). After the loop:
-  Unregister → Merge Errors → `error out`.
+  Unregister → Merge Errors → `evaluateError` → on an error `Read Self Enqueuer` → `Send Normal Stop`; `error
+  out` = the raw merged error (D40).
+- **Helper loops stop each other (decided D40):** in a helper-loop VI every loop stops the others when it ends,
+  for any reason. A non-event loop calls the `stop` hook (the stop user event) with its error into `Clear
+  Errors`; the event loop writes the local `stop` = T (only where the VI has another loop) and also calls the
+  `stop` hook, its error into `Clear Errors`.
 - **No Timeout frames** (`af-shapes.timed-work`); an empty one only where the build tool needs it.
 - The order in which the actors stop relative to each other is not specified; nothing depends on it.
 
@@ -277,9 +299,9 @@ AF overrides per actor (all protected, all call their parent):
 
 | actor | Pre Launch Init | Actor Core | Stop Core | Handle Error |
 |---|---|---|---|---|
-| ROOT | `createResources` ; Call Parent | `launchCm` → `launchHwm` → branch `helperPanel` ∥ Call Parent → `stop` → `close` | — | Call Parent → `evaluateError` |
-| HWM | `createResources` ; Call Parent | branch `helperAcquisition` ∥ Call Parent → `stop` → `close` | — | Call Parent → `evaluateError` |
-| CM | `createResources` ; Call Parent | — | Call Parent → `releaseProtocol` | Call Parent → `evaluateError` |
+| ROOT | `createResources` ; Call Parent | `init` (`launchCm` → `launchHwm` → Register) → branch `helperPanel` ∥ Call Parent → `stop` → `close` | — | Call Parent → `evaluateError` |
+| HWM | `createResources` ; Call Parent | `init` (Register) → branch `helperAcquisition` ∥ Call Parent → `stop` → `close` | — | Call Parent → `evaluateError` |
+| CM | `createResources` ; Call Parent | — | Call Parent → `releaseProtocol` → Clear Errors | Call Parent → `evaluateError` |
 
 ## 7. Inventory, library by library
 
@@ -464,11 +486,11 @@ Description includes its error plan (§5). TypeDef `ZM-CM-PRELAUNCH_SETTINGS.ctl
 | `Read protocol`, `Write protocol` | ACC | priv | | |
 | `Read publishedCount`, `Write publishedCount` | ACC | priv | | |
 | `ZM-CM-createResources.vi` | HOOK | priv | — | `Read prelaunchSettings` → unbundle `protocol` → `ZM-CP-init` → `Write protocol`; case on the error: Error frame → `releaseProtocol`; returns the error |
-| `ZM-CM-releaseProtocol.vi` | HOOK | priv | — | `Read protocol` → `ZM-CP-close`; errors from a never-opened resource → Clear Errors; other release errors → `ZM-CU-log` (`errors.release-errors`) |
-| `ZM-CM-evaluateError.vi` | HOOK | priv | stop actor? in/out | §5, sender `"CM"` |
+| `ZM-CM-releaseProtocol.vi` | HOOK | priv | — | `Read protocol` → `ZM-CP-close` → `Write protocol`; code 1 from a never-opened resource → Clear Errors, no log; any other release error → `ZM-CU-log` and passed on: `error out` = Merge(the close error with code 1 cleared, `Write protocol`'s error) (`errors.release-errors`, D44) |
+| `ZM-CM-evaluateError.vi` | HOOK | priv | stop actor? in/out | pass-through (§5, D40) |
 | `ZM-CI-handlePackage.vi` | OVR (interface) | pub | in `package` | `Read protocol` → `ZM-CP-publish` → `Write protocol`; `publishedCount` += 1 |
 | `Pre Launch Init.vi` | OVR (AF) | prot | | `createResources`; Call Parent |
-| `Stop Core.vi` | OVR (AF) | prot | | Call Parent → `releaseProtocol` |
+| `Stop Core.vi` | OVR (AF) | prot | | Call Parent → `releaseProtocol` → Clear Errors (§5, D44) |
 | `Handle Error.vi` | OVR (AF) | prot | | Call Parent → `evaluateError` |
 
 ### 7.11 `ZM-HWM-hardware_manager.lvlib` — `src/actors/ZM-HWM-hardware_manager/`
@@ -491,13 +513,14 @@ Description includes its error plan (§5). TypeDef `ZM-CM-PRELAUNCH_SETTINGS.ctl
 | `Read events`, `Write events` | ACC | priv | | |
 | `ZM-HWM-createResources.vi` | HOOK | priv | — | `createEvents`; case on the error: Error frame → `close`; returns the error |
 | `ZM-HWM-createEvents.vi` | HOOK | priv | — | `Create User Event` (Boolean) → Bundle By Name into `ZM-HWM-EVENTS` → `Write events` |
-| `ZM-HWM-helperAcquisition.vi` | LOOP | priv | in HWM (a copy, not returned) | below |
+| `ZM-HWM-init.vi` | HOOK | priv | out event registration refnum | in Actor Core, in series before Call Parent (D41): `Read events` → Unbundle `stop` → Register For Events (fresh no error); the refnum goes to `helperAcquisition`; `error out` = Merge(`error in`, Read events, Register), so an error goes on into Call Parent |
+| `ZM-HWM-helperAcquisition.vi` | LOOP | priv | in HWM (a copy, not returned), in event registration refnum (from `init`) | below |
 | `ZM-HWM-stop.vi` | HOOK | priv | — | `Read events` → Unbundle `stop` → `Generate User Event` (T) |
 | `ZM-HWM-close.vi` | HOOK | priv | — | `Read events` → Unbundle → `Destroy User Event`; errors ignored on purpose → Clear Errors |
-| `ZM-HWM-evaluateError.vi` | HOOK | priv | stop actor? in/out | §5, sender `"HWM"` |
+| `ZM-HWM-evaluateError.vi` | HOOK | priv | stop actor? in/out | pass-through (§5, D40) |
 | `ZM-CI-handlePackage.vi` | OVR (interface) | pub | in `package` | `packageCount` += 1 → `Read Caller Enqueuer` → `Send ZM-CI-handlePackage`; a failed send (shutdown) → Clear Errors |
 | `Pre Launch Init.vi` | OVR (AF) | prot | | `createResources`; Call Parent |
-| `Actor Core.vi` | OVR (AF) | prot | | branch `helperAcquisition` ∥ Call Parent → `stop` → Merge → `close` → Merge → error out (§6) |
+| `Actor Core.vi` | OVR (AF) | prot | | `init` → Call Parent; branch `helperAcquisition` (with `init`'s refnum) ∥ Call Parent → `stop` → Merge → `close` → Merge → error out (§6) |
 | `Handle Error.vi` | OVR (AF) | prot | | Call Parent → `evaluateError` |
 
 **`ZM-HWM-helperAcquisition.vi`** (folder `Helpers`) — two loops in the one VI
@@ -512,15 +535,16 @@ called, closed afterwards**:
 | `interval measured (ms)` | U32 indicator | `Wait (ms)` timer output minus the previous one (shift register); 0 on the first iteration |
 | `stop` | Boolean, **Switch** (not latched), off the connector pane, **hidden** | written F by local before both loops start (an off-pane control keeps its last value); T by the event loop; read by the producer through a local **sequenced after the Wait** |
 
-- **Event loop** (the async stop): `Read events` → Unbundle `stop` → Register For Events (fresh no
-  error) → loop with the error case; No Error frame: event structure, frame `stop` → write `stop` = T
-  by local, exit. Right-side refnum → Unregister → Merge Errors.
+- **Event loop** (the async stop): the registration refnum from `init` → loop with the error case; No
+  Error frame: event structure, frame `stop` → write `stop` = T by local, exit. After the loop: the `stop`
+  hook (its error → Clear Errors, D40); right-side refnum → Unregister → Merge Errors.
 - **Producer loop** (timed work, `af-shapes.timed-work`): before, `Read prelaunchSettings` →
   `hardware` → `ZM-HW-init`. Loop with the error case; No Error frame: `ZM-HW-do` → `Read Self
   Enqueuer` → `Send ZM-CI-handlePackage`; chart; `Wait (ms)`; exit when `stop` reads T or on an error.
-  After: `ZM-HW-close` (runs with an error too: safe state).
-- After both loops: on an error → `evaluateError` → `Read Self Enqueuer` → `Send Normal Stop`
-  (`errors.loop-errors`). `error out` = the merged errors.
+  After: `ZM-HW-close` (runs with an error too: safe state), then the `stop` hook (its error → Clear
+  Errors), so a producer that ends on an error also ends the event loop (D40).
+- After both loops: Merge Errors → `evaluateError` (a pass-through) → on an error `Read Self Enqueuer` →
+  `Send Normal Stop` (`errors.loop-errors`). `error out` = the raw merged error (D40).
 
 ### 7.12 `ZM-ROOT-root.lvlib` — `src/actors/ZM-ROOT-root/`
 
@@ -550,17 +574,18 @@ called, closed afterwards**:
 | `Read events`, `Write events` | ACC | priv | | |
 | `ZM-ROOT-createResources.vi` | HOOK | priv | — | `createEvents`; Error frame → `close`; returns the error |
 | `ZM-ROOT-createEvents.vi` | HOOK | priv | — | `Create User Event` ×2 → Bundle By Name → one `Write events` |
+| `ZM-ROOT-init.vi` | HOOK | priv | out event registration refnum | in Actor Core, in series before Call Parent (D41): `launchCm` → `launchHwm` (class and error in series) → `Read events` → Unbundle `stop`, `error` → Register For Events (stop first, error second; fresh no error); the refnum goes to `helperPanel`; `error out` = Merge(launch chain, Read events, Register), so an error goes on into Call Parent |
 | `ZM-ROOT-launchCm.vi` | HOOK | priv | — | `Read prelaunchSettings` → FL constant → `Write outputFolder`; UDP-sender constant (defaults); both up-cast → `Build Array` → MX `Write protocols` → bundle `ZM-CM-PRELAUNCH_SETTINGS` → `ZM-CM-writePrelaunchSettings` → `Launch Nested Actor` → `Write cmEnqueuer`, `Write cmRunning` = T |
 | `ZM-ROOT-launchHwm.vi` | HOOK | priv | — | case on `usePlaceholderHardware`: SIM / bare `ZM-HW-hardware` constant → bundle `ZM-HWM-PRELAUNCH_SETTINGS` (`intervalMs` 500) → `ZM-HWM-writePrelaunchSettings` → `Launch Nested Actor` → `Write hwmEnqueuer` |
 | `ZM-ROOT-notePackageType.vi` | ST | priv | in `package` | `Read type` → `Write lastPackageType`; `packageCount` += 1 |
 | `ZM-ROOT-showError.vi` | ST | priv | in `package` | `Read events` → Unbundle `error`; `getDataAsJson` → `Generate User Event`; cast to EP, `Read data`, sender = `"CM"` → `Write cmRunning` = F. The only VI outside ZM-PC that knows the EP class |
 | `ZM-CI-handlePackage.vi` | OVR (interface) | pub | in `package` | case on `Read destination` (`01` R5 table) |
-| `ZM-ROOT-helperPanel.vi` | LOOP | priv | in ROOT (a copy, not returned) | folder `Helpers`. Panel opens when called, closes afterwards: `Stop` (Boolean, **Switch When Released**), `errors` (String, multi-line). `Read events` → Unbundle `stop`, `error` → Register For Events (Stop value change + both user events; fresh no error) → loop with the error case; No Error frame: event structure: **Stop** → `Stop` = F (local) → `Read Self Enqueuer` → `Send Normal Stop`, keep looping; **error** → append to `errors`; **stop** → exit. Right-side refnum → Unregister → Merge. After: on an error → `evaluateError` → `Send Normal Stop` to self. No Timeout frame |
+| `ZM-ROOT-helperPanel.vi` | LOOP | priv | in ROOT (a copy, not returned), in event registration refnum (from `init`) | folder `Helpers`. Panel opens when called, closes afterwards: `Stop` (Boolean, **Switch When Released**), `errors` (String, multi-line), and a note below Stop: `To watch the data being sent: in the project, open the virtual folder "receiver" and run ZM-receiver.vi (UDP 127.0.0.1:61557).` The registration refnum from `init` (both user events) into the event structure's dynamic terminal, plus the Stop value change → loop with the error case; No Error frame: event structure: **Stop** → `Stop` = F (local) → `Read Self Enqueuer` → `Send Normal Stop`, keep looping; **error** → append to `errors`; **stop** → exit. After the loop: right-side refnum → Unregister; the `stop` hook (its error → Clear Errors, D40); Merge → `evaluateError` (a pass-through) → on an error `Send Normal Stop` to self; `error out` = the raw merged error. No Timeout frame |
 | `ZM-ROOT-stop.vi` | HOOK | priv | — | `Read events` → Unbundle `stop` → `Generate User Event` |
 | `ZM-ROOT-close.vi` | HOOK | priv | — | `Read events` → Unbundle → `Destroy User Event` ×2; errors ignored on purpose → Clear Errors |
-| `ZM-ROOT-evaluateError.vi` | HOOK | priv | stop actor? in/out | §5: log, error passed on |
+| `ZM-ROOT-evaluateError.vi` | HOOK | priv | stop actor? in/out | pass-through (§5, D40) |
 | `Pre Launch Init.vi` | OVR (AF) | prot | | `createResources`; Call Parent |
-| `Actor Core.vi` | OVR (AF) | prot | | series `launchCm` → `launchHwm` → Call Parent; branch from `<C> in` → `helperPanel`; after Call Parent `stop` → Merge → `close` → Merge → error out (§6) |
+| `Actor Core.vi` | OVR (AF) | prot | | `init` (`launchCm` → `launchHwm` → Register) → Call Parent; branch from `<C> in` → `helperPanel` (with `init`'s refnum); after Call Parent `stop` → Merge → `close` → Merge → error out (§6) |
 | `Handle Error.vi` | OVR (AF) | prot | | Call Parent → `evaluateError` |
 
 ## 8. Top level, receiver and tests — `src/`
@@ -570,12 +595,14 @@ path with `Strip Path`.
 
 | file | behaviour |
 |---|---|
-| `Zuehlke MCP.lvproj` | virtual folders `common`, `hardware`, `protocol`, `actors`, `tests`, `receiver` |
-| `ZM-launcher.vi` | **interactive.** Control `output_folder` (Path, empty = `<project folder>\output`). Bundle `ZM-ROOT-PRELAUNCH_SETTINGS` (`usePlaceholderHardware` F) → `ZM-ROOT-writePrelaunchSettings` → `Launch Root Actor` → done |
-| `ZM-launcher_test.vi` | **headless.** Controls `run_time_ms` (U32, 5000), `output_folder`, `use_placeholder_hardware` (Boolean, F). Indicators `lines_written` (I32), `last_line` (String), `error_lines` (I32), `ui_errors` (String), `error out`. Body: delete `TestPackage.jsonl` and `ZM-error_log.txt` (missing is not an error) → settings → `writePrelaunchSettings` → `Launch Root Actor` → `Wait run_time_ms` → read `errors` from the running `ZM-ROOT-root.lvlib:ZM-ROOT-root.lvclass:ZM-ROOT-helperPanel.vi` (Open VI Reference by qualified name + control value get) → `ui_errors` → `Send Normal Stop` → `Wait` 1000 → count lines in both files (missing counts 0) → last line of `TestPackage.jsonl` |
+| `Zuehlke MCP.lvproj` | virtual folders `common`, `hardware`, `protocol`, `actors`, `tests`, `receiver`; `ZM-launcher.vi` at the project root, `ZM-launcher_test.vi` in `tests` (decided D45: its file stays in `src/` and it is not a member of `ZM-TST-tests.lvlib`) |
+| `ZM-launcher.vi` | **interactive.** Control `output_folder` (Path, empty = `<project folder>\output`). Indicator `error out` (decided D43: a failed launch stays visible; nothing is cleared). Bundle `ZM-ROOT-PRELAUNCH_SETTINGS` (`usePlaceholderHardware` F) → `ZM-ROOT-writePrelaunchSettings` → `Launch Root Actor` → done |
+| `ZM-launcher_test.vi` | **headless**, in the project's `tests` virtual folder (D45). Controls `run_time_ms` (U32, 5000), `output_folder`, `use_placeholder_hardware` (Boolean, F). Indicators `lines_written` (I32), `last_line` (String), `error_lines` (I32), `ui_errors` (String), `error out`. Body: delete `TestPackage.jsonl` and `ZM-error_log.txt` (missing is not an error) → settings → `writePrelaunchSettings` → `Launch Root Actor` → `Wait run_time_ms` → read `errors` from the running `ZM-ROOT-root.lvlib:ZM-ROOT-root.lvclass:ZM-ROOT-helperPanel.vi` (Open VI Reference by qualified name + control value get) → `ui_errors` → `Send Normal Stop` → `Wait` 1000 → count lines in both files (missing counts 0) → last line of `TestPackage.jsonl` |
 | `receiver/ZM-receiver.vi` | plain VI. Controls `port` (U16, 61557), `Stop` (Switch When Released). Indicators `chart` (plots `temperature_c`, `duty_percent`), `interval measured (ms)` (Tick Count difference between two packets), `last line`, `packets` (U32), `error out`. Body: UDP-receiver constant → `Write localPort` → `ZM-CP-init` → while: `receive(1000)` → timed out: keep waiting; data → `Unflatten From JSON` into `ZM-PC-HEADER.ctl` (not strict: the extra `data` key is ignored) → `TestPackage`? → `Unflatten From JSON` path `["data"]` into `ZM-PC-TP-DATA.ctl` → chart, interval, last line, packets += 1; exit on Stop or error → `ZM-CP-close` |
 | `tests/ZM-TST-tests.lvlib` | the test library (`hygiene.test-library`), holding the seven test VIs of `03` §1 |
 | `errors/ZM-errors.txt` | LabVIEW error-code file (copy in `assets/`; installed into LabVIEW's `user.lib\errors\`) |
+| `../README.md` | what the application is, how to open and run it (the receiver hint included), the folder layout; points to the user guide |
+| `../docs/user-guide.html` | the user guide (`01` R11, decided D47): one self-contained HTML page (inline CSS and SVG, no external files, opens offline) for a LabVIEW user: what the application is, the actor tree as a diagram, how to run the launchers and the receiver, what the panels show, the output files, errors, the tests, troubleshooting, the folder layout. Every name in it matches this file |
 
 ## 9. Disk layout
 
@@ -606,17 +633,21 @@ path with `Strip Path`.
     tests/                       ZM-TST-tests.lvlib + the seven test VIs
     errors/ZM-errors.txt
   output/                        ZM-error_log.txt, <type>.jsonl  (git-ignored, run-time only)
+  docs/                          error-codes.md, user-guide.html
+  tools/                         jsonl_viewer.html
+  README.md
 ```
 
 ## 10. Expected counts
 
 | | count |
 |---|---|
-| libraries | 14 (13 shipped + `ZM-TST-tests`) |
+| libraries | 13 (12 shipped + `ZM-TST-tests`; decided D42) |
 | classes | 13 (3 PC, 2 HW, 5 CP, 3 actors) + 1 interface + 1 message class |
 | typedefs | 11 (PC 5, MX 1, ROOT 2, HWM 2, CM 1; no UDP connection typedef) |
 | AF overrides | 9 (3 per actor) |
+| `init` members | 2 (HWM, ROOT; D41) |
 | test VIs | 7 |
 
 VI counts depend on the generated accessors and are not fixed; the original pilot (before this
-alignment) had 146 VIs.
+alignment) had 146 VIs; run-01 of this pack built 137.

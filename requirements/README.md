@@ -5,6 +5,11 @@ The requirements of a small LabVIEW Actor Framework application, extracted from 
 defaults** (2026-10-10). Hand this folder to a fresh session so it can **recreate the application
 from scratch** with the `labview` skill, and compare the result with the original.
 
+**Version 2 (2026-10-12)** folds in the product decisions the user made during and after run-01 (D39-D47 in
+`04-decisions.md`: errors not handled yet, `init` in Actor Core, 13 libraries, launcher `error out`, release errors,
+`ZM-launcher_test.vi` in `tests`, short descriptions, the HTML user guide). **Every run builds from this same pack**;
+runs after run-01 only change the model the agents use, so they can be compared.
+
 | file | what it holds |
 |---|---|
 | `01-requirements.md` | what to build: purpose, actors, class hierarchies, interface message, routing, output format, error plan, launch/resources/stop and helper-loop rules, live views, launchers, conventions, process, out of scope |

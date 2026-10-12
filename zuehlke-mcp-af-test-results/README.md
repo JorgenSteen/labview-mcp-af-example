@@ -35,7 +35,8 @@ Open `src/Zuehlke MCP.lvproj` in LabVIEW 2026 Q3 32-bit. The project tree has th
   (optionally with the placeholder hardware, which is the error run), waits `run_time_ms`, sends
   Normal Stop and returns the line counts, the last line and the panel's errors.
 - **Receiver:** run `src/receiver/ZM-receiver.vi` while the tree runs to watch the UDP stream on
-  `127.0.0.1:61557`. It can start and stop at any time.
+  `127.0.0.1:61557`. It can start and stop at any time. The root's panel shows this hint (the
+  `receiver` virtual folder in the project).
 - **Viewer:** open `tools/jsonl_viewer.html` in a browser and drop `output/TestPackage.jsonl` on it.
 
 Run-time output goes to `output/` (`<type>.jsonl` per package type, `ZM-error_log.txt`); it is

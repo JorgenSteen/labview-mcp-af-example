@@ -11,8 +11,8 @@ This repository is a teaching and testing ground. It has two zones:
   out as a normal LabVIEW repository on its own. It does not exist until a run starts, and deleting
   it resets the test.
 
-> **Status: run-01 closed 2026-10-11, result partial** (all phases done; T1-T7 and the runs pass; the IDE-only rows
-> of `03` §3 wait for the user). See `runs/run-01-2026-10-10/status.md` and the run log in `runs/README.md`.
+> **Status: run-01 closed 2026-10-12, result accepted** (all phases and the post-run steps done; T1-T7, the runs
+> and every row of `03` §3 pass). See `runs/run-01-2026-10-10/status.md` and the run log in `runs/README.md`.
 
 ---
 

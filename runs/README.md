@@ -27,7 +27,7 @@ the product itself is kept under the tag `run-NN-result`.
 
 | run | started | ended | phases done | result | notes |
 |---|---|---|---|---|---|
-| run-01 | 2026-10-10 | 2026-10-11 | 00-13 | partial | three sessions, Fable 5.1 then Opus 5.5; T1-T7 and every run of `03` §2 pass (R-error under D40); `03` §3 rows needing the user in the IDE (D38) pending, library count F3 undecided; user decisions D38-D41; tag `run-01-result`; `runs/run-01-2026-10-10/` |
+| run-01 | 2026-10-10 | 2026-10-12 | 00-13, post-run 12f-12i | accepted | four sessions, Fable 5.1 then Opus 5.5; T1-T7 and every run of `03` §2 pass (R-error under D40); all 21 rows of `03` §3 pass after the post-run steps (D38 items by VI Server scripting, 12f/12h; D44 option A, 12g; re-check 12i); user decisions D38-D44; tag `run-01-result` (the partial state, 164e241); `runs/run-01-2026-10-10/` |
 
 Fill one row per run when it closes. "Result" is one of: `accepted` (every check in
 `requirements/03-acceptance.md` holds on a cold start), `partial` (name the last phase that passed),

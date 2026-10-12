@@ -1,9 +1,32 @@
 # Run status: run-01-2026-10-10
 
 state: closed          # open | closed
-last updated: 2026-10-11 23:50 by the manager session (session 3, after the run: hand-over)
-next phase: post-run steps 12h (D38 items by scripting), 12g (D44), 12i (re-check); see the HAND-OVER block
+last updated: 2026-10-12 09:20 by the manager session (session 4, post-run steps done)
+next phase: none; post-run steps 12h, 12g, 12i done, result accepted; open: the user's items in the session 4 block
 open items: see "Open items" below.
+
+# RESULT 2026-10-12 09:20 (session 4): accepted
+
+12i (09:04-09:14, report-12i): every one of the 21 rows of `03` §3 passes (under D40-D44 where they apply; 13
+re-judged, 8 carried from 12b with no file changed); cold sweep 137/137, membership clean, 177/177 files at 26; T1-T7
+PASS on a cold LabVIEW, T4 x3 (run 3 flaked on `init_ok`, F13; its rerun PASS). With `03` §1 and §2 already passing,
+the run's result moves from partial to **accepted** (run log row and README status line updated). Tag: the user decides
+(`run-01-result` stays on 164e241).
+
+**Open for the user (not blocking):**
+1. A new tag for the accepted state (e.g. `run-01-accepted`), or none.
+2. The style of the agent-written VI descriptions (`descriptions-review.md`), and the manager-written CI message class
+   text (brief 12h2).
+3. Whether `CLAUDE.md`'s D38 default ("what no tool does, the user does in the IDE") becomes "done by the 12f VI Server
+   helpers" for later runs (the user said folder moves can be done at will, 2026-10-12).
+4. 12i's optional note: 5 typedefs (ZM-HWM-EVENTS, ZM-ROOT-EVENTS, ZM-PC-EP-DATA, ZM-CP-MX-PROTOCOLS,
+   ZM-PC-DESTINATION) are public with no user outside their class; private only if "private unless needed outside"
+   should cover typedefs (`02` gives typedefs no scope).
+5. F13 (T4 `init_ok` flaky: 4 flakes in 12h2, 12g, 12i) stays a known finding.
+
+**LabVIEW at the end:** PID 5672 (started by the 12i agent 09:11:51, port 59269), project closed, 0 unsaved, no
+dialog, LVAutoSave 0. PID 26716 was killed by the 12i agent at 09:11:29 under the session's go-ahead (exit save dialog
+for the scratch VIs).
 
 # Session 4 started 2026-10-11 23:52
 
@@ -46,6 +69,7 @@ open items: see "Open items" below.
   log case unchanged; Stop Core diagram unchanged (description only); D44 corrected in `decisions.md`; Clean Up on
   releaseProtocol; icons 0 px; normal-stop run 3 lines, error log unchanged; forced error NOT forced (private VI,
   1390); T1-T7 PASS, T4 x3 (run 1 flaked on `init_ok`, F13; runs 2, 3 PASS); CM sweep 13/13; all 26.
+- 12i DONE 09:04-09:14 (no commit in `src`): all 21 rows of `03` §3 pass; see RESULT above.
 
 # HAND-OVER 2026-10-11 23:50 (session 3, after the run): next session starts HERE
 

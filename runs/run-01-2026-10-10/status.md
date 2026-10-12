@@ -109,6 +109,7 @@ for the scratch VIs).
   all 26, icons 0 px, T1-T7 PASS. The user had closed the project in the IDE (LVAutoSave 0 at 12:49). LabVIEW PID 27076,
   port 61113, project closed, 0 unsaved. LabVIEW's class save doubled the line breaks in `NI.LVClass.Geneology` of CM,
   HWM, ROOT, MX (seen before in df162a7; content the same).
+- `/cost` of session 4 (pasted by the user, trimmed in `cost.md`): $51.55; run-01 total, sessions 1-4: $673.98.
 
 # HAND-OVER 2026-10-11 23:50 (session 3, after the run): next session starts HERE
 

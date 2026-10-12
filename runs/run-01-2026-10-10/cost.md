@@ -70,74 +70,41 @@ from `date` are authoritative; agent-clock minutes are kept as reported.
 
 ## /cost output per session
 
-- session 3 (2026-10-11 10:58 to ~22:05, Opus 5.5; `/cost` taken by the user at 23:15): **$280.58 total**, API time
-  5h 13m, wall 12h 15m, manager and all 25 agent launches/resumes together. Opus 5.5: 1.2m input, 1.8m output,
-  931.4m cache read, 10.1m cache write; Haiku 5.5 negligible. Of the usage: 85% general-purpose subagents, 36%
-  labview-mcp tool results, 92% at >150k context. The user's paste, verbatim (its first line reads "1026" for 2026):
+- **session 4** (2026-10-11 23:52 to 2026-10-12 ~13:00, Opus 5.5; post-run steps 12h to 12k; `/cost` taken by the user
+  2026-10-12 ~13:00): **$51.55 total**, manager and its 6 agent launches and 3 resumes together. Wall time 13h 05m,
+  mostly idle overnight; API time 1h 15m.
 
 ```text
-1026-10-11 2315 Cost
-Session
+Total cost:            $51.55
+Total duration (API):  1h 15m 22s
+Total duration (wall): 13h 5m 10s
+Total code changes:    1776 lines added, 2 lines removed
+claude-opus-5-5:       213.2k input, 394.2k output, 139.8m cache read, 2.6m cache write ($51.55)
+claude-haiku-5-5:      1.2k input, 30 output ($0.0001)
+Prompt cache (main):   163 requests, 98% of input tokens from cache, 2 misses
+Usage, last 24h:       81% general-purpose subagents, 33% labview-mcp tool results, 88% at >150k context
+```
 
+- **session 3** (2026-10-11 10:58 to ~22:05, Opus 5.5; `/cost` taken by the user at 23:15): **$280.58 total**, manager
+  and all 25 agent launches and resumes together.
+
+```text
 Total cost:            $280.58
 Total duration (API):  5h 13m 9s
 Total duration (wall): 12h 15m 16s
 Total code changes:    8176 lines added, 61 lines removed
-Usage by model:
-    claude-haiku-5-5:  1.2k input, 17 output, 0 cache read, 0 cache write ($0.0001)
-     claude-opus-5-5:  1.2m input, 1.8m output, 931.4m cache read, 10.1m cache write ($280.58)
-Prompt cache (main):   216 requests · 99% of input tokens from cache · 1 miss (last 4h 21m 30s ago — likely cause: idle past the 1h TTL, 345.9k tokens re-cached) · warm (1h TTL, last activity 19m 55s ago)
-
-Current session
-████████████████▌                                  33% used
-Resets 12:59am (Europe/Oslo)
-
-Current week (all models)
-███                                                6% used
-Resets Oct 15, 3:59am (Europe/Oslo)
-
-Current week (Fable)
-                                                   0% used
-Resets Oct 15, 4am (Europe/Oslo)
-
-What's contributing to your limits usage?
-Approximate, based on local sessions on this machine — does not include other devices or claude.ai
-
-Last 24h · these are independent characteristics of your usage, not a breakdown
-
-100% of your usage came from subagent-heavy sessions
- Each subagent runs its own requests. Be deliberate about spawning them — and consider configuring a cheaper model for simpler subagents.
-
-92% of your usage was at >150k context
- Longer sessions are more expensive even when cached. /compact mid-task, /clear when switching to new tasks.
-
-75% of your usage came from sessions active for 8+ hours
- These are often background/loop sessions. Continuous usage can add up quickly so make sure it is intentional.
-
-85% of your usage came from subagents under "general-purpose"
- If this runs frequently, consider configuring its subagents with a cheaper model or tightening their prompts.
-
-36% of your usage came from the MCP server "plugin:labview-mcp:labview"
- MCP tool results stay in context for the rest of the session. /compact to flush them, or disable servers you don't need.
-
-Subagents               % of usage
-general-purpose                85%
+claude-opus-5-5:       1.2m input, 1.8m output, 931.4m cache read, 10.1m cache write ($280.58)
+claude-haiku-5-5:      1.2k input, 17 output ($0.0001)
+Prompt cache (main):   216 requests, 99% of input tokens from cache, 1 miss (idle past the 1h TTL)
+Usage, last 24h:       85% general-purpose subagents, 36% labview-mcp tool results, 92% at >150k context
 ```
 
-- **sessions 1 and 2 together** (one Claude Code session, 2026-10-10 14:40 to 2026-10-11 10:54; the user's screenshot
+- **sessions 1 and 2** (one Claude Code session, 2026-10-10 14:40 to 2026-10-11 10:54; the user's screenshot
   `cost.JPG`, transcribed): **$341.85 total**, API time 5h 38m 57s, wall 20h 14m 28s, 7523 lines added, 134 removed.
   Fable 5.1: 1.3m input, 1.2m output, 366.8m cache read, 7.5m cache write ($270.70; session 1). Opus 5.5: 276.3k
   input, 429.6k output, 225.6m cache read, 2.8m cache write ($71.16; session 2 and the hand-over). Haiku 5.5
   $0.0001. Of the usage: 72% general-purpose subagents, 34% labview-mcp tool results, 90% at >150k context. The
   week's Fable limit read 100% used (the cut-off at ~09:25).
 
-- **run-01 total (sessions 1-3): $622.43** ($341.85 + $280.58).
-
-- session 2 (2026-10-11 09:34 to 10:58, Opus 5.5): not yet pasted. Seen by the manager: 7 agent launches; the
-  harness notifications carried 332,117 + 414,317 + 325,239 + 361,753 + 307,509 + 320,223 = 2,061,158 subagent
-  tokens for six of them (05a2 to 07). The manager's own tokens: not visible; its context reached ~80% at 10:52.
-
-- session 1 (2026-10-10 14:40 to 2026-10-11 09:40): not yet pasted; the user runs `/cost` and pastes it here.
-  Seen by the manager: 16 agent launches plus 4 resumes. The 16 harness notifications that carried a subagent
-  token count sum to 4,576,373 (00b's two notifications may overlap; the 05a agent's count was never reported).
-  The manager's own tokens: not visible.
+- **run-01 total (sessions 1-4): $673.98** ($341.85 + $280.58 + $51.55): the build (sessions 1-3) $622.43, the
+  post-run steps (session 4) $51.55.

@@ -65,6 +65,11 @@ by saying so in the start message; record such a change in `status.md` with the 
   or on an error; on an error it sends Normal Stop to its own actor. Error-handling plan: none yet; an error stops this
   actor and, through its Last Ack, its caller." Decided by the user after run-01 (2026-10-12: "The VI desription is too
   long. your shorter description is good"); run-01's long texts were rewritten after the run (step 12k).
+- **`ZM-launcher_test.vi` sits in the project's `tests` virtual folder (D45).** `02` §8/§9 put both launchers at the
+  project root; the headless launcher goes into the `tests` virtual folder instead (project tree only: the file stays in
+  `src/`, beside `ZM-launcher.vi`, and is not a member of `ZM-TST-tests.lvlib`). `ZM-launcher.vi` stays at the root.
+  Decided by the user after run-01 (2026-10-12: "yes, move it into tests virtual folder only"); phase 12 checks the
+  project tree against this.
 - **Phase 12's Stop presses are done headlessly.** R-interactive and R-receiver press the Stop buttons of the
   root panel and `ZM-receiver.vi` by a signalling write (the kit's `pa_press_control_signal` route); no question
   (the user, run-01, 2026-10-11: "Agent presses").

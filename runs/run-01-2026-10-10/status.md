@@ -32,6 +32,13 @@ no dialog, LVAutoSave 0. Killed by the manager at the user's request ("kill labv
 runs now, LVAutoSave 0. Earlier: PID 26716 was killed by the 12i agent at 09:11:29 under the session's go-ahead (exit save dialog
 for the scratch VIs).
 
+**After the hand-over (2026-10-12, the user looking at the application):**
+- 12l (brief `brief-12l-root-panel-receiver-note.md`): the user asked for a hint on the root's panel (helperPanel,
+  chosen by the user) pointing to the receiver VI, and the same in the README. First stop 13:39 (NEEDS CLARIFICATION:
+  the user's LabVIEW PID 14692 had the project open, LVAutoSave 2); the user: "i closed the project, go on"; resumed.
+- The user 2026-10-12: "yes, move it into tests virtual folder only": `ZM-launcher_test.vi` into the project's `tests`
+  virtual folder, file stays in `src/` (D45, `CLAUDE.md`). Done by the 12l agent as a follow-up after its report.
+
 # Session 4 started 2026-10-11 23:52
 
 - New Claude Code session (after `/clear`), manager on Opus 5.5; agents inherit it.

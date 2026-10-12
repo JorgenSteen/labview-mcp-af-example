@@ -163,12 +163,17 @@ Why: the user's words (2026-10-11, after run-01's phase 13): "Keep it ... its a 
 error out indicator"
 Supersedes: the panel list of `ZM-launcher.vi` in `02` §8
 
-## D44 (2026-10-11): A release error at shutdown is logged and passed on
+## D44 (2026-10-11, corrected 2026-10-12): A release error is logged and passed on by the hook; it ends in Stop Core
 Rule: errors.release-errors, af-shapes.stop-core-order
-Chosen: `ZM-CM-releaseProtocol.vi` logs a release error with `ZM-CU-log` and does not clear it (code 1 from a
-never-opened resource stays cleared without a log); the CM Stop Core override passes the hook's error out to its
-error out (no Clear Errors), so the error reaches the Last Ack (D40)
-Instead of: logged and cleared (the 08b build)
+Chosen: `ZM-CM-releaseProtocol.vi` logs a release error with `ZM-CU-log` and does not clear it: its error out =
+Merge Errors(the close error with code 1 removed by Clear Errors, then Write protocol's error out); code 1 from a
+never-opened resource stays cleared without a log. The CM Stop Core override stays as built (Call Parent ->
+releaseProtocol -> Clear Errors): AF's Stop Core has no error in or error out (only `final error code`), so the
+release error cannot reach the Last Ack; it is logged in the hook and ends in Stop Core. createResources' failure path
+merges it after the init error (unchanged wiring). Built in step 12g.
+Instead of: logged and cleared in the hook (the 08b build); and the first D44 text (Stop Core passes the error to its
+error out), which AF's Stop Core pane cannot do
 Why: the user's words (2026-10-11, after run-01's phase 13, reviewing the CM Stop Core description): "log, but let
-the error pass through"
-Supersedes: `errors.release-errors` "cleared" for the CM; to be built in step 12g
+the error pass through"; corrected by the user (2026-10-12, step 12g, option A): "that is correct. no error out of
+stop core. A, if i need the error i need to log it before that over."
+Supersedes: `errors.release-errors` "cleared" for the CM hook

@@ -35,6 +35,10 @@ open items: see "Open items" below.
   data `.ctl`. **12h done; the D38 list ("For the user in the IDE") is closed** except reviewing agent-written texts.
   The user (2026-10-12) asked to log the folder-move rule as a skill/MCP improvement: `lessons-mcp-skill.md` items
   38-39 (untracked) and the manager's memory.
+- 12g 08:41-08:45: CANNOT PROCEED (labview-mcp "failed to connect" ~08:44; a `dotnet test` of the labview-mcp fork
+  was running beside LabVIEW) + NEEDS CLARIFICATION: AF `Stop Core.vi` has no error terminals (measured: Actor in,
+  final error code; Actor out), so D44's "Stop Core passes the error on to the Last Ack" cannot be built there; options
+  A/B/C in report-12g item 2. Nothing changed. **Relayed to the user word for word; waiting.**
 
 # HAND-OVER 2026-10-11 23:50 (session 3, after the run): next session starts HERE
 

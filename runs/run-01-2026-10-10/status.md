@@ -1,7 +1,7 @@
 # Run status: run-01-2026-10-10
 
 state: closed          # open | closed
-last updated: 2026-10-12 13:15 by the manager session (session 4, closed; pushed by the user)
+last updated: 2026-10-12 15:00 by the manager session (session 4, closed by the user; everything pushed by the user)
 next phase: none. run-01 is closed and accepted; post-run steps 12f-12k done; nothing open. The next step is a new run
   (run-02) when the user asks for one; `CLAUDE.md` already carries every rule decided in run-01.
 open items: none (the closing list is in the RESULT block below).
@@ -65,6 +65,12 @@ for the scratch VIs).
   with the receiver, library dependencies), inline SVG, offline; 46 of 46 built dependency edges drawn, 0 extra;
   check PASS. The manager reworded one caption (it named the git-ignored `dep_full.txt`). `03`, `04` D47 and card 11
   name the Flows diagrams too (f5068fc).
+- **Session 4 closed 2026-10-12 ~15:00** at the user's request ("Please just wrap everything up"). Nothing open, no
+  agent running, every commit pushed by the user up to 32a3956 (this wrap-up commit still to push). LabVIEW: the
+  user's own instance (PID 14692) is still running; this session left it alone (project closed, LVAutoSave 0 at
+  13:52). Untracked by design: `lessons-mcp-skill.md`, `notes-for-run-02.md`; `zuehlke-mcp-design.html` excluded
+  locally (`.git/info/exclude`). The labview skill repository holds the uncommitted helper changes for the user.
+  The `/cost` paste (session 4, $51.55) was taken at ~13:00, before 12l-12n.
 
 # Session 4 started 2026-10-11 23:52
 

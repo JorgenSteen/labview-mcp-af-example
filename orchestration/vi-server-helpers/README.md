@@ -7,6 +7,11 @@ VIs the run-01 agents wrote, as AIXML. Generic: no product names, no fixed paths
 `CLAUDE.md`, "The build phases set class descriptions, `.ctl` class membership and the virtual folders" says when
 they are used (D38).
 
+The same helpers are in the `labview` skill's kit since 2026-10-12, under generic names (`pa_set_class_description`,
+`pa_class_folder_add_files`, `pa_class_folder_create_and_move`, `pa_class_folder_move`, `pa_save_libraries`,
+`pa_project_vis_modified`); the skill's `knowledge/labview-mcp.md`, "LabVIEW scripting quirks", carries the rules. This
+copy stays so the harness does not depend on a skill version.
+
 **How to run one:** convert the AIXML to a VI in `%TEMP%\LabVIEWMCP\helpers\` (`lvai_convert_aixml_to_vi`), then
 `lvai_run_vi_and_read_values` with its controls; read every error indicator. **The project must be open and active**
 for every helper (each one works on `Project:Active Project` -> `Application`). Afterwards close the project and, if

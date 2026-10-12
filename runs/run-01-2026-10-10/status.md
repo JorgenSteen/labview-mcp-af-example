@@ -56,6 +56,11 @@ for the scratch VIs).
   how the build is run plus one bullet "Every run builds from the same requirements"; `plan.md` and cards 08-12 point
   to the requirements instead of D40 override banners; card 11 builds the README and the user guide; the repository
   README and `plan.md` say later runs only change the model. No tag (the user: "no need for tags").
+- The user 2026-10-12 put `zuehlke-mcp-design.html` (the original pilot's design page) in the repo root, "do not
+  push that one" (kept out by `.git/info/exclude`, local only), and asked for its Flows refined: launch tree, a
+  standalone class hierarchy, message paths with the receiver, library dependencies. Chosen: a Flows section in the
+  user guide, inline SVG (offline). 12n (docs-only agent, brief `brief-12n-user-guide-flows.md`) draws them from
+  requirements v2; `01` R11 and `02` §8 now name the Flows section.
 
 # Session 4 started 2026-10-11 23:52
 

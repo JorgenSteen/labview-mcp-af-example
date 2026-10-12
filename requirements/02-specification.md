@@ -602,7 +602,7 @@ path with `Strip Path`.
 | `tests/ZM-TST-tests.lvlib` | the test library (`hygiene.test-library`), holding the seven test VIs of `03` §1 |
 | `errors/ZM-errors.txt` | LabVIEW error-code file (copy in `assets/`; installed into LabVIEW's `user.lib\errors\`) |
 | `../README.md` | what the application is, how to open and run it (the receiver hint included), the folder layout; points to the user guide |
-| `../docs/user-guide.html` | the user guide (`01` R11, decided D47): one self-contained HTML page (inline CSS and SVG, no external files, opens offline) for a LabVIEW user: what the application is, the actor tree as a diagram, how to run the launchers and the receiver, what the panels show, the output files, errors, the tests, troubleshooting, the folder layout. Every name in it matches this file |
+| `../docs/user-guide.html` | the user guide (`01` R11, decided D47): one self-contained HTML page (inline CSS and SVG, no external files, opens offline) for a LabVIEW user: what the application is, the actor tree as a diagram, a Flows section with four tabbed inline-SVG diagrams (launch tree; class hierarchy; message paths for data, stop and errors, the receiver included; library dependencies, every edge as built), how to run the launchers and the receiver, what the panels show, the output files, errors, the tests, troubleshooting, the folder layout. Every name in it matches this file |
 
 ## 9. Disk layout
 

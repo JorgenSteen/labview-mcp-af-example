@@ -225,8 +225,9 @@ Environment: **LabVIEW 2026 Q3, 32-bit**, Actor Framework from `vi.lib`. Tests a
 
 - `README.md` in the product folder: what the application is, how to open and run it, the folder layout.
 - `docs/user-guide.html`: a user guide for a LabVIEW user who has never seen the project, one self-contained HTML
-  page (inline CSS and SVG, opens offline): what the application is, the actor tree as a diagram, how to run the
-  launchers and the receiver, what the panels show, the output files, errors, the tests, troubleshooting, the
+  page (inline CSS and SVG, opens offline): what the application is, the actor tree as a diagram, a **Flows**
+  section with four tabbed diagrams (the launch tree; the class hierarchy; the message paths between the parts,
+  the receiver included: data, stop and error; the library dependencies), how to run the launchers and the receiver, what the panels show, the output files, errors, the tests, troubleshooting, the
   folder layout. Written at the end of the build, from this pack and the built code; every name matches `02`.
 
 ## 3. Structural and convention requirements (skill defaults)

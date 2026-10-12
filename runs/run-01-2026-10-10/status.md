@@ -38,6 +38,10 @@ for the scratch VIs).
   the user's LabVIEW PID 14692 had the project open, LVAutoSave 2); the user: "i closed the project, go on"; resumed.
 - The user 2026-10-12: "yes, move it into tests virtual folder only": `ZM-launcher_test.vi` into the project's `tests`
   virtual folder, file stays in `src/` (D45, `CLAUDE.md`). Done by the 12l agent as a follow-up after its report.
+- User documentation: there was none in HTML (only the JSONL viewer). The user chose "HTML user guide"; 12m (docs-only
+  agent, brief `brief-12m-user-guide-html.md`) writes `docs/user-guide.html` beside 12l. The user 2026-10-12: "Add the
+  making of it to the requirement after completation": once 12m is done, the manager adds the user guide as a
+  deliverable to `requirements/` (and the phase card that builds it) so later runs make it.
 
 # Session 4 started 2026-10-11 23:52
 

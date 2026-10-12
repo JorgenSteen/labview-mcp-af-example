@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zuehlke MCP - User Guide</title>
+<style>
+:root {
+  --bg: #fbfbf9; --fg: #1f2328; --muted: #5b636d; --line: #d5d9de; --panel: #f1f3f5;
+  --code-bg: #eceff2; --accent: #1f6feb; --launch: #6e7781; --box: #ffffff; --inner: #f4f6f8;
+  --warn-bg: #fff8e6; --warn-line: #e3c36b;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15181c; --fg: #e3e6ea; --muted: #9aa3ad; --line: #353b43; --panel: #1d2127;
+    --code-bg: #262b32; --accent: #58a6ff; --launch: #8b949e; --box: #1d2127; --inner: #262b32;
+    --warn-bg: #2b2616; --warn-line: #7d6a2e;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 16px/1.6 "Segoe UI", system-ui, -apple-system, Helvetica, Arial, sans-serif;
+}
+main { max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
+h1 { font-size: 1.9rem; margin: 0 0 4px; line-height: 1.2; }
+h2 { font-size: 1.35rem; margin: 40px 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+h3 { font-size: 1.05rem; margin: 22px 0 6px; }
+p, ul, ol, dl { margin: 0 0 12px; }
+li { margin: 3px 0; }
+.sub { color: var(--muted); margin: 0 0 20px; }
+code, pre { font-family: Consolas, "Cascadia Mono", Menlo, monospace; font-size: 0.88em; }
+code { background: var(--code-bg); padding: 1px 4px; border-radius: 4px; overflow-wrap: anywhere; }
+pre { background: var(--code-bg); padding: 12px 14px; border-radius: 6px; overflow-x: auto; line-height: 1.45; tab-size: 4; }
+pre code { background: none; padding: 0; overflow-wrap: normal; }
+a { color: var(--accent); }
+nav.toc { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 18px; margin: 0 0 8px; }
+nav.toc ol { margin: 6px 0 0; padding-left: 22px; columns: 2; column-gap: 32px; }
+.table-wrap { overflow-x: auto; margin: 0 0 14px; }
+table { border-collapse: collapse; width: 100%; font-size: 0.94rem; }
+th, td { text-align: left; vertical-align: top; padding: 6px 10px; border-bottom: 1px solid var(--line); }
+th { background: var(--panel); font-weight: 600; }
+.note { background: var(--warn-bg); border-left: 4px solid var(--warn-line); padding: 10px 14px; border-radius: 4px; margin: 0 0 14px; }
+dt { font-weight: 600; margin-top: 10px; }
+dd { margin: 2px 0 0 0; }
+figure { margin: 8px 0 16px; }
+figcaption { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+svg.diagram { width: 100%; height: auto; display: block; }
+svg .box { fill: var(--box); stroke: var(--fg); stroke-width: 1.2; }
+svg .inner { fill: var(--inner); stroke: var(--line); stroke-width: 1; }
+svg .outside { fill: var(--box); stroke: var(--fg); stroke-width: 1.2; stroke-dasharray: 5 4; }
+svg .t { fill: var(--fg); font: 12px "Segoe UI", system-ui, sans-serif; }
+svg .tb { fill: var(--fg); font: 600 13px "Segoe UI", system-ui, sans-serif; }
+svg .tc { fill: var(--muted); font: 10.5px Consolas, Menlo, monospace; }
+svg .tl { fill: var(--muted); font: 10.5px "Segoe UI", system-ui, sans-serif; }
+svg .pkg { stroke: var(--accent); stroke-width: 2; fill: none; }
+svg .launch { stroke: var(--launch); stroke-width: 1.5; stroke-dasharray: 5 4; fill: none; }
+svg .head-pkg { fill: var(--accent); }
+svg .head-launch { fill: var(--launch); }
+@media (max-width: 600px) { nav.toc ol { columns: 1; } h1 { font-size: 1.6rem; } }
+@media print {
+  :root { --bg: #fff; --fg: #000; --muted: #444; --panel: #f3f3f3; --code-bg: #f3f3f3; --box: #fff; --inner: #f6f6f6; }
+  main { max-width: none; padding: 0; }
+  h2 { break-after: avoid; }
+  figure, table, pre { break-inside: avoid; }
+  pre { white-space: pre-wrap; }
+  a { color: inherit; text-decoration: none; }
+}
+</style>
+</head>
+<body>
+<main>
+<h1>Zuehlke MCP</h1>
+<p class="sub">User guide: what the application does and how to use it. LabVIEW 2026 Q3, Actor Framework.</p>
+
+<nav class="toc" aria-label="Contents">
+<strong>Contents</strong>
+<ol>
+<li><a href="#what">What it is</a></li>
+<li><a href="#fit">How it fits together</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#run">Run it</a></li>
+<li><a href="#output">Output</a></li>
+<li><a href="#errors">Errors</a></li>
+<li><a href="#tests">Tests</a></li>
+<li><a href="#trouble">Troubleshooting</a></li>
+<li><a href="#layout">Folder layout</a></li>
+</ol>
+</nav>
+
+<h2 id="what">1. What it is</h2>
+<p>Zuehlke MCP is a small LabVIEW Actor Framework application (prefix <code>ZM</code>). A simulated hardware
+object produces a measurement package every 500 ms. A tree of three actors moves each package to the output:
+the hardware manager reads the hardware, the root routes the package by its destination, and the
+communication manager publishes it. Every package ends up as one JSON line in a file per package type
+(<code>output/TestPackage.jsonl</code>) and as one UDP datagram, which a separate receiver VI can show live.
+There are no configuration files.</p>
+
+<h2 id="fit">2. How it fits together</h2>
+<figure>
+<svg class="diagram" viewBox="0 0 760 480" role="img" aria-labelledby="dia-title dia-desc">
+<title id="dia-title">Actor tree and package flow</title>
+<desc id="dia-desc">The launcher launches the root. The root launches the communication manager, then the hardware manager. Packages flow from the hardware manager to the root to the communication manager, whose multi protocol writes a JSON Lines file and sends UDP datagrams to the receiver VI outside the tree.</desc>
+<defs>
+<marker id="mk-pkg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="head-pkg" d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="mk-launch" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="head-launch" d="M0,0 L10,5 L0,10 z"/></marker>
+</defs>
+<!-- launcher -->
+<rect class="box" x="300" y="12" width="160" height="50" rx="6"/>
+<text class="tb" x="380" y="33" text-anchor="middle">ZM-launcher.vi</text>
+<text class="tl" x="380" y="51" text-anchor="middle">or ZM-launcher_test.vi</text>
+<line class="launch" x1="380" y1="62" x2="380" y2="106" marker-end="url(#mk-launch)"/>
+<text class="tl" x="388" y="88">launch</text>
+<!-- HWM -->
+<rect class="box" x="16" y="110" width="220" height="190" rx="8"/>
+<text class="tb" x="30" y="134">HWM - hardware manager</text>
+<text class="tc" x="30" y="152">ZM-HWM-hardware_manager</text>
+<rect class="inner" x="28" y="164" width="196" height="50" rx="5"/>
+<text class="t" x="38" y="184">hardware object</text>
+<text class="tc" x="38" y="202">ZM-HW-SIM-simulated_hardware</text>
+<text class="t" x="30" y="240">helper loop reads the</text>
+<text class="t" x="30" y="256">hardware every 500 ms</text>
+<text class="t" x="30" y="280">panel: live chart, interval</text>
+<!-- ROOT -->
+<rect class="box" x="300" y="110" width="160" height="190" rx="8"/>
+<text class="tb" x="314" y="134">ROOT - root</text>
+<text class="tc" x="314" y="152">ZM-ROOT-root</text>
+<text class="t" x="314" y="186">routes every package</text>
+<text class="t" x="314" y="202">by destination</text>
+<text class="t" x="314" y="256">panel: Stop, errors,</text>
+<text class="t" x="314" y="272">receiver note</text>
+<!-- CM -->
+<rect class="box" x="524" y="110" width="220" height="190" rx="8"/>
+<text class="tb" x="538" y="134">CM - communication manager</text>
+<text class="tc" x="538" y="152">ZM-CM-communication_manager</text>
+<rect class="inner" x="536" y="164" width="196" height="96" rx="5"/>
+<text class="t" x="546" y="182">protocol (multi protocol)</text>
+<text class="tc" x="546" y="198">ZM-CP-MX-multi_protocol</text>
+<rect class="box" x="546" y="208" width="84" height="44" rx="4"/>
+<text class="t" x="588" y="226" text-anchor="middle">file logger</text>
+<text class="tc" x="588" y="242" text-anchor="middle">ZM-CP-FL</text>
+<rect class="box" x="638" y="208" width="84" height="44" rx="4"/>
+<text class="t" x="680" y="226" text-anchor="middle">UDP sender</text>
+<text class="tc" x="680" y="242" text-anchor="middle">ZM-CP-UDP</text>
+<text class="t" x="538" y="284">publishes each package</text>
+<!-- launch arrows -->
+<line class="launch" x1="300" y1="126" x2="238" y2="126" marker-end="url(#mk-launch)"/>
+<text class="tl" x="268" y="119" text-anchor="middle">2. launch</text>
+<line class="launch" x1="460" y1="126" x2="522" y2="126" marker-end="url(#mk-launch)"/>
+<text class="tl" x="492" y="119" text-anchor="middle">1. launch</text>
+<!-- package arrows -->
+<line class="pkg" x1="236" y1="226" x2="298" y2="226" marker-end="url(#mk-pkg)"/>
+<text class="tl" x="268" y="218" text-anchor="middle">package</text>
+<line class="pkg" x1="460" y1="226" x2="522" y2="226" marker-end="url(#mk-pkg)"/>
+<text class="tl" x="492" y="218" text-anchor="middle">package</text>
+<!-- outputs -->
+<line class="pkg" x1="588" y1="252" x2="588" y2="334" marker-end="url(#mk-pkg)"/>
+<rect class="box" x="524" y="336" width="128" height="46" rx="4"/>
+<text class="tc" x="588" y="355" text-anchor="middle">output/</text>
+<text class="tc" x="588" y="371" text-anchor="middle">&lt;type&gt;.jsonl</text>
+<line class="pkg" x1="680" y1="252" x2="680" y2="404" marker-end="url(#mk-pkg)"/>
+<text class="tl" x="686" y="330">UDP</text>
+<rect class="outside" x="584" y="406" width="160" height="62" rx="6"/>
+<text class="tb" x="664" y="426" text-anchor="middle">ZM-receiver.vi</text>
+<text class="t" x="664" y="443" text-anchor="middle">listens on port 61557</text>
+<text class="tl" x="664" y="459" text-anchor="middle">outside the actor tree</text>
+<!-- legend -->
+<line class="pkg" x1="24" y1="352" x2="64" y2="352" marker-end="url(#mk-pkg)"/>
+<text class="t" x="74" y="356">package flow (one JSON line per package)</text>
+<line class="launch" x1="24" y1="378" x2="64" y2="378" marker-end="url(#mk-launch)"/>
+<text class="t" x="74" y="382">launch (the root starts the CM, then the HWM)</text>
+<rect class="outside" x="24" y="396" width="40" height="18" rx="3"/>
+<text class="t" x="74" y="410">plain VI, not part of the actor tree</text>
+</svg>
+<figcaption>The actor tree, its launch order, and the path of a package from the hardware to the file and the UDP stream.</figcaption>
+</figure>
+
+<p><strong>ROOT</strong> (<code>ZM-ROOT-root</code>) is started by a launcher. It launches the communication
+manager first and then the hardware manager, so the CM is ready before the first package arrives. It routes
+every package by its destination: <em>Communication</em> is forwarded to the CM, an error package for
+<em>Root</em> is shown in the errors list on its panel, and <em>Unknown</em> and <em>Hardware</em> are dropped
+with one line in the error log. Its panel holds the Stop button for the whole application.</p>
+<p><strong>HWM</strong> (<code>ZM-HWM-hardware_manager</code>) owns the hardware object: the simulated hardware
+<code>ZM-HW-SIM-simulated_hardware</code>, or the bare placeholder <code>ZM-HW-hardware</code> in the error run.
+Its helper loop reads the hardware every <code>intervalMs</code> (500 ms), plots each package on a live panel
+and sends it to the HWM, which counts it and forwards it to the root.</p>
+<p><strong>CM</strong> (<code>ZM-CM-communication_manager</code>) owns one communication protocol: it opens it
+when it launches, publishes every package it receives, and closes it when it stops. The root gives it a multi
+protocol (<code>ZM-CP-MX-multi_protocol</code>) that holds a file logger (<code>ZM-CP-FL-file_logger</code>,
+writes <code>output/&lt;type&gt;.jsonl</code>) and a UDP sender (<code>ZM-CP-UDP-sender</code>, sends each
+line to <code>127.0.0.1:61557</code>). Sending with nobody listening is silent.</p>
+<p><strong>The receiver</strong> (<code>ZM-receiver.vi</code>) is a plain VI, not an actor.</p>
+
+<h2 id="requirements">3. Requirements</h2>
+<ul>
+<li><strong>LabVIEW 2026 Q3, 32-bit</strong>, with the Actor Framework from <code>vi.lib</code>. No other
+add-ons; the tests are plain VIs (no Caraya, LUnit or VI Tester).</li>
+<li>Open <code>src/Zuehlke MCP.lvproj</code>. The project tree has these virtual folders:</li>
+</ul>
+<div class="table-wrap"><table>
+<tr><th>Virtual folder</th><th>Contents</th></tr>
+<tr><td><code>common</code></td><td>the package classes, the common utilities (the error log), the package-handler interface</td></tr>
+<tr><td><code>hardware</code></td><td>the hardware parent class and the simulated hardware</td></tr>
+<tr><td><code>protocol</code></td><td>the protocol parent class, the file logger, the UDP transport (sender and receiver), the multi protocol</td></tr>
+<tr><td><code>actors</code></td><td>ROOT, HWM and CM</td></tr>
+<tr><td><code>tests</code></td><td><code>ZM-TST-tests.lvlib</code> with the seven test VIs, and <code>ZM-launcher_test.vi</code></td></tr>
+<tr><td><code>receiver</code></td><td><code>ZM-receiver.vi</code></td></tr>
+</table></div>
+<p><code>ZM-launcher.vi</code> sits at the top of the project tree, outside the folders.</p>
+
+<h2 id="run">4. Run it</h2>
+<h3>Interactive: <code>ZM-launcher.vi</code></h3>
+<p>Run <code>ZM-launcher.vi</code>. Its <code>output_folder</code> control is optional: empty means the
+<code>output</code> folder next to <code>src</code>. The launcher starts the root and returns at once; its
+<code>error out</code> shows whether the launch failed. Two windows open:</p>
+<ul>
+<li><strong>The root's panel</strong> (<code>ZM-ROOT-helperPanel.vi</code>): the <strong>Stop</strong> button,
+the <code>errors</code> list, and a note that points to the receiver (open the virtual folder
+<code>receiver</code> and run <code>ZM-receiver.vi</code>).</li>
+<li><strong>The hardware manager's panel</strong> (<code>ZM-HWM-helperAcquisition.vi</code>): the chart
+<code>live</code> with <code>temperature_c</code> and <code>duty_percent</code>, <code>interval set (ms)</code>
+(500) and <code>interval measured (ms)</code>, which reads about 500.</li>
+</ul>
+<p><code>output/TestPackage.jsonl</code> grows by about two lines per second. <strong>To stop</strong>, press
+Stop on the root's panel: the root stops, the Actor Framework stops the HWM and the CM, the CM closes its file
+and socket, and both panels close.</p>
+
+<h3>Watch the stream: <code>ZM-receiver.vi</code></h3>
+<p>Open the <code>receiver</code> folder and run <code>ZM-receiver.vi</code> while the tree runs. It listens
+on <code>port</code> (default 61557; the sender sends to <code>127.0.0.1:61557</code>, so run it on the same
+PC). It shows a <code>chart</code> of <code>temperature_c</code> and <code>duty_percent</code>,
+<code>interval measured (ms)</code>, the <code>last line</code>, the <code>packets</code> count and
+<code>error out</code>. Start it and stop it (<code>Stop</code>) at any time; the tree does not notice.</p>
+
+<h3>Headless: <code>ZM-launcher_test.vi</code></h3>
+<p>It sits in the project's <code>tests</code> virtual folder (the file is in <code>src/</code>, next to
+<code>ZM-launcher.vi</code>; it is not part of the test library). It deletes the old output, launches the
+root, waits <code>run_time_ms</code>, reads the root panel's <code>errors</code>, sends Normal Stop and counts
+the lines of both files. The hardware manager's panel opens during the run as well.</p>
+<div class="table-wrap"><table>
+<tr><th></th><th><code>ZM-launcher.vi</code></th><th><code>ZM-launcher_test.vi</code></th></tr>
+<tr><td>Use</td><td>interactive</td><td>headless, for checks</td></tr>
+<tr><td>Project tree</td><td>top level</td><td><code>tests</code> folder</td></tr>
+<tr><td>Inputs</td><td><code>output_folder</code></td><td><code>run_time_ms</code> (5000), <code>output_folder</code>, <code>use_placeholder_hardware</code> (F)</td></tr>
+<tr><td>Outputs</td><td><code>error out</code></td><td><code>lines_written</code>, <code>last_line</code>, <code>error_lines</code>, <code>ui_errors</code>, <code>error out</code></td></tr>
+<tr><td>Old output</td><td>kept; new lines are appended</td><td><code>TestPackage.jsonl</code> and the error log deleted first</td></tr>
+<tr><td>Stops</td><td>when you press Stop on the root's panel</td><td>by itself after <code>run_time_ms</code> (Normal Stop)</td></tr>
+<tr><td>Typical result</td><td>about 2 lines per second</td><td>5000 ms: 8-11 lines, <code>error_lines</code> 0, <code>ui_errors</code> empty, <code>error out</code> no error</td></tr>
+</table></div>
+
+<h2 id="output">5. Output</h2>
+<h3><code>output/&lt;type&gt;.jsonl</code></h3>
+<p>One file per package type, one JSON line per package (normally only <code>TestPackage.jsonl</code>).
+The timestamp is ISO 8601 UTC with milliseconds; the UDP datagram carries the same bytes. Example:</p>
+<pre><code>{"timestamp":"2026-10-11T19:26:39.966Z","type":"TestPackage","destination":"Communication","data":{"temperature_c":26.000772513374347028,"sample_index":106,"duty_percent":3,"sensor_ok":true,"status":"warm"}}</code></pre>
+<h3><code>output/ZM-error_log.txt</code></h3>
+<p>One line per entry, tab-separated: <code>&lt;ISO UTC timestamp&gt;</code>, <code>&lt;sender&gt;</code>,
+<code>&lt;code&gt;</code>, <code>&lt;source&gt;</code>. For example:</p>
+<pre><code>2026-10-11T19:27:07.682Z	ROOT	0	dropped TestPackage for Hardware</code></pre>
+<p>It gets a line when the root drops a package addressed to <em>Unknown</em> or <em>Hardware</em>, when the CM
+fails to close its protocol at shutdown, and when the tests T2 and T7 write to it on purpose. A clean stop adds
+no line: after a normal headless run the log is empty.</p>
+<h3>Viewing a file</h3>
+<p>Open <code>tools/jsonl_viewer.html</code> in a browser and drop <code>output/TestPackage.jsonl</code> on the
+page; the numeric fields plot.</p>
+
+<h2 id="errors">6. Errors</h2>
+<div class="note"><strong>Errors are not handled yet.</strong> This is deliberate for now and replaces the
+specification's plan (log, report an error package, keep the root running).</div>
+<ul>
+<li>An error in an actor (in a message or its helper loop) stops that actor. Its Last Ack carries the error to
+the caller, so an error in the HWM or the CM stops the root, and the root stops the whole tree. Nothing is
+logged or cleared.</li>
+<li>The only clean stop is the normal shutdown: Stop on the root's panel, or the Normal Stop of
+<code>ZM-launcher_test.vi</code>.</li>
+<li>The root shows every error package addressed to it (destination <em>Root</em>) as JSON in its
+<code>errors</code> list. Today no actor sends one, so the list stays empty.</li>
+<li>A failed launch shows in the launcher's <code>error out</code>.</li>
+</ul>
+<div class="table-wrap"><table>
+<tr><th>Code</th><th>Message</th><th>When</th><th>Fix</th></tr>
+<tr><td>5000</td><td><code>&lt;VI&gt;: must be overridden by a child class</code></td><td>a bare parent object
+(<code>ZM-HW-hardware</code>, <code>ZM-CP-communication_protocol</code>) is used where a child was meant, or a
+child class misses an override. Publishing through a UDP receiver also gives 5000.</td><td>use the intended
+child class, or add the missing override</td></tr>
+</table></div>
+<p>5000 is the only custom code; the catalogue is <code>docs/error-codes.md</code>. The UDP sender clears codes
+56 and 66 on purpose, so sending with no listener is silent.</p>
+<p><strong>The error run.</strong> Run <code>ZM-launcher_test.vi</code> with <code>use_placeholder_hardware</code>
+= T. The HWM gets the bare <code>ZM-HW-hardware</code>; its first read returns 5000 (source
+<code>ZM-HW-do.vi: must be overridden by a child class</code>), the HWM stops, and its Last Ack stops the root and
+the tree. Result: <code>lines_written</code> 0, <code>last_line</code> empty, <code>error_lines</code> 0,
+<code>ui_errors</code> empty, and <code>error out</code> 1556, because the tree had already stopped when the
+launcher sent its Normal Stop.</p>
+
+<h2 id="tests">7. Tests</h2>
+<p>Seven test VIs in <code>ZM-TST-tests.lvlib</code> (folder <code>tests</code>). Each shows a Boolean
+<code>Pass</code> (the AND of its individual checks, shown beside it) and <code>error out</code>.</p>
+<div class="table-wrap"><table>
+<tr><th>Test</th><th>VI</th><th>Proves</th></tr>
+<tr><td>T1</td><td><code>ZM-TST-packages.vi</code></td><td>the package classes: JSON round trip, type names, destinations, timestamps</td></tr>
+<tr><td>T2</td><td><code>ZM-TST-log.vi</code></td><td><code>ZM-CU-log</code> appends timestamped lines in order (writes two marker lines)</td></tr>
+<tr><td>T3</td><td><code>ZM-TST-hardware.vi</code></td><td>the simulated hardware gives varying, in-range test packages; the bare parent returns 5000</td></tr>
+<tr><td>T4</td><td><code>ZM-TST-protocol.vi</code></td><td>the file logger writes each package as one line into the file of its type and appends; the bare protocol returns 5000</td></tr>
+<tr><td>T5</td><td><code>ZM-TST-udp.vi</code></td><td>UDP round trip, timeout, silent send with no listener, a multi protocol writing to two file loggers, 5000 from publish on a receiver</td></tr>
+<tr><td>T6</td><td><code>ZM-TST-pipeline.vi</code></td><td>hardware to file logger without actors: 10 packages give 10 lines; the placeholder hardware writes nothing</td></tr>
+<tr><td>T7</td><td><code>ZM-TST-routing.vi</code></td><td>the root drops packages for Hardware and Unknown with a log line and does not drop Communication</td></tr>
+</table></div>
+<p><strong>How to run:</strong> open a test VI from the <code>tests</code> folder and run it. It needs no running
+actor tree and returns by itself. It passes when <code>Pass</code> is TRUE and <code>error out</code> shows no
+error. T5 opens UDP port 61557 itself, so run it while <code>ZM-receiver.vi</code> is stopped.</p>
+
+<h2 id="trouble">8. Troubleshooting</h2>
+<dl>
+<dt>The receiver shows nothing.</dt>
+<dd>The tree must be running: start <code>ZM-launcher.vi</code> (the receiver may start before or after it).
+Keep <code>port</code> at 61557. If its <code>error out</code> shows an error at once, the port is in use,
+for example by a second <code>ZM-receiver.vi</code> or by T5: stop that and run the receiver again.</dd>
+<dt>The error log already has lines.</dt>
+<dd>T2 writes two marker lines and T7 writes "dropped TestPackage for Hardware" and "... for Unknown" lines on
+purpose. <code>ZM-launcher_test.vi</code> deletes the log before each run; <code>ZM-launcher.vi</code> does not.</dd>
+<dt>The application stopped by itself.</dt>
+<dd>An error in any actor stops the whole tree (see <a href="#errors">Errors</a>); it is not logged yet. Run
+the tests to narrow it down.</dd>
+<dt>Explain Error shows no text for 5000.</dt>
+<dd>The error-code file <code>src/errors/ZM-errors.txt</code> is not installed. Copy it to
+<code>&lt;LabVIEW 2026&gt;\user.lib\errors\</code> and restart LabVIEW. Nothing else depends on it.</dd>
+<dt>Many <code>test_*</code> folders under <code>output/</code>.</dt>
+<dd>The tests leave them behind. They are safe to delete.</dd>
+</dl>
+
+<h2 id="layout">9. Folder layout</h2>
+<pre><code>src/        Zuehlke MCP.lvproj, the two launchers, and every library, class and VI
+  common/ hardware/ protocol/ actors/   the libraries, by layer
+  receiver/ ZM-receiver.vi
+  tests/    ZM-TST-tests.lvlib and the seven test VIs
+  errors/   ZM-errors.txt, the error-code file for code 5000
+docs/       user-guide.html (this file), error-codes.md
+tools/      jsonl_viewer.html
+output/     run-time output: &lt;type&gt;.jsonl, ZM-error_log.txt (git-ignored)</code></pre>
+</main>
+</body>
+</html>

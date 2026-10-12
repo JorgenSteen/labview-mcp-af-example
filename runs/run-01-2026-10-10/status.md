@@ -22,7 +22,7 @@ the run's result moves from partial to **accepted** (run log row and README stat
 4. 12i's optional note: 5 typedefs (ZM-HWM-EVENTS, ZM-ROOT-EVENTS, ZM-PC-EP-DATA, ZM-CP-MX-PROTOCOLS,
    ZM-PC-DESTINATION) are public with no user outside their class; private only if "private unless needed outside"
    should cover typedefs (`02` gives typedefs no scope).
-5. F13 (T4 `init_ok` flaky: 4 flakes in 12h2, 12g, 12i) stays a known finding.
+5. F13 (T4 `init_ok` flaky): fixed in 12j (c429e56), T4 x10 PASS.
 
 **The user's answers (2026-10-12):** 1. "no need for tags" (no new tag; `run-01-result` stays). 2. Descriptions: "lets go
 through this when we are done with this list" (pending). 3. Asked for an explanation (pending). 4. "just keep them as is"
@@ -82,6 +82,15 @@ for the scratch VIs).
   phases set class descriptions, typedef membership and the virtual folders themselves by VI Server helpers; the six
   helper AIXML files from 12f/12h2 copied into `orchestration/vi-server-helpers/` with a `README.md` (they survive a
   reset; `proof/` does not). The product's `decisions.md` D38 is left as run-01 recorded it.
+- 12j DONE 11:53-12:00 (c429e56): T4's second Create Folder wired after `ZM-CP-init` (race confirmed on the current
+  VI's nets first; one wire, in-place helper, description updated, Clean Up, icon 0 px); T4 x10 PASS on a cold LabVIEW,
+  T1-T7 PASS; all 26. LabVIEW: PID 5672 killed 11:56:35 (go-ahead), PID 27076 started 11:56:42, port 61113, project
+  closed, 0 unsaved. F13 closed.
+- The user 2026-10-12: "yes, add the helpers to the skill". The six helpers are in the skill's `kit/` as `pa_*`
+  (generic names), with `kit/README.md`, `knowledge/labview-mcp.md`, `ops/class-field.md`, `ops/override.md`,
+  `ops/helper-loop.md`, `conventions/defaults/layout.md` ("create the missing folder" instead of "stop and ask") and
+  `MCP-CANDIDATES.md` (class-description, move-to-folder) updated; not committed in the skill's repository (the user's
+  call).
 
 # HAND-OVER 2026-10-11 23:50 (session 3, after the run): next session starts HERE
 

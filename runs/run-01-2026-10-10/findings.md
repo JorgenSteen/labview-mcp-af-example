@@ -173,6 +173,9 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
   = F while every other check passes. That matches every flake (10e, 12h2, 12g, 12i: `init_ok` alone F, error 0, the
   failed run's folder holds all 3 JSONL files). A test-side race, not a product defect; not measured (the test does not
   show the code). Smallest fix: wire `init`'s `error out` into that `Create Folder`'s `error in` (the user decides).
+- **Fixed (2026-10-12, 12j, c429e56; the user: "sounds good do it like that"):** the race was confirmed on the current
+  VI's nets (Create Folder `error in` unwired), the one wire added in place; T4 x10 PASS on a cold LabVIEW, T1-T7 PASS.
+  Closed.
 
 ## F14 (2026-10-11): the ROOT tree hangs when a nested launch fails (design defect, phases 09/10)
 

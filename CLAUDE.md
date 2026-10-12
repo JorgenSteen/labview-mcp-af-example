@@ -45,15 +45,17 @@ by saying so in the start message; record such a change in `status.md` with the 
   in the start message. Then quote it with the date in `status.md` and set `restart_go_ahead`
   to `always` in `project.json` with that quote as the note.
 - **Pushing: never.** The user pushes.
-- **What no tool does, the user does in the IDE.** No labview-mcp tool or kit script sets a class
-  description (`NI.Lib.Description`), adds a `.ctl` to a class (`TypeDefs` folder), or places a member in a
-  `Methods`, `Helpers` or `TypeDefs` virtual folder (only `Accessors` is created, by the accessor tool).
-  Agents build everything else, write the description texts into their report, and list these items; the
-  manager collects them in `status.md` under "For the user in the IDE"; the user does them at the end of a
-  phase or before phase 12. No agent asks about it and no agent edits a `.lvclass` by hand for it. Decided by
-  the user in run-01 (2026-10-10, option 1 of three), recorded in the product's `decisions.md` as D38.
-  Phase 12 marks the structural-check rows these items affect (class descriptions, virtual folders, `.ctl`
-  membership) as "pending: user in the IDE (D38)" and finishes everything else (the user, run-01, 2026-10-11).
+- **The build phases set class descriptions, `.ctl` class membership and the virtual folders themselves (D38).** No
+  labview-mcp tool does these three, but LabVIEW's VI Server does (measured in run-01, 12f/12h): the helpers, how to
+  run them and their traps are in `orchestration/vi-server-helpers/` (`README.md`). The phase that creates a class
+  does all three for it, as it builds: the class description when the class is made (ASCII only: it is stored ANSI,
+  "→" becomes "?"); each `.ctl` added to its class's `TypeDefs` folder right after it is created, before anything uses
+  it (added later it is renamed and every caller relinks); each member filed into `Accessors`, `AF Overrides`,
+  `Helpers`, `Methods` or `TypeDefs` as it is made. Folder moves change only the `.lvclass`/`.lvlib` XML and need no
+  question (the user, 2026-10-12: "Moving things into viritual folders does not change anything, so it can be done at
+  will"). No agent edits a `.lvclass` by hand for it. Phase 12 judges these rows like every other row. Decided by the
+  user after run-01 (2026-10-12: "A"), replacing run-01's rule (2026-10-10, option 1 of three: the user did these items
+  in the IDE; the run instead did them by scripting in post-run steps 12f/12h). Recorded as D38.
 - **Phase 12's Stop presses are done headlessly.** R-interactive and R-receiver press the Stop buttons of the
   root panel and `ZM-receiver.vi` by a signalling write (the kit's `pa_press_control_signal` route); no question
   (the user, run-01, 2026-10-11: "Agent presses").

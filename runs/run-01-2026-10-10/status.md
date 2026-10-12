@@ -75,6 +75,13 @@ for the scratch VIs).
   releaseProtocol; icons 0 px; normal-stop run 3 lines, error log unchanged; forced error NOT forced (private VI,
   1390); T1-T7 PASS, T4 x3 (run 1 flaked on `init_ok`, F13; runs 2, 3 PASS); CM sweep 13/13; all 26.
 - 12i DONE 09:04-09:14 (no commit in `src`): all 21 rows of `03` §3 pass; see RESULT above.
+- The user 2026-10-12 ~11:50: item 3 "A, is there a way to make that a common thing for later session?" (D38 items
+  done by the build phases); item 5 "sounds good do it like that" (F13 fix). 12j (F13: one wire in T4) launched 11:53,
+  brief `brief-12j-t4-create-folder-order-f13.md`.
+- D38 changed for later runs (the user's "A", 2026-10-12): `CLAUDE.md` and `orchestration/plan.md` now say the build
+  phases set class descriptions, typedef membership and the virtual folders themselves by VI Server helpers; the six
+  helper AIXML files from 12f/12h2 copied into `orchestration/vi-server-helpers/` with a `README.md` (they survive a
+  reset; `proof/` does not). The product's `decisions.md` D38 is left as run-01 recorded it.
 
 # HAND-OVER 2026-10-11 23:50 (session 3, after the run): next session starts HERE
 

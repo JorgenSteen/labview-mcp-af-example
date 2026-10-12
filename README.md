@@ -81,6 +81,7 @@ The full statement is `requirements/01-requirements.md`. The inventory of every 
     phases/NN-<name>.md                one card per phase: goal, what to read, what to build, done when
     smoke-test.md                      a short run to prove the basics, and how to revert it
     status-template.md                 the per-run status file the manager keeps up to date
+    vi-server-helpers/                 helper VIs (AIXML) for class descriptions, typedef membership, folders (D38)
   runs/                                one folder per build attempt: status, briefs, reports, cost
     README.md                          the run log and how it is kept
 

@@ -28,7 +28,9 @@ project file.
 The three VIs of `02` §8: `ZM-launcher.vi` at the project root, `ZM-launcher_test.vi` in the `tests` virtual
 folder (D45), `ZM-receiver.vi` in `receiver`. Then the product's user documentation (`01` R11, D47): bring
 `README.md` up to date and write `docs/user-guide.html` from the requirements and the built code (a docs-only
-step, no LabVIEW call).
+step, no LabVIEW call), including its Flows section: four tabbed inline-SVG diagrams (launch tree, class
+hierarchy, message paths with the receiver, library dependencies), each edge of the last checked against the
+dependencies read from the built files.
 
 ## Done when
 
@@ -37,7 +39,8 @@ step, no LabVIEW call).
   phase 12).
 - `ZM-launcher_test.vi` with `use_placeholder_hardware` T returns `lines_written` 0,
   `error_lines` 0, `ui_errors` empty and `error out` 1556: the tree stopped by itself (D40, `03` R-error).
-- `README.md` and `docs/user-guide.html` as `01` R11 says; the guide's names match `02`.
+- `README.md` and `docs/user-guide.html` as `01` R11 says, the Flows section with its four diagrams included; the
+  guide's names match `02`.
 - `ZM-receiver.vi` loads with the dependencies above and nothing else (checked from the files).
 - Ending steps of `plan.md` done; committed: `feat: launchers and udp receiver`,
   `docs: readme and user guide`.

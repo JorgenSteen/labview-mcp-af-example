@@ -142,4 +142,4 @@ member VI of an actor class can be run directly) with packages addressed to each
 | Clean Up Diagram | on every generated VI; nothing regenerated after it |
 | Project tree | 13 libraries (D42); `ZM-launcher.vi` at the root and `ZM-launcher_test.vi` in `tests` (D45), both with `error out` (D43); 7 tests; the receiver; under virtual folders `common`, `hardware`, `protocol`, `actors`, `tests`, `receiver` |
 | A clean stop | leaves `ZM-error_log.txt` empty |
-| User documentation (D47) | `README.md` and `docs/user-guide.html` exist; the guide is one self-contained HTML page covering `01` R11, and its names match `02` |
+| User documentation (D47) | `README.md` and `docs/user-guide.html` exist; the guide is one self-contained HTML page covering `01` R11, and its names match `02`; its **Flows** section has the four diagrams (launch tree, class hierarchy, message paths with the receiver, library dependencies) as inline SVG that render offline, and every dependency edge it draws exists in the built files |

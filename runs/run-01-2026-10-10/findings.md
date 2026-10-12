@@ -166,6 +166,13 @@ Requirement errors, skill gaps and tool issues, each with its evidence. Newest l
 - **Evidence:** report-10e item 4 and 6a; reports/evidence-10e-checks.txt; output folders `test_fl_125501706` (fail),
   `test_fl_125517645` (pass).
 - **Owner:** phase 12 (run T4 at least three times, read the folder state of a failing run); the user if it recurs.
+- **Probable cause (2026-10-12, manager, from the build source `proof\ZMP-05c\ZM-TST-protocol.xml`, built in a1e87f0;
+  later commits only cleanup and icons):** the test's second `Create Folder` (uid 5124) takes only the path; its
+  `error in` is unwired and nothing orders it after `ZM-CP-init` (uid 5121). When it runs first it creates the folder
+  (code 0), the FL `createFolder` hook then finds the folder and does nothing (no error), so `init_ok` = T AND (0 = 10)
+  = F while every other check passes. That matches every flake (10e, 12h2, 12g, 12i: `init_ok` alone F, error 0, the
+  failed run's folder holds all 3 JSONL files). A test-side race, not a product defect; not measured (the test does not
+  show the code). Smallest fix: wire `init`'s `error out` into that `Create Folder`'s `error in` (the user decides).
 
 ## F14 (2026-10-11): the ROOT tree hangs when a nested launch fails (design defect, phases 09/10)
 

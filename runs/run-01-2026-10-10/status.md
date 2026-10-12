@@ -24,6 +24,11 @@ the run's result moves from partial to **accepted** (run log row and README stat
    should cover typedefs (`02` gives typedefs no scope).
 5. F13 (T4 `init_ok` flaky: 4 flakes in 12h2, 12g, 12i) stays a known finding.
 
+**The user's answers (2026-10-12):** 1. "no need for tags" (no new tag; `run-01-result` stays). 2. Descriptions: "lets go
+through this when we are done with this list" (pending). 3. Asked for an explanation (pending). 4. "just keep them as is"
+(the 5 typedefs stay public; no change). 5. Asked for an explanation (pending; the manager read the T4 build source:
+the second Create Folder in `ZM-TST-protocol.vi` is not wired after `init`, so it can run first; see F13).
+
 **LabVIEW at the end:** PID 5672 (started by the 12i agent 09:11:51, port 59269), project closed, 0 unsaved, no
 dialog, LVAutoSave 0. PID 26716 was killed by the 12i agent at 09:11:29 under the session's go-ahead (exit save dialog
 for the scratch VIs).

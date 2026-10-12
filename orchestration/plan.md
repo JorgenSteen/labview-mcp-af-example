@@ -46,7 +46,7 @@ side by side. The phase's **done when** applies to the whole phase.
    folders (`Accessors`, `AF Overrides`, `Helpers`, `Messages`, `Methods`, `TypeDefs`), only when
    non-empty, each member filed as it is made and each `.ctl` made a class member right after it is created
    (`orchestration/vi-server-helpers/`; `CLAUDE.md`, D38). Files stay flat in the class folder on disk.
-2. A description on every VI (`hygiene.descriptions`), written in the AIXML. A **class** description is set
+2. A short description on every VI (`hygiene.descriptions`; `CLAUDE.md`, "Descriptions are short"), written in the AIXML. A **class** description is set
    when the class is made, by the VI Server helper (`orchestration/vi-server-helpers/`; ASCII only). Each actor's
    description states
    its error plan.

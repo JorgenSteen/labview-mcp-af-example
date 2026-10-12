@@ -1,0 +1,483 @@
+{
+ "note": "Run-01 step 12k: new short descriptions (CLAUDE.md, \"Descriptions are short\"). Written by the manager 2026-10-12; the user waived review. \"current\" is the 12i read (T4 changed in 12j); replace the WHOLE description with \"new\".",
+ "vis": [
+  {
+   "path": "src/ZM-launcher.vi",
+   "current_len": 549,
+   "new_len": 325,
+   "new": "Interactive launcher of the actor tree. Writes the root's pre-launch settings (output folder for the JSONL files, simulated hardware) and launches the root, then returns; the tree runs until Stop is pressed on the root's panel. An empty output_folder means the output folder next to src. error out is the error of the launch.",
+   "current": "Interactive launcher of the Zuehlke MCP actor tree (02 section 8). output_folder (Path) is where the JSONL files go; empty means the output folder of the project folder (the folder holding src, found from this VI's own path with Strip Path). ZM-ROOT-PRELAUNCH_SETTINGS {outputFolder, usePlaceholderHardware = F} goes through ZM-ROOT-writePrelaunchSettings into the root, and Launch Root Actor starts it (Actor Core panel not opened). The VI then returns; the tree runs until Stop is pressed on the root's panel. error out is the error of the launch."
+  },
+  {
+   "path": "src/ZM-launcher_test.vi",
+   "current_len": 1202,
+   "new_len": 323,
+   "new": "Headless test launcher of the actor tree. Deletes TestPackage.jsonl and the error log, launches the root with the given settings (placeholder hardware optional), waits run_time_ms, reads the root panel's errors, sends Normal Stop and counts the lines of both files. error out merges the launch, the panel read and the stop.",
+   "current": "Headless test launcher of the Zuehlke MCP actor tree (02 section 8; 03 section 2, runs R-normal and R-error). It deletes TestPackage.jsonl in the output folder and ZM-error_log.txt in the output folder of the project folder (where ZM-CU-log writes it); a missing file is not an error. Then ZM-ROOT-PRELAUNCH_SETTINGS {outputFolder = output_folder, or the output folder of the project folder when output_folder is empty; usePlaceholderHardware = use_placeholder_hardware} goes through ZM-ROOT-writePrelaunchSettings into the root, and Launch Root Actor starts it (Actor Core panel not opened). After Wait run_time_ms it reads the errors indicator of the running ZM-ROOT-root.lvlib:ZM-ROOT-root.lvclass:ZM-ROOT-helperPanel.vi (Open VI Reference by qualified name, Front Panel, Controls[] by Label.Text, Value) into ui_errors, sends Normal Stop to the root, waits 1000 ms and counts the lines of both files (a missing file counts 0). lines_written = lines of TestPackage.jsonl, last_line = its last line, error_lines = lines of ZM-error_log.txt. error out = the launch chain, the panel read and the stop, merged. The project folder is the folder holding src, found from this VI's own path with Strip Path."
+  },
+  {
+   "path": "src/actors/ZM-CM-communication_manager/ZM-CM-communication_manager/Handle Error.vi",
+   "current_len": 531,
+   "new_len": 283,
+   "new": "Handle Error override of the communication manager: Call Parent first (it clears error 43 from a normal stop), then ZM-CM-evaluateError. Error-handling plan: none yet; evaluateError passes the error on, so an error stops the CM and, through its Last Ack, the root and the whole tree.",
+   "current": "Override of Actor:Handle Error (protected, dynamic dispatch) of the communication manager. Call Parent first (43 from a normal stop is cleared by the parent), then the hook ZM-CM-evaluateError on the class and the parent's error. By decision D40 (2026-10-11, errors are not handled yet) evaluateError is a pass-through: no log, no error package, no clearing; an error stops the CM, and its Last Ack carries the error to the root, which stops the root and the tree. stop actor? comes from Call Parent (af-shapes.handle-error-order)."
+  },
+  {
+   "path": "src/actors/ZM-CM-communication_manager/ZM-CM-communication_manager/Pre Launch Init.vi",
+   "current_len": 472,
+   "new_len": 249,
+   "new": "Pre Launch Init override of the communication manager: Call Parent, then ZM-CM-createResources initialises the protocol from the pre-launch settings. If that fails, what was opened is released and the error fails the launch (Stop Core does not run).",
+   "current": "Override of Actor:Pre Launch Init (protected, dynamic dispatch) of the communication manager. Call Parent, then the hook ZM-CM-createResources: it initialises the protocol from the pre-launch settings (ZM-CP-init) and writes it into the protocol field; if the init fails, it releases what was opened (ZM-CM-releaseProtocol) and returns the original error, so the launch fails with that error and Stop Core does not run (af-shapes.resources, af-shapes.pli-failure-cleanup)."
+  },
+  {
+   "path": "src/actors/ZM-CM-communication_manager/ZM-CM-communication_manager/Stop Core.vi",
+   "current_len": 508,
+   "new_len": 246,
+   "new": "Stop Core override of the communication manager: Call Parent first, then ZM-CM-releaseProtocol closes the protocol. A release error is logged and passed on by releaseProtocol and ends here in Clear Errors, because AF's Stop Core has no error out.",
+   "current": "Override of Actor:Stop Core (protected, dynamic dispatch) of the communication manager. Call Parent first (the parent stops the auto-stop nested actors), then the hook ZM-CM-releaseProtocol closes the protocol (ZM-CP-close): code 1 from a never-opened resource is cleared without a log, any other release error is logged with ZM-CU-log and passed on by the hook (D44); the hook's error out ends here in Clear Errors, because AF's Stop Core has no error out (af-shapes.stop-core-order, errors.release-errors)."
+  },
+  {
+   "path": "src/actors/ZM-CM-communication_manager/ZM-CM-communication_manager/ZM-CM-createResources.vi",
+   "current_len": 772,
+   "new_len": 309,
+   "new": "Creates the communication manager's resources in Pre Launch Init: initialises the protocol from the pre-launch settings (ZM-CP-init: the file logger creates its folder, the UDP sender opens its socket) and stores it. If init fails, it releases the protocol and returns the original error, so the launch fails.",
+   "current": "Hook of the communication manager (static, private), the one creating hook of Pre Launch Init (af-shapes.resources, af-shapes.prelaunch-settings, af-shapes.pli-failure-cleanup): Read prelaunchSettings -> Unbundle protocol -> ZM-CP-init (dynamic dispatch; the file logger creates its folder, the UDP sender opens its socket) -> Write protocol. Write protocol takes the read's error, not init's, so a partly initialised protocol is stored even when init failed; the two errors are merged (init's first). A case on that error: Error frame -> releaseProtocol on a fresh error chain (Stop Core does not run after a failed Pre Launch Init), then Merge Errors keeps the original error first; No Error frame -> pass through. Returns the error, so a failed create fails the launch."
+  },
+  {
+   "path": "src/actors/ZM-CM-communication_manager/ZM-CM-communication_manager/ZM-CM-evaluateError.vi",
+   "current_len": 434,
+   "new_len": 292,
+   "new": "Error hook of the communication manager, called by Handle Error and after a helper loop. For now a pass-through: the class, the error and stop actor? go out unchanged; nothing is logged or cleared. Error-handling plan: none yet; an error stops the actor and, through its Last Ack, its caller.",
+   "current": "Hook of the communication manager (static, private), called by the Handle Error override after Call Parent and by a helper loop after its loops. A PASS-THROUGH by decision D40 (2026-10-11: errors are not handled yet): the class, error in and stop actor? in go out unchanged; no log, no error package, no clearing. Shutdown and errors are controlled by the normal stops (an error stops the actor and, through its Last Ack, its caller)."
+  },
+  {
+   "path": "src/actors/ZM-CM-communication_manager/ZM-CM-communication_manager/ZM-CM-releaseProtocol.vi",
+   "current_len": 693,
+   "new_len": 237,
+   "new": "Closes the communication manager's protocol (ZM-CP-close), called by Stop Core and after a failed init. Code 1 (a resource never opened) is cleared without a log; any other close error is logged with ZM-CU-log and passed on in error out.",
+   "current": "Hook of the communication manager (static, private), called by Stop Core after Call Parent (af-shapes.stop-core-order) and by createResources after a failed init (af-shapes.pli-failure-cleanup): Read protocol -> ZM-CP-close (dynamic dispatch) -> Write protocol. Release errors (errors.release-errors): code 1 (UDP Close on a socket that was never opened, measured 2026-10-11 on a never-initialised MX [FL, UDP-sender]) is cleared without logging; any other close error is logged with ZM-CU-log as CM<tab>code<tab>source and then passed on (D44): error out = Merge Errors(the close error with code 1 removed by Clear Errors, then Write protocol's error out, which carries a failure of the log)."
+  },
+  {
+   "path": "src/actors/ZM-CM-communication_manager/ZM-CM-communication_manager/ZM-CM-writePrelaunchSettings.vi",
+   "current_len": 152,
+   "new_len": 141,
+   "new": "Public custom accessor: writes the pre-launch settings. The caller fills ZM-CM-PRELAUNCH_SETTINGS (the protocol) and then launches the actor.",
+   "current": "Public custom accessor: writes the pre-launch settings (af-shapes.prelaunch-settings); the caller fills ZM-CM-PRELAUNCH_SETTINGS and launches the actor."
+  },
+  {
+   "path": "src/actors/ZM-HWM-hardware_manager/ZM-HWM-hardware_manager/Actor Core.vi",
+   "current_len": 911,
+   "new_len": 353,
+   "new": "Actor Core override of the hardware manager. ZM-HWM-init registers for the stop event before Call Parent; ZM-HWM-helperAcquisition runs beside Call Parent. After Call Parent, ZM-HWM-stop ends the helper loop and ZM-HWM-close destroys the event. Error-handling plan: none yet; a helper-loop error goes to error out and the Last Ack, and stops the caller.",
+   "current": "Override of Actor:Actor Core (protected, dynamic dispatch) of the hardware manager. ZM-HWM-init runs in series before Call Parent on the class and error wires (D41): it registers for the stop user event, so the registration exists before Call Parent can return, and its error goes into Call Parent. ZM-HWM-helperAcquisition runs beside Call Parent on the class input, a copy of the actor (af-shapes.helper-loop-vi), with the registration refnum from ZM-HWM-init. After Call Parent (the message loop has ended), ZM-HWM-stop fires the stop user event on a fresh error chain, with the class wire from before Call Parent (af-shapes.stop-site). Merge Errors (loop error out, stop error out) feeds ZM-HWM-close, which destroys the events after both (af-shapes.close-vi); Merge Errors (Call Parent error out, close error out) goes to error out, so a helper-loop error reaches the Last Ack (D40). No Stop Core override."
+  },
+  {
+   "path": "src/actors/ZM-HWM-hardware_manager/ZM-HWM-hardware_manager/Handle Error.vi",
+   "current_len": 517,
+   "new_len": 276,
+   "new": "Handle Error override of the hardware manager: Call Parent first (it clears error 43 from a normal stop), then ZM-HWM-evaluateError. Error-handling plan: none yet; evaluateError passes the error on, so an error stops the hardware manager and, through its Last Ack, its caller.",
+   "current": "Override of Actor:Handle Error (protected, dynamic dispatch) of the hardware manager. Call Parent first (43 from a normal stop is cleared by the parent), then the hook ZM-HWM-evaluateError on the class and the parent's error. evaluateError is a pass-through for now (D40): the error is not logged, not sent and not cleared, so an error stops the actor and its Last Ack carries the error to the caller, whose default Handle Last Ack Core stops it too. stop actor? comes from Call Parent (af-shapes.handle-error-order)."
+  },
+  {
+   "path": "src/actors/ZM-HWM-hardware_manager/ZM-HWM-hardware_manager/Pre Launch Init.vi",
+   "current_len": 443,
+   "new_len": 221,
+   "new": "Pre Launch Init override of the hardware manager: Call Parent, then ZM-HWM-createResources creates the stop user event. If that fails, what was created is destroyed and the error fails the launch (Stop Core does not run).",
+   "current": "Override of Actor:Pre Launch Init (protected, dynamic dispatch) of the hardware manager. Call Parent, then the hook ZM-HWM-createResources: it creates the stop user event (ZM-HWM-createEvents) and writes it into the events field; if the create fails, it destroys what was created (ZM-HWM-close) and returns the original error, so the launch fails with that error and Stop Core does not run (af-shapes.resources, af-shapes.pli-failure-cleanup)."
+  },
+  {
+   "path": "src/actors/ZM-HWM-hardware_manager/ZM-HWM-hardware_manager/ZM-CI-handlePackage.vi",
+   "current_len": 487,
+   "new_len": 224,
+   "new": "The hardware manager's ZM-CI-handlePackage override, called for each package its helper loop sends: counts the package and forwards it to its caller (the root). A failed send (the caller already gone at shutdown) is cleared.",
+   "current": "Override of the interface method ZM-CI-package_handler:ZM-CI-handlePackage (public, dynamic dispatch), called by the Do.vi of ZM-CI-handlePackage Msg: Read packageCount -> +1 -> Write packageCount; then Read Caller Enqueuer -> Send ZM-CI-handlePackage(package) forwards the package to the caller (the root). A failed send (the caller's queue gone during shutdown, 02 section 5) ends in Clear Errors; error out carries only the accessors' chain (Merge Errors with the cleared send chain)."
+  },
+  {
+   "path": "src/actors/ZM-HWM-hardware_manager/ZM-HWM-hardware_manager/ZM-HWM-close.vi",
+   "current_len": 502,
+   "new_len": 185,
+   "new": "Destroys the hardware manager's stop user event, called at the end of Actor Core and after a failed create. Release errors (an event never created) are ignored; error in passes through.",
+   "current": "Release member of the hardware manager (static, private), called in Actor Core after the helper loop and the stop (af-shapes.close-vi) and by ZM-HWM-createResources after a failed create (af-shapes.pli-failure-cleanup): Read events (fresh error chain) -> Unbundle By Name stop -> Destroy User Event -> Clear Errors. The release errors (an event never created, an invalid refnum) are ignored on purpose (errors.ignored-errors). error in passes through to error out (Merge Errors with the cleared chain)."
+  },
+  {
+   "path": "src/actors/ZM-HWM-hardware_manager/ZM-HWM-hardware_manager/ZM-HWM-createEvents.vi",
+   "current_len": 355,
+   "new_len": 187,
+   "new": "Creates the hardware manager's stop user event and stores it in the events field (ZM-HWM-EVENTS). Called by ZM-HWM-createResources; the error goes out so a failed create fails the launch.",
+   "current": "Role member of the hardware manager (static, private), called by ZM-HWM-createResources in Pre Launch Init (af-shapes.events-typedef, af-shapes.resources): Read events -> Create User Event (Boolean, element stop) -> Bundle By Name into ZM-HWM-EVENTS -> Write events. One error chain; the error goes out so createResources can clean up and fail the launch."
+  },
+  {
+   "path": "src/actors/ZM-HWM-hardware_manager/ZM-HWM-hardware_manager/ZM-HWM-createResources.vi",
+   "current_len": 458,
+   "new_len": 215,
+   "new": "Creates the hardware manager's resources in Pre Launch Init: the stop user event (ZM-HWM-createEvents). If that fails, it destroys what was created (ZM-HWM-close) and returns the original error, so the launch fails.",
+   "current": "Hook of the hardware manager (static, private), the one creating hook of Pre Launch Init (af-shapes.resources, af-shapes.pli-failure-cleanup): ZM-HWM-createEvents creates the stop user event. A case on its error: Error frame -> ZM-HWM-close on a fresh error chain (Stop Core does not run after a failed Pre Launch Init), then Merge Errors keeps the original error first; No Error frame -> pass through. Returns the error, so a failed create fails the launch."
+  },
+  {
+   "path": "src/actors/ZM-HWM-hardware_manager/ZM-HWM-hardware_manager/ZM-HWM-evaluateError.vi",
+   "current_len": 429,
+   "new_len": 289,
+   "new": "Error hook of the hardware manager, called by Handle Error and after the helper loop. For now a pass-through: the class, the error and stop actor? go out unchanged; nothing is logged or cleared. Error-handling plan: none yet; an error stops the actor and, through its Last Ack, its caller.",
+   "current": "Hook of the hardware manager (static, private), called by the Handle Error override after Call Parent and by a helper loop after its loops. A PASS-THROUGH by decision D40 (2026-10-11: errors are not handled yet): the class, error in and stop actor? in go out unchanged; no log, no error package, no clearing. Shutdown and errors are controlled by the normal stops (an error stops the actor and, through its Last Ack, its caller)."
+  },
+  {
+   "path": "src/actors/ZM-HWM-hardware_manager/ZM-HWM-hardware_manager/ZM-HWM-helperAcquisition.vi",
+   "current_len": 1634,
+   "new_len": 399,
+   "new": "Helper loop of the hardware manager, started by Actor Core beside Call Parent. Every interval (ms) it reads the hardware (ZM-HW-do), sends the package to its actor and plots test packages on the chart. It stops on the actor's stop event or on an error; on an error it sends Normal Stop to its own actor. Error-handling plan: none yet; an error stops this actor and, through its Last Ack, its caller.",
+   "current": "Helper loop of the hardware manager (private, static), started by Actor Core beside Call Parent with a copy of the actor; it talks to its actor only through Read Self Enqueuer and Send VIs. Its panel opens when called and closes afterwards. Two loops in this one VI: an EVENT LOOP on the stop user event, whose event registration refnum comes in on the pane from ZM-HWM-init (D41: registered in Actor Core before Call Parent, so no stop is lost) that exits on the event (writing the local stop = T) and a timed PRODUCER LOOP that calls ZM-HW-do every interval set (ms), sends the package to its own actor (ZM-CI-handlePackage), plots a test package on the live chart (temperature_c, duty_percent; any other package is skipped, its cast error cleared), shows the measured interval and exits when the local stop reads T after the Wait or on an error. Before the loops: stop = F and interval set (ms) = prelaunchSettings.intervalMs by local, ZM-HW-init on the settings' hardware. After the producer loop: ZM-HW-close (also on an error, safe state). Every loop stops the other when it ends for any reason (D40): after each loop the stop hook ZM-HWM-stop sends the stop event, its error ignored (Clear Errors); the event loop also writes the local stop = T. After both loops: Merge Errors -> ZM-HWM-evaluateError (a pass-through by D40) -> on an error Read Self Enqueuer -> Send Normal Stop to its own actor. error out is the raw merged error of both loops; the user event is unregistered here and destroyed by ZM-HWM-close in Actor Core. Error-handling plan: none yet (D40): an error stops this actor, and through its Last Ack its caller."
+  },
+  {
+   "path": "src/actors/ZM-HWM-hardware_manager/ZM-HWM-hardware_manager/ZM-HWM-init.vi",
+   "current_len": 840,
+   "new_len": 307,
+   "new": "Init of the hardware manager, run in Actor Core before Call Parent: registers for the stop user event and hands the registration to ZM-HWM-helperAcquisition. Registering before the actor runs means a stop is never lost. An incoming or registration error goes on into Call Parent, so the actor stops at once.",
+   "current": "Init hook of the hardware manager (private, static), called in Actor Core in series BEFORE Call Parent on the class and error wires (D41). It does everything Actor Core sets up before the actor runs: Read events -> Unbundle By Name stop -> Register For Events on a fresh no error; the event registration refnum goes out on the pane to ZM-HWM-helperAcquisition, which wires it into its event structure's dynamic terminal and unregisters it after its event loop. So the registration exists before Call Parent can return, and the stop event that ZM-HWM-stop generates after Call Parent always reaches the loop (finding F14). The registration runs whatever error comes in; error out = Merge Errors(error in, Read events, Register For Events), so an incoming or a registration error goes on into Call Parent. Error-handling plan: none yet (D40)."
+  },
+  {
+   "path": "src/actors/ZM-HWM-hardware_manager/ZM-HWM-hardware_manager/ZM-HWM-stop.vi",
+   "current_len": 343,
+   "new_len": 182,
+   "new": "Stop hook of the hardware manager, called in Actor Core after Call Parent: fires the stop user event, so the loops of ZM-HWM-helperAcquisition end. The error goes on to ZM-HWM-close.",
+   "current": "Stop hook of the hardware manager (static, private), called in Actor Core right after Call Parent on a fresh error chain (af-shapes.stop-site): Read events -> Unbundle By Name stop -> Generate User Event (TRUE). The event loop of ZM-HWM-helperAcquisition then sets its local stop and exits. The error goes out to the Merge Errors before close."
+  },
+  {
+   "path": "src/actors/ZM-HWM-hardware_manager/ZM-HWM-hardware_manager/ZM-HWM-writePrelaunchSettings.vi",
+   "current_len": 183,
+   "new_len": 157,
+   "new": "Public custom accessor: writes the pre-launch settings. The caller fills ZM-HWM-PRELAUNCH_SETTINGS (hardware object, intervalMs) and then launches the actor.",
+   "current": "Public custom accessor: writes the pre-launch settings (af-shapes.prelaunch-settings); the caller fills ZM-HWM-PRELAUNCH_SETTINGS (hardware object, intervalMs) and launches the actor."
+  },
+  {
+   "path": "src/actors/ZM-ROOT-root/ZM-ROOT-root/Actor Core.vi",
+   "current_len": 1232,
+   "new_len": 359,
+   "new": "Actor Core override of the root. ZM-ROOT-init launches the CM and the HWM and registers for the panel events before Call Parent; ZM-ROOT-helperPanel runs beside Call Parent. After Call Parent, ZM-ROOT-stop ends the panel loop and ZM-ROOT-close destroys the events. Error-handling plan: none yet; an error stops the root, and AF's Stop Core stops the children.",
+   "current": "Override of Actor:Actor Core (protected, dynamic dispatch) of the root. Before Call Parent, ZM-ROOT-init runs in series on the class and error wires (D41): it launches the nested actors (ZM-ROOT-launchCm first, then ZM-ROOT-launchHwm, so the CM enqueuer is stored before the first package arrives; af-shapes.launch-owner, D6) and registers for the stop and error user events; a launch or registration error goes into Call Parent, so the root stops at once, and the registration exists before Call Parent can return, so the stop event always reaches the panel loop (F14). ZM-ROOT-helperPanel (the panel loop with the Stop button and the errors string) runs beside Call Parent on a copy of the actor with init's event registration refnum (af-shapes.helper-loop-vi). After Call Parent (the message loop has ended), ZM-ROOT-stop fires the stop user event on a fresh error chain (af-shapes.stop-site). Merge Errors (panel loop error out, stop error out) feeds ZM-ROOT-close, which destroys the user events after both (af-shapes.close-vi); Merge Errors (Call Parent error out, close error out) goes to error out. Errors are not handled yet (D40): an error stops the root, and AF's Stop Core stops the nested actors. No Stop Core override."
+  },
+  {
+   "path": "src/actors/ZM-ROOT-root/ZM-ROOT-root/Handle Error.vi",
+   "current_len": 494,
+   "new_len": 259,
+   "new": "Handle Error override of the root: Call Parent first (it clears error 43 from a normal stop), then ZM-ROOT-evaluateError. Error-handling plan: none yet; evaluateError passes the error on, so an error stops the root and, through AF's Stop Core, the whole tree.",
+   "current": "Override of Actor:Handle Error (protected, dynamic dispatch) of the root. Call Parent first (43 from a normal stop is cleared by the parent), then the hook ZM-ROOT-evaluateError on the class and the parent's error. By decision D40 (2026-10-11, errors are not handled yet) evaluateError is a pass-through: no log, no clearing, the error goes out unchanged, so an error stops the root and, through AF's Stop Core, the whole tree. stop actor? comes from Call Parent (af-shapes.handle-error-order)."
+  },
+  {
+   "path": "src/actors/ZM-ROOT-root/ZM-ROOT-root/Pre Launch Init.vi",
+   "current_len": 525,
+   "new_len": 247,
+   "new": "Pre Launch Init override of the root: Call Parent, then ZM-ROOT-createResources creates the stop and error user events. If that fails, what was created is destroyed and the error fails the launch. The children are launched in Actor Core, not here.",
+   "current": "Override of Actor:Pre Launch Init (protected, dynamic dispatch) of the root. Call Parent, then the hook ZM-ROOT-createResources: it creates the stop and error user events (ZM-ROOT-createEvents) and writes them into the events field; if the create fails, it destroys what was created (ZM-ROOT-close) and returns the original error, so the launch fails with that error and Stop Core does not run (af-shapes.resources, af-shapes.pli-failure-cleanup). The children are launched from Actor Core, not here (af-shapes.launch-owner)."
+  },
+  {
+   "path": "src/actors/ZM-ROOT-root/ZM-ROOT-root/ZM-CI-handlePackage.vi",
+   "current_len": 591,
+   "new_len": 299,
+   "new": "The root's ZM-CI-handlePackage override: routes every package by destination. Communication: noted and forwarded to the communication manager while it runs. Root: an error package is shown on the panel, any other is noted. Unknown and Hardware: dropped with one line in the error log (not an error).",
+   "current": "Override of the interface method ZM-CI-package_handler:ZM-CI-handlePackage (public, dynamic dispatch), called by the Do.vi of ZM-CI-handlePackage Msg. The root routes every package by its destination (01 R5): Communication -> ZM-ROOT-notePackageType, then, if Read cmRunning, Read cmEnqueuer -> Send ZM-CI-handlePackage forwards it to the CM. Root -> Read type: ErrorPackage -> ZM-ROOT-showError; any other type -> ZM-ROOT-notePackageType. Unknown, Hardware -> not forwarded, one line ROOT tab 0 tab dropped <getTypeName> for <getDestinationName> to ZM-CU-log; not an error. One error chain."
+  },
+  {
+   "path": "src/actors/ZM-ROOT-root/ZM-ROOT-root/ZM-ROOT-close.vi",
+   "current_len": 501,
+   "new_len": 184,
+   "new": "Destroys the root's stop and error user events, called at the end of Actor Core and after a failed create. Release errors (an event never created) are ignored; error in passes through.",
+   "current": "Release member of the root (static, private), called in Actor Core after the helper loop and the stop (af-shapes.close-vi) and by ZM-ROOT-createResources after a failed create (af-shapes.pli-failure-cleanup): Read events (fresh error chain) -> Unbundle By Name stop, error -> Destroy User Event x2 -> Clear Errors. The release errors (an event never created, an invalid refnum) are ignored on purpose (errors.ignored-errors). error in passes through to error out (Merge Errors with the cleared chain)."
+  },
+  {
+   "path": "src/actors/ZM-ROOT-root/ZM-ROOT-root/ZM-ROOT-createEvents.vi",
+   "current_len": 399,
+   "new_len": 190,
+   "new": "Creates the root's stop and error user events and stores them in the events field (ZM-ROOT-EVENTS). Called by ZM-ROOT-createResources; the error goes out so a failed create fails the launch.",
+   "current": "Role member of the root (static, private), called by ZM-ROOT-createResources in Pre Launch Init (af-shapes.events-typedef, af-shapes.resources): Read events -> Create User Event (Boolean, element stop) and Create User Event (String, element error) -> one Bundle By Name into ZM-ROOT-EVENTS -> one Write events. One error chain; the error goes out so createResources can clean up and fail the launch."
+  },
+  {
+   "path": "src/actors/ZM-ROOT-root/ZM-ROOT-root/ZM-ROOT-createResources.vi",
+   "current_len": 459,
+   "new_len": 216,
+   "new": "Creates the root's resources in Pre Launch Init: the stop and error user events (ZM-ROOT-createEvents). If that fails, it destroys what was created (ZM-ROOT-close) and returns the original error, so the launch fails.",
+   "current": "Hook of the root (static, private), the one creating hook of Pre Launch Init (af-shapes.resources, af-shapes.pli-failure-cleanup): ZM-ROOT-createEvents creates the stop and error user events. A case on its error: Error frame -> ZM-ROOT-close on a fresh error chain (Stop Core does not run after a failed Pre Launch Init), then Merge Errors keeps the original error first; No Error frame -> pass through. Returns the error, so a failed create fails the launch."
+  },
+  {
+   "path": "src/actors/ZM-ROOT-root/ZM-ROOT-root/ZM-ROOT-evaluateError.vi",
+   "current_len": 404,
+   "new_len": 281,
+   "new": "Error hook of the root, called by Handle Error and after the panel loop. For now a pass-through: the class, the error and stop actor? go out unchanged; nothing is logged or cleared. Error-handling plan: none yet; an error stops the root and, through AF's Stop Core, the whole tree.",
+   "current": "Hook of the root (static, private), called by the Handle Error override after Call Parent and by the helper loop after its loop. A PASS-THROUGH by decision D40 (2026-10-11: errors are not handled yet): the class, error in and stop actor? in go out unchanged; no log, no clearing. Shutdown and errors are controlled by the normal stops (an error stops the root, and through AF's Stop Core the whole tree)."
+  },
+  {
+   "path": "src/actors/ZM-ROOT-root/ZM-ROOT-root/ZM-ROOT-helperPanel.vi",
+   "current_len": 1401,
+   "new_len": 328,
+   "new": "Panel loop of the root, started by Actor Core beside Call Parent; its panel shows the Stop button and the errors list. Stop sends Normal Stop to the root, an error event appends its text to errors, and the stop event ends the loop. Error-handling plan: none yet; on an error the loop ends and sends Normal Stop to its own actor.",
+   "current": "Panel loop of the root (private, static), started by Actor Core beside Call Parent with a copy of the actor; it talks to its actor only through Read Self Enqueuer and Send VIs. Its panel opens when called and closes afterwards. One event loop (variant 1): the event registration refnum input (stop first, error second) comes from ZM-ROOT-init, which registers in Actor Core before Call Parent (D41, F14), and goes into the event structure's dynamic terminal; Read events gives only the error that seeds the loop's shift register; the loop carries its error in a shift register; Error frame: the loop stops; No Error frame: the event structure. Stop Value Change: Stop = F by local (Switch When Released), then Read Self Enqueuer -> Send Normal Stop to its own actor, and the loop goes on. error user event: the event's text is appended to the errors indicator, a newline between entries. stop user event: the loop exits (its only event exit). After the loop: Unregister For Events; the stop hook ZM-ROOT-stop sends the stop event, its error ignored (Clear Errors, D40); Merge Errors -> ZM-ROOT-evaluateError (a pass-through by D40) -> on an error Read Self Enqueuer -> Send Normal Stop to its own actor. error out is the raw merged error; the user events are destroyed by ZM-ROOT-close in Actor Core. Error-handling plan: none yet (D40): an error stops this actor, and through its Last Ack its caller."
+  },
+  {
+   "path": "src/actors/ZM-ROOT-root/ZM-ROOT-root/ZM-ROOT-init.vi",
+   "current_len": 1038,
+   "new_len": 331,
+   "new": "Init of the root, run in Actor Core before Call Parent: launches the CM, then the HWM, and registers for the stop and error user events, handing the registration to ZM-ROOT-helperPanel. Registering before the actor runs means a stop is never lost. A launch or registration error goes on into Call Parent, so the root stops at once.",
+   "current": "Init hook of the root (private, static), called in Actor Core in series BEFORE Call Parent on the class and error wires (D41). It does everything Actor Core sets up before the actor runs: ZM-ROOT-launchCm -> ZM-ROOT-launchHwm (the class and error in series; each writes its enqueuer into the class) -> Read events on a fresh error chain -> Unbundle By Name stop, error -> Register For Events on a fresh no error (stop first, error second); the event registration refnum goes out on the pane to ZM-ROOT-helperPanel, which wires it into its event structure's dynamic terminal and unregisters it after its event loop. So the registration exists before Call Parent can return, also when a launch failed, and the stop event that ZM-ROOT-stop generates after Call Parent always reaches the panel loop (finding F14). The registration runs whatever error the launches give; error out = Merge Errors(launch chain, Read events, Register For Events), so a launch or a registration error goes on into Call Parent. Error-handling plan: none yet (D40)."
+  },
+  {
+   "path": "src/actors/ZM-ROOT-root/ZM-ROOT-root/ZM-ROOT-launchCm.vi",
+   "current_len": 648,
+   "new_len": 251,
+   "new": "Launches the communication manager, called by ZM-ROOT-init before launchHwm. Its protocol is a multi protocol holding a file logger (writing to the root's outputFolder) and a UDP sender with its defaults. Stores its enqueuer and sets cmRunning = TRUE.",
+   "current": "Launch hook of the root (static, private), called from Actor Core before launchHwm (af-shapes.launch-owner, af-shapes.prelaunch-settings): Read prelaunchSettings -> outputFolder -> a ZM-CP-FL-file_logger constant -> Write outputFolder; a ZM-CP-UDP-sender constant with its defaults; both up-cast to ZM-CP-communication_protocol -> Build Array -> a ZM-CP-MX-multi_protocol constant -> Write protocols -> up-cast -> Bundle By Name protocol into ZM-CM-PRELAUNCH_SETTINGS -> ZM-CM-writePrelaunchSettings -> Launch Nested Actor (auto-stop as AF's default) -> Write cmEnqueuer -> Write cmRunning = TRUE. One error chain; the error goes out to Actor Core."
+  },
+  {
+   "path": "src/actors/ZM-ROOT-root/ZM-ROOT-root/ZM-ROOT-launchHwm.vi",
+   "current_len": 633,
+   "new_len": 235,
+   "new": "Launches the hardware manager, called by ZM-ROOT-init after launchCm, with intervalMs = 500 and the simulated hardware, or the bare placeholder hardware (its methods return 5000) when usePlaceholderHardware is set. Stores its enqueuer.",
+   "current": "Launch hook of the root (static, private), called from Actor Core after launchCm (af-shapes.launch-owner, af-shapes.prelaunch-settings): Read prelaunchSettings -> usePlaceholderHardware -> case: TRUE = a bare ZM-HW-hardware constant (the placeholder hardware, its methods return 5000), FALSE = a ZM-HW-SIM-simulated_hardware constant up-cast to ZM-HW-hardware -> Bundle By Name hardware and intervalMs = 500 into ZM-HWM-PRELAUNCH_SETTINGS -> ZM-HWM-writePrelaunchSettings -> Launch Nested Actor (auto-stop as AF's default) -> Write hwmEnqueuer (kept for future commands to the HWM). One error chain; the error goes out to Actor Core."
+  },
+  {
+   "path": "src/actors/ZM-ROOT-root/ZM-ROOT-root/ZM-ROOT-showError.vi",
+   "current_len": 468,
+   "new_len": 228,
+   "new": "Shows an error package on the root's panel: fires the error user event with the package's JSON, which ZM-ROOT-helperPanel appends to errors. If the sender is the CM, it sets cmRunning = FALSE, so nothing more is forwarded to it.",
+   "current": "Member of the root (static, private), called by ZM-CI-handlePackage for an ErrorPackage to Root: Read events -> Unbundle By Name error; ZM-PC-getDataAsJson -> Generate User Event (the panel loop ZM-ROOT-helperPanel appends the line to errors); To More Specific Class ZM-PC-EP-error_package -> Read data -> Unbundle sender; sender = CM -> Write cmRunning = FALSE (nothing more is forwarded to the CM). The only VI outside ZM-PC that knows the EP class. One error chain."
+  },
+  {
+   "path": "src/actors/ZM-ROOT-root/ZM-ROOT-root/ZM-ROOT-stop.vi",
+   "current_len": 302,
+   "new_len": 172,
+   "new": "Stop hook of the root, called in Actor Core after Call Parent: fires the stop user event, so the event loop of ZM-ROOT-helperPanel ends. The error goes on to ZM-ROOT-close.",
+   "current": "Stop hook of the root (static, private), called in Actor Core right after Call Parent on a fresh error chain (af-shapes.stop-site): Read events -> Unbundle By Name stop -> Generate User Event (TRUE). The event loop of ZM-ROOT-helperPanel then exits. The error goes out to the Merge Errors before close."
+  },
+  {
+   "path": "src/actors/ZM-ROOT-root/ZM-ROOT-root/ZM-ROOT-writePrelaunchSettings.vi",
+   "current_len": 200,
+   "new_len": 168,
+   "new": "Public custom accessor: writes the pre-launch settings. The launcher fills ZM-ROOT-PRELAUNCH_SETTINGS (outputFolder, usePlaceholderHardware) and then launches the root.",
+   "current": "Public custom accessor: writes the pre-launch settings (af-shapes.prelaunch-settings); the launcher fills ZM-ROOT-PRELAUNCH_SETTINGS (outputFolder, usePlaceholderHardware) and launches the root actor."
+  },
+  {
+   "path": "src/common/ZM-CU-common_utilities/ZM-CU-log.vi",
+   "current_len": 202,
+   "new_len": 197,
+   "new": "The project's local error log: appends one line, <ISO UTC timestamp><tab><message>, to output/ZM-error_log.txt in the project folder, creating the folder if missing. It logs regardless of error in.",
+   "current": "The project's local error log (errors.log-local, D15): appends <ISO UTC timestamp><tab><message> to <project folder>/output/ZM-error_log.txt, creating the folder if missing; logs regardless of error in."
+  },
+  {
+   "path": "src/common/ZM-PC-packages/ZM-PC-EP-error_package/ZM-PC-EP-create.vi",
+   "current_len": 440,
+   "new_len": 198,
+   "new": "Creates an error package addressed to Root: initialises it and writes sender, code and source as its data (error_to_report is data here, not the error chain). Returns it as a ZM-PC-EP-error_package.",
+   "current": "Creates an error package: a default ZM-PC-EP-error_package object, initialised by ZM-PC-init (dynamic), the data {sender, code, source} taken from the sender string and the code and source of error_to_report (an error cluster used as DATA, not the error chain), written through Write data, and the destination Root written through Write destination. The object is returned as ZM-PC-EP-error_package (To More Specific Class). Static, public."
+  },
+  {
+   "path": "src/hardware/ZM-HW-SIM-simulated_hardware/ZM-HW-SIM-simulated_hardware/ZM-HW-SIM-randomData.vi",
+   "current_len": 470,
+   "new_len": 217,
+   "new": "Random test data for the simulated hardware: temperature_c in [20, 30), sample_index 0-999, duty_percent 0-100, sensor_ok mostly TRUE, status ok, warm or cold, as a ZM-PC-TP-DATA cluster. No node here raises an error.",
+   "current": "Random test data for the simulated hardware (static, private). Five Random Number (0-1) draws: temperature_c = 20 + 10*r; sample_index = floor(1000*r) as I32; duty_percent = floor(101*r) as U8; sensor_ok = r > 0.1; status = {ok, warm, cold}[floor(3*r)] by Index Array on a string-array constant. The data output is shaped like ZM-PC-TP-DATA.ctl and bound to that typedef on the pane after generation. error in passes straight to error out (no node here raises an error)."
+  },
+  {
+   "path": "src/hardware/ZM-HW-SIM-simulated_hardware/ZM-HW-SIM-simulated_hardware/ZM-HW-do.vi",
+   "current_len": 487,
+   "new_len": 186,
+   "new": "The simulated hardware's ZM-HW-do: makes random test data (ZM-HW-SIM-randomData), wraps it in a test package addressed to Communication and returns it as a ZM-PC-package. No Call Parent.",
+   "current": "Simulated-hardware override of ZM-HW-do (dynamic dispatch, own body, no Call Parent): ZM-HW-SIM-randomData makes a random ZM-PC-TP-DATA cluster, ZM-PC-TP-create wraps it in a test package, Write destination sets the destination to Communication, and the package leaves on the package terminal typed ZM-PC-package. The class wire passes straight from ZM-HW-hardware in to ZM-HW-hardware out; the error chain runs through every call. Stubs are swapped to the real members after generation."
+  },
+  {
+   "path": "src/hardware/ZM-HW-hardware/ZM-HW-hardware/ZM-HW-close.vi",
+   "current_len": 261,
+   "new_len": 169,
+   "new": "Closes the hardware object: sets initialized = FALSE. This is where real hardware is put into a safe state; a child with real hardware overrides it and calls the parent.",
+   "current": "Closes the hardware object (dynamic dispatch): writes initialized = FALSE through the private accessor Write initialized. This is where real hardware is put into a safe state (errors.default-policy); a child with real hardware overrides it and calls the parent."
+  },
+  {
+   "path": "src/protocol/ZM-CP-FL-file_logger/ZM-CP-FL-file_logger/ZM-CP-FL-appendLine.vi",
+   "current_len": 313,
+   "new_len": 143,
+   "new": "Appends one line plus LF to a JSON Lines file, creating the file if missing. The file is opened and closed per write, so every line is flushed.",
+   "current": "Appends one line to a JSON Lines file (static, private): Open/Create/Replace File (open or create) -> Set File Position (end) -> Write to Text File (line + one LF, nothing else) -> Close File. Opened and closed per write, so every line is flushed (D3). The error chain runs through every file node into error out."
+  },
+  {
+   "path": "src/protocol/ZM-CP-FL-file_logger/ZM-CP-FL-file_logger/ZM-CP-FL-buildPath.vi",
+   "current_len": 258,
+   "new_len": 137,
+   "new": "Builds the JSON Lines file path of one package type: <folder>/<type_name>.jsonl, one file per package type. No node here raises an error.",
+   "current": "Builds the JSON Lines file path of one package type (static, private): file = Build Path(folder, type_name + .jsonl). One file per package type (D3); the name is the package's getTypeName. error in passes straight to error out (no node here raises an error)."
+  },
+  {
+   "path": "src/protocol/ZM-CP-FL-file_logger/ZM-CP-FL-file_logger/ZM-CP-FL-createFolder.vi",
+   "current_len": 622,
+   "new_len": 278,
+   "new": "Hook of the file logger, called by its ZM-CP-init override after Call Parent: creates outputFolder if it is missing. An existing folder (code 10) is not an error; every other error passes. The class terminals are typed as the parent so the hook fits the override's dynamic wire.",
+   "current": "Hook of the file logger (static, private), called by the ZM-CP-init override after Call Parent: reads outputFolder and creates that folder if it is missing (Create Folder; an already-existing folder, code 10, is cleared by Unbundle code -> Equal? 10 -> Select; every other error passes). Both class terminals are typed ZM-CP-communication_protocol (the parent) so that the hook sits between Call Parent and the dynamic output of the override (trap T1 of 01b); inside, To More Specific Class casts the object to ZM-CP-FL-file_logger for the private accessor Read outputFolder. The class wire passes straight from in to out."
+  },
+  {
+   "path": "src/protocol/ZM-CP-FL-file_logger/ZM-CP-FL-file_logger/ZM-CP-publish.vi",
+   "current_len": 576,
+   "new_len": 191,
+   "new": "The file logger's ZM-CP-publish: appends the package's JSON as one line to <outputFolder>/<type>.jsonl, one file per package type. The protocol never looks inside the package. No Call Parent.",
+   "current": "File-logger override of ZM-CP-publish (dynamic dispatch, own body, no Call Parent): Read outputFolder gives the folder, the package's getTypeName names the file (ZM-CP-FL-buildPath: <folder>/<type>.jsonl), the package's getDataAsJson gives the line, and ZM-CP-FL-appendLine appends it (open or create, end of file, line + LF, close) - one JSON Lines file per package type (D3), the protocol never looks inside the package (D10). The error chain runs through every call; the class wire leaves Read outputFolder unchanged. Stubs are swapped to the real members after generation."
+  },
+  {
+   "path": "src/protocol/ZM-CP-MX-multi_protocol/ZM-CP-MX-multi_protocol/ZM-CP-MX-closeAll.vi",
+   "current_len": 924,
+   "new_len": 265,
+   "new": "Hook of the multi protocol, called by its ZM-CP-close override before Call Parent: closes every protocol in the array in order and stops at the first error, which is returned. The array keeps its length. Reentrant, because an element can itself be a multi protocol.",
+   "current": "Hook of the multi protocol (static, private, shared-clone reentrant), called by the ZM-CP-close override BEFORE Call Parent: Read protocols gives the array, a For loop runs ZM-CP-close (dynamic dispatch) on each element in order, with shift registers on the array and on the error, and puts each element back with Replace Array Subset at its index, so stopping never shortens the array; the loop stops at the first element error, which is returned. After the loop Write protocols stores the array from the shift register. Both class terminals are typed ZM-CP-communication_protocol (the parent, trap T1); inside, To More Specific Class casts to ZM-CP-MX-multi_protocol for the private accessor Read protocols, and Preserve Run-Time Class (target = the hook's input) returns the object that leaves Write protocols. Reentrant because an element may itself be a multi protocol (a static VI inside a dynamic-dispatch recursion)."
+  },
+  {
+   "path": "src/protocol/ZM-CP-MX-multi_protocol/ZM-CP-MX-multi_protocol/ZM-CP-MX-initAll.vi",
+   "current_len": 921,
+   "new_len": 268,
+   "new": "Hook of the multi protocol, called by its ZM-CP-init override after Call Parent: initialises every protocol in the array in order and stops at the first error, which is returned. The array keeps its length. Reentrant, because an element can itself be a multi protocol.",
+   "current": "Hook of the multi protocol (static, private, shared-clone reentrant), called by the ZM-CP-init override after Call Parent: Read protocols gives the array, a For loop runs ZM-CP-init (dynamic dispatch) on each element in order, with shift registers on the array and on the error, and puts each element back with Replace Array Subset at its index, so stopping never shortens the array; the loop stops at the first element error, which is returned. After the loop Write protocols stores the array from the shift register. Both class terminals are typed ZM-CP-communication_protocol (the parent, trap T1); inside, To More Specific Class casts to ZM-CP-MX-multi_protocol for the private accessor Read protocols, and Preserve Run-Time Class (target = the hook's input) returns the object that leaves Write protocols. Reentrant because an element may itself be a multi protocol (a static VI inside a dynamic-dispatch recursion)."
+  },
+  {
+   "path": "src/protocol/ZM-CP-MX-multi_protocol/ZM-CP-MX-multi_protocol/ZM-CP-publish.vi",
+   "current_len": 582,
+   "new_len": 212,
+   "new": "The multi protocol's ZM-CP-publish: publishes the same package to every protocol in the array in order and stops at the first error, which is returned. The protocol never looks inside the package. No Call Parent.",
+   "current": "Multi-protocol override of ZM-CP-publish (dynamic dispatch, own body, no Call Parent): Read protocols gives the array, a For loop runs ZM-CP-publish (dynamic dispatch) on each element in order with the same package fanned to every element, with shift registers on the array and on the error, and puts each element back with Replace Array Subset at its index, so stopping never shortens the array; the loop stops at the first element error, which is returned. After the loop Write protocols stores the array from the shift register. The protocol never looks inside the package (D10)."
+  },
+  {
+   "path": "src/protocol/ZM-CP-UDP-udp_transport/ZM-CP-UDP-receiver/ZM-CP-UDP-closeConnection.vi",
+   "current_len": 587,
+   "new_len": 195,
+   "new": "Hook of the UDP receiver, called by its ZM-CP-close override before Call Parent: closes the UDP connection. The class terminals are typed as the parent so the hook fits the override's class wire.",
+   "current": "Hook of the UDP receiver (static, private), called by the ZM-CP-close override before Call Parent: Read connection -> UDP Close. Both class terminals are typed ZM-CP-communication_protocol (the parent), so the hook sits in series on the override's class wire (trap T1 of 01b); inside, To More Specific Class casts the object to ZM-CP-UDP-receiver for the private accessor Read connection. The class wire passes straight from in to out (nothing is written). The error chain runs Read connection -> UDP Close -> error out. Same name as the sender's hook, own class folder (02 section 7.8)."
+  },
+  {
+   "path": "src/protocol/ZM-CP-UDP-udp_transport/ZM-CP-UDP-receiver/ZM-CP-UDP-openReceiver.vi",
+   "current_len": 838,
+   "new_len": 275,
+   "new": "Hook of the UDP receiver, called by its ZM-CP-init override after Call Parent: opens UDP on localPort (default 61557) and stores the connection. The class terminals are typed as the parent; Preserve Run-Time Class keeps the receiver's class for the override's dynamic output.",
+   "current": "Hook of the UDP receiver (static, private), called by the ZM-CP-init override after Call Parent: Read localPort -> UDP Open on that port (default 61557, D25) -> Write connection stores the connection ID in the class. Both class terminals are typed ZM-CP-communication_protocol (the parent), so the hook sits between Call Parent and the dynamic output of the override (trap T1 of 01b); inside, To More Specific Class casts the object to ZM-CP-UDP-receiver for the private accessors, and Preserve Run-Time Class (target = the hook's input) returns the object that leaves Write connection (it now holds the connection) on the parent-typed output with the input's run-time class guaranteed, which the override's dynamic output needs. The error chain runs Read localPort -> UDP Open -> Write connection -> Preserve Run-Time Class -> error out."
+  },
+  {
+   "path": "src/protocol/ZM-CP-UDP-udp_transport/ZM-CP-UDP-receiver/ZM-CP-UDP-receive.vi",
+   "current_len": 464,
+   "new_len": 186,
+   "new": "Reads one datagram (one JSON line) from the UDP receiver, waiting up to timeout_ms. A timeout is not an error: it returns timed_out = TRUE and an empty json. Every other error passes on.",
+   "current": "Reads one datagram from the UDP receiver's connection (static, public): Read connection -> UDP Read with max size 65507 bytes and the given timeout_ms -> data out is returned as json (one JSON line per datagram, D24). A timeout (code 56) is cleared by Unbundle code -> Equal? 56 -> Select with a no-error constant and reported as timed_out = TRUE with json empty; every other error passes on and timed_out is FALSE. The class wire leaves Read connection unchanged."
+  },
+  {
+   "path": "src/protocol/ZM-CP-UDP-udp_transport/ZM-CP-UDP-sender/ZM-CP-UDP-closeConnection.vi",
+   "current_len": 516,
+   "new_len": 193,
+   "new": "Hook of the UDP sender, called by its ZM-CP-close override before Call Parent: closes the UDP connection. The class terminals are typed as the parent so the hook fits the override's class wire.",
+   "current": "Hook of the UDP sender (static, private), called by the ZM-CP-close override before Call Parent: Read connection -> UDP Close. Both class terminals are typed ZM-CP-communication_protocol (the parent), so the hook sits in series on the override's class wire (trap T1 of 01b); inside, To More Specific Class casts the object to ZM-CP-UDP-sender for the private accessor Read connection. The class wire passes straight from in to out (nothing is written). The error chain runs Read connection -> UDP Close -> error out."
+  },
+  {
+   "path": "src/protocol/ZM-CP-UDP-udp_transport/ZM-CP-UDP-sender/ZM-CP-UDP-openSender.vi",
+   "current_len": 813,
+   "new_len": 265,
+   "new": "Hook of the UDP sender, called by its ZM-CP-init override after Call Parent: opens UDP on any free local port and stores the connection. The class terminals are typed as the parent; Preserve Run-Time Class keeps the sender's class for the override's dynamic output.",
+   "current": "Hook of the UDP sender (static, private), called by the ZM-CP-init override after Call Parent: UDP Open on local port 0 (any free port) and Write connection stores the connection ID in the class. Both class terminals are typed ZM-CP-communication_protocol (the parent), so the hook sits between Call Parent and the dynamic output of the override (trap T1 of 01b); inside, To More Specific Class casts the object to ZM-CP-UDP-sender for the private accessor Write connection, and Preserve Run-Time Class (target = the hook's input) returns the object that leaves Write connection (it now holds the connection) on the parent-typed output with the input's run-time class guaranteed, which the override's dynamic output needs. The error chain runs UDP Open -> Write connection -> Preserve Run-Time Class -> error out."
+  },
+  {
+   "path": "src/protocol/ZM-CP-UDP-udp_transport/ZM-CP-UDP-sender/ZM-CP-publish.vi",
+   "current_len": 700,
+   "new_len": 234,
+   "new": "The UDP sender's ZM-CP-publish: sends the package's JSON as one datagram to remoteAddress:remotePort (default 127.0.0.1:61557). Sending with no listener is silent (codes 66 and 56 cleared); every other error passes on. No Call Parent.",
+   "current": "UDP-sender override of ZM-CP-publish (dynamic dispatch, own body, no Call Parent): the package's getDataAsJson gives one JSON line (D24: one datagram = one JSON line), Read remoteAddress -> String To IP and Read remotePort give the unicast target (defaults 127.0.0.1:61557, D34), Read connection gives the socket opened by ZM-CP-UDP-openSender, and UDP Write sends the line. Codes 66 (no listener, ICMP port unreachable) and 56 (timeout) are cleared by Unbundle code -> Equal? 66 / Equal? 56 -> Or -> Select with a no-error constant, so sending to nobody is silent (D25); every other error passes on. The protocol never looks inside the package (D10). The class wire leaves Read connection unchanged."
+  },
+  {
+   "path": "src/receiver/ZM-receiver.vi",
+   "current_len": 995,
+   "new_len": 356,
+   "new": "UDP receiver of the tree's data: a plain top-level VI outside the actor tree, started and stopped at any time. It listens on port (default 61557), charts temperature_c and duty_percent of each test package, and shows the last line, the packet count and the measured interval; other package types are skipped. Stop or an error ends it and releases the port.",
+   "current": "UDP receiver of the Zuehlke MCP data (02 section 8, 01 R9). A plain top-level VI, not an actor and in no library; it depends only on ZM-CP-UDP, ZM-CP and ZM-PC and can be started and stopped at any time while the actor tree runs (the tree does not notice). A ZM-CP-UDP-receiver constant gets port (default 61557) through Write localPort, then ZM-CP-init opens it. The loop calls ZM-CP-UDP-receive with a 1000 ms timeout: a timeout keeps waiting; a datagram is unflattened into ZM-PC-HEADER (not strict: the extra data key is ignored); for a TestPackage the data key is unflattened into ZM-PC-TP-DATA, temperature_c and duty_percent go to chart, interval measured (ms) is the Tick Count difference to the previous TestPackage (0 for the first), last line shows the received JSON and packets counts up. Any other package type is skipped. The loop ends when Stop (Switch When Released) is pressed or on an error; ZM-CP-close then releases the port. error out is the error of the loop and the close."
+  },
+  {
+   "path": "src/tests/ZM-TST-hardware.vi",
+   "current_len": 941,
+   "new_len": 266,
+   "new": "T3, test of the hardware classes: the simulated hardware's do makes test packages to Communication with data in range that vary between calls; a bare ZM-HW-hardware's do returns 5000. Pass = AND of sim_ok, sim_destination_ok, ranges_ok, varies_ok and placeholder_ok.",
+   "current": "T3: test of the hardware hierarchy; Pass = AND of sim_ok, sim_destination_ok, ranges_ok, varies_ok and placeholder_ok. A ZM-HW-SIM-simulated_hardware constant on a ZM-HW-hardware wire runs init, do three times and close (sim_ok = no error at the end of that chain and every package's getTypeName = TestPackage); sim_destination_ok = every getDestinationName = Communication; ranges_ok = per package, getDataAsJson unflattened into a header+data cluster, temperature_c in [20, 30), sample_index in [0, 999], duty_percent in [0, 100], status in {ok, warm, cold} (Search 1D Array); varies_ok = the three sample_index values are not all equal; placeholder_ok = a bare ZM-HW-hardware constant's do returns code 5000 with source ZM-HW-do.vi: must be overridden by a child class (that error feeds the indicator logic only). error out carries the SIM chain's error. The two class seeds are path constants swapped to class constants after generation."
+  },
+  {
+   "path": "src/tests/ZM-TST-log.vi",
+   "current_len": 608,
+   "new_len": 249,
+   "new": "T2, test of ZM-CU-log: logs two unique markers and checks that the last two lines of the error log carry them in order, each with an ISO UTC timestamp. Pass = AND of file_ok, order_ok and timestamp_ok. Side effect: two marker lines in the error log.",
+   "current": "T2: test of ZM-CU-log.vi; Pass = AND of file_ok, order_ok and timestamp_ok. Calls ZM-CU-log twice with unique markers (T2-marker-A-<tick>, then T2-marker-B-<tick>), then opens <project folder>/output/ZM-error_log.txt (file_ok = the open succeeds), reads it whole, splits it into rows and tab columns, and checks that the last two rows carry the two markers in order (order_ok) and that both start with an ISO UTC timestamp matching the anchored Match Pattern (timestamp_ok). The project folder is derived from this VI's own path (tests, src stripped). Side effect: two marker lines appended to the error log."
+  },
+  {
+   "path": "src/tests/ZM-TST-packages.vi",
+   "current_len": 772,
+   "new_len": 255,
+   "new": "T1, round-trip test of the package classes: creates a test package, an error package and a bare package and checks their JSON, type names, destinations and timestamps against the typedefs. Pass = AND of the ten checks. Every error chain ends in error out.",
+   "current": "T1: round-trip test of the package classes; Pass = AND of the ten checks (dispatch_ok, call_parent_ok, tp_json_ok, type_name_ok, ep_json_ok, parent_json_ok, timestamp_ok, destination_default_ok, destination_roundtrip_ok, ep_root_ok). Creates a test package (ZM-PC-TP-create) and an error package (ZM-PC-EP-create, sender HWM, error 5000 x) and initialises a bare ZM-PC-package, reads their JSON (getDataAsJson, dynamic), type names, destination names and the timestamp string, unflattens the JSON into typedef-shaped clusters and compares. The timestamp pattern is checked with Match Pattern (anchored, digit classes, literal dot). Every error chain ends in error out. Stubs are swapped to the real members and the parent seed to a ZM-PC-package constant after generation."
+  },
+  {
+   "path": "src/tests/ZM-TST-pipeline.vi",
+   "current_len": 1503,
+   "new_len": 308,
+   "new": "T6, the data path without actors: simulated hardware into a file logger for 10 packages, after which TestPackage.jsonl holds 10 valid lines (pipeline_ok); with the placeholder hardware the first do fails and nothing is written (error_stops_ok). Pass = AND of both. Side effect: two temp folders under output.",
+   "current": "T6: the data path without actors; Pass = AND of pipeline_ok and error_stops_ok. pipeline_ok: a ZM-HW-SIM-simulated_hardware constant on a ZM-HW-hardware wire and a ZM-CP-FL-file_logger constant (Write outputFolder = a fresh temp folder <product folder>/output/test_pipeline_<tick>, derived from this VI's own path) on a ZM-CP-communication_protocol wire: init both; a For loop of 10 with shift registers on the hardware wire, the protocol wire and the error runs do and, in the No Error case only, publish, and stops on the error status (conditional terminal); close both; then the chain has no error, TestPackage.jsonl holds exactly 10 LF, and each of its 10 lines unflattens from JSON (strict) into the header + data cluster with type TestPackage and all five data fields present (the line is unflattened twice with two different sets of defaults and both data clusters must be equal). error_stops_ok: the same with a bare ZM-HW-hardware constant and a second fresh folder (test_pipeline_<tick+1>): init both without error; the first do returns 5000, the loop stops after iteration 0 and publish was called 0 times (the Error case skips it); close both without error; List Folder finds no *.jsonl file in that folder. The 5000 feeds the indicator logic only. error out carries the first run's chain (through the file reads). The four class seeds are path constants swapped to class constants after generation. Side effect: two temp folders under output (git-ignored), the first with TestPackage.jsonl."
+  },
+  {
+   "path": "src/tests/ZM-TST-protocol.vi",
+   "current_len": 1591,
+   "new_len": 330,
+   "new": "T4, test of the file logger in a fresh temp folder under output: init creates the folder, each published package lands as one line in the file of its type, a later publish appends, and the bare protocol and a multi protocol holding it return 5000. Pass = AND of the seven checks. Side effect: three JSONL files in the temp folder.",
+   "current": "T4 complete: Pass = AND of init_ok, files_ok, lines_ok, append_ok, placeholder_ok, close_ok and mx_placeholder_ok (mx_placeholder_ok added in phase 05 with the MX class). A ZM-CP-FL-file_logger constant gets Write outputFolder = a fresh temp folder <product folder>/output/test_fl_<tick> (derived from this VI's own path, tests and src stripped) and runs on a ZM-CP-communication_protocol wire: init (init_ok = no error and the folder exists, proven by a second Create Folder answering code 10 on its own error chain); publish of 2 test packages (ZM-PC-TP-create), 1 bare ZM-PC-package after ZM-PC-init and 1 error package (ZM-PC-EP-create); files_ok = TestPackage.jsonl has 2 LF, Undefined.jsonl 1, ErrorPackage.jsonl 1 (each file read whole, LF counted by Search and Replace String with replace all); lines_ok = every line (read-lines mode) unflattens from JSON and its type key equals the file name without .jsonl; append_ok = one more test-package publish makes TestPackage.jsonl 3 LF; placeholder_ok = a bare ZM-CP-communication_protocol constant's publish returns code 5000 (its own error chain, not wired into error out); close_ok = close on the file logger without error. mx_placeholder_ok = a ZM-CP-MX-multi_protocol constant with Write protocols = [the bare ZM-CP-communication_protocol constant] returns code 5000 from publish (its own error chain, not wired into error out). error out carries the file logger chain's error. The four class seeds are path constants swapped to class constants after generation. Side effect: three JSONL files in the fresh temp folder (git-ignored)."
+  },
+  {
+   "path": "src/tests/ZM-TST-routing.vi",
+   "current_len": 1105,
+   "new_len": 295,
+   "new": "T7, test of the root's routing: calls ZM-CI-handlePackage on a default root with test packages to Hardware, Unknown and Communication, and checks in the error log that the first two are dropped and the third is not. Pass = AND of the four checks. Side effect: two dropped lines in the error log.",
+   "current": "T7: test of the ROOT routing table (01 R5) through ZM-ROOT-root's public ZM-CI-handlePackage override, called directly on a default ROOT object (no running actor). Pass = AND of hardware_dropped_ok, unknown_dropped_ok, communication_not_dropped_ok and no_error_ok. Reads <project folder>/output/ZM-error_log.txt before (a missing file counts as empty; that read error is cleared on purpose), then sends three test packages (ZM-PC-TP-create, Write destination) to handlePackage in series: Hardware, Unknown, Communication, then reads the log again. Each check counts a text in the log before and after (Search and Replace String, replace all): hardware_dropped_ok = more 'dropped TestPackage for Hardware' lines, unknown_dropped_ok = more 'dropped TestPackage for Unknown' lines, communication_not_dropped_ok = no new 'for Communication' text (a default ROOT has cmRunning F, so the Communication package is only noted, not forwarded), no_error_ok = error out is clean. The project folder is derived from this VI's own path (tests, src stripped). Side effect: two 'dropped' lines appended to the error log."
+  },
+  {
+   "path": "src/tests/ZM-TST-udp.vi",
+   "current_len": 1954,
+   "new_len": 346,
+   "new": "T5, test of the UDP transport and the multi protocol: a sent package arrives unchanged, a receive with no data times out, sending with no listener is silent, a multi protocol of two file loggers writes to both, and publish on the receiver returns 5000. Pass = AND of the six checks. Side effects: UDP on 127.0.0.1:61557, two folders under output.",
+   "current": "T5: round-trip test of the UDP transport and the MX bundle; Pass = AND of rx_init_ok, roundtrip_ok, timeout_ok, no_listener_ok, mx_ok and rx_publish_5000_ok. Every protocol runs on a ZM-CP-communication_protocol wire (the parent's init, publish and close dispatch to the child). First output/test_mx_a/TestPackage.jsonl and output/test_mx_b/TestPackage.jsonl under the product folder (this VI's own path, tests and src stripped) are deleted (code 7, missing, is cleared). rx_init_ok = a ZM-CP-UDP-receiver constant with Write localPort 61557 runs init without error. roundtrip_ok = a ZM-CP-UDP-sender constant (defaults 127.0.0.1:61557) runs init; one test package (ZM-PC-TP-create with fixed data, Write destination = Communication) is published through it; the receiver's ZM-CP-UDP-receive(1000) gives json equal to the same package's getDataAsJson (string equality, the same object so the timestamps match), timed_out F and no error. timeout_ok = receive(200) again gives timed_out T and no error. no_listener_ok = after the receiver's close the sender publishes twice without error (codes 66/56 cleared in the sender). mx_ok = a ZM-CP-MX-multi_protocol constant with Write protocols = [FL(output/test_mx_a), FL(output/test_mx_b)] (each FL constant after Write outputFolder, up-cast with To More Generic Class) runs init, publish of the same package and close without error; both TestPackage.jsonl then hold exactly one LF and their line unflattens to the published package (timestamp, type, destination and the data cluster equal to the package's own JSON unflattened). rx_publish_5000_ok = publish on the closed receiver returns code 5000 (its own error chain, not wired into error out). Then the sender closes; error out is the main chain's end. The class seeds are path constants swapped to class constants after generation. Side effects: UDP on 127.0.0.1:61557; output/test_mx_a and output/test_mx_b with one TestPackage.jsonl each (git-ignored)."
+  }
+ ],
+ "classes": [
+  {
+   "path": "src/actors/ZM-CM-communication_manager/ZM-CM-communication_manager/ZM-CM-communication_manager.lvclass",
+   "current_len": 374,
+   "new_len": 297,
+   "new": "Communication manager actor: owns a communication protocol from its pre-launch settings, initialises it in Pre Launch Init, publishes every package it receives, and closes it in Stop Core. Error-handling plan: none yet; an error stops the actor, and its Last Ack stops the root and the whole tree.",
+   "current": "Communication manager actor: owns a communication protocol object from its pre-launch settings, initialises it in Pre Launch Init (createResources), hands every package it receives to it (publish), and closes it in Stop Core. Error plan (D40, for now): evaluateError is a pass-through; an error stops the actor, and its Last Ack stops the root and through it the whole tree."
+  },
+  {
+   "path": "src/actors/ZM-HWM-hardware_manager/ZM-HWM-hardware_manager/ZM-HWM-hardware_manager.lvclass",
+   "current_len": 595,
+   "new_len": 316,
+   "new": "Hardware manager actor: owns a hardware object from its pre-launch settings. Its helper loop reads the hardware every intervalMs and sends each package to this actor, which counts it and forwards it to its caller. Error-handling plan: none yet; an error stops the actor, and its Last Ack stops the root and the tree.",
+   "current": "Hardware manager actor: owns a hardware object from its pre-launch settings; init registers for its stop event before Call Parent (D41); its helper loop ZM-HWM-helperAcquisition calls the hardware every intervalMs (init before, do in the loop, close after) and sends each package to this actor, which counts it and forwards it to its caller through ZM-CI-handlePackage. Error plan (D40, for now): evaluateError is a pass-through; the loops stop each other, a loop error ends the loop VI with the raw error and Normal Stop to this actor, and the error in its Last Ack stops the root and the tree."
+  },
+  {
+   "path": "src/actors/ZM-ROOT-root/ZM-ROOT-root/ZM-ROOT-root.lvclass",
+   "current_len": 707,
+   "new_len": 362,
+   "new": "Root actor: launches the communication manager and the hardware manager, routes every package by destination (Communication to the CM, an error package for Root to its panel, Unknown and Hardware dropped with a log line), and shows the Stop button and the errors list. Error-handling plan: none yet; an error stops the root and, through AF's Stop Core, the tree.",
+   "current": "Root actor: launches the communication manager (CM, first) and the hardware manager (HWM) from its Actor Core with their pre-launch settings, routes every package by destination (Communication -> forwarded to the CM while it runs; Root -> an error package is shown on the panel; Unknown and Hardware -> dropped with one log line), and shows its panel loop helperPanel with the Stop button and the errors list. Error plan (D40, for now): evaluateError is a pass-through; an error stops the root and, through AF's Stop Core, the whole tree; a child's error reaches the root through its Last Ack and stops it. init launches the CM and the HWM and registers for the panel loop's events before Call Parent (D41)."
+  },
+  {
+   "path": "src/protocol/ZM-CP-MX-multi_protocol/ZM-CP-MX-multi_protocol/ZM-CP-MX-multi_protocol.lvclass",
+   "current_len": 246,
+   "new_len": 234,
+   "new": "Composite protocol: holds an array of protocols; init, publish and close go to every element in order and stop at the first error, which is returned. The root gives the communication manager one holding a file logger and a UDP sender.",
+   "current": "Composite protocol: holds an array of ZM-CP-communication_protocol objects; init, publish and close go to every element in order, stopping at the first error, which is returned. The root gives the CM an MX holding [file logger, UDP sender] (D26)."
+  },
+  {
+   "path": "src/protocol/ZM-CP-UDP-udp_transport/ZM-CP-UDP-receiver/ZM-CP-UDP-receiver.lvclass",
+   "current_len": 161,
+   "new_len": 163,
+   "new": "UDP receiver: the reading side of the transport; receive returns one JSON line or timed_out. It does not override publish, so publish returns 5000 from the parent.",
+   "current": "UDP receiver: the reading side of the transport; receive returns one JSON line or timed_out. Does not override publish (5000 through the parent is correct, D25)."
+  },
+  {
+   "path": "src/protocol/ZM-CP-UDP-udp_transport/ZM-CP-UDP-sender/ZM-CP-UDP-sender.lvclass",
+   "current_len": 168,
+   "new_len": 161,
+   "new": "UDP sender: sends one JSON line per datagram to remoteAddress:remotePort (default 127.0.0.1:61557). Sending with no listener is silent (codes 66 and 56 cleared).",
+   "current": "UDP sender: one JSON line per datagram, unicast to remoteAddress:remotePort (defaults 127.0.0.1:61557, D34). Sending to nobody is silent (codes 66 and 56 cleared, D25)."
+  }
+ ]
+}

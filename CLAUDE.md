@@ -56,6 +56,15 @@ by saying so in the start message; record such a change in `status.md` with the 
   will"). No agent edits a `.lvclass` by hand for it. Phase 12 judges these rows like every other row. Decided by the
   user after run-01 (2026-10-12: "A"), replacing run-01's rule (2026-10-10, option 1 of three: the user did these items
   in the IDE; the run instead did them by scripting in post-run steps 12f/12h). Recorded as D38.
+- **Descriptions are short.** A VI or class description says what it does and, for an actor and its overrides, hooks
+  and helper loops, its error plan: 2-4 sentences, about 400 characters at most, ASCII only. No decision or finding
+  numbers (D40, F14), no skill rule IDs (`af-shapes.*`, `errors.*`), no spec section references, no step-by-step walk
+  through the diagram (the diagram and `decisions.md` hold those). Example, `ZM-HWM-helperAcquisition.vi`: "Helper loop
+  of the hardware manager, started by Actor Core beside Call Parent. Every interval (ms) it reads the hardware
+  (ZM-HW-do), sends the package to its actor and plots test packages on the chart. It stops on the actor's stop event
+  or on an error; on an error it sends Normal Stop to its own actor. Error-handling plan: none yet; an error stops this
+  actor and, through its Last Ack, its caller." Decided by the user after run-01 (2026-10-12: "The VI desription is too
+  long. your shorter description is good"); run-01's long texts were rewritten after the run (step 12k).
 - **Phase 12's Stop presses are done headlessly.** R-interactive and R-receiver press the Stop buttons of the
   root panel and `ZM-receiver.vi` by a signalling write (the kit's `pa_press_control_signal` route); no question
   (the user, run-01, 2026-10-11: "Agent presses").

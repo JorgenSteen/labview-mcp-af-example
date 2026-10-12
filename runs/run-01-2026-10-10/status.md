@@ -91,6 +91,15 @@ for the scratch VIs).
   `ops/helper-loop.md`, `conventions/defaults/layout.md` ("create the missing folder" instead of "stop and ask") and
   `MCP-CANDIDATES.md` (class-description, move-to-folder) updated; not committed in the skill's repository (the user's
   call).
+- The user 2026-10-12 on the skill changes: "will extract the skills out when we are completly done here, and i will
+  update the skills. so do nothing." (the skill's working tree stays uncommitted; nothing more there.)
+- Descriptions (the user 2026-10-12): "The VI desription is too long. your shorter description is good. lets do that";
+  then "yes, go as recommended, but for 3 you dont need my review". So: rewrite every VI and class description over
+  ~400 characters or naming D-numbers, rule IDs or spec sections (62 VIs, 6 classes, from the 12i inventory:
+  `descriptions-input.json`); the manager drafts the texts (`descriptions-new.json`), no user review; one agent applies
+  them (12k) with read-back, cold sweep, icons, T1-T7. The style rule is in `CLAUDE.md` ("Descriptions are short") and
+  `orchestration/plan.md`. The labview-mcp server disconnected from the manager's session at about 12:10 (the manager
+  makes no LabVIEW call; the 12k agent needs it).
 
 # HAND-OVER 2026-10-11 23:50 (session 3, after the run): next session starts HERE
 

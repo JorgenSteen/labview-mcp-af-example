@@ -61,6 +61,10 @@ for the scratch VIs).
   standalone class hierarchy, message paths with the receiver, library dependencies. Chosen: a Flows section in the
   user guide, inline SVG (offline). 12n (docs-only agent, brief `brief-12n-user-guide-flows.md`) draws them from
   requirements v2; `01` R11 and `02` §8 now name the Flows section.
+- 12n DONE (14:17-14:45): Flows section "3." in the guide, four tabs (launch tree, class hierarchy, message paths
+  with the receiver, library dependencies), inline SVG, offline; 46 of 46 built dependency edges drawn, 0 extra;
+  check PASS. The manager reworded one caption (it named the git-ignored `dep_full.txt`). `03`, `04` D47 and card 11
+  name the Flows diagrams too (f5068fc).
 
 # Session 4 started 2026-10-11 23:52
 

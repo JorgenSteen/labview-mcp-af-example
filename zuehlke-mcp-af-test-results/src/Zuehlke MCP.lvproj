@@ -36,10 +36,10 @@
 			<Item Name="ZM-receiver.vi" Type="VI" URL="../receiver/ZM-receiver.vi"/>
 		</Item>
 		<Item Name="tests" Type="Folder">
+			<Item Name="ZM-launcher_test.vi" Type="VI" URL="../ZM-launcher_test.vi"/>
 			<Item Name="ZM-TST-tests.lvlib" Type="Library" URL="../tests/ZM-TST-tests.lvlib"/>
 		</Item>
 		<Item Name="ZM-launcher.vi" Type="VI" URL="../ZM-launcher.vi"/>
-		<Item Name="ZM-launcher_test.vi" Type="VI" URL="../ZM-launcher_test.vi"/>
 		<Item Name="Dependencies" Type="Dependencies"/>
 		<Item Name="Build Specifications" Type="Build"/>
 	</Item>

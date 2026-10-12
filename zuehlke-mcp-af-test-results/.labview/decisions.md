@@ -177,3 +177,12 @@ Why: the user's words (2026-10-11, after run-01's phase 13, reviewing the CM Sto
 the error pass through"; corrected by the user (2026-10-12, step 12g, option A): "that is correct. no error out of
 stop core. A, if i need the error i need to log it before that over."
 Supersedes: `errors.release-errors` "cleared" for the CM hook
+
+## D45 (2026-10-12): `ZM-launcher_test.vi` sits in the project's `tests` virtual folder
+Rule: layout (project tree)
+Chosen: the project item `ZM-launcher_test.vi` is moved from the project root into the existing `tests` virtual
+folder of `Zuehlke MCP.lvproj`. Project tree only: the file stays at `src/ZM-launcher_test.vi`, it is not a member of
+`ZM-TST-tests.lvlib`, and `ZM-launcher.vi` stays at the project root. Moved in step 12l-b
+Instead of: `02` §8/§9, which put both launchers at the project root
+Why: the user's words (2026-10-12): "yes, move it into tests virtual folder only"
+Supersedes: the root placement of `ZM-launcher_test.vi` in `02` §8/§9

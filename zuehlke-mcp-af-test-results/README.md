@@ -31,9 +31,10 @@ Open `src/Zuehlke MCP.lvproj` in LabVIEW 2026 Q3 32-bit. The project tree has th
   `output_folder` is optional (empty = `output/` in this folder). The tree runs until **Stop** is
   pressed on the root's panel. The hardware manager's live panel shows the chart and the measured
   interval.
-- **Headless:** run `src/ZM-launcher_test.vi`. It deletes the two output files, launches the root
-  (optionally with the placeholder hardware, which is the error run), waits `run_time_ms`, sends
-  Normal Stop and returns the line counts, the last line and the panel's errors.
+- **Headless:** run `src/ZM-launcher_test.vi` (in the project's `tests` folder). It deletes the
+  two output files, launches the root (optionally with the placeholder hardware, which is the error
+  run), waits `run_time_ms`, sends Normal Stop and returns the line counts, the last line and the
+  panel's errors.
 - **Receiver:** run `src/receiver/ZM-receiver.vi` while the tree runs to watch the UDP stream on
   `127.0.0.1:61557`. It can start and stop at any time. The root's panel shows this hint (the
   `receiver` virtual folder in the project).

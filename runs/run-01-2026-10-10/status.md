@@ -42,6 +42,10 @@ open items: see "Open items" below.
 - The user (2026-10-12): "1. my mistake it is back 2. that is correct. no error out of stop core. A, if i need the error
   i need to log it before that over." labview-mcp reconnected by `/mcp`. D44 corrected in `CLAUDE.md` (option A:
   releaseProtocol logs and passes on, Stop Core keeps Clear Errors); the 12g agent continued with it.
+- 12g DONE 08:57-09:03 (a0baa7f): releaseProtocol = Merge(Clear Errors(close, code 1), Write protocol) on `error out`,
+  log case unchanged; Stop Core diagram unchanged (description only); D44 corrected in `decisions.md`; Clean Up on
+  releaseProtocol; icons 0 px; normal-stop run 3 lines, error log unchanged; forced error NOT forced (private VI,
+  1390); T1-T7 PASS, T4 x3 (run 1 flaked on `init_ok`, F13; runs 2, 3 PASS); CM sweep 13/13; all 26.
 
 # HAND-OVER 2026-10-11 23:50 (session 3, after the run): next session starts HERE
 

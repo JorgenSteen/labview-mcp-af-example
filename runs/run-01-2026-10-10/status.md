@@ -15,8 +15,7 @@ the run's result moves from partial to **accepted** (run log row and README stat
 
 **Open for the user (not blocking):**
 1. A new tag for the accepted state (e.g. `run-01-accepted`), or none.
-2. The style of the agent-written VI descriptions (`descriptions-review.md`), and the manager-written CI message class
-   text (brief 12h2).
+2. Descriptions: done in 12k (the user chose the short style; 62 VIs and 6 classes rewritten).
 3. Whether `CLAUDE.md`'s D38 default ("what no tool does, the user does in the IDE") becomes "done by the 12f VI Server
    helpers" for later runs (the user said folder moves can be done at will, 2026-10-12).
 4. 12i's optional note: 5 typedefs (ZM-HWM-EVENTS, ZM-ROOT-EVENTS, ZM-PC-EP-DATA, ZM-CP-MX-PROTOCOLS,
@@ -100,6 +99,16 @@ for the scratch VIs).
   them (12k) with read-back, cold sweep, icons, T1-T7. The style rule is in `CLAUDE.md` ("Descriptions are short") and
   `orchestration/plan.md`. The labview-mcp server disconnected from the manager's session at about 12:10 (the manager
   makes no LabVIEW call; the 12k agent needs it).
+- The user reconnected labview-mcp (`/mcp`): "done". 12k launched, brief `brief-12k-short-descriptions.md`.
+- 12k NEEDS CLARIFICATION 12:46 (`report-12k-short-descriptions-blocked.md`): the project was open in the IDE with
+  unsaved window/attribute edits (project, `ZM-HWM-helperAcquisition.vi`, autosave 12:10:39), not made by this session;
+  options A (user closes), B (kill), C (close and save). The user: "i stopped it please continue"; relayed word for word,
+  read as A; the agent re-checks the state and stops again if anything is still open or unsaved.
+- 12k DONE 12:49-12:57 (237769c VIs, 169878e classes): 62 VI and 6 class descriptions replaced with the short texts;
+  offline read-back 62/62 and 6/6 equal, the other 75 VIs and 9 classes unchanged; sweep 137/137, membership clean,
+  all 26, icons 0 px, T1-T7 PASS. The user had closed the project in the IDE (LVAutoSave 0 at 12:49). LabVIEW PID 27076,
+  port 61113, project closed, 0 unsaved. LabVIEW's class save doubled the line breaks in `NI.LVClass.Geneology` of CM,
+  HWM, ROOT, MX (seen before in df162a7; content the same).
 
 # HAND-OVER 2026-10-11 23:50 (session 3, after the run): next session starts HERE
 

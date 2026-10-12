@@ -25,7 +25,7 @@ the run's result moves from partial to **accepted** (run log row and README stat
 6. The helpers were also added to the labview skill (its `kit/` as `pa_*`, plus docs), left uncommitted in
    `C:\project\claude\labview-mcp-skills`: "will extract the skills out when we are completly done here, and i will
    update the skills. so do nothing."
-7. `/cost` session 4: $51.55; run total $673.98 (`cost.md`).
+7. `/cost` session 4: $88.02 final; run total $710.45 (`cost.md`).
 
 **LabVIEW at the end (13:00):** PID 27076 (started by the 12j agent 11:56:42, port 61113), project closed, 0 unsaved,
 no dialog, LVAutoSave 0. Killed by the manager at the user's request ("kill labview", 2026-10-12 ~13:20); no LabVIEW
@@ -70,7 +70,7 @@ for the scratch VIs).
   user's own instance (PID 14692) is still running; this session left it alone (project closed, LVAutoSave 0 at
   13:52). Untracked by design: `lessons-mcp-skill.md`, `notes-for-run-02.md`; `zuehlke-mcp-design.html` excluded
   locally (`.git/info/exclude`). The labview skill repository holds the uncommitted helper changes for the user.
-  The `/cost` paste (session 4, $51.55) was taken at ~13:00, before 12l-12n.
+  Final `/cost` of session 4: $88.02 (run-01 total $710.45, `cost.md`).
 
 # Session 4 started 2026-10-11 23:52
 
@@ -149,7 +149,8 @@ for the scratch VIs).
   all 26, icons 0 px, T1-T7 PASS. The user had closed the project in the IDE (LVAutoSave 0 at 12:49). LabVIEW PID 27076,
   port 61113, project closed, 0 unsaved. LabVIEW's class save doubled the line breaks in `NI.LVClass.Geneology` of CM,
   HWM, ROOT, MX (seen before in df162a7; content the same).
-- `/cost` of session 4 (pasted by the user, trimmed in `cost.md`): $51.55; run-01 total, sessions 1-4: $673.98.
+- `/cost` of session 4 (pasted by the user, trimmed in `cost.md`): $51.55 at ~13:00; final $88.02 at the session's
+  end. run-01 total, sessions 1-4: $710.45.
 
 # HAND-OVER 2026-10-11 23:50 (session 3, after the run; carried out in session 4, see above)
 

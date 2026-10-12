@@ -74,19 +74,20 @@ from `date` are authoritative; agent-clock minutes are kept as reported.
 
 ## /cost output per session
 
-- **session 4** (2026-10-11 23:52 to 2026-10-12 ~13:00, Opus 5.5; post-run steps 12h to 12k; `/cost` taken by the user
-  2026-10-12 ~13:00): **$51.55 total**, manager and its 6 agent launches and 3 resumes together. Wall time 13h 05m,
-  mostly idle overnight; API time 1h 15m.
+- **session 4** (2026-10-11 23:52 to 2026-10-12 ~15:05, Opus 5.5; post-run steps 12h to 12n; final `/cost` taken by
+  the user at the session's end): **$88.02 total**, manager and its 9 agent launches and 5 resumes together. Wall
+  time 15h 10m, mostly idle overnight; API time 2h 17m. (An earlier reading at ~13:00, before 12l-12n, was $51.55.)
 
 ```text
-Total cost:            $51.55
-Total duration (API):  1h 15m 22s
-Total duration (wall): 13h 5m 10s
-Total code changes:    1776 lines added, 2 lines removed
-claude-opus-5-5:       213.2k input, 394.2k output, 139.8m cache read, 2.6m cache write ($51.55)
+Total cost:            $88.02
+Total duration (API):  2h 17m 30s
+Total duration (wall): 15h 9m 55s
+Total code changes:    4572 lines added, 148 lines removed
+claude-opus-5-5:       312.9k input, 760.9k output, 242.0m cache read, 4.2m cache write ($88.02)
 claude-haiku-5-5:      1.2k input, 30 output ($0.0001)
-Prompt cache (main):   163 requests, 98% of input tokens from cache, 2 misses
-Usage, last 24h:       81% general-purpose subagents, 33% labview-mcp tool results, 88% at >150k context
+Prompt cache (main):   272 requests, 99% of input tokens from cache, 2 misses
+Usage, last 24h:       65% general-purpose subagents, 7% git-commit subagents, 25% labview-mcp tool results,
+                       88% at >150k context
 ```
 
 - **session 3** (2026-10-11 10:58 to ~22:05, Opus 5.5; `/cost` taken by the user at 23:15): **$280.58 total**, manager
@@ -110,5 +111,5 @@ Usage, last 24h:       85% general-purpose subagents, 36% labview-mcp tool resul
   $0.0001. Of the usage: 72% general-purpose subagents, 34% labview-mcp tool results, 90% at >150k context. The
   week's Fable limit read 100% used (the cut-off at ~09:25).
 
-- **run-01 total (sessions 1-4): $673.98** ($341.85 + $280.58 + $51.55): the build (sessions 1-3) $622.43, the
-  post-run steps (session 4) $51.55.
+- **run-01 total (sessions 1-4): $710.45** ($341.85 + $280.58 + $88.02): the build (sessions 1-3) $622.43, the
+  post-run steps (session 4) $88.02.

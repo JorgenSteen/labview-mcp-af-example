@@ -1,9 +1,10 @@
 # Run status: run-01-2026-10-10
 
 state: closed          # open | closed
-last updated: 2026-10-12 09:20 by the manager session (session 4, post-run steps done)
-next phase: none; post-run steps 12h, 12g, 12i done, result accepted; open: the user's items in the session 4 block
-open items: see "Open items" below.
+last updated: 2026-10-12 13:15 by the manager session (session 4, closed; pushed by the user)
+next phase: none. run-01 is closed and accepted; post-run steps 12f-12k done; nothing open. The next step is a new run
+  (run-02) when the user asks for one; `CLAUDE.md` already carries every rule decided in run-01.
+open items: none (the closing list is in the RESULT block below).
 
 # RESULT 2026-10-12 09:20 (session 4): accepted
 
@@ -13,23 +14,21 @@ PASS on a cold LabVIEW, T4 x3 (run 3 flaked on `init_ok`, F13; its rerun PASS). 
 the run's result moves from partial to **accepted** (run log row and README status line updated). Tag: the user decides
 (`run-01-result` stays on 164e241).
 
-**Open for the user (not blocking):**
-1. A new tag for the accepted state (e.g. `run-01-accepted`), or none.
-2. Descriptions: done in 12k (the user chose the short style; 62 VIs and 6 classes rewritten).
-3. Whether `CLAUDE.md`'s D38 default ("what no tool does, the user does in the IDE") becomes "done by the 12f VI Server
-   helpers" for later runs (the user said folder moves can be done at will, 2026-10-12).
-4. 12i's optional note: 5 typedefs (ZM-HWM-EVENTS, ZM-ROOT-EVENTS, ZM-PC-EP-DATA, ZM-CP-MX-PROTOCOLS,
-   ZM-PC-DESTINATION) are public with no user outside their class; private only if "private unless needed outside"
-   should cover typedefs (`02` gives typedefs no scope).
-5. F13 (T4 `init_ok` flaky): fixed in 12j (c429e56), T4 x10 PASS.
+**The list the user worked through after 12i (2026-10-12), all closed:**
+1. Tag: "no need for tags"; `run-01-result` stays on 164e241 (the partial state), no tag for the accepted state.
+2. Descriptions: short style ("your shorter description is good"); 62 VIs and 6 classes rewritten in 12k (237769c,
+   169878e); rule in `CLAUDE.md`, "Descriptions are short".
+3. D38: option A ("A"); the build phases set class descriptions, typedef membership and folders themselves by VI Server
+   helpers (`CLAUDE.md`, `orchestration/plan.md`, `orchestration/vi-server-helpers/`).
+4. Typedef scope: "just keep them as is"; the 5 typedefs stay public.
+5. F13: fixed in 12j (c429e56), T4 x10 PASS.
+6. The helpers were also added to the labview skill (its `kit/` as `pa_*`, plus docs), left uncommitted in
+   `C:\project\claude\labview-mcp-skills`: "will extract the skills out when we are completly done here, and i will
+   update the skills. so do nothing."
+7. `/cost` session 4: $51.55; run total $673.98 (`cost.md`).
 
-**The user's answers (2026-10-12):** 1. "no need for tags" (no new tag; `run-01-result` stays). 2. Descriptions: "lets go
-through this when we are done with this list" (pending). 3. Asked for an explanation (pending). 4. "just keep them as is"
-(the 5 typedefs stay public; no change). 5. Asked for an explanation (pending; the manager read the T4 build source:
-the second Create Folder in `ZM-TST-protocol.vi` is not wired after `init`, so it can run first; see F13).
-
-**LabVIEW at the end:** PID 5672 (started by the 12i agent 09:11:51, port 59269), project closed, 0 unsaved, no
-dialog, LVAutoSave 0. PID 26716 was killed by the 12i agent at 09:11:29 under the session's go-ahead (exit save dialog
+**LabVIEW at the end (13:00):** PID 27076 (started by the 12j agent 11:56:42, port 61113), project closed, 0 unsaved,
+no dialog, LVAutoSave 0; a scratch `LVMCP Validate` VI is in memory, so end it by a kill, not a close. Earlier: PID 26716 was killed by the 12i agent at 09:11:29 under the session's go-ahead (exit save dialog
 for the scratch VIs).
 
 # Session 4 started 2026-10-11 23:52
@@ -111,7 +110,7 @@ for the scratch VIs).
   HWM, ROOT, MX (seen before in df162a7; content the same).
 - `/cost` of session 4 (pasted by the user, trimmed in `cost.md`): $51.55; run-01 total, sessions 1-4: $673.98.
 
-# HAND-OVER 2026-10-11 23:50 (session 3, after the run): next session starts HERE
+# HAND-OVER 2026-10-11 23:50 (session 3, after the run; carried out in session 4, see above)
 
 **Start message for the next session (one line):** "Continue run-01's post-run steps (12h, 12g, 12i). You may
 restart and kill LabVIEW at will for this session; agents may too."

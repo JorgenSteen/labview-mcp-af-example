@@ -2,6 +2,14 @@
 Type: fix (LabVIEW calls). After phase 13 (the run is closed, result partial); decided by the user 2026-10-11 (D44).
 
 ## UPDATES (read first; they override the rest)
+- **The user's answer to 12g (2026-10-12), word for word: "that is correct. no error out of stop core. A, if i need the
+  error i need to log it before that over."** So option A: Goal 1 as planned (releaseProtocol logs AND passes on);
+  **Goal 2 is dropped: CM `Stop Core.vi` stays as it is (Clear Errors kept)**; its description, if it says "cleared",
+  may say the error is logged in releaseProtocol and ends in Stop Core (AF Stop Core has no error out). Correct D44 in
+  the product's `.labview\decisions.md` to this (the manager corrected `CLAUDE.md`). The normal-stop run, T1-T7 and the
+  forced-error check stay; the forced error is shown logged and on releaseProtocol's `error out` (Stop Core's Clear
+  Errors ends it). Commit message: `fix(cm): log and pass on a release error from releaseProtocol (D44)`.
+- The MCP disconnect at 08:44 was the user's own fork test; reconnected (`/mcp`), the user: "my mistake it is back".
 - 12f, 12h1, 12h2 done (791ccab..2340484): every class has its description, virtual folders and TypeDefs by VI Server
   scripting. For you: CM `releaseProtocol` is in the CM class's `Methods` folder and `Stop Core.vi` in `AF Overrides`
   (virtual folders only; the files did not move); `ZM-CM-PRELAUNCH_SETTINGS.ctl` is now a CM class member. Sweep

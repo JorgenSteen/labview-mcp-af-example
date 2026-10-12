@@ -39,6 +39,9 @@ open items: see "Open items" below.
   was running beside LabVIEW) + NEEDS CLARIFICATION: AF `Stop Core.vi` has no error terminals (measured: Actor in,
   final error code; Actor out), so D44's "Stop Core passes the error on to the Last Ack" cannot be built there; options
   A/B/C in report-12g item 2. Nothing changed. **Relayed to the user word for word; waiting.**
+- The user (2026-10-12): "1. my mistake it is back 2. that is correct. no error out of stop core. A, if i need the error
+  i need to log it before that over." labview-mcp reconnected by `/mcp`. D44 corrected in `CLAUDE.md` (option A:
+  releaseProtocol logs and passes on, Stop Core keeps Clear Errors); the 12g agent continued with it.
 
 # HAND-OVER 2026-10-11 23:50 (session 3, after the run): next session starts HERE
 

@@ -88,11 +88,14 @@ by saying so in the start message; record such a change in `status.md` with the 
 - **Every launcher has an `error out` indicator**, also `ZM-launcher.vi`, which `02` §8 draws without one: a failed
   launch stays visible and nothing is cleared (`errors.ignored-errors`). Decided by the user in run-01 (2026-10-11,
   after the run: "launchers should have error out indicator"); recorded in the product's `decisions.md` as D43.
-- **A release error at shutdown is logged and passed on, not cleared (D44).** The CM's `releaseProtocol` logs a
-  release error with `ZM-CU-log` (code 1 of a never-opened resource stays cleared without a log), and Stop Core
-  passes the error on (no Clear Errors after the hook), so it reaches the Last Ack like every other error under D40.
-  Decided by the user in run-01 (2026-10-11, after the run: "log, but let the error pass through"); recorded in the
-  product's `decisions.md` as D44. Overrides `errors.release-errors` ("logged and cleared") where they differ.
+- **A release error at shutdown is logged; `releaseProtocol` passes it on, Stop Core ends it (D44).** The CM's
+  `releaseProtocol` logs a release error with `ZM-CU-log` (code 1 of a never-opened resource stays cleared without a
+  log) and passes it on on its `error out`. AF's `Stop Core.vi` has no error terminals (measured in 12g: Actor in,
+  final error code; Actor out), so the error cannot reach the Last Ack from there: Stop Core keeps the Clear Errors after
+  the hook. Decided by the user in run-01 (2026-10-11: "log, but let the error pass through"; corrected 2026-10-12 after
+  12g's measurement, option A: "that is correct. no error out of stop core. A, if i need the error i need to log it
+  before that"); recorded in the product's `decisions.md` as D44. Overrides `errors.release-errors` ("logged and
+  cleared") only in that `releaseProtocol` itself no longer clears.
 - **Each actor with a helper loop has an `init` method in Actor Core (D41).** Decided by the user in run-01
   (2026-10-11, phase 12, finding F14: a stop generated before the loop VI registered was lost and the ROOT tree
   hung): "Make a init method and call it in actor core before the core and add all init things there. basically
